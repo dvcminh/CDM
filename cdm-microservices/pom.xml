@@ -18,6 +18,7 @@
     <modules>
         <module>registryservice</module>
         <module>apigateway</module>
+        <module>authservice</module>
     </modules>
 
     <properties>

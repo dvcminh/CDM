@@ -1,4 +1,4 @@
-package com.registryservice;
+package com.minhvu.registryservice;
 
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.cloud.netflix.eureka.server.EnableEurekaServer;
