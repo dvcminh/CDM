@@ -7,6 +7,11 @@ spring:
   cloud:
     gateway:
       routes:
+        - id: REGISTRY-SERVICE
+          uri: lb://AUTH-SERVICE
+          predicates:
+            - Path=/eureka
+
         - id: AUTH-SERVICE
           uri: lb://AUTH-SERVICE
           predicates:
@@ -16,5 +21,12 @@ spring:
           uri: lb://PRODUCT-SERVICE
           predicates:
             - Path=/api/v1/products/**
+          filters:
+            - AuthenticationFilter
+
+        - id: INVENTORY-SERVICE
+          uri: lb://INVENTORY-SERVICE
+          predicates:
+            - Path=/api/v1/inventory/**
           filters:
             - AuthenticationFilter
