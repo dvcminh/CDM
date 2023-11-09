@@ -12,11 +12,10 @@ spring:
       port: 27017
       database: product-service
       authentication-database: admin
-
   jpa:
     hibernate:
       ddl-auto: create-drop
-
+    show-sql: true
 eureka:
   client:
     service-url:

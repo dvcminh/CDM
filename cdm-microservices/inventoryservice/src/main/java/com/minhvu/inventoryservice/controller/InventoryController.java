@@ -6,6 +6,7 @@ import com.minhvu.inventoryservice.model.Inventory;
 import com.minhvu.inventoryservice.service.InventoryService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.data.domain.Page;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 
@@ -24,9 +25,15 @@ public class InventoryController {
 
     // http://localhost:8082/api/inventory?skuCode=iphone-13&skuCode=iphone13-red
     @GetMapping("getInventory")
-    public List<Inventory> findALl() {
+    public Page<Inventory> findALl() {
         log.info("Find all inventory");
-        return inventoryService.findALl();
+        return inventoryService.findAll();
+    }
+
+    @GetMapping("findBySkuCode")
+    public Inventory findBySkuCode(@RequestParam String skuCode) {
+        log.info("Find inventory by skuCode");
+        return inventoryService.findBySkuCodeContainsAllIgnoreCase(skuCode).orElseThrow();
     }
 
     @PostMapping("addInventory")
@@ -35,10 +42,20 @@ public class InventoryController {
         return inventoryService.create(inventory);
     }
 
-    @PutMapping("updateInventory")
-    public String update(@RequestBody InventoryRequest inventory) {
+    @PutMapping("updateInventory/{id}")
+    public Inventory update(@PathVariable Long id, @RequestBody InventoryRequest inventoryRequest) {
+        Inventory inventory = inventoryService.findById(id);
+        inventory.setQuantity(inventoryRequest.getQuantity());
+        inventory.setSkuCode(inventoryRequest.getSkuCode());
         log.info("Update inventory");
         return inventoryService.update(inventory);
+    }
+
+    @DeleteMapping("deleteInventory/{id}")
+    public String delete(@PathVariable Long id) {
+        Inventory inventory = inventoryService.findById(id);
+        log.info("Delete inventory");
+        return inventoryService.delete(inventory);
     }
 
     @GetMapping

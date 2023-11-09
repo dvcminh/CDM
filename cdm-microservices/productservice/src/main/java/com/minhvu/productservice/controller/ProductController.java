@@ -14,6 +14,7 @@ import org.springframework.web.multipart.MultipartFile;
 import java.io.IOException;
 import java.math.BigDecimal;
 import java.util.List;
+import java.util.stream.Collectors;
 
 @RestController
 @RequestMapping("/api/v1/products")
@@ -31,7 +32,17 @@ public class ProductController {
         return productService.getProductById(id);
     }
 
-    @PostMapping("/create")
+    @GetMapping("/getProductByCategory/{category}")
+    public List<Product> getProductByCategory(@PathVariable String category) {
+        return productService.findProductByCategoryIgnoreCase(category);
+    }
+    @GetMapping("/getProductByNameAndCategory")
+    public List<Product> getProductByNameAndCategory(@RequestParam("name") String name,
+                                                     @RequestParam("category") String category) {
+        return productService.findProductByNameContainsAndCategory(name, category);
+    }
+
+    @PostMapping("/createProduct")
     public ResponseEntity<Product> createProduct(@RequestParam("name") String name,
                                                  @RequestParam("imageFile") MultipartFile imageFile,
                                                  @RequestParam("price") BigDecimal price,
@@ -43,5 +54,16 @@ public class ProductController {
         } catch (IOException e) {
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build();
         }
+    }
+
+    @PutMapping("/updateProduct/{id}")
+    public ResponseEntity<Product> updateProduct(@PathVariable String id,
+                                                 @RequestParam("name") String name,
+                                                 @RequestParam("imageFile") MultipartFile imageFile,
+                                                 @RequestParam("price") BigDecimal price,
+                                                 @RequestParam("description") String description,
+                                                 @RequestParam("selectedCategory") String category) {
+        Product updatedProduct = productService.updateProduct(id, name, imageFile, price, description, category);
+        return ResponseEntity.status(HttpStatus.OK).body(updatedProduct);
     }
 }
