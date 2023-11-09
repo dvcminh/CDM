@@ -7,10 +7,14 @@ import com.minhvu.inventoryservice.repository.InventoryRepository;
 import lombok.RequiredArgsConstructor;
 import lombok.SneakyThrows;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
+import java.util.Optional;
 
 @Service
 @RequiredArgsConstructor
@@ -33,8 +37,8 @@ public class InventoryServiceImpl implements InventoryService{
     }
 
     @Override
-    public List<Inventory> findALl() {
-        return inventoryRepository.findAll();
+    public Page<Inventory> findAll() {
+        return inventoryRepository.findAll(Pageable.ofSize(1));
     }
 
     @Override
@@ -61,5 +65,10 @@ public class InventoryServiceImpl implements InventoryService{
     @Override
     public Inventory findById(Long id) {
         return inventoryRepository.findById(id).orElseThrow();
+    }
+
+    @Override
+    public Optional<Inventory> findBySkuCodeContainsAllIgnoreCase(String skuCode) {
+        return inventoryRepository.findBySkuCodeContainsAllIgnoreCase(skuCode);
     }
 }
