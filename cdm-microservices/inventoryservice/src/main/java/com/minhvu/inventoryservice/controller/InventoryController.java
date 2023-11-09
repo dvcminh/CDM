@@ -35,10 +35,20 @@ public class InventoryController {
         return inventoryService.create(inventory);
     }
 
-    @PutMapping("updateInventory")
-    public String update(@RequestBody InventoryRequest inventory) {
+    @PutMapping("updateInventory/{id}")
+    public Inventory update(@PathVariable Long id, @RequestBody InventoryRequest inventoryRequest) {
+        Inventory inventory = inventoryService.findById(id);
+        inventory.setQuantity(inventoryRequest.getQuantity());
+        inventory.setSkuCode(inventoryRequest.getSkuCode());
         log.info("Update inventory");
         return inventoryService.update(inventory);
+    }
+
+    @DeleteMapping("deleteInventory/{id}")
+    public String delete(@PathVariable Long id) {
+        Inventory inventory = inventoryService.findById(id);
+        log.info("Delete inventory");
+        return inventoryService.delete(inventory);
     }
 
     @GetMapping

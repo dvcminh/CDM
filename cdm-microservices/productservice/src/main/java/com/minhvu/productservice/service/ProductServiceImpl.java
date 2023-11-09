@@ -6,6 +6,7 @@ import com.minhvu.productservice.dto.CreateProductRequest;
 import com.minhvu.productservice.model.Product;
 import com.minhvu.productservice.repository.ProductRepository;
 import lombok.AllArgsConstructor;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
@@ -43,6 +44,24 @@ public class ProductServiceImpl implements ProductService {
                 .build();
     }
 
+    @Override
+    public Product updateProduct(String id, String name, MultipartFile imageFile, BigDecimal price, String description, String category) {
+        Product product = productRepository.findById(id).orElse(null);
+        product.setName(name);
+        product.setPrice(price);
+        product.setDescription(description);
+        product.setCategory(category);
+        return productRepository.save(product);
+
+    }
+    @Override
+    public List<Product> findProductByCategoryIgnoreCase(String category) {
+        return productRepository.findAllByCategoryIgnoreCase(category);
+    }
+    @Override
+    public List<Product> findProductByNameContainsAndCategory(String name, String category) {
+        return productRepository.findByNameContainsAndCategoryAllIgnoreCase(name, category, Sort.by(Sort.Direction.ASC, "name"));
+    }
     public String uploadProductImage(MultipartFile imageFile) throws IOException {
         Map<String, String> params = new HashMap<>();
         params.put("folder", "product_images");

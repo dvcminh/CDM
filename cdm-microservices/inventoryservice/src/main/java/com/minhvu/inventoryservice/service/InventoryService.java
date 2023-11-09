@@ -10,6 +10,7 @@ public interface InventoryService {
     List<InventoryResponse> isInStock(List<String> skuCode);
     List<Inventory> findALl();
     String create(InventoryRequest inventory);
-    String update(InventoryRequest inventory);
-    String delete(InventoryRequest inventory);
+    Inventory update(Inventory inventory);
+    String delete(Inventory inventory);
+    Inventory findById(Long id);
 }

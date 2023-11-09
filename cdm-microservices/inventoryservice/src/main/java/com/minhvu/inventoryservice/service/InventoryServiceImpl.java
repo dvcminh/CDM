@@ -48,17 +48,18 @@ public class InventoryServiceImpl implements InventoryService{
     }
 
     @Override
-    public String update(InventoryRequest inventory) {
-        Inventory newInventory = inventoryRepository.findBySkuCode(inventory.getSkuCode());
-        newInventory.setQuantity(inventory.getQuantity());
-        inventoryRepository.save(newInventory);
-        return "Update success";
+    public Inventory update(Inventory inventory) {
+        return inventoryRepository.save(inventory);
     }
 
     @Override
-    public String delete(InventoryRequest inventory) {
-        Inventory inventory1 = inventoryRepository.findBySkuCode(inventory.getSkuCode());
-        inventoryRepository.delete(inventory1);
+    public String delete(Inventory inventory) {
+        inventoryRepository.delete(inventory);
         return "Delete success";
+    }
+
+    @Override
+    public Inventory findById(Long id) {
+        return inventoryRepository.findById(id).orElseThrow();
     }
 }
