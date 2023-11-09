@@ -1,0 +1,37 @@
+.side-bar{
+    display: flex;
+    flex-direction: column;
+    width: auto;
+    height: 90vh;
+    justify-content: center;
+    margin-top: -50px;
+}
+
+.icon-item {
+    font-size: 24px;
+    color: black;
+    padding: 5px;
+    width: 40px;
+    border-radius: 5px;
+    margin-top: 11px;
+  }
+
+.title{
+    margin-left: 20px;
+    font-family: "Gotham SSm", "Segoe UI", "Roboto", "Helvetica Neue", Arial, "sans-serif";
+    font-size: 18px;
+    font-weight:500;
+}
+
+.side-bar-item{
+    display: flex;
+    margin-left: 30px;
+    width: 300px;
+    padding: 4px 10px;
+    border-radius: 10px;
+}
+
+.side-bar-item:hover{
+    background-color: rgb(230, 234, 234);
+    cursor: pointer;
+}
