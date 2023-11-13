@@ -1,86 +1,115 @@
-
-.icon{
-    font-size: 24px;
-    margin-right: 10px;
-    color: black;
-    padding: 5px;
-    border-radius: 5px;
-}
-
-.article{
-    margin-top: 0px;
-    font-size: 17px;
-    font-weight: bold;
-    width: 120px;
-    padding: 5px;
-    text-align: center;
-    border-radius: 5px;
-}
-
-.icon:hover{
+/* icon button at the right side of navbar */
+.navbar__icon{
+  font-size: 24px;
+  margin-right: 10px;
+  color: black;
+  padding: 5px;
+  border-radius: 5px;
+  
+  &:hover{
     background-color: rgb(230, 234, 234);
     cursor: pointer;
+  }
 }
 
-.article:hover{
+.navbar__article{
+  margin-top: 0px;
+  font-size: 17px;
+  font-weight: bold;
+  width: 120px;
+  padding: 5px;
+  text-align: center;
+  border-radius: 5px;
+  &:hover{
     background-color: rgb(230, 234, 234);
     cursor: pointer;
+  }
 }
 
 .right-container{
-    display: flex;
-    float: right;
+  display: flex;
+  float: right;
 }
 
 .center-container{
-    margin-left: 120px;
-    display: flex;
-    justify-content: center;
-    align-items: center;
+  margin-left: 120px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
 }
 
 .shop-grid {
-    position: absolute;
-    background-color: white;
-    display: flex;
-    flex-direction: row; /* Thiết lập hướng của các item thành dọc */
-    width: 100vw;
-    align-items: center; /* Căn giữa theo chiều dọc */
-    justify-content: center; /* Căn giữa theo chiều ngang */
-    padding: 80px 0px;
-    margin-left: -940px;
-    z-index: 100;
-  }
-  
+  position: absolute;
+  background-color: white;
+  display: flex;
+  flex-direction: row;
+  width: 100vw;
+  align-items: center; 
+  justify-content: center;
+  padding: 80px 0px;
+  margin-left: -940px;
+  z-index: 100;
+}
 
-  .item-img{
-    width: 197px;
-    height: 97px;
-    margin-right: 0px;
-  }
+.shop-item__img{
+  width: 197px;
+  height: 97px;
+  margin-right: 0px;
+}
 
-  .item-container{
-    padding: 10px;
-    margin-right: 30px;
-    border-radius: 10px;
-  }
+.shop-item-container{
+  padding: 10px;
+  margin-right: 30px;
+  border-radius: 10px;
 
-  .item-container:hover{
+  &:hover{
     background-color: rgb(230, 234, 234);
-
   }
+}
 
 .content-behind-shop-grid {
-    position: fixed;
-    margin-top: 50px;
-    top: 0;
-    left: 0;
-    right: 0;
-    bottom: 0;
-    z-index: 99; 
-    backdrop-filter: blur(5px);
-    background-color: rgba(156, 144, 144, 0.5); 
+  position: fixed;
+  margin-top: 50px;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  z-index: 99; 
+  backdrop-filter: blur(5px);
+  background-color: rgba(156, 144, 144, 0.5); 
 
+}
+
+.vehicle-grid{
+  position: absolute;
+  background-color: white;
+  display: flex;
+  flex-direction: row; 
+  width: 100vw;
+  align-items: center; 
+  justify-content: center; 
+  padding: 80px 0px;
+  margin-left: -418px;
+  z-index: 100;
+}
+
+.vehicle-item__img{
+  width: 220px;
+  height: 124px;
+  margin-right: 0px;
+}
+
+.vehicle-item-container{
+  padding: 10px;
+  margin-right: 30px;
+  border-radius: 10px;
+
+  &:hover{
+    background-color: rgb(230, 234, 234);
   }
-  
+}
+
+.link{
+  text-decoration: none;
+}
 

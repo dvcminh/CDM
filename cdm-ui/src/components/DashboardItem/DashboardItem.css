@@ -1,21 +1,20 @@
-.dashboard-item-img{
+.dashboard{
+    margin-left: 20px;
+    display: flex;  
+}
+
+.dashboard__item-img{
     width: 316px;
     height: 149px;;
 }
 
-.dashboard{
-    margin-left: 20px;
-    display: flex;
-    
-}
-
-.dashboard-item-article{
+.dashboard__item-article{
     font-size: 14px;
     font-weight: 700;
     margin-left: 20px;
 }
 
-.dashboard-item-content{
+.dashboard__item-content{
     font-size: 14px;
     margin-top: -15px;
     margin-left: 20px;
@@ -23,7 +22,7 @@
 }
 
 
-.dashboard-item-button{
+.dashboard__item-button{
     margin-left: 15px;
     text-decoration: underline;
     background-color: white;
@@ -43,7 +42,7 @@
     }
 }
 
-.dashboard-item{
+.dashboard__item{
     display:  flex;
     flex-direction: column;
     border: 1px solid rgb(167, 160, 160);

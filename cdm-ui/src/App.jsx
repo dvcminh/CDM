@@ -3,9 +3,10 @@ import './components/DashboardItem/DashboardItem.css'
 import {publicRoutes} from './routes'
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 import DefaultLayout from './layouts/defaultLayout';
+import VehicleModelS from './pages/VehicleModelS';
 
 function App() {
-  
+
   return (
     <>
 <Router>
