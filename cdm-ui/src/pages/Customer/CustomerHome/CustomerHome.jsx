@@ -1,7 +1,6 @@
-import SideBar from '../../layouts/components/SideBar';
-import '../../components/DashboardItem/DashboardItem.css'
-import DashboardItem from '../../components/DashboardItem';
-
+import SideBar from '../../../layouts/components/SideBar';
+import '../../../components/DashboardItem/DashboardItem.css'
+import DashboardItem from '../../../components/DashboardItem'
 
 
 function CustomerHome() {

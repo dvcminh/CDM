@@ -80,10 +80,10 @@ function NavBar() {
       <div >
           <div>
             <span className='right-container'>
-              <FontAwesomeIcon icon={faCircleQuestion} className='navbar__icon' />
-              <FontAwesomeIcon icon={faGlobe} className='navbar__icon' />
+              <FontAwesomeIcon icon={faCircleQuestion} className='navbar__icon'/>
+              <FontAwesomeIcon icon={faGlobe} className='navbar__icon'/>
               <Link to={config.routes.customerhome}>
-                  <FontAwesomeIcon icon={faCircleUser} className='navbar__icon' />
+                  <FontAwesomeIcon icon={faCircleUser} className='navbar__icon'/>
               </Link>
             </span>
             <span className='center-container'>

@@ -21,8 +21,13 @@
     font-family: "Gotham SSm", "Segoe UI", "Roboto", "Helvetica Neue", Arial, "sans-serif";
     font-size: 18px;
     font-weight:500;
+    color: black;
 }
 
+.link{
+    text-decoration: none;
+  }
+  
 .sidebar-item{
     display: flex;
     margin-left: 30px;
@@ -35,3 +40,8 @@
         cursor: pointer;
     }
 }
+
+
+.sidebar-item.active {
+    background-color: #f0f0f0;
+  }
