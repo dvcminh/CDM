@@ -36,8 +36,8 @@ function CustomerHome() {
                             <DashboardItem data={dashboardItems[0]}/>
                             <DashboardItem data={dashboardItems[1]}/>
                         </span>
-                        <br></br>
-                        <span className='dashboard'>
+                        
+                        <span className='dashboard' style={{marginTop: 20}}>
                         <DashboardItem data={dashboardItems[2]}/> 
                         </span>
                     </div>
