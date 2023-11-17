@@ -1,19 +1,18 @@
-import NavBar from "./NavBar";
-import Hero from "./Hero"
-import Subcribe from "./Subcribe";
-import Footer from "./Footer";
-import About from "./About";
-
+import NavBar from "./Sections/NavBar";
+import Hero from "./Sections/Hero"
+import Subcribe from "./Sections/Subcribe";
+import Footer from "./Sections/Footer";
+import About from "./Sections/About";
+import './index.css'
 
 function LandingPage() {
   return (
-    <div >
+    <div className="bg-white">
       <NavBar />
       <Hero />
       <About />
       <Subcribe />
-      <Footer />
-      
+      <Footer />   
     </div>
   );
 }
