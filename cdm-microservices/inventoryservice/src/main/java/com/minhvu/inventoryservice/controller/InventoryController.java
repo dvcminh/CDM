@@ -2,12 +2,15 @@ package com.minhvu.inventoryservice.controller;
 
 import com.minhvu.inventoryservice.dto.InventoryRequest;
 import com.minhvu.inventoryservice.dto.InventoryResponse;
+import com.minhvu.inventoryservice.dto.ProductResponse;
+import com.minhvu.inventoryservice.external.client.ProductService;
 import com.minhvu.inventoryservice.model.Inventory;
 import com.minhvu.inventoryservice.service.InventoryService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.domain.Page;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.Collection;
@@ -28,6 +31,12 @@ public class InventoryController {
     public Page<Inventory> findALl() {
         log.info("Find all inventory");
         return inventoryService.findAll();
+    }
+
+    @GetMapping("getProducts")
+    public List<ProductResponse> getProducts() {
+        log.info("Find all inventory");
+        return inventoryService.getProducts();
     }
 
     @GetMapping("findBySkuCode")

@@ -2,6 +2,7 @@ package com.minhvu.inventoryservice.service;
 
 import com.minhvu.inventoryservice.dto.InventoryRequest;
 import com.minhvu.inventoryservice.dto.InventoryResponse;
+import com.minhvu.inventoryservice.dto.ProductResponse;
 import com.minhvu.inventoryservice.model.Inventory;
 import org.springframework.data.domain.Page;
 
@@ -18,4 +19,5 @@ public interface InventoryService {
     String delete(Inventory inventory);
     Inventory findById(Long id);
     Optional<Inventory> findBySkuCodeContainsAllIgnoreCase(String skuCode);
+    List<ProductResponse> getProducts();
 }
