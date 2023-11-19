@@ -77,16 +77,16 @@ function NavBar() {
 
   return (
     <>
-      <div >
+      <div className='mt-2 h-10'>
           <div>
-            <span className='right-container'>
-              <FontAwesomeIcon icon={faCircleQuestion} className='navbar__icon' />
-              <FontAwesomeIcon icon={faGlobe} className='navbar__icon' />
+            <span className='flex float-right'>
+              <FontAwesomeIcon icon={faCircleQuestion} className='navbar__icon'/>
+              <FontAwesomeIcon icon={faGlobe} className='navbar__icon'/>
               <Link to={config.routes.customerhome}>
-                  <FontAwesomeIcon icon={faCircleUser} className='navbar__icon' />
+                  <FontAwesomeIcon icon={faCircleUser} className='navbar__icon'/>
               </Link>
-            </span>
-            <span className='center-container'>
+            </span> 
+            <span className='flex items-center justify-center ml-20'>
               <p  className='navbar__article'
                   onMouseEnter={handleMouseEnter_vehicle}
                   onMouseLeave={handleMouseLeave_vehicle}
@@ -101,7 +101,7 @@ function NavBar() {
                           <Link to={item.to} className='link'>
                             <div className='vehicle-item-container'>
                               {item.img}
-                              <p style={{textAlign: 'center', color: 'black'}}>{item.title}</p>
+                              <p className='text-center text-black'>{item.title}</p>
                             </div>
                           </Link>
                         </div>
@@ -127,7 +127,7 @@ function NavBar() {
                         <div key={index}>
                           <div className='shop-item-container'>
                             {item.img}
-                            <p style={{textAlign: 'center'}}>{item.title}</p>
+                            <p className='text-center'>{item.title}</p>
                           </div>
                         </div>
                       ))}

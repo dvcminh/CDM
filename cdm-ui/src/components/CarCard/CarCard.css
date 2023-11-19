@@ -4,16 +4,16 @@
     background-color: white;
     border-radius: 10px;
     margin: 50px;
+}
 
-    &:hover{
-        box-shadow: 
+.card:hover{
+    box-shadow: 
             4px 0px  10px rgb(166, 166, 166),
             0px 4px  10px rgb(166, 166, 166),
             -4px 0px  10px rgb(166, 166, 166),
             0px -4px  10px rgb(166, 166, 166);
 
         cursor: pointer;
-    }
 }
 
 .card__img{
@@ -102,7 +102,6 @@
 }
 
 .card__current{
-    margin-top: -15px;
     text-align: center;
 }
 
@@ -113,10 +112,10 @@
     font-weight: 500;
     font-family: "Gotham SSm", "Segoe UI", "Roboto", "Helvetica Neue", Arial, "sans-serif";
     border: none;
+}
 
-    &:hover{
-        background-color: rgb(255, 255, 255);
+.card__view-detail-button:hover{
+    background-color: rgb(255, 255, 255);
         border: 2px solid black;
         color: black;
-    }
 }
