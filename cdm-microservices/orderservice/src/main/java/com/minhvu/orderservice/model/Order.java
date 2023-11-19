@@ -7,7 +7,7 @@ import java.math.BigDecimal;
 import java.time.LocalDateTime;
 
 @Entity
-@Table
+@Table(name = "orders")
 @Getter
 @Setter
 @AllArgsConstructor
@@ -20,12 +20,13 @@ public class Order {
     @Column(name = "order_id")
     private Long id;
 
-
     private String userId;
     private LocalDateTime orderDate;
     private BigDecimal totalAmount;
     private String paymentStatus;
     private String shippingStatus;
     private String shippingAddress;
+    private Integer voucherValue;
+    private Integer shippingValue;
 }
 

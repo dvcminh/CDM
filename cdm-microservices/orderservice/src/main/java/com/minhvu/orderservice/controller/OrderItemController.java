@@ -1,46 +1,37 @@
 package com.minhvu.orderservice.controller;
 
+import com.minhvu.orderservice.dto.CreateOrderItemRequest;
 import com.minhvu.orderservice.model.Order;
 import com.minhvu.orderservice.model.OrderItem;
 import com.minhvu.orderservice.service.OrderItemService;
 import com.minhvu.orderservice.service.OrderService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.math.BigDecimal;
 
 @RestController
 @RequiredArgsConstructor
-@RequestMapping("/api/order_items")
+@RequestMapping("/api/v1/order_items")
 public class OrderItemController {
     private final OrderItemService orderItemService;
     private final OrderService orderService;
 
     @PostMapping("/createItem")
-    public ResponseEntity<String> createOrderItem(@RequestParam("productId") String productId,
-                                                  @RequestParam("orderId") long orderId,
-                                                  @RequestParam("quantity") int quantity,
-                                                  @RequestParam("pricePerUnit") BigDecimal pricePerUnit,
-                                                  @RequestParam("size") String size,
-                                                  @RequestParam("color") String color,
-                                                  @RequestParam("voucher") int voucher,
-                                                  @RequestParam("shipping") int shipping) {
+    public ResponseEntity<String> createOrderItem(@RequestBody CreateOrderItemRequest createOrderItemRequest) {
 
-        Order order = orderService.findById(orderId);
+        Order order = orderService.findById(createOrderItemRequest.getOrderId());
 
         OrderItem orderItem = OrderItem.builder()
                 .order(order)
-                .productId(productId)
-                .quantity(quantity)
-                .pricePerUnit(pricePerUnit)
-                .size(size)
-                .color(color)
-                .voucherValue(voucher)
-                .shippingValue(shipping)
+                .productId(createOrderItemRequest.getProductId())
+                .quantity(createOrderItemRequest.getQuantity())
+                .pricePerUnit(createOrderItemRequest.getPricePerUnit())
+                .size(createOrderItemRequest.getSize())
+                .color(createOrderItemRequest.getColor())
+                .voucherValue(createOrderItemRequest.getVoucher())
+                .shippingValue(createOrderItemRequest.getShipping())
                 .build();
 
         orderItemService.createOrderItem(orderItem);

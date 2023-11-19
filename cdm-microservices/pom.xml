@@ -20,6 +20,9 @@
         <module>apigateway</module>
         <module>authservice</module>
         <module>productservice</module>
+        <module>orderservice</module>
+        <module>energyservice</module>
+        <module>inventoryservice</module>
     </modules>
 
     <properties>
