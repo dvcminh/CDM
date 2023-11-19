@@ -26,18 +26,15 @@ function CustomerPayment() {
     ]
     return ( 
         <>
-           <div className="container-flex" style={{flexWrap: 'wrap'}}>
+           <div className="flex">
                 <SideBar/>
-                <div>
-                    <h1 style={{fontWeight: '500', marginLeft: 40}}>Payment Method</h1>
-                    <div style={{marginLeft: 20}} className="container-flex">
+                <div className="ml-4">
+                    <h1 className='font-medium text-3xl mt-16 ml-4'>Payment Method</h1>
+                    <div className="flex mt-4">
                         <DashboardItem data={paymentItem[0]}/>
                         <DashboardItem data={paymentItem[2]}/>
                     </div>
 
-                    <div style={{marginLeft: 20, marginTop: 20}} className="container-flex">
-                        <DashboardItem data={paymentItem[1]}/>
-                </div>
                 </div>
            </div>
         </>

@@ -41,18 +41,20 @@ function SideBar() {
   const location = useLocation();
 
   return (
-    <div className='sidebar'>
+   <div style={{height: '90vh'}}>
+     <div className='flex flex-col items-center h-4/5 mt-32' >
       {sidebarItem.map((item, index) => (
         <div key={index}>
-          <Link to={item.to} className='link'>
+          <Link to={item.to} className='no-decoration'>
             <div className={`sidebar-item ${location.pathname === item.to ? 'active' : ''}`}>
               {item.icon}
-              <p className='sidebar__title'>{item.title}</p>
+              <div className='flex justify-center items-center'><p className='sidebar__title'>{item.title}</p></div>
             </div>
           </Link>
         </div>
       ))}
     </div>
+   </div>
   );
 }
 
