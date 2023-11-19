@@ -20,9 +20,8 @@ public class Order {
     @Column(name = "order_id")
     private Long id;
 
-//    @ManyToOne(fetch = FetchType.LAZY)
-//    @JoinColumn(name = "user_id")
-//    private User user;
+
+    private String userId;
     private LocalDateTime orderDate;
     private BigDecimal totalAmount;
     private String paymentStatus;
