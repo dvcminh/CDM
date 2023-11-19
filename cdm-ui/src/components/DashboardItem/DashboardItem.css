@@ -1,6 +1,7 @@
 .dashboard{
-    margin-left: 20px;
     display: flex;  
+    margin-left: 20px;
+    margin-top: 15px;
 }
 
 .dashboard__item-img{
@@ -16,7 +17,6 @@
 
 .dashboard__item-content{
     font-size: 14px;
-    margin-top: -15px;
     margin-left: 20px;
     font-weight: 400;
 }
@@ -34,12 +34,13 @@
     padding: 5px;
     cursor: pointer;
     text-align: left;
+}
 
-    &:hover{
-        color: black;
+
+.dashboard__item-button:hover{
+    color: black;
         font-weight: 700;
         text-decoration-thickness: 2px;
-    }
 }
 
 .dashboard__item{
