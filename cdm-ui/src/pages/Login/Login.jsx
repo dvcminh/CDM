@@ -1,6 +1,7 @@
 import React, { useState } from "react"
 import logo from "../../assets/images/logo192.png"
 import '../../css/login-register.css'
+import './login-register.css'
 import { Link } from "react-router-dom" 
 import Validation from "./LoginValidation"
 
@@ -22,23 +23,36 @@ function Login() {
     }
 
     return (
-        <div className="auth-form-container">
-            <form action='' className="login-form" onSubmit={handleSubmit}>
-                <div className="group-heading">
-                <div className="heading1">CDM</div>
-                <img src={logo} className="logo" alt="" />
+        <div className="bg-gradient-to-b from-white to-gray-300 flex justify-center">
+            <div className="container">
+            <div className="flex-1"></div>
+            <div className="flex flex-1 justify-center items-center">
+                <div className="auth-form-container">
+                    <form action='' className="login-form" onSubmit={handleSubmit}>
+                        <label htmlFor="form" className="heading1">Login</label>
+                        <label htmlFor="email"  className="label">Email</label>
+                        <input onChange={handleInput} type="email" placeholder="Your Email Address" name="email" className="input"/>
+                        {errors.email && <span className="text-danger">{errors.email}</span>}
+                        <label htmlFor="password" className="label">Password</label>
+                        <input onChange={handleInput} type="password" placeholder="Password" name="password" className="input"/>  
+                        {errors.password && <span className="text-danger">{errors.password}</span>}
+                        <button type="submit" className="login-button bg-black">Sign in</button>
+                        <div className="flex justify-center items-center">
+                            <div className="line-horizontal mr-4 mt-2"></div>
+                            <p>Or</p>
+                            <div className="line-horizontal ml-4 mt-2"></div>
+                        </div>
+                        <div className="flex justify-center items-center">
+                                <img src="src\assets\images\github-logo.png" alt="" className="logo mr-4"/>
+                                <img src="src\assets\images\google.png" alt="" className="logo ml-4" />
+                        </div>
+                    </form>
+                    <Link to='/register' className="link-btn">Don't have an account? Register here.</Link>
                 </div>
-                <label htmlFor="form" className="heading2">Login</label>
-                <label htmlFor="email">Email</label>
-                <input onChange={handleInput} type="email" placeholder="youremail@gmail.com" name="email" />
-                {errors.email && <span className="text-danger">{errors.email}</span>}
-                <label htmlFor="password">Password</label>
-                <input onChange={handleInput} type="password" placeholder="********" name="password" />  
-                {errors.password && <span className="text-danger">{errors.password}</span>}
-                <button type="submit">Sign in</button>
-            </form>
-            <Link to='/register' className="link-btn">Don't have an account? Register here.</Link>
-        
+            </div>
+            
+            <div className="flex-1"></div>
+        </div>
         </div>
        
     )

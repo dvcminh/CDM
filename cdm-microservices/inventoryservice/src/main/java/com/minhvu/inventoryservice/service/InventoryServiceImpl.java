@@ -2,6 +2,8 @@ package com.minhvu.inventoryservice.service;
 
 import com.minhvu.inventoryservice.dto.InventoryRequest;
 import com.minhvu.inventoryservice.dto.InventoryResponse;
+import com.minhvu.inventoryservice.dto.ProductResponse;
+import com.minhvu.inventoryservice.external.client.ProductService;
 import com.minhvu.inventoryservice.model.Inventory;
 import com.minhvu.inventoryservice.repository.InventoryRepository;
 import lombok.RequiredArgsConstructor;
@@ -22,6 +24,7 @@ import java.util.Optional;
 public class InventoryServiceImpl implements InventoryService{
 
     private final InventoryRepository inventoryRepository;
+    private final ProductService productService;
 
     @Transactional(readOnly = true)
     @SneakyThrows
@@ -35,6 +38,8 @@ public class InventoryServiceImpl implements InventoryService{
                                 .build()
                 ).toList();
     }
+
+
 
     @Override
     public Page<Inventory> findAll() {
@@ -70,5 +75,10 @@ public class InventoryServiceImpl implements InventoryService{
     @Override
     public Optional<Inventory> findBySkuCodeContainsAllIgnoreCase(String skuCode) {
         return inventoryRepository.findBySkuCodeContainsAllIgnoreCase(skuCode);
+    }
+
+    @Override
+    public List<ProductResponse> getProducts() {
+        return productService.getProducts();
     }
 }

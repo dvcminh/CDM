@@ -1,7 +1,6 @@
-import SideBar from '../../layouts/components/SideBar';
-import '../../components/DashboardItem/DashboardItem.css'
-import DashboardItem from '../../components/DashboardItem';
-
+import SideBar from '../../../layouts/components/SideBar';
+import '../../../components/DashboardItem/DashboardItem.css'
+import DashboardItem from '../../../components/DashboardItem'
 
 
 function CustomerHome() {
@@ -28,17 +27,17 @@ function CustomerHome() {
 
     return ( 
         <div>
-            <span style={{display: 'flex'}}>
-                <SideBar style={{flex: 1}}/>
-                <div style={{display: 'flex', flexDirection: 'column'}}>
-                    <h1 style={{fontWeight: '500', marginLeft: 40}}>Dashboard</h1>
+            <span className='flex'>
+                <SideBar className='flex-1'/>
+                <div className='flex flex-col'>
+                    <h1 className='font-medium text-3xl mt-16 ml-10'>Dashboard</h1>
                     <div>
                         <span className='dashboard'>
                             <DashboardItem data={dashboardItems[0]}/>
                             <DashboardItem data={dashboardItems[1]}/>
                         </span>
-                        <br></br>
-                        <span className='dashboard'>
+                        
+                        <span className='dashboard' style={{marginTop: 5}}>
                         <DashboardItem data={dashboardItems[2]}/> 
                         </span>
                     </div>

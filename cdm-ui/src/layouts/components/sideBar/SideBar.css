@@ -13,25 +13,33 @@
     padding: 5px;
     width: 40px;
     border-radius: 5px;
-    margin-top: 11px;
   }
 
 .sidebar__title{
     margin-left: 20px;
-    font-family: "Gotham SSm", "Segoe UI", "Roboto", "Helvetica Neue", Arial, "sans-serif";
     font-size: 18px;
     font-weight:500;
+    color: black;
 }
 
+.link{
+    text-decoration: none;
+  }
+  
 .sidebar-item{
     display: flex;
     margin-left: 30px;
-    width: 300px;
-    padding: 4px 10px;
+    width: 350px;
+    padding: 20px;
     border-radius: 10px;
+}
 
-    &:hover{
-        background-color: rgb(230, 234, 234);
-        cursor: pointer;
-    }
+.sidebar-item:hover{
+    background-color: rgb(230, 234, 234);
+    cursor: pointer;
+}
+
+
+.sidebar-item.active {
+    background-color: #f0f0f0;
 }
