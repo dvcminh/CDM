@@ -1,0 +1,84 @@
+
+
+  .auth-form-container, .login-form, .register-form{
+    display: flex;
+    flex-direction: column;
+  }
+  
+  .auth-form-container{
+    
+    padding: 2rem;
+    display: flex;
+    padding-top: 1rem ;
+    background-color: #59c9a5;
+    border-radius: 10px;
+    margin-top: 5%;
+    margin-left: 35%;
+    margin-right: 35%;
+    box-sizing: border-box;
+  }
+  
+  .group-heading{
+    display: flex;
+    text-align: center;
+  
+  }
+  
+  .heading1{
+    font-weight: bold;
+    text-align: right;
+    font-size: 35px;
+    margin-right: 10px;
+    display: flex;
+  }
+  
+  .heading2{
+    font-weight: bold;
+    font-size: 20px;
+  }
+  
+  .logo{
+    width: 50px;
+    height: 50px;
+    display: flex;
+  }
+  
+  label {
+    text-align: left;
+    color: #162D51;
+    padding: 0.25rem 0;
+  }
+  
+  input{
+    margin: 0.5rem 0;
+    padding: 0.5rem;
+    border: none;
+    border-radius: 5px;
+  }
+  
+  button{
+    border: none;
+    color: white;
+    background-color: #162D51;
+    padding: 5px;
+    border-radius: 5px;
+    cursor: pointer;
+  }
+  
+  .link-btn{
+    background: none;
+    color: white;
+    text-decoration: underline;
+  }
+  
+  .privacy{
+    display: flex;
+    border-top: 100px;
+    font-size: 10px;
+    color: white;
+  }
+
+  .text-danger{
+    font-size: 12px;
+    color: red;
+  }

@@ -1,4 +1,6 @@
 import React, { useState } from "react"
+import logo from "../../assets/images/logo192.png"
+import '../../css/login-register.css'
 import '../Login/login-register.css'
 import { Link } from "react-router-dom"
 import Validation from "./RegisterValidation"

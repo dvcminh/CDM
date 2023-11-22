@@ -11,6 +11,7 @@ import loginregisLayout from '../layouts/loginregisLayout';
 import DefaultLayout from '../layouts/defaultLayout'
 import LandingPage from '../pages/LandingPage/LandingPage'
 import landingLayout from '../layouts/landingLayout';
+
 // Public routes
 const publicRoutes = [
     { path: config.routes.shoplifestyle, component: ShopLifeStyle, layout: DefaultLayout },

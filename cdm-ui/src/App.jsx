@@ -4,6 +4,7 @@ import {publicRoutes} from './routes'
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 
 
+
 function App() {
   const isLogged = false;
   return (
