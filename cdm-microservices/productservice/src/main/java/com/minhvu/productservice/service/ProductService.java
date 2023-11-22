@@ -12,11 +12,11 @@ import java.util.List;
 public interface ProductService {
     List<Product> getAllProducts();
 
-    Product getProductById(String id);
+    Product getProductById(Long id);
 
     Product createProduct(String name, MultipartFile imageFile, BigDecimal price, String description, String category) throws IOException;
 
-    Product updateProduct(String id, String name, MultipartFile imageFile, BigDecimal price, String description, String category);
+    Product updateProduct(Long id, String name, MultipartFile imageFile, BigDecimal price, String description, String category);
     List<Product> findProductByCategoryIgnoreCase(String category);
     List<Product> findProductByNameContainsAndCategory(String name, String category);
 }

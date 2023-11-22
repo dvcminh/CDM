@@ -1,9 +1,7 @@
 package com.minhvu.productservice.model;
 
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Data;
-import lombok.NoArgsConstructor;
+import jakarta.persistence.*;
+import lombok.*;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.Document;
 
@@ -17,11 +15,13 @@ import java.math.BigDecimal;
 public class Product {
 
     @Id
-    private String id;
+    private Long id;
     private String image_url;
     private String name;
     private String description;
     private BigDecimal price;
     private String category;
-    private Boolean available;
+    private String type;
+    @Enumerated(EnumType.STRING)
+    private Status status;
 }

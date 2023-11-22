@@ -73,5 +73,20 @@ public class InventoryController {
         log.info("Received inventory check request for skuCode: {}", skuCode);
         return inventoryService.isInStock(skuCode);
     }
+
+    @PutMapping("/reduceQuantity/{id}")
+    public ResponseEntity<Void> reduceQuantity(
+            @PathVariable("id") long productId,
+            @RequestParam long quantity
+    ) {
+
+        log.info("ProductController | reduceQuantity is called");
+
+        log.info("ProductController | reduceQuantity | productId : " + productId);
+        log.info("ProductController | reduceQuantity | quantity : " + quantity);
+
+        inventoryService.reduceQuantity(productId,quantity);
+        return new ResponseEntity<>(HttpStatus.OK);
+    }
 }
 

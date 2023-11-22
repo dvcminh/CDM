@@ -27,7 +27,7 @@ public class ProductServiceImpl implements ProductService {
     }
 
     @Override
-    public Product getProductById(String id) {
+    public Product getProductById(Long id) {
         return productRepository.findById(id).orElse(null);
     }
 
@@ -45,7 +45,7 @@ public class ProductServiceImpl implements ProductService {
     }
 
     @Override
-    public Product updateProduct(String id, String name, MultipartFile imageFile, BigDecimal price, String description, String category) {
+    public Product updateProduct(Long id, String name, MultipartFile imageFile, BigDecimal price, String description, String category) {
         Product product = productRepository.findById(id).orElse(null);
         assert product != null;
         product.setName(name);

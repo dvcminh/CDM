@@ -21,22 +21,7 @@ public class OrderItemController {
     @PostMapping("/createItem")
     public ResponseEntity<String> createOrderItem(@RequestBody CreateOrderItemRequest createOrderItemRequest) {
 
-        Order order = orderService.findById(createOrderItemRequest.getOrderId());
-
-        OrderItem orderItem = OrderItem.builder()
-                .order(order)
-                .productId(createOrderItemRequest.getProductId())
-                .quantity(createOrderItemRequest.getQuantity())
-                .pricePerUnit(createOrderItemRequest.getPricePerUnit())
-                .size(createOrderItemRequest.getSize())
-                .color(createOrderItemRequest.getColor())
-                .voucherValue(createOrderItemRequest.getVoucher())
-                .shippingValue(createOrderItemRequest.getShipping())
-                .build();
-
-        orderItemService.createOrderItem(orderItem);
-
-        return ResponseEntity.ok("Thành công!");
+        return getStringResponseEntity(createOrderItemRequest, orderService, orderItemService);
         // Gọi service để tạo đơn hàng mới và lưu các mục trong giỏ hàng
 //        Order order = orderService.createOrderFromCartItems(cartItems, user);
 

@@ -20,4 +20,6 @@ public interface InventoryService {
     Inventory findById(Long id);
     Optional<Inventory> findBySkuCodeContainsAllIgnoreCase(String skuCode);
     List<ProductResponse> getProducts();
+
+    void reduceQuantity(long productId, long quantity);
 }

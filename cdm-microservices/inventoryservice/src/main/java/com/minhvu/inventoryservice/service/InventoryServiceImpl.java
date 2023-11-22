@@ -3,6 +3,7 @@ package com.minhvu.inventoryservice.service;
 import com.minhvu.inventoryservice.dto.InventoryRequest;
 import com.minhvu.inventoryservice.dto.InventoryResponse;
 import com.minhvu.inventoryservice.dto.ProductResponse;
+import com.minhvu.inventoryservice.exception.ProductServiceCustomException;
 import com.minhvu.inventoryservice.external.client.ProductService;
 import com.minhvu.inventoryservice.model.Inventory;
 import com.minhvu.inventoryservice.repository.InventoryRepository;
@@ -80,5 +81,29 @@ public class InventoryServiceImpl implements InventoryService{
     @Override
     public List<ProductResponse> getProducts() {
         return productService.getProducts();
+    }
+
+    @Override
+    public void reduceQuantity(long productId, long quantity) {
+
+        log.info("Reduce Quantity {} for Id: {}", quantity,productId);
+
+        Inventory inventory
+                = inventoryRepository.findById(productId)
+                .orElseThrow(() -> new ProductServiceCustomException(
+                        "Product with given Id not found",
+                        "PRODUCT_NOT_FOUND"
+                ));
+
+        if(inventory.getQuantity() < quantity) {
+            throw new ProductServiceCustomException(
+                    "Product does not have sufficient Quantity",
+                    "INSUFFICIENT_QUANTITY"
+            );
+        }
+
+        inventory.setQuantity((int) (inventory.getQuantity() - quantity));
+        inventoryRepository.save(inventory);
+        log.info("Product Quantity updated Successfully");
     }
 }

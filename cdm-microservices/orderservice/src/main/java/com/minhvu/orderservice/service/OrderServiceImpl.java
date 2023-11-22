@@ -1,11 +1,14 @@
 package com.minhvu.orderservice.service;
 
+import com.minhvu.orderservice.dto.CreateOrderRequest;
+import com.minhvu.orderservice.external.InventoryService;
 import com.minhvu.orderservice.model.Order;
 import com.minhvu.orderservice.repository.OrderItemRepository;
 import com.minhvu.orderservice.repository.OrderRepository;
 import jakarta.persistence.EntityManager;
 import jakarta.persistence.TypedQuery;
 import lombok.RequiredArgsConstructor;
+import org.aspectj.weaver.ast.Or;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -14,9 +17,6 @@ import java.util.List;
 @RequiredArgsConstructor
 public class OrderServiceImpl implements OrderService{
     private final OrderRepository orderRepository;
-    private final OrderItemRepository orderItemRepository;
-
-
     private EntityManager entityManager;
 
     @Override
@@ -43,6 +43,8 @@ public class OrderServiceImpl implements OrderService{
 
     @Override
     public void createOrder(Order order) {
+
+
         orderRepository.save(order);
     }
 

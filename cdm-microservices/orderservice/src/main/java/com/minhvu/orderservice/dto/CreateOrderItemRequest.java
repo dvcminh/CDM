@@ -8,7 +8,7 @@ import java.math.BigDecimal;
 @Getter
 @Setter
 public class CreateOrderItemRequest {
-    private String productId;
+    private Long productId;
     private long orderId;
     private int quantity;
     private BigDecimal pricePerUnit;
