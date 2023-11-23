@@ -6,12 +6,13 @@ import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+import java.util.List;
+
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
 @Builder
 public class InventoryResponse {
-    private String skuCode;
-    private boolean isInStock;
+    private List<ProductResponse> products;
 }
 

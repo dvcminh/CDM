@@ -11,8 +11,9 @@ import java.util.List;
 import java.util.Optional;
 
 public interface InventoryRepository extends JpaRepository<Inventory, Long> {
-    List<Inventory> findBySkuCodeIn(List<String> skuCode);
-    Optional<Inventory> findBySkuCodeContainsAllIgnoreCase(String skuCode);
+    List<Inventory> findByProductIdIn(List<String> skuCode);
+    Optional<Inventory> findByProductIdContainsAllIgnoreCase(String skuCode);
 
-    Page<Inventory> findAll(Pageable pageable);
+
+    Optional<Inventory> findByProductId(String productId);
 }

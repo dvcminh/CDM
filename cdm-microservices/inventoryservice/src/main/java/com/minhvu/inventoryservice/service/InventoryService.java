@@ -10,14 +10,18 @@ import java.util.List;
 import java.util.Optional;
 
 public interface InventoryService {
-    List<InventoryResponse> isInStock(List<String> skuCode);
+//    List<InventoryResponse> isInStock(List<String> skuCode);
 
-    Page<Inventory> findAll();
+    Page<InventoryResponse> findAll(int page, int pageSize);
 
     String create(InventoryRequest inventory);
     Inventory update(Inventory inventory);
     String delete(Inventory inventory);
     Inventory findById(Long id);
-    Optional<Inventory> findBySkuCodeContainsAllIgnoreCase(String skuCode);
+    Optional<Inventory> findByProductIdContainsAllIgnoreCase(String skuCode);
     List<ProductResponse> getProducts();
+
+    void reduceQuantity(String productId, long quantity);
+
+    List<Inventory> findAllInventory();
 }
