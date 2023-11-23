@@ -3,15 +3,15 @@ package com.minhvu.orderservice;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.cloud.client.discovery.EnableDiscoveryClient;
-import org.springframework.cloud.openfeign.FeignClient;
+import org.springframework.cloud.openfeign.EnableFeignClients;
 
 @SpringBootApplication
 @EnableDiscoveryClient
-@FeignClient
-public class OrderserviceApplication {
+@EnableFeignClients
+public class OrderServiceApplication {
 
     public static void main(String[] args) {
-        SpringApplication.run(OrderserviceApplication.class, args);
+        SpringApplication.run(OrderServiceApplication.class, args);
     }
 
 }

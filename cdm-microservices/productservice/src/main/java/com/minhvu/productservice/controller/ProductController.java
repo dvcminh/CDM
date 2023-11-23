@@ -28,7 +28,7 @@ public class ProductController {
     }
 
     @GetMapping("/getProductById/{id}")
-    public Product getProductById(@PathVariable Long id) {
+    public Product getProductById(@PathVariable String id) {
         return productService.getProductById(id);
     }
 
@@ -57,7 +57,7 @@ public class ProductController {
     }
 
     @PutMapping("/updateProduct/{id}")
-    public ResponseEntity<Product> updateProduct(@PathVariable Long id,
+    public ResponseEntity<Product> updateProduct(@PathVariable String id,
                                                  @RequestParam("name") String name,
                                                  @RequestParam("imageFile") MultipartFile imageFile,
                                                  @RequestParam("price") BigDecimal price,

@@ -34,7 +34,7 @@ public class ProductServiceApplication {
                     .price(java.math.BigDecimal.valueOf(999))
                     .category("SmartphoneVIP")
                     .build();
-
+            productRepository.save(product1);
         };
     }
 }

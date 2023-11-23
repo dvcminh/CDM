@@ -11,46 +11,69 @@ import lombok.RequiredArgsConstructor;
 import lombok.SneakyThrows;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageImpl;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
-import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 @Service
 @RequiredArgsConstructor
 @Slf4j
-public class InventoryServiceImpl implements InventoryService{
+public class InventoryServiceImpl implements InventoryService {
 
     private final InventoryRepository inventoryRepository;
     private final ProductService productService;
 
-    @Transactional(readOnly = true)
-    @SneakyThrows
-    public List<InventoryResponse> isInStock(List<String> skuCode) {
-        log.info("Checking Inventory");
-        return inventoryRepository.findBySkuCodeIn(skuCode).stream()
-                .map(inventory ->
-                        InventoryResponse.builder()
-                                .skuCode(inventory.getSkuCode())
-                                .isInStock(inventory.getQuantity() > 0)
-                                .build()
-                ).toList();
-    }
+//    @Transactional(readOnly = true)
+//    @SneakyThrows
+//    public List<InventoryResponse> isInStock(List<String> skuCode) {
+//        log.info("Checking Inventory");
+//        return inventoryRepository.findByProductIdIn(skuCode).stream()
+//                .map(inventory ->
+//                        InventoryResponse.builder()
+//                                .skuCode(inventory.getProductId())
+//                                .isInStock(inventory.getQuantity() > 0)
+//                                .build()
+//                ).toList();
+//    }
 
 
+//    @Override
+//    public List<Inventory> findAll(int page, int pageSize) {
+//        Pageable pageable = PageRequest.of(page, pageSize);
+//        Page<Inventory> inventories = inventoryRepository.findAll(pageable);
+//        return inventories.toList();
+//    }
 
     @Override
-    public Page<Inventory> findAll() {
-        return inventoryRepository.findAll(Pageable.ofSize(1));
+    public Page<InventoryResponse> findAll(int page, int pageSize) {
+        Pageable pageable = PageRequest.of(page, pageSize);
+        Page<Inventory> inventories = inventoryRepository.findAll(pageable);
+        List<ProductResponse> productResponseList = productService.getProducts();
+        productResponseList.forEach(productResponse -> {
+            inventories.forEach(inventory -> {
+                if (productResponse.getId().equals(inventory.getProductId())) {
+                    productResponse.setQuantity(inventory.getQuantity());
+                }
+            });
+        });
+        List<InventoryResponse> inventoryResponses = inventories.stream()
+                .map(inventory -> InventoryResponse.builder()
+                        .products(productResponseList)
+                        .build())
+                .collect(Collectors.toList());
+        return new PageImpl<>(inventoryResponses, pageable, inventoryResponses.size());
     }
 
     @Override
     public String create(InventoryRequest inventory) {
         Inventory newInventory = Inventory.builder()
-                .skuCode(inventory.getSkuCode())
+                .productId(inventory.getProductId())
                 .quantity(inventory.getQuantity())
                 .build();
         inventoryRepository.save(newInventory);
@@ -74,8 +97,8 @@ public class InventoryServiceImpl implements InventoryService{
     }
 
     @Override
-    public Optional<Inventory> findBySkuCodeContainsAllIgnoreCase(String skuCode) {
-        return inventoryRepository.findBySkuCodeContainsAllIgnoreCase(skuCode);
+    public Optional<Inventory> findByProductIdContainsAllIgnoreCase(String skuCode) {
+        return inventoryRepository.findByProductIdContainsAllIgnoreCase(skuCode);
     }
 
     @Override
@@ -84,18 +107,18 @@ public class InventoryServiceImpl implements InventoryService{
     }
 
     @Override
-    public void reduceQuantity(long productId, long quantity) {
+    public void reduceQuantity(String productId, long quantity) {
 
-        log.info("Reduce Quantity {} for Id: {}", quantity,productId);
+        log.info("Reduce Quantity {} for Id: {}", quantity, productId);
 
         Inventory inventory
-                = inventoryRepository.findById(productId)
+                = inventoryRepository.findByProductId(productId)
                 .orElseThrow(() -> new ProductServiceCustomException(
                         "Product with given Id not found",
                         "PRODUCT_NOT_FOUND"
                 ));
 
-        if(inventory.getQuantity() < quantity) {
+        if (inventory.getQuantity() < quantity) {
             throw new ProductServiceCustomException(
                     "Product does not have sufficient Quantity",
                     "INSUFFICIENT_QUANTITY"
@@ -105,5 +128,10 @@ public class InventoryServiceImpl implements InventoryService{
         inventory.setQuantity((int) (inventory.getQuantity() - quantity));
         inventoryRepository.save(inventory);
         log.info("Product Quantity updated Successfully");
+    }
+
+    @Override
+    public List<Inventory> findAllInventory() {
+        return inventoryRepository.findAll();
     }
 }

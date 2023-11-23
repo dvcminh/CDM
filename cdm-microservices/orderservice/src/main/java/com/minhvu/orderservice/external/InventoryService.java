@@ -7,12 +7,12 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
-@FeignClient(name = "INVENTORY-SERVICE/inventory")
+@FeignClient(name = "INVENTORY-SERVICE/api/v1/inventory")
 public interface InventoryService {
 
     @PutMapping("/reduceQuantity/{id}")
     ResponseEntity<Void> reduceQuantity(
-            @PathVariable("id") long productId,
+            @PathVariable("id") String productId,
             @RequestParam long quantity
     );
 

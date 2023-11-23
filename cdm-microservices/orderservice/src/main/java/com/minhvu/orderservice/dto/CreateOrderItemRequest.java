@@ -1,5 +1,6 @@
 package com.minhvu.orderservice.dto;
 
+import com.minhvu.orderservice.model.OrderItemPK;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -8,8 +9,7 @@ import java.math.BigDecimal;
 @Getter
 @Setter
 public class CreateOrderItemRequest {
-    private Long productId;
-    private long orderId;
+    private String productId;
     private int quantity;
     private BigDecimal pricePerUnit;
     private String size;

@@ -16,16 +16,9 @@ import java.math.BigDecimal;
 @Table(name = "order_items")
 public class OrderItem {
 
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "order_item_id")
-    private Long id;
+    @EmbeddedId
+    private OrderItemPK id;
 
-    @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "order_id")
-    private Order order;
-
-    private Long productId;
     private Integer quantity;
     private BigDecimal pricePerUnit;
     private Integer voucherValue;

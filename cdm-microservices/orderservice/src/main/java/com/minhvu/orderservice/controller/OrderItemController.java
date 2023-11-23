@@ -18,19 +18,13 @@ public class OrderItemController {
     private final OrderItemService orderItemService;
     private final OrderService orderService;
 
-    @PostMapping("/createItem")
-    public ResponseEntity<String> createOrderItem(@RequestBody CreateOrderItemRequest createOrderItemRequest) {
-
-        return getStringResponseEntity(createOrderItemRequest, orderService, orderItemService);
-        // Gọi service để tạo đơn hàng mới và lưu các mục trong giỏ hàng
-//        Order order = orderService.createOrderFromCartItems(cartItems, user);
-
-        // Trả về thông báo thành công hoặc thất bại
-//        if (order != null) {
-//            return ResponseEntity.ok("Đơn hàng đã được tạo thành công.");
-//        } else {
-//            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Lỗi khi tạo đơn hàng.");
-//        }
-//        return null;
-    }
+//    @PostMapping("/createItem")
+//    public ResponseEntity<String> createOrderItem(@RequestBody CreateOrderItemRequest createOrderItemRequest) {
+//
+//
+//
+//        orderItemService.createOrderItem(createOrderItemRequest);
+//
+//        return ResponseEntity.ok("Thành công!");
+//    }
 }
