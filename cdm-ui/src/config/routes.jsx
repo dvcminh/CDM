@@ -7,7 +7,8 @@ const routes = {
     shoplifestyle: '/shop/lifestyle',
     vehicleS: '/vehicle/modelS',
     login: '/login',
-    register: '/register'
+    register: '/register',
+    staffhome: '/staffhome'
 };
 
 export default routes;
