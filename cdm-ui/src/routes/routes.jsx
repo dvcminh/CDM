@@ -1,4 +1,5 @@
 import config from '../config';
+import ManagerHome from '../pages/Manager/ManagerHome';
 import CustomerHome from '../pages/Customer/CustomerHome';
 import CustomerOrderHistory from '../pages/Customer/CustomerOrderHistory';
 import CustomerPayment from '../pages/Customer/CustomerPayment';
@@ -14,6 +15,7 @@ import landingLayout from '../layouts/landingLayout';
 // Public routes
 const publicRoutes = [
     { path: config.routes.shoplifestyle, component: ShopLifeStyle, layout: DefaultLayout },
+    { path: config.routes.managerhome, component: ManagerHome, layout: DefaultLayout},
     { path: config.routes.customerhome, component: CustomerHome, layout: DefaultLayout},
     { path: config.routes.customerprofile, component: CustomerProfile , layout: DefaultLayout},
     { path: config.routes.customerpayment, component: CustomerPayment, layout: DefaultLayout },
