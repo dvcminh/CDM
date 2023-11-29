@@ -28,9 +28,17 @@ public class InventoryController {
 
     // http://localhost:8082/api/inventory?skuCode=iphone-13&skuCode=iphone13-red
     @GetMapping("getInventory")
-    public Page<Inventory> findALl() {
+    public Page<InventoryResponse> findAll(
+            @RequestParam(defaultValue = "0") int page,
+            @RequestParam(defaultValue = "10") int pageSize) {
         log.info("Find all inventory");
-        return inventoryService.findAll();
+        return inventoryService.findAll(page, pageSize);
+    }
+
+    @GetMapping("test")
+    public List<Inventory> findAllInventory() {
+        log.info("Find all inventory");
+        return inventoryService.findAllInventory();
     }
 
     @GetMapping("getProducts")
@@ -42,7 +50,7 @@ public class InventoryController {
     @GetMapping("findBySkuCode")
     public Inventory findBySkuCode(@RequestParam String skuCode) {
         log.info("Find inventory by skuCode");
-        return inventoryService.findBySkuCodeContainsAllIgnoreCase(skuCode).orElseThrow();
+        return inventoryService.findByProductIdContainsAllIgnoreCase(skuCode).orElseThrow();
     }
 
     @PostMapping("addInventory")
@@ -55,7 +63,7 @@ public class InventoryController {
     public Inventory update(@PathVariable Long id, @RequestBody InventoryRequest inventoryRequest) {
         Inventory inventory = inventoryService.findById(id);
         inventory.setQuantity(inventoryRequest.getQuantity());
-        inventory.setSkuCode(inventoryRequest.getSkuCode());
+        inventory.setProductId(inventoryRequest.getProductId());
         log.info("Update inventory");
         return inventoryService.update(inventory);
     }
@@ -67,11 +75,26 @@ public class InventoryController {
         return inventoryService.delete(inventory);
     }
 
-    @GetMapping
-    @ResponseStatus(HttpStatus.OK)
-    public List<InventoryResponse> isInStock(@RequestParam List<String> skuCode) {
-        log.info("Received inventory check request for skuCode: {}", skuCode);
-        return inventoryService.isInStock(skuCode);
+//    @GetMapping
+//    @ResponseStatus(HttpStatus.OK)
+//    public List<InventoryResponse> isInStock(@RequestParam List<String> skuCode) {
+//        log.info("Received inventory check request for skuCode: {}", skuCode);
+//        return inventoryService.isInStock(skuCode);
+//    }
+
+    @PutMapping("/reduceQuantity/{id}")
+    public ResponseEntity<Void> reduceQuantity(
+            @PathVariable("id") String productId,
+            @RequestParam long quantity
+    ) {
+
+        log.info("ProductController | reduceQuantity is called");
+
+        log.info("ProductController | reduceQuantity | productId : " + productId);
+        log.info("ProductController | reduceQuantity | quantity : " + quantity);
+
+        inventoryService.reduceQuantity(productId, quantity);
+        return new ResponseEntity<>(HttpStatus.OK);
     }
 }
 
