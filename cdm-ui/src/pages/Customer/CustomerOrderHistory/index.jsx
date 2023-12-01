@@ -30,25 +30,25 @@ function CustomerOrderHistory() {
                     <div className="flex space-x-1 mt-6">
                             <div className="flex-1">
                                 <input type="radio" id="all" name="option" value="all" class="hidden peer"/>
-                                <label for="all" class=" rounded-3xl inline-flex items-center justify-between w-4/5 p-0 text-gray-500 bg-white border border-gray-200 rounded-lg cursor-pointer dark:hover:text-gray-300 dark:border-gray-700 dark:peer-checked:text-blue-500 peer-checked:border-blue-600 peer-checked:text-blue-600 hover:text-gray-600 hover:bg-gray-100 dark:text-gray-400 dark:bg-gray-800 dark:hover:bg-gray-700">                           
+                                <label for="all" class=" inline-flex items-center justify-between w-4/5 p-0 text-gray-500 bg-white border border-gray-200 rounded-lg cursor-pointer dark:hover:text-gray-300 dark:border-gray-700 dark:peer-checked:text-blue-500 peer-checked:border-blue-600 peer-checked:text-blue-600 hover:text-gray-600 hover:bg-gray-100 dark:text-gray-400 dark:bg-gray-800 dark:hover:bg-gray-700">                           
                                     <div class="w-full bg-white px-4 py-2 rounded-3xl text-center">All</div>
                                 </label>
                             </div>
                             <div className="flex-1">
                                 <input type="radio" id="pending" name="option" value="pending" class="hidden peer"/>
-                                <label for="pending" class=" rounded-3xl inline-flex items-center justify-between w-4/5 p-0 text-gray-500 bg-white border border-gray-200 rounded-lg cursor-pointer dark:hover:text-gray-300 dark:border-gray-700 dark:peer-checked:text-blue-500 peer-checked:border-blue-600 peer-checked:text-blue-600 hover:text-gray-600 hover:bg-gray-100 dark:text-gray-400 dark:bg-gray-800 dark:hover:bg-gray-700">                           
+                                <label for="pending" class=" inline-flex items-center justify-between w-4/5 p-0 text-gray-500 bg-white border border-gray-200 rounded-lg cursor-pointer dark:hover:text-gray-300 dark:border-gray-700 dark:peer-checked:text-blue-500 peer-checked:border-blue-600 peer-checked:text-blue-600 hover:text-gray-600 hover:bg-gray-100 dark:text-gray-400 dark:bg-gray-800 dark:hover:bg-gray-700">                           
                                     <div class="w-full bg-white px-4 py-2 rounded-3xl text-center">Pending</div>
                                 </label>
                             </div>
                             <div className="flex-1">
                                 <input type="radio" id="processing" name="option" value="processing" class="hidden peer"/>
-                                <label for="processing" class=" rounded-3xl inline-flex items-center justify-between w-4/5 p-0 text-gray-500 bg-white border border-gray-200 rounded-lg cursor-pointer dark:hover:text-gray-300 dark:border-gray-700 dark:peer-checked:text-blue-500 peer-checked:border-blue-600 peer-checked:text-blue-600 hover:text-gray-600 hover:bg-gray-100 dark:text-gray-400 dark:bg-gray-800 dark:hover:bg-gray-700">                           
+                                <label for="processing" class=" inline-flex items-center justify-between w-4/5 p-0 text-gray-500 bg-white border border-gray-200 rounded-lg cursor-pointer dark:hover:text-gray-300 dark:border-gray-700 dark:peer-checked:text-blue-500 peer-checked:border-blue-600 peer-checked:text-blue-600 hover:text-gray-600 hover:bg-gray-100 dark:text-gray-400 dark:bg-gray-800 dark:hover:bg-gray-700">                           
                                     <div class="w-full bg-white px-4 py-2 rounded-3xl text-center">Processing</div>
                                 </label>
                             </div>
                             <div className="flex-1">
                                 <input type="radio" id="complete" name="option" value="complete" class="hidden peer"/>
-                                <label for="complete" class=" rounded-3xl inline-flex items-center justify-between w-4/5 p-0 text-gray-500 bg-white border border-gray-200 rounded-lg cursor-pointer dark:hover:text-gray-300 dark:border-gray-700 dark:peer-checked:text-blue-500 peer-checked:border-blue-600 peer-checked:text-blue-600 hover:text-gray-600 hover:bg-gray-100 dark:text-gray-400 dark:bg-gray-800 dark:hover:bg-gray-700">                           
+                                <label for="complete" class=" inline-flex items-center justify-between w-4/5 p-0 text-gray-500 bg-white border border-gray-200 rounded-lg cursor-pointer dark:hover:text-gray-300 dark:border-gray-700 dark:peer-checked:text-blue-500 peer-checked:border-blue-600 peer-checked:text-blue-600 hover:text-gray-600 hover:bg-gray-100 dark:text-gray-400 dark:bg-gray-800 dark:hover:bg-gray-700">                           
                                     <div class="w-full bg-white px-4 py-2 rounded-3xl text-center">Complete</div>
                                 </label>
                             </div>
@@ -95,7 +95,7 @@ function CustomerOrderHistory() {
                                         $2999
                                     </td>
                                     <td class="px-6 py-4">
-                                        <a href="#" class="font-medium text-blue-600 text-red-400 hover:underline">Pending</a>
+                                        <a href="#" class="font-medium text-red-400 hover:underline">Pending</a>
                                     </td>
                                 </tr>
                                 <tr class="odd:bg-white even:bg-gray-300">
@@ -112,7 +112,7 @@ function CustomerOrderHistory() {
                                         $1999
                                     </td>
                                     <td class="px-6 py-4">
-                                        <a href="#" class="font-medium text-blue-600 text-violet-500 hover:underline">Processing</a>
+                                        <a href="#" class="font-medium text-violet-500 hover:underline">Processing</a>
                                     </td>
                                 </tr>
                                 <tr class="odd:bg-white even:bg-gray-300">
@@ -129,7 +129,7 @@ function CustomerOrderHistory() {
                                         $99
                                     </td>
                                     <td class="px-6 py-4">
-                                        <a href="#" class="font-medium text-blue-600 text-lime-500 hover:underline">Complete</a>
+                                        <a href="#" class="font-medium text-lime-500 hover:underline">Complete</a>
                                     </td>
                                 </tr>
                                 <tr class="odd:bg-white even:bg-gray-300">
@@ -146,7 +146,7 @@ function CustomerOrderHistory() {
                                         $799
                                     </td>
                                     <td class="px-6 py-4">
-                                        <a href="#" class="font-medium text-blue-600 text-lime-500 hover:underline">Complete</a>
+                                        <a href="#" class="font-medium text-lime-500 hover:underline">Complete</a>
                                     </td>
                                 </tr>
                                 <tr class="odd:bg-white even:bg-gray-300">
@@ -163,7 +163,7 @@ function CustomerOrderHistory() {
                                         $999
                                     </td>
                                     <td class="px-6 py-4">
-                                        <a href="#" class="font-medium text-blue-600 text-lime-500 hover:underline">Complete</a>
+                                        <a href="#" class="font-medium text-lime-500 hover:underline">Complete</a>
                                     </td>
                                 </tr>
                             </tbody>
