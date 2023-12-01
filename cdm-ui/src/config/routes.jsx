@@ -4,6 +4,7 @@ const routes = {
     customerprofile: '/customerhome/profile',
     customerpayment: '/customerhome/payment',
     customerorderhis: '/customerhome/orderhis',
+    managecustomer: '/managerhome/managecustomer',
     shoplifestyle: '/shop/lifestyle',
     vehicleS: '/vehicle/modelS',
     login: '/login',
