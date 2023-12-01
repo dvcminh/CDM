@@ -11,7 +11,7 @@ const FooterCart = (props) => {
             <hr />
             <div className="cart-total">
                 <h4>
-                    total <span>{props.totalPrice}$</span>
+                    total <span className='text-[18px] text-[#fc6603]'>{props.totalPrice}$</span>
                 </h4>
             </div>
 
