@@ -1,4 +1,4 @@
-import SideBar from "../../../layouts/components/SideBar";
+import ManagerSideBar from "../../../layouts/components/ManagerSideBar";
 import './ManagerHome.css'
 import { FaArrowUp, FaArrowDown } from 'react-icons/fa';
 import CardWithPieChart from "../../../components/ActiveShapePieChart/PieChartCard";
@@ -41,7 +41,7 @@ function ManagerHome() {
     return ( 
         <>
            <div className="flex">
-                <SideBar/>
+                <ManagerSideBar/>
                 <div className="ml-8">
                     <h1 className='font-medium text-3xl mt-16'>Dashboard</h1>
                     {/* Stats */}
