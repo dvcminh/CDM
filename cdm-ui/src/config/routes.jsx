@@ -1,5 +1,6 @@
 const routes = {
     start: '/',
+    managerhome: '/managerhome',
     customerhome: '/customerhome',
     customerprofile: '/customerhome/profile',
     customerpayment: '/customerhome/payment',
@@ -9,6 +10,7 @@ const routes = {
     shoppingcart: '/customerhome/shoppingcart',
     shoplifestyle: '/shop/lifestyle',
     vehicleS: '/vehicle/modelS',
+    managervehicleS: '/managervehicle/modelS',
     login: '/login',
     register: '/register'
 };
