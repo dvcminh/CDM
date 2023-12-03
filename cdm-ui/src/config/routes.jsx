@@ -5,6 +5,7 @@ const routes = {
     customerpayment: '/customerhome/payment',
     customerorderhis: '/customerhome/orderhis',
     managestaff: '/managerhome/managestaff',
+    shoppingcart: '/customerhome/shoppingcart',
     shoplifestyle: '/shop/lifestyle',
     vehicleS: '/vehicle/modelS',
     login: '/login',
