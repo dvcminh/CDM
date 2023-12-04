@@ -14,7 +14,7 @@ import java.util.List;
 @FeignClient(name = "PRODUCT-SERVICE/api/v1/products")
 public interface ProductService {
 
-    @GetMapping("/getAllProducts")
+    @GetMapping("/getAllShops")
     List<ProductResponse> getProducts();
 
 }
