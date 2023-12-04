@@ -25,6 +25,7 @@
         <module>inventoryservice</module>
         <module>userservice</module>
         <module>carservice</module>
+        <module>reportservice</module>
     </modules>
 
     <properties>

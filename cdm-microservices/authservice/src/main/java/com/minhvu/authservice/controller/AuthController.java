@@ -18,11 +18,6 @@ public class AuthController {
     @Autowired
     private AuthenticationManager authenticationManager;
 
-    @GetMapping("/hello")
-    public String hello() {
-        return "hello from secured endpoint";
-    }
-
     @PostMapping("/register")
     public String addNewUser(@RequestBody RegisterRequest user) {
         return service.saveUser(user);
@@ -30,9 +25,9 @@ public class AuthController {
 
     @PostMapping("/login")
     public String getToken(@RequestBody AuthenticationRequest authRequest) {
-        Authentication authenticate = authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(authRequest.getUsername(), authRequest.getPassword()));
+        Authentication authenticate = authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(authRequest.getEmail(), authRequest.getPassword()));
         if (authenticate.isAuthenticated()) {
-            return service.generateToken(authRequest.getUsername());
+            return service.generateToken(authRequest.getEmail());
         } else {
             throw new RuntimeException("invalid access");
         }

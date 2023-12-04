@@ -1,9 +1,13 @@
 package com.minhvu.productservice;
 
 
-import com.minhvu.productservice.model.Product;
+import com.minhvu.productservice.model.Car;
+import com.minhvu.productservice.model.Energy;
+import com.minhvu.productservice.model.Shop;
 import com.minhvu.productservice.model.Status;
-import com.minhvu.productservice.repository.ProductRepository;
+import com.minhvu.productservice.repository.CarRepository;
+import com.minhvu.productservice.repository.EnergyRepository;
+import com.minhvu.productservice.repository.ShopRepository;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.cloud.client.discovery.EnableDiscoveryClient;
@@ -16,25 +20,31 @@ public class ProductServiceApplication {
         org.springframework.boot.SpringApplication.run(ProductServiceApplication.class, args);
     }
     @Bean
-    public CommandLineRunner runner(ProductRepository productRepository) {
+    public CommandLineRunner runner(CarRepository carRepository, EnergyRepository energyRepository, ShopRepository shopRepository) {
         return args -> {
-            var product1 = Product.builder()
+            var car = Car.builder()
                     .name("Dual Motor All-Wheel Drive")
-                    .type("Model S")
+                    .model("Model S")
                     .description("Dual Motor All-Wheel Drive instantly controls traction and torque, in all weather conditions.")
                     .price(java.math.BigDecimal.valueOf(69990))
-                    .category("Cars")
-                    .image_url("a")
                     .status(Status.AVAILABLE)
                     .build();
-            productRepository.save(product1);
-            var product2 = Product.builder()
-                    .name("iPhone 12 Pro")
-                    .description("Apple iPhone 12 Pro smartphone runs on iOS v14 operating system. The phone is powered by Hexa Core (2.65 GHz, Dual core, Lightning + 1.8 GHz, Quad core, Thunder) processor. It runs on the Apple A14 Bionic Chipset. It has 6 GB RAM and 128 GB internal storage.")
-                    .price(java.math.BigDecimal.valueOf(999))
-                    .category("SmartphoneVIP")
+            carRepository.save(car);
+            var energy = Energy.builder()
+                    .name("Solar Panels")
+                    .description("Lowest Cost Solar Panels in America")
+                    .price(java.math.BigDecimal.valueOf(7990))
+                    .status(Status.UNAVAILABLE)
                     .build();
-            productRepository.save(product1);
+            energyRepository.save(energy);
+            var shop = Shop.builder()
+                    .name("Cybertruck for kid")
+                    .description("Cybertruck for kid")
+                    .price(java.math.BigDecimal.valueOf(7990))
+                    .status(Status.UNAVAILABLE)
+                    .type("Lifestyle")
+                    .build();
+            shopRepository.save(shop);
         };
     }
 }
