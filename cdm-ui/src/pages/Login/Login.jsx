@@ -1,23 +1,27 @@
 import React, { useState } from "react"
 import './login-register.css'
-import { Link } from "react-router-dom" 
+import { Link, useNavigate } from "react-router-dom" 
 import Validation from "./LoginValidation"
+import axios from "axios"
+import { stringify } from "postcss"
+import { useEffect } from "react"
 
 function Login() {
-    const [values, setValues] = useState({
-        email: '',
-        password: ''
-    })
+    const [errors, setErrors] = useState("");
+    const [email, setEmail] = useState("");
+    const [password, setPassword] = useState("");
+    const usenavigate = useNavigate("");
+    const [data, setData] = useState([]);
 
-    const [errors, setErrors] = useState({})
+    const url = "http://localhost:8081/api/v1/user/login/" + email;
+  
+    async function  loginFunc()
+    {  
+        const result = await axios.get("http://localhost:8081/api/v1/user/login/" + email + "&" + password);
+        console.log(JSON.stringify(result.data, null, 2));
 
-    const handleInput = (event) => {
-        setValues(prev => ({...prev, [event.target.name]: [event.target.value]}))
-    }
-
-    const handleSubmit = (event) => {
-        event.preventDefault();
-        setErrors(Validation(values));
+        if(JSON.stringify(result.data) === ""){}
+        else{usenavigate("/customerhome");}
     }
 
     return (
@@ -26,15 +30,14 @@ function Login() {
             <div className="flex-1"></div>
             <div className="flex flex-1 justify-center items-center">
                 <div className="auth-form-container">
-                    <form action='' className="login-form" onSubmit={handleSubmit}>
-                        <label htmlFor="form" className="heading1">Login</label>
+                    <label htmlFor="form" className="heading1">Login</label>
                         <label htmlFor="email"  className="label">Email</label>
-                        <input onChange={handleInput} type="email" placeholder="Your Email Address" name="email" className="input"/>
+                        <input type="email" placeholder="Your Email Address..." name="email" className="input" onChange={(event) => setEmail(event.target.value)} value={email}/>
                         {errors.email && <span className="text-danger">{errors.email}</span>}
                         <label htmlFor="password" className="label">Password</label>
-                        <input onChange={handleInput} type="password" placeholder="Password" name="password" className="input"/>  
+                        <input  type="password" placeholder="Password..." name="password" className="input" onChange={(event) => setPassword(event.target.value)} value={password}/>  
                         {errors.password && <span className="text-danger">{errors.password}</span>}
-                        <button type="submit" className="login-button bg-black">Sign in</button>
+                        <button type="submit" className="login-button bg-black" onClick={loginFunc}>Sign in</button>
                         <div className="flex justify-center items-center">
                             <div className="line-horizontal mr-4 mt-2"></div>
                             <p>Or</p>
@@ -44,7 +47,6 @@ function Login() {
                                 <img src="src\assets\images\github-logo.png" alt="" className="logo mr-4"/>
                                 <img src="src\assets\images\google.png" alt="" className="logo ml-4" />
                         </div>
-                    </form>
                     <Link to='/register' className="link-btn">Don't have an account? Register here.</Link>
                 </div>
             </div>

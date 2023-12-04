@@ -12,6 +12,7 @@ import loginregisLayout from '../layouts/loginregisLayout';
 import DefaultLayout from '../layouts/defaultLayout'
 import LandingPage from '../pages/LandingPage/LandingPage'
 import landingLayout from '../layouts/landingLayout';
+import VehicleDetail from '../pages/VehicleDetail';
 // Public routes
 const publicRoutes = [
     { path: config.routes.shoplifestyle, component: ShopLifeStyle, layout: DefaultLayout },
@@ -23,7 +24,8 @@ const publicRoutes = [
     { path: config.routes.vehicleS, component: VehicleModelS, layout: DefaultLayout },
     { path: config.routes.login, component: Login, layout: loginregisLayout },
     { path: config.routes.register, component: Register, layout: loginregisLayout },
-    { path: config.routes.start, component: LandingPage, layout: landingLayout }
+    { path: config.routes.start, component: LandingPage, layout: landingLayout },
+    { path: config.routes.vehicledetail, component: VehicleDetail, landingLayout: loginregisLayout}
 ];
 
 const privateRoutes = [];
