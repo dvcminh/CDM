@@ -23,6 +23,8 @@
         <module>orderservice</module>
         <module>energyservice</module>
         <module>inventoryservice</module>
+        <module>userservice</module>
+        <module>carservice</module>
     </modules>
 
     <properties>
@@ -43,6 +45,18 @@
             </dependency>
         </dependencies>
     </dependencyManagement>
+    <dependencies>
+        <dependency>
+            <groupId>org.springframework.security</groupId>
+            <artifactId>spring-security-config</artifactId>
+            <version>6.1.2</version>
+        </dependency>
+        <dependency>
+            <groupId>org.springframework.security</groupId>
+            <artifactId>spring-security-web</artifactId>
+            <version>6.1.2</version>
+        </dependency>
+    </dependencies>
 
     <build>
         <plugins>
