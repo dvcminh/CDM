@@ -40,5 +40,7 @@ public class AuthService {
         jwtService.validateToken(token);
     }
 
-
+    public User getUserByUserName(String userName) {
+        return repository.findByName(userName).orElseThrow(() -> new RuntimeException("user not found"));
+    }
 }

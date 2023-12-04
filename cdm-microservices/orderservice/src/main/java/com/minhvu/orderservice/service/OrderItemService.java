@@ -8,5 +8,6 @@ import com.minhvu.orderservice.model.OrderItem;
 import java.util.List;
 
 public interface OrderItemService {
+    List<OrderItem> findByOrderId(String orderId);
 //    OrderItem createOrderItem(CreateOrderItemRequest createOrderItemRequest);
 }

@@ -32,6 +32,11 @@ public class OrderController {
         return ResponseEntity.ok(orderService.viewAll());
     }
 
+    @GetMapping("/getOrderItemsByOrderId")
+    public ResponseEntity<Iterable<OrderItem>> getOrderItemsByOrderId(@RequestParam("orderId") String orderId) {
+        return ResponseEntity.ok(orderItemService.findByOrderId(orderId));
+    }
+
     @GetMapping("/getOrderByUserId")
     public ResponseEntity<Iterable<Order>> getOrdersByUserId(@RequestParam("userId") String userId) {
         return ResponseEntity.ok(orderService.findByUserId(userId));
