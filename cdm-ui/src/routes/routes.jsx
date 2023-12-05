@@ -4,6 +4,7 @@ import CustomerHome from '../pages/Customer/CustomerHome';
 import CustomerOrderHistory from '../pages/Customer/CustomerOrderHistory';
 import CustomerPayment from '../pages/Customer/CustomerPayment';
 import CustomerProfile from '../pages/Customer/CustomerProflie';
+import CustomerReport from '../pages/Customer/CustomerReport';
 import ShopLifeStyle from '../pages/ShopLifeStyle';
 import VehicleModelS from '../pages/VehicleModelS';
 import Login from '../pages/Login/Login';
@@ -22,6 +23,7 @@ const publicRoutes = [
     { path: config.routes.customerprofile, component: CustomerProfile , layout: DefaultLayout},
     { path: config.routes.customerpayment, component: CustomerPayment, layout: DefaultLayout },
     { path: config.routes.customerorderhis, component: CustomerOrderHistory, layout: DefaultLayout },
+    { path: config.routes.customerreport, component: CustomerReport, layout: DefaultLayout} ,
     { path: config.routes.vehicleS, component: VehicleModelS, layout: DefaultLayout },
     { path: config.routes.login, component: Login, layout: loginregisLayout },
     { path: config.routes.register, component: Register, layout: loginregisLayout },

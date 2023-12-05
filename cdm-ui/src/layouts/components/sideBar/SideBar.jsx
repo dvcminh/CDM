@@ -1,4 +1,4 @@
-import { faCreditCard, faCube, faHome, faHouse, faRightFromBracket, faShirt, faUser } from '@fortawesome/free-solid-svg-icons';
+import { faCreditCard, faCube, faHome, faHouse, faRightFromBracket, faShirt, faUser, faFileLines } from '@fortawesome/free-solid-svg-icons';
 import './SideBar.css';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { Link, useLocation } from 'react-router-dom';
@@ -31,6 +31,12 @@ function SideBar() {
       title: 'Order History',
       to: config.routes.customerorderhis
     },
+    {
+      icon: <FontAwesomeIcon icon={faFileLines} className='sidebar__icon' />,
+      title: 'Report',
+      to: config.routes.customerreport
+    }
+    ,
     {
       icon: <FontAwesomeIcon icon={faRightFromBracket} className='sidebar__icon' />,
       title: 'Sign Out',
