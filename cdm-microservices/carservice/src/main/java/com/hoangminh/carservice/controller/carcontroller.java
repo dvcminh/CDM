@@ -6,6 +6,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.Optional;
 
 @RestController
 @CrossOrigin(origins = "*")
@@ -23,6 +24,14 @@ public class carcontroller {
         return ResponseEntity.ok(this.carrepository.findAll());
     }
 
+    @GetMapping("/getCar/{id}")
+    public ResponseEntity<Optional<Car>> getCarById(@PathVariable String id){
+        Optional<Car> car = this.carrepository.findById(id);
+
+        if(car.isPresent())
+            return ResponseEntity.ok(this.carrepository.findById(id));
+        return null;
+    }
     @PostMapping("/create")
     public ResponseEntity<Car> createNewUser(@RequestBody Car userreq) {
 

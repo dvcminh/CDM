@@ -1,55 +1,42 @@
 package com.hoangminh.userservice.controller;
 
+import com.hoangminh.userservice.model.LoginMessage;
 import com.hoangminh.userservice.model.User;
-import com.hoangminh.userservice.repository.UserSerivceRepository;
+import com.hoangminh.userservice.service.UserService;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
-import java.util.Optional;
 
 @RestController
 @CrossOrigin(origins = "*")
 @RequestMapping("api/v1/user")
 
 public class usercontroller {
-    private final UserSerivceRepository userrepository;
+    private final UserService userSer;
 
-    public usercontroller(UserSerivceRepository userrepository) {
-        this.userrepository = userrepository;
+    public usercontroller(UserService userSer) {
+        this.userSer = userSer;
     }
-
 
     @GetMapping("/getAll")
     public ResponseEntity<List<User>> getAllUser() {
-        return ResponseEntity.ok(this.userrepository.findAll());
+        return ResponseEntity.ok(userSer.getAllUser());
+    }
+
+    @GetMapping("/getUserById/{id}")
+    public ResponseEntity<User> getUserById(@PathVariable String id){
+        return ResponseEntity.ok(userSer.getUserById(id));
     }
 
     @PostMapping("/create")
-    public ResponseEntity<User> createNewUser(@RequestBody User userreq) {
-
-        User user = new User();
-        user.setEmail(userreq.getEmail());
-        user.setUsername(userreq.getUsername());
-        user.setFullname(userreq.getFullname());
-        user.setPass(userreq.getPass());
-        user.setRole(userreq.getRole());
-        return ResponseEntity.status(201).body(this.userrepository.save(user));
+    public String createNewUser(@RequestBody User userreq) {
+        return userSer.addNewUser(userreq);
     }
 
-    @GetMapping("/login/{email}&{password}")
-    public User  login (@PathVariable String email, @PathVariable String password) {
-        Optional<User> user = this.userrepository.findByEmail(email);
-
-        if (user.isPresent()) {
-            User foundUser = user.get();
-            if(foundUser.getPass().equals(password))
-                return foundUser;
-            else
-                return null;
-        }
-        return null;
+    @PostMapping("/login")
+    public LoginMessage login(@RequestBody User loginRequest) {
+        return userSer.loginUser(loginRequest);
     }
-
 }
 
