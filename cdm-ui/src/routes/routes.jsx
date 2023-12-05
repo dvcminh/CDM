@@ -35,7 +35,7 @@ const publicRoutes = [
     { path: config.routes.login, component: Login, layout: loginregisLayout },
     { path: config.routes.register, component: Register, layout: loginregisLayout },
     { path: config.routes.start, component: LandingPage, layout: landingLayout },
-    { path: config.routes.vehicledetail, component: VehicleDetail, landingLayout: loginregisLayout}
+    { path: config.routes.vehicledetail, component: VehicleDetail, layout: loginregisLayout}
 ];
 
 const privateRoutes = [];

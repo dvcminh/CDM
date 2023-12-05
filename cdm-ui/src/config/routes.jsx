@@ -13,7 +13,7 @@ const routes = {
     managervehicleS: '/managervehicle/modelS',
     login: '/login',
     register: '/register',
-    vehicledetail: '/vehicle'
-};
+    vehicledetail: '/vehicledetail/:id',
+}
 
 export default routes;

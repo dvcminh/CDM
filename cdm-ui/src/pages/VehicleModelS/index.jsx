@@ -1,7 +1,7 @@
+import React, { useEffect, useState } from "react";
 import CarCard from "../../components/CarCard";
 import '../../components/CarCard/CarCard.css'
 import SortCarSideBar from "../../components/SortCarSideBar";
-import React, { useState, useEffect } from "react";
 
 function VehicleModelS () {
 
@@ -28,7 +28,7 @@ function VehicleModelS () {
             <div className="vehicle-models-page">
                     {data.map((dataObj, index) => {
                         return (
-                           <CarCard data={{
+                            <CarCard data={{
                                 model: dataObj.model,
                                 price: dataObj.orgPrice,
                                 priceAfterDiscount: dataObj.disPrice,
@@ -41,8 +41,9 @@ function VehicleModelS () {
                                 feature: dataObj.tech,
                                 power: dataObj.gift,
                                 mileodometer: dataObj.odo,
-                                isAvailable: dataObj.isAvailable}}
-                          />
+                                isAvailable: dataObj.isAvailable,
+                                id: dataObj.id}}
+                        />
                         );
                 })}
             </div>

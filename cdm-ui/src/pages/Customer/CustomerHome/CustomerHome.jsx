@@ -4,6 +4,7 @@ import DashboardItem from '../../../components/DashboardItem'
 
 
 function CustomerHome() {
+
     const dashboardItems = [
         {
           img: <img src='https://digitalassets.tesla.com/oxp/image/upload/solar-marketing_636x300_4bd7119e4705e.jpg' alt='solar' className='dashboard__item-img'/>,

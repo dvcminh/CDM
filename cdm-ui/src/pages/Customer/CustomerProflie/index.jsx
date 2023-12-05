@@ -3,8 +3,23 @@ import '../../../components/CarCard/CarCard.css'
 import './CustomerProfile.css'
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faCamera, faPenToSquare, faPencil } from "@fortawesome/free-solid-svg-icons";
-import React from "react";
+import React, { useEffect, useState } from "react";
+import { useLocation } from "react-router-dom";
 function CustomerProfile() {
+
+    const location = useLocation();
+    const user = JSON.parse(localStorage.getItem('currentUser'));
+
+    const [resp, setResp] = useState([]);
+    
+    const fetchInfo = () => {
+        return fetch("http://localhost:8081/api/v1/user/getUserById/" + user)
+        .then((res) => res.json())
+        .then((d) => setResp(d))
+    }
+
+    useEffect(() => {fetchInfo();}, []);
+
     document.addEventListener('DOMContentLoaded', function() {
         const fileInput = document.getElementById('avatar-upload');
         fileInput.addEventListener('change', handleFileUpload);
@@ -45,8 +60,8 @@ function CustomerProfile() {
                         <div  className="vertical-line"></div> 
                         <div style={{flex: 4}}>
 
-                            <p className="font-medium underline mt-4">Mr. Mong Ky Dy Lo Phi</p>
-                            <p> West Blue (Customer's address)
+                            <p className="font-medium underline mt-4">{resp.fullname}</p>
+                            <p> {resp.address}
                                 <FontAwesomeIcon icon={faPenToSquare} className="edit-button"/>
                             </p>
                                 
@@ -67,22 +82,22 @@ function CustomerProfile() {
                    <div className="flex">
                         <div class="form-group">
                             <label for="first" class="article">First Name</label>
-                            <input type="text" id="first" class="input-article" value="Luffy" />
+                            <input type="text" id="first" class="input-article" value={resp.fullname} />
                         </div>
                         <div class="form-group">
                             <label for="last" class="article">Last Name</label>
-                            <input type="text" id="last" class="input-article" value="Monkey D" />
+                            <input type="text" id="last" class="input-article" value={resp.fullname} />
                         </div>
                    </div>
                    <div class="form-group">
                             <label for="user" class="article">User Name</label>
-                            <input type="user" id="last" class="input-article" style={{width: '90%'}} value="kingofpirateLOVEqueenofpirate" />
+                            <input type="user" id="last" class="input-article" style={{width: '90%'}} value={resp.username} />
                     </div>
 
                     <div className="flex">
                         <div class="form-group">
                             <label for="email" class="article">Email Address</label>
-                            <input type="text" id="email" class="input-article" value="luffy@gmail.com" />
+                            <input type="text" id="email" class="input-article" value={resp.email} />
                         </div>
                         <div class="form-group">
                             <label for="phone" class="article">Phone Numer</label>
