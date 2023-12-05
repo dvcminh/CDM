@@ -4,7 +4,7 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { Link, useLocation } from 'react-router-dom';
 import config from '../../../config';
 
-function SideBar() {
+function SideBar({ id }) {
   const sidebarItem = [
     {
       icon: <FontAwesomeIcon icon={faHouse} className='sidebar__icon' />,
@@ -37,8 +37,6 @@ function SideBar() {
       to: config.routes.start
     }
   ];
-
-  const location = useLocation();
 
   return (
    <div style={{height: '90vh'}}>
