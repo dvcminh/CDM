@@ -2,7 +2,9 @@ import PropTypes from 'prop-types';
 
 function loginregisLayout({children}) {
     return (  
-        <div>{children}</div> 
+        <div>
+            {children}
+        </div> 
     );
 }
 
