@@ -21,6 +21,11 @@ public class OrderItemServiceImpl implements OrderItemService{
     private final InventoryService inventoryService;
     private final OrderService orderService;
 
+    @Override
+    public List<OrderItem> findByOrderId(String orderId) {
+        return orderItemRepository.findByOrderId(orderId);
+    }
+
 //    @Override
 //    public OrderItem createOrderItem(CreateOrderItemRequest createOrderItemRequest) {
 //        Order order = orderService.findById(createOrderItemRequest.getOrderItemPK().getOrderId());
