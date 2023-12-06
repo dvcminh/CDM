@@ -2,6 +2,7 @@ package com.minhvu.orderservice.service;
 
 
 import com.minhvu.orderservice.dto.CreateOrderRequest;
+import com.minhvu.orderservice.dto.UpdateOrderRequest;
 import com.minhvu.orderservice.model.Order;
 
 import java.util.List;
@@ -20,4 +21,5 @@ public interface OrderService {
 
     //    Order createOrderFromCartItems(List<Product> cartItems, User user);
     void saveOrder(Order order);
+    Order updateOrder(UpdateOrderRequest order);
 }

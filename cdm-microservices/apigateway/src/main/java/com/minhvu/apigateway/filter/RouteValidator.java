@@ -13,10 +13,18 @@ public class RouteValidator {
             "/auth/register",
             "/auth/login",
 
-            "/api/v1/products/getAllProducts",
-            "/api/v1/products/getProductById",
-            "/api/v1/products/getProductByCategory",
-            "/api/v1/products/getProductByNameAndCategory",
+            "/api/v1/products/getAllCars",
+            "/api/v1/products/getCarById",
+            "/api/v1/products/getCarByModel",
+            "/api/v1/products/getCarsByNameContains",
+
+            "/api/v1/products/getAllEnergies",
+            "/api/v1/products/getEnergyById",
+            "/api/v1/products/getEnergyByNameOrderedByPriceDesc",
+
+            "/api/v1/products/getAllShops",
+            "/api/v1/products/getShopById",
+            "/api/v1/products/getShopByNameOrderedByPriceDesc",
 
             "/api/v1/energy/getAllEnergy",
             "/api/v1/energy/getEnergyById",

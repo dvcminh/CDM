@@ -7,6 +7,7 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import java.util.List;
 
 public interface OrderItemRepository extends JpaRepository<OrderItem, OrderItemPK> {
+    List<OrderItem> findByOrderId(String orderId);
 
     // Additional custom query methods can be added here
 }
