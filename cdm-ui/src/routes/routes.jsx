@@ -23,11 +23,10 @@ import ManagerLayout from '../layouts/managerLayout/';
 // Public routes
 const publicRoutes = [
     { path: config.routes.shoplifestyle, component: ShopLifeStyle, layout: DefaultLayout },
-    { path: config.routes.managerhome, component: ManagerHome, layout: ManagerLayout},
     { path: config.routes.managervehicleS, component: ManagerVehicleModelS, layout: ManagerLayout },
-    { path: config.routes.managerhome, component: ManagerHome, layout: DefaultLayout},
-    { path: config.routes.managecustomer, component: ManageCustomerPage, layout: DefaultLayout},
-    { path: config.routes.managestaff, component: ManageStaffPage, layout: DefaultLayout},
+    { path: config.routes.managerhome, component: ManagerHome, layout: ManagerLayout},
+    { path: config.routes.managecustomer, component: ManageCustomerPage, layout: ManagerLayout},
+    { path: config.routes.managestaff, component: ManageStaffPage, layout: ManagerLayout},
     { path: config.routes.customerhome, component: CustomerHome, layout: DefaultLayout},
     { path: config.routes.customerprofile, component: CustomerProfile , layout: DefaultLayout},
     { path: config.routes.customerpayment, component: CustomerPayment, layout: DefaultLayout },
