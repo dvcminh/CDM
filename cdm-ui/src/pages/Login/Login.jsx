@@ -2,12 +2,19 @@ import React, { useState } from "react"
 import './login-register.css'
 import { Link } from "react-router-dom" 
 import Validation from "./LoginValidation"
+import { GoogleLogin } from 'react-google-login';
+import { useNavigate } from 'react-router-dom';
+
 
 function Login() {
+    const clientId ="671243941248-6t9bi1aq2om20nlksbvq9amc8snso34a.apps.googleusercontent.com";
+
     const [values, setValues] = useState({
         email: '',
         password: ''
     })
+
+    const navigate = useNavigate();
 
     const [errors, setErrors] = useState({})
 
@@ -19,6 +26,16 @@ function Login() {
         event.preventDefault();
         setErrors(Validation(values));
     }
+
+    const responseGoogleSuccess = (response) => {
+        console.log("haha", response);
+        navigate('/customerhome');
+    };
+
+    const responseGoogleError = (response) => {
+        console.log("huhu", response);
+        // navigate('/customerhome');
+    };
 
     return (
         <div className="bg-gradient-to-b from-white to-gray-300 flex justify-center">
@@ -40,9 +57,14 @@ function Login() {
                             <p>Or</p>
                             <div className="line-horizontal ml-4 mt-2"></div>
                         </div>
-                        <div className="flex justify-center items-center">
-                                <img src="src\assets\images\github-logo.png" alt="" className="logo mr-4"/>
-                                <img src="src\assets\images\google.png" alt="" className="logo ml-4" />
+                        <div className="flex flex-col justify-center items-center">
+                                <GoogleLogin
+                                clientId={clientId}
+                                buttonText="Login by google account"
+                                onSuccess={responseGoogleSuccess}
+                                onFailure={responseGoogleError}
+                                cookiePolicy={'single_host_origin'}
+                                />
                         </div>
                     </form>
                     <Link to='/register' className="link-btn">Don't have an account? Register here.</Link>
