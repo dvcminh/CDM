@@ -1,12 +1,17 @@
 package com.minhvu.authservice.controller;
 
+import com.minhvu.authservice.config.CustomUserDetailsService;
 import com.minhvu.authservice.dto.AuthenticationRequest;
 import com.minhvu.authservice.dto.RegisterRequest;
+import com.minhvu.authservice.entity.User;
 import com.minhvu.authservice.service.AuthService;
+import lombok.AllArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
+import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
@@ -18,11 +23,6 @@ public class AuthController {
     @Autowired
     private AuthenticationManager authenticationManager;
 
-    @GetMapping("/hello")
-    public String hello() {
-        return "hello from secured endpoint";
-    }
-
     @PostMapping("/register")
     public String addNewUser(@RequestBody RegisterRequest user) {
         return service.saveUser(user);
@@ -30,9 +30,9 @@ public class AuthController {
 
     @PostMapping("/login")
     public String getToken(@RequestBody AuthenticationRequest authRequest) {
-        Authentication authenticate = authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(authRequest.getUsername(), authRequest.getPassword()));
+        Authentication authenticate = authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(authRequest.getEmail(), authRequest.getPassword()));
         if (authenticate.isAuthenticated()) {
-            return service.generateToken(authRequest.getUsername());
+            return service.generateToken(authRequest.getEmail());
         } else {
             throw new RuntimeException("invalid access");
         }
@@ -42,5 +42,11 @@ public class AuthController {
     public String validateToken(@RequestParam("token") String token) {
         service.validateToken(token);
         return "Token is valid";
+    }
+
+    @GetMapping("/getUserByUserName")
+    public ResponseEntity<UserDetails> getUserByUserName(@RequestParam("userName") String userName) {
+        UserDetails user = service.getUserByUserName(userName);
+        return ResponseEntity.ok(user);
     }
 }

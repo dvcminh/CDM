@@ -2,10 +2,12 @@ package com.minhvu.orderservice.service;
 
 import com.minhvu.orderservice.dto.CreateOrderItemRequest;
 import com.minhvu.orderservice.dto.CreateOrderRequest;
+import com.minhvu.orderservice.dto.UpdateOrderRequest;
 import com.minhvu.orderservice.external.InventoryService;
 import com.minhvu.orderservice.model.Order;
 import com.minhvu.orderservice.model.OrderItem;
 import com.minhvu.orderservice.model.OrderItemPK;
+import com.minhvu.orderservice.model.Status;
 import com.minhvu.orderservice.repository.OrderItemRepository;
 import com.minhvu.orderservice.repository.OrderRepository;
 import jakarta.persistence.EntityManager;
@@ -92,5 +94,15 @@ public class OrderServiceImpl implements OrderService {
     @Override
     public void saveOrder(Order order) {
         orderRepository.save(order);
+    }
+
+    @Override
+    public Order updateOrder(UpdateOrderRequest order) {
+        Order order1 = orderRepository.findById(order.getId()).orElse(null);
+        if (order1 == null) throw new RuntimeException("Order not found");
+        order1.setShippingStatus(String.valueOf(order.getShippingStatus()));
+        order1.setPaymentStatus(String.valueOf(order.getPaymentStatus()));
+        orderRepository.save(order1);
+        return order1;
     }
 }

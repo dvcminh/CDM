@@ -1,8 +1,13 @@
 import { faBatteryHalf, faCar, faCircleCheck } from '@fortawesome/free-solid-svg-icons';
 import './CarCard.css'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { useNavigate } from 'react-router-dom';
 
 function CarCard({data}) {
+    const usenavigate = useNavigate("");
+    async function viewDetail() {
+        usenavigate(`/vehicledetail/${data.id}`)
+    }
     return ( 
         <div className="card">
             <div className='flex'>
@@ -45,7 +50,7 @@ function CarCard({data}) {
             <br />
             <div className='flex'>
                 <div className='flex-1'></div>
-                <button style={{flex: 10}} className='card__view-detail-button'>View Details</button>
+                <button style={{flex: 10}} className='card__view-detail-button' onClick={viewDetail}>View Details</button>
                 <div className='flex-1'></div>
             </div>
             
