@@ -19,12 +19,12 @@ function ManagerSideBar() {
     {
       icon: <FontAwesomeIcon icon={faPeopleGroup} className='sidebar__icon' />,
       title: 'Staffs',
-      to: config.routes.c
+      to: config.routes.managestaff
     },
     {
       icon: <FontAwesomeIcon icon={faUsers} className='sidebar__icon' />,
       title: 'Customers',
-      to: config.routes.c
+      to: config.routes.managecustomer
     },
     {
       icon: <FontAwesomeIcon icon={faCube} className='sidebar__icon' />,
