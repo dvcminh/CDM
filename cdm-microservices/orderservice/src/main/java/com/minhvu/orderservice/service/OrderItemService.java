@@ -10,7 +10,7 @@ import java.util.List;
 
 public interface OrderItemService {
 
-    Page<OrderItem> findByOrderId(Long orderId, int page, int size);
+    Page<OrderItem> findByOrderId(String orderId, int page, int size);
 
 //    OrderItem createOrderItem(CreateOrderItemRequest createOrderItemRequest);
 }

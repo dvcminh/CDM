@@ -19,7 +19,7 @@ public class OrderItemServiceImpl implements OrderItemService{
     private final OrderService orderService;
 
     @Override
-    public Page<OrderItem> findByOrderId(Long orderId, int page, int size) {
+    public Page<OrderItem> findByOrderId(String orderId, int page, int size) {
         Pageable pageable = Pageable.ofSize(size).withPage(page);
         return orderItemRepository.findById_OrderIdAllIgnoreCase(orderId, pageable);
     }

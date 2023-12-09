@@ -2,7 +2,7 @@ package com.minhvu.authservice.dto;
 
 import com.minhvu.authservice.entity.Role;
 
-public record UserDto(Integer id,
+public record UserDto(String id,
                       String email,
                       String username,
                       String phoneNumber,

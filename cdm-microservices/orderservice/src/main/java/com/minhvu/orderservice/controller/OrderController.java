@@ -33,7 +33,7 @@ public class OrderController {
     }
 
     @GetMapping("/getOrderItemsByOrderId")
-    public ResponseEntity<Iterable<OrderItem>> getOrderItemsByOrderId(@RequestParam("orderId") Long orderId,
+    public ResponseEntity<Iterable<OrderItem>> getOrderItemsByOrderId(@RequestParam("orderId") String orderId,
                                                                       @RequestParam(defaultValue = "0") int page,
                                                                       @RequestParam(defaultValue = "10") int pageSize) {
         return ResponseEntity.ok(orderItemService.findByOrderId(orderId, page, pageSize));
