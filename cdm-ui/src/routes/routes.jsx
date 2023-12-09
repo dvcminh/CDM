@@ -19,6 +19,7 @@ import LandingPage from '../pages/LandingPage/LandingPage'
 import landingLayout from '../layouts/landingLayout';
 import StaffHome from '../pages/Staff/StaffHome';
 import staffLayout from '../layouts/staffLayout';
+import VehicleDetail from '../pages/VehicleDetail';
 import ManagerLayout from '../layouts/managerLayout/';
 // Public routes
 const publicRoutes = [
@@ -37,7 +38,8 @@ const publicRoutes = [
     { path: config.routes.login, component: Login, layout: loginregisLayout },
     { path: config.routes.register, component: Register, layout: loginregisLayout },
     { path: config.routes.start, component: LandingPage, layout: landingLayout },
-    { path: config.routes.staffhome, component: StaffHome, layout: staffLayout }
+    { path: config.routes.staffhome, component: StaffHome, layout: staffLayout },
+    { path: config.routes.vehicledetail, component: VehicleDetail, layout: loginregisLayout}
 ];
 
 const privateRoutes = [];

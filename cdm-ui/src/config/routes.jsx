@@ -14,7 +14,9 @@ const routes = {
     vehicleS: '/vehicle/modelS',
     login: '/login',
     register: '/register',
-    staffhome: '/staffhome'
+    staffhome: '/staffhome',
+    vehicledetail: '/vehicledetail/:id',
+
 };
 
 export default routes;
