@@ -19,7 +19,7 @@ function SideBarStaff() {
     {
         icon: <FontAwesomeIcon icon={faFileLines} className='sidebar__icon' />,
         title: 'Reports',
-        to: config.routes.c
+        to: config.routes.staffreport
       },
     {
         icon: <FontAwesomeIcon icon={faUsers} className='sidebar__icon' />,

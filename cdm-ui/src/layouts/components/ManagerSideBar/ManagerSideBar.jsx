@@ -1,4 +1,4 @@
-import { faHouse, faRightFromBracket, faUser, faUsers, faPeopleGroup, faCube } from '@fortawesome/free-solid-svg-icons';
+import { faHouse, faRightFromBracket, faUser, faUsers, faPeopleGroup, faCube , faFileLines } from '@fortawesome/free-solid-svg-icons';
 import './ManagerSideBar.css';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { Link, useLocation } from 'react-router-dom';
@@ -20,6 +20,11 @@ function ManagerSideBar() {
       icon: <FontAwesomeIcon icon={faPeopleGroup} className='sidebar__icon' />,
       title: 'Staffs',
       to: config.routes.managestaff
+    },
+    {
+      icon: <FontAwesomeIcon icon={faFileLines} className='sidebar__icon' />,
+      title: 'Reports',
+      to: config.routes.managereport
     },
     {
       icon: <FontAwesomeIcon icon={faUsers} className='sidebar__icon' />,
