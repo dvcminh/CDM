@@ -17,7 +17,6 @@ public interface CarService {
 
     Car updateProduct(UpdateCarRequest updateCarRequest);
     List<Car> findProductByModelIgnoreCase(String category);
-    List<Car> findProductByNameContains(String name, boolean isAsc);
 
     void deleteProduct(String id);
 }

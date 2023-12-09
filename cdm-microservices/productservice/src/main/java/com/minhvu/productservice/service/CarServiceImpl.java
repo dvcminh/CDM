@@ -32,16 +32,26 @@ public class CarServiceImpl implements CarService {
     }
 
     @Override
-    public Car createProduct(CreateCarRequest createCarRequest) throws IOException {
+    public Car createProduct(CreateCarRequest request) throws IOException {
 //        String imageUrl = uploadProductImage(imageFile);
 
         return carRepository.save(Car.builder()
-                .name(createCarRequest.getName())
-                .image_url(createCarRequest.getImage())
-                .price(createCarRequest.getPrice())
-                .description(createCarRequest.getDescription())
-                .model(createCarRequest.getModel())
-                .build()
+                        .model(request.getModel())
+                        .disPrice(request.getDisPrice())
+                        .orgPrice(request.getOrgPrice())
+                        .gift(request.getGift())
+                        .count(request.getCount())
+                        .odo(request.getOdo())
+                        .tech(request.getTech())
+                        .range(request.getRange())
+                        .trim(request.getTrim())
+                        .topSpeed(request.getTopSpeed())
+                        .timeToReach(request.getTimeToReach())
+                        .imgSrc(request.getImgSrc())
+                        .perMonthPrice(request.getPerMonthPrice())
+                        .keyFeatures(request.getKeyFeatures())
+                        .status(request.getStatus())
+                        .build()
         );
     }
 
@@ -49,11 +59,8 @@ public class CarServiceImpl implements CarService {
     public Car updateProduct(UpdateCarRequest updateCarRequest) {
         Car product = carRepository.findById(updateCarRequest.getId()).orElse(null);
         if (product != null) {
-            product.setName(updateCarRequest.getName());
-            product.setImage_url(updateCarRequest.getImage());
-            product.setPrice(updateCarRequest.getPrice());
-            product.setDescription(updateCarRequest.getDescription());
             product.setModel(updateCarRequest.getModel());
+
             return carRepository.save(product);
         }
         throw new RuntimeException("Product not found");
@@ -61,16 +68,6 @@ public class CarServiceImpl implements CarService {
     @Override
     public List<Car> findProductByModelIgnoreCase(String model) {
         return carRepository.findAllByModelIgnoreCase(model);
-    }
-    @Override
-    public List<Car> findProductByNameContains(String name, boolean isAsc) {
-        Sort sort = Sort.by("price");
-        if (isAsc) {
-            sort = sort.ascending();
-        } else {
-            sort = sort.descending();
-        }
-        return carRepository.findByNameContainsAllIgnoreCase(name, sort);
     }
 
     @Override
