@@ -10,10 +10,8 @@ export const cdmApi = {
   changePassword
 }
 
-function authenticate(username, password) {
-  return instance.post('/auth/login', { username, password }, {
-    headers: { 'Content-type': 'application/json' }
-  })
+function authenticate(user) {
+  return instance.post('/auth/login', user)
 }
 
 function signup(user) {
@@ -38,11 +36,11 @@ function changePassword(user) {
   })
 }
 
-function getUserMe() {
+function getUserMe(username) {
   const accessToken = localStorage.getItem('accessToken')
   return instance.get('/auth/me', {
     params: {
-      name: 'admin2'
+      name: username
     },
     headers: {
       Authorization: `Bearer ${accessToken}`
