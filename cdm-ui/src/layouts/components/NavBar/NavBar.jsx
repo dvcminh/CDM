@@ -5,8 +5,8 @@ import { Bars3Icon, BellIcon, XMarkIcon, UserCircleIcon, ShoppingCartIcon } from
 const navigation = [
   { name: 'Vehicle', href: '/vehicle', current: false },
   { name: 'Charging', href: '#', current: false },
-  { name: 'Vehicle Accessories', href: '#', current: false },
-  { name: 'Shop lifeStyle', href: '#', current: false },
+  { name: 'Shopping Guide', href: '#', current: false },
+  { name: 'Shop', href: '/shop', current: false },
 ]
 
 function classNames(...classes) {

@@ -37,8 +37,8 @@ function Login() {
                 if(response.data){
                     localStorage.setItem("accessToken", response.data.accessToken);
                     const userData = await cdmApi.getUserMe(email);
-                    if (userData.data.role === "Admin") navigate('/adminhome');
-                    else if (userData.data.role === "Staff") navigate('/staffhome');
+                    if (userData.data.role === "MANAGER") navigate('/managerhome');
+                    else if (userData.data.role === "ADMIN") navigate('/staffhome');
                     else
                     navigate('/customerhome');
                 }

@@ -1,9 +1,9 @@
 import React, { useEffect, useState } from "react";
-import CarCard from "../../components/CarCard";
-import '../../components/CarCard/CarCard.css'
-import SortCarSideBar from "../../components/SortCarSideBar";
+import CarCard from "../../../components/CarCard";
+import '../../../components/CarCard/CarCard.css'
+import SortCarSideBar from "../../../components/SortCarSideBar";
 
-function VehicleModelS () {
+function Vehicle () {
 
 
     const url = "http://localhost:8083/api/v1/products/getAllCars";
@@ -51,4 +51,4 @@ function VehicleModelS () {
     );
 }
 
-export default VehicleModelS;
+export default Vehicle;
