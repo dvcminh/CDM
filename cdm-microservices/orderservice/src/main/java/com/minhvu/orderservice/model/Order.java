@@ -2,23 +2,21 @@ package com.minhvu.orderservice.model;
 
 import jakarta.persistence.*;
 import lombok.*;
+import org.springframework.data.mongodb.core.mapping.Document;
 
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
 
-@Entity
-@Table(name = "orders")
-@Getter
-@Setter
+@Document(value = "orders")
 @AllArgsConstructor
 @NoArgsConstructor
 @Builder
+@Data
 public class Order {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "order_id")
-    private Long id;
+    private String id;
 
     private String userId;
     private LocalDateTime orderDate;

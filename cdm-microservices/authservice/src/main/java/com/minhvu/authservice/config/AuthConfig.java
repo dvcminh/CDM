@@ -18,6 +18,7 @@ import org.springframework.security.web.SecurityFilterChain;
 
 import static com.minhvu.authservice.entity.Role.ADMIN;
 import static com.minhvu.authservice.entity.Role.MANAGER;
+import static org.springframework.security.config.http.SessionCreationPolicy.STATELESS;
 
 @Configuration
 @EnableWebSecurity
@@ -26,20 +27,12 @@ import static com.minhvu.authservice.entity.Role.MANAGER;
 public class AuthConfig {
 
     @Bean
-    public UserDetailsService userDetailsService(){
+    public UserDetailsService userDetailsService() {
         return new CustomUserDetailsService();
     }
-    private static final String[] WHITE_LIST_URL = {"/auth/register", "/auth/login", "/auth/validate"};
 
-    @Bean
-    public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
-        return http.csrf(AbstractHttpConfigurer::disable)
-                .authorizeHttpRequests(req ->
-                        req.requestMatchers(WHITE_LIST_URL)
-                                .permitAll()
-                )
-                .build();
-    }
+
+
 
     @Bean
     public PasswordEncoder passwordEncoder() {
@@ -47,8 +40,8 @@ public class AuthConfig {
     }
 
     @Bean
-    public AuthenticationProvider authenticationProvider(){
-        DaoAuthenticationProvider authenticationProvider=new DaoAuthenticationProvider();
+    public AuthenticationProvider authenticationProvider() {
+        DaoAuthenticationProvider authenticationProvider = new DaoAuthenticationProvider();
         authenticationProvider.setUserDetailsService(userDetailsService());
         authenticationProvider.setPasswordEncoder(passwordEncoder());
         return authenticationProvider;

@@ -17,7 +17,7 @@ public interface InventoryService {
     String create(InventoryRequest inventory);
     Inventory update(Inventory inventory);
     String delete(Inventory inventory);
-    Inventory findById(Long id);
+    Inventory findById(String id);
     Optional<Inventory> findByProductIdContainsAllIgnoreCase(String skuCode);
     List<ProductResponse> getProducts();
 
