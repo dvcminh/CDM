@@ -12,12 +12,13 @@ const routes = {
     customerreport: '/customerhome/report',
     shoppingcart: '/customerhome/shoppingcart',
     shoplifestyle: '/shop/lifestyle',
-    vehicleS: '/vehicle/modelS',
+    vehicle: '/vehicle',
     login: '/login',
     register: '/register',
     staffhome: '/staffhome',
     staffreport: '/staffhome/report',
     vehicledetail: '/vehicledetail/:id',
+
 };
     
 
