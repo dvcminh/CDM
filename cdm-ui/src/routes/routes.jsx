@@ -34,7 +34,7 @@ const publicRoutes = [
     { path: config.routes.customerorderhis, component: CustomerOrderHistory, layout: DefaultLayout },
     { path: config.routes.customerreport, component: CustomerReport, layout: DefaultLayout} ,
     { path: config.routes.shoppingcart, component: ShoppingCart, layout: DefaultLayout },
-    { path: config.routes.vehicleS, component: VehicleModelS, layout: DefaultLayout },
+    { path: config.routes.vehicle, component: VehicleModelS, layout: DefaultLayout },
     { path: config.routes.login, component: Login, layout: loginregisLayout },
     { path: config.routes.register, component: Register, layout: loginregisLayout },
     { path: config.routes.start, component: LandingPage, layout: landingLayout },
