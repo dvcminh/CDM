@@ -11,10 +11,12 @@ const routes = {
     customerreport: '/customerhome/report',
     shoppingcart: '/customerhome/shoppingcart',
     shoplifestyle: '/shop/lifestyle',
-    vehicleS: '/vehicle/modelS',
+    vehicle: '/vehicle',
     login: '/login',
     register: '/register',
-    staffhome: '/staffhome'
+    staffhome: '/staffhome',
+    vehicledetail: '/vehicledetail/:id',
+
 };
 
 export default routes;
