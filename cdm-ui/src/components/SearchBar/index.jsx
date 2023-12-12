@@ -1,61 +1,11 @@
 import { useEffect } from "react";
-
+import './searchbar.css';
 function index() {
   useEffect(() => {});
 
-  const showDropDownMenu_search = (el) => {
-    el.target.parentElement.children[1].classList.toggle("hidden");
-  };
-  const swaptext_search = (el) => {
-    const targetText = el.target.innerText;
-    document.getElementById("drop-down-content-setter_search").innerText =
-      targetText;
-    document.getElementById("drop-down-div_search").classList.toggle("hidden");
-  };
-
-  const showDropDownMenuOne_search = (el) => {
-    el.target.parentElement.children[1].classList.toggle("hidden");
-  };
-  const swaptextone_search = (el) => {
-    const targetText = el.target.innerText;
-    document.getElementById("drop-down-content-setter-one_search").innerText =
-      targetText;
-    document
-      .getElementById("drop-down-div-one_search")
-      .classList.toggle("hidden");
-  };
-  const showDropDownMenuTwo_search = (el) => {
-    el.target.parentElement.children[1].classList.toggle("hidden");
-  };
-  const swaptexttwo_search = (el) => {
-    const targetText = el.target.innerText;
-    document.getElementById("drop-down-content-setter-two_search").innerText =
-      targetText;
-    document
-      .getElementById("drop-down-div-two_search")
-      .classList.toggle("hidden");
-  };
-
-  const plusme_search = (el) => {
-    let currentValue = parseInt(
-      el.target.parentElement.parentElement.children[2].innerText
-    );
-
-    el.target.parentElement.parentElement.children[2].innerText =
-      currentValue + 1000;
-  };
-  const minusme_search = (el) => {
-    let currentValue = parseInt(
-      el.target.parentElement.parentElement.children[2].innerText
-    );
-    if (currentValue > 0) {
-      el.target.parentElement.parentElement.children[2].innerText =
-        currentValue - 1000;
-    }
-  };
-
   return (
-    <div className=" flex justify-start float-right relative bg-white lg:ml-96 lg:mr-32 mr-6 ml-16  mt-8">
+      
+      <div className=" flex justify-start float-right relative bg-white"  style={{width: 280}}>
               <input
                 className="bg-white text-sm leading-none text-left text-gray-600 px-4 py-3 w-full border rounded border-gray-300 outline-none"
                 type="text"
@@ -85,6 +35,7 @@ function index() {
                 />
               </svg>
             </div>
+
   );
 }
 

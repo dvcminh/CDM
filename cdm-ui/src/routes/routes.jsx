@@ -42,8 +42,8 @@ const publicRoutes = [
     { path: config.routes.start, component: LandingPage, layout: landingLayout },
     { path: config.routes.staffhome, component: StaffHome, layout: staffLayout },
     { path: config.routes.vehicledetail, component: VehicleDetail, layout: loginregisLayout},
-    {path: config.routes.shopaccessories, component: ShopAccessories, layout: loginregisLayout},
-    {path: config.routes.shopmerchandise, component: ShopMerchandise, layout: loginregisLayout},
+    {path: config.routes.shopaccessories, component: ShopAccessories, layout: DefaultLayout},
+    {path: config.routes.shopmerchandise, component: ShopMerchandise, layout: DefaultLayout},
 ];
 
 const privateRoutes = [];
