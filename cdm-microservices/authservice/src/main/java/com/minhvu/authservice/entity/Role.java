@@ -15,12 +15,8 @@ import static com.minhvu.authservice.entity.Permission.*;
 public enum Role {
 
   USER(Collections.emptySet()),
-  ADMIN(Collections.emptySet()
-  ),
-  MANAGER(Collections.emptySet()
-  )
-
-  ;
+  ADMIN(Collections.emptySet()),
+  MANAGER(Collections.emptySet());
 
   @Getter
   private final Set<Permission> permissions;

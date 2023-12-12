@@ -22,6 +22,11 @@ export default {
 
       '2xl': '1536px',
       // => @media (min-width: 1536px) { ... }
+    },
+    extend: {
+      backgroundImage: theme => ({
+        'banner-texture': "url('https://res.cloudinary.com/droondbdu/image/upload/v1702314723/360_F_460444211_E7j3njYE705Rk1guKz9LKh58gFgiTybV_lpp3kr.jpg)",
+      })
     }
   },
   plugins: [],
