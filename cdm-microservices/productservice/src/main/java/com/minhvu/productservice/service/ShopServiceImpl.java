@@ -5,6 +5,8 @@ import com.minhvu.productservice.dto.UpdateShopRequest;
 import com.minhvu.productservice.model.Shop;
 import com.minhvu.productservice.repository.ShopRepository;
 import lombok.AllArgsConstructor;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
@@ -15,9 +17,8 @@ import java.util.List;
 public class ShopServiceImpl implements ShopService {
     private final ShopRepository shopRepository;
 
-    @Override
-    public List<Shop> findAll() {
-        return shopRepository.findAll();
+    public Page<Shop> findAll(Pageable pageable) {
+        return shopRepository.findAll(pageable);
     }
 
     @Override

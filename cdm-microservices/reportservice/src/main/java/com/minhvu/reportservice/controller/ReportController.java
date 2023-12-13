@@ -5,6 +5,9 @@ import com.minhvu.reportservice.dto.UpdateReportRequest;
 import com.minhvu.reportservice.model.Report;
 import com.minhvu.reportservice.service.ReportService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Sort;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -23,8 +26,14 @@ public class ReportController {
     }
 
     @GetMapping
-    public ResponseEntity<List<Report>> getAllReports() {
-        return ResponseEntity.ok(reportService.getAllReports());
+    public ResponseEntity<Page<Report>> getAllReports(
+            @RequestParam(defaultValue = "0") int page,
+            @RequestParam(defaultValue = "10") int size,
+            @RequestParam(defaultValue = "title") String sortBy,
+            @RequestParam(defaultValue = "ASC") Sort.Direction direction
+    ) {
+        Page<Report> reportPage = reportService.getAllReports(PageRequest.of(page, size, Sort.by(direction, sortBy)));
+        return ResponseEntity.ok(reportPage);
     }
 
     @GetMapping("/{id}")

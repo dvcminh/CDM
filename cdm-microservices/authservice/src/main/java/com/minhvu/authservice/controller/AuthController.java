@@ -7,6 +7,9 @@ import com.minhvu.authservice.entity.User;
 import com.minhvu.authservice.service.AuthService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Sort;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
@@ -57,8 +60,14 @@ public class AuthController {
     }
 
     @GetMapping("/getAllUsers")
-    public ResponseEntity<List<User>> getAllUsers() {
-        return ResponseEntity.ok(service.getAllUsers());
+    public ResponseEntity<Page<User>> getAllUsers(
+            @RequestParam(defaultValue = "0") int page,
+            @RequestParam(defaultValue = "10") int size,
+            @RequestParam(defaultValue = "name") String sortBy,
+            @RequestParam(defaultValue = "ASC") Sort.Direction direction
+    ) {
+        Page<User> userPage = service.getAllUsers(PageRequest.of(page, size, Sort.by(direction, sortBy)));
+        return ResponseEntity.ok(userPage);
     }
     @PostMapping("/updateUser")
     public String updateUser(@RequestBody UpdateUserInformationRequest userDto) {

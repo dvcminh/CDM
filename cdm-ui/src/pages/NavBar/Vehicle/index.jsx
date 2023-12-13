@@ -6,7 +6,7 @@ import SortCarSideBar from "../../../components/SortCarSideBar";
 function Vehicle () {
 
 
-    const url = "http://localhost:8083/api/v1/products/getAllCars";
+    const url = "http://localhost:9296/api/v1/products/getAllCars";
     const [data, setData] = useState([]);
 
     const fetchInfo = () => {

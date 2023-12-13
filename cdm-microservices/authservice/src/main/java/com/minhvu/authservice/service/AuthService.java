@@ -9,6 +9,8 @@ import com.minhvu.authservice.repository.UserCredentialRepository;
 import com.minhvu.authservice.repository.UserRepository;
 import jakarta.ws.rs.BadRequestException;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.crypto.password.PasswordEncoder;
@@ -65,8 +67,8 @@ public class AuthService {
         return userRepository.findByName(username);
     }
 
-    public List<User> getAllUsers() {
-        return userRepository.findAll();
+    public Page<User> getAllUsers(Pageable pageable) {
+        return userRepository.findAll(pageable);
     }
 
     public String updateUser(UpdateUserInformationRequest userDto) {

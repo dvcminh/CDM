@@ -6,6 +6,8 @@ import com.minhvu.productservice.dto.UpdateCarRequest;
 import com.minhvu.productservice.model.Car;
 import com.minhvu.productservice.repository.CarRepository;
 import lombok.AllArgsConstructor;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
@@ -22,8 +24,8 @@ public class CarServiceImpl implements CarService {
     private final CarRepository carRepository;
     private final Cloudinary cloudinary;
 
-    public List<Car> getAllProducts() {
-        return carRepository.findAll();
+    public Page<Car> getAllProducts(Pageable pageable) {
+        return carRepository.findAll(pageable);
     }
 
     @Override

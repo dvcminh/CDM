@@ -51,8 +51,7 @@ public class InventoryServiceImpl implements InventoryService {
 //    }
 
     @Override
-    public Page<InventoryResponse> findAll(int page, int pageSize) {
-        Pageable pageable = PageRequest.of(page, pageSize);
+    public Page<InventoryResponse> findAll(Pageable pageable) {
         Page<Inventory> inventories = inventoryRepository.findAll(pageable);
         List<ProductResponse> productResponseList = productService.getProducts();
         productResponseList.forEach(productResponse -> {
