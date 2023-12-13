@@ -36,7 +36,21 @@ function Login() {
             avatar: userObject.picture
           };
         console.log(user);
-        navigate('/customerhome');
+        try {
+            cdmApi.signup(user)
+            .then(response => {
+                alert("Welcome," + user.name + " login successfully!");
+                navigate('/customerhome');
+            })
+            .catch(error => {
+                alert("Login failed!");
+                console.log(error);
+            })
+        }
+        catch(error) {
+            console.log(error);
+        }
+        
     }
     
     useEffect(() => {
