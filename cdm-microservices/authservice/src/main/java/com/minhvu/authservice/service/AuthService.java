@@ -7,6 +7,7 @@ import com.minhvu.authservice.entity.User;
 import com.minhvu.authservice.exception.UserNotFoundException;
 import com.minhvu.authservice.repository.UserCredentialRepository;
 import com.minhvu.authservice.repository.UserRepository;
+import jakarta.ws.rs.BadRequestException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
@@ -29,6 +30,9 @@ public class AuthService {
     private JwtService jwtService;
 
     public String saveUser(RegisterRequest credential) {
+        if (userRepository.existsByNameAllIgnoreCase(credential.getName())) {
+            throw new BadRequestException("Username is already taken!");
+        }
         var user = User.builder()
                 .name(credential.getName())
                 .email(credential.getEmail())
