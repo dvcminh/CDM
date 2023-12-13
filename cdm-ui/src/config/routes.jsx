@@ -17,6 +17,7 @@ const routes = {
     register: '/register',
     staffhome: '/staffhome',
     staffreport: '/staffhome/report',
+    stafforder: '/staffhome/order',
     vehicledetail: '/vehicledetail/:id',
 
 };

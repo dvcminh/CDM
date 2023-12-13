@@ -20,6 +20,7 @@ import LandingPage from '../pages/LandingPage/LandingPage'
 import landingLayout from '../layouts/landingLayout';
 import StaffHome from '../pages/Staff/StaffHome';
 import StaffReport from '../pages/Staff/StaffReport';
+import StaffOrder from '../pages/Staff/StaffOrder/StaffOrder';
 import staffLayout from '../layouts/staffLayout';
 import VehicleDetail from '../pages/VehicleDetail';
 import ManagerLayout from '../layouts/managerLayout/';
@@ -42,7 +43,8 @@ const publicRoutes = [
     { path: config.routes.register, component: Register, layout: loginregisLayout },
     { path: config.routes.start, component: LandingPage, layout: landingLayout },
     { path: config.routes.staffhome, component: StaffHome, layout: staffLayout },
-    { path: config.routes.staffreport, component: StaffReport, layout: staffLayout }
+    { path: config.routes.staffreport, component: StaffReport, layout: staffLayout },
+    { path: config.routes.stafforder, component: StaffOrder, layout: staffLayout },
     { path: config.routes.vehicledetail, component: VehicleDetail, layout: loginregisLayout}
 ];
 

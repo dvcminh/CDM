@@ -5,10 +5,11 @@ import Validation from "./LoginValidation"
 import { GoogleLogin } from 'react-google-login';
 import { useNavigate } from 'react-router-dom';
 import { cdmApi } from "../../misc/cdmApi";
+import { jwtDecode as jwt_decode } from 'jwt-decode';
+import { useEffect } from 'react';
 
 function Login() {
-    const clientId ="671243941248-6t9bi1aq2om20nlksbvq9amc8snso34a.apps.googleusercontent.com";
-
+   
     const [values, setValues] = useState({
         email: '',
         password: ''
@@ -24,6 +25,31 @@ function Login() {
     const handleInput = (event) => {
         setValues(prev => ({...prev, [event.target.name]: [event.target.value]}))
     }
+
+    function handleCallbackResponse(response){
+        console.log("Encoded JWT ID token: " + response.credential);
+        var userObject = jwt_decode(response.credential);
+        console.log(userObject);
+        const user = {
+            email: userObject.email,
+            name: userObject.name.replace(/\s/g, ''),
+            avatar: userObject.picture
+          };
+        console.log(user);
+        navigate('/customerhome');
+    }
+    
+    useEffect(() => {
+      /* global google */ 
+        google.accounts.id.initialize({
+            client_id: '127046372503-fcf9va4r603a399qvuvnms0pk7rpug0e.apps.googleusercontent.com',
+            callback: handleCallbackResponse
+        });
+        google.accounts.id.renderButton(
+            document.getElementById('signInDiv'),
+            { theme: "outline", size: "large"}
+        );
+    }, []);
 
     const handleSubmit = (event) => {
         event.preventDefault();
@@ -53,15 +79,6 @@ function Login() {
         }
     }
 
-    const responseGoogleSuccess = (response) => {
-        console.log("haha", response);
-        navigate('/customerhome');
-    };
-
-    const responseGoogleError = (response) => {
-        console.log("huhu", response);
-        // navigate('/customerhome');
-    };
 
     return (
         <div className="bg-gradient-to-b from-white to-gray-300 flex justify-center">
@@ -83,14 +100,7 @@ function Login() {
                             <p>Or</p>
                             <div className="line-horizontal ml-4 mt-2"></div>
                         </div>
-                        <div className="flex flex-col justify-center items-center">
-                                <GoogleLogin
-                                clientId={clientId}
-                                buttonText="Login by google account"
-                                onSuccess={responseGoogleSuccess}
-                                onFailure={responseGoogleError}
-                                cookiePolicy={'single_host_origin'}
-                                />
+                        <div className="flex flex-col justify-center items-center" id='signInDiv'>
                         </div>
                     </form>
                     <Link to='/register' className="link-btn">Don't have an account? Register here.</Link>
