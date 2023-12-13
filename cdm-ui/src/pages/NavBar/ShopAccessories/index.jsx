@@ -96,15 +96,15 @@ const products = [
       <div className="flex flex-col">
         <div className="bg-white">
             <div className="mx-auto max-w-2xl px-4 py-16 sm:px-6 sm:py-16 lg:max-w-7xl lg:px-8">
-            <h2 className="sr-only">Products</h2>
-            <div className="flex 	justify-content">
-              <h1 className="text-2xl mb-8 text-center mr-auto">Vehicle Accessories</h1>
-              <div className="flex border-transparent	">
-                  <select name="sort" id="sort" className="mr-4 bg-white border-transparent	mb-6 text-gray-800">
-                      <option  value="asc">Ascending</option>
-                      <option value="desc">Descending</option>
-                  </select>
-                  <div className=""><SearchBasicExample/></div>
+              <h2 className="sr-only">Products</h2>
+              <div className="flex 	justify-content">
+                <h1 className="text-2xl mb-8 text-center mr-auto">Vehicle Accessories</h1>
+                <div className="flex border-transparent	">
+                    <select name="sort" id="sort" className="mr-4 bg-white border-transparent	mb-6 text-gray-800">
+                        <option  value="asc">Ascending</option>
+                        <option value="desc">Descending</option>
+                    </select>
+                    <div className=""><SearchBasicExample/></div>
               </div>
             </div>
 
