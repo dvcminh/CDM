@@ -7,7 +7,11 @@ export const cdmApi = {
   signup,
   updateUser,
   getUserMe,
-  changePassword
+  changePassword,
+  getAllCars,
+  createCar,
+  updateCar,
+  deleteCar,
 }
 
 function authenticate(user) {
@@ -46,6 +50,36 @@ function getUserMe(username) {
       Authorization: `Bearer ${accessToken}`
     }
   })
+}
+
+function getAllCars() {
+  return instance.get('http://localhost:8083/api/v1/products/getAllCars');
+}
+
+function createCar(carData) {
+  return instance.post('http://localhost:8083/api/v1/products/createCar', carData, {
+    headers: {
+      'Authorization': bearerAuth(localStorage.getItem('accessToken')),
+      'Content-Type': 'application/json'
+    }
+  });
+}
+
+function updateCar(carData) {
+  return instance.put('http://localhost:8083/api/v1/products/updateCar', carData, {
+    headers: {
+      'Authorization': bearerAuth(localStorage.getItem('accessToken')),
+      'Content-Type': 'application/json'
+    }
+  });
+}
+
+function deleteCar(id) {
+  return instance.delete(`http://localhost:8083/api/v1/products/deleteCar/${id}`, {
+    headers: {
+      'Authorization':  bearerAuth(localStorage.getItem('accessToken'))
+    }
+  });
 }
 
 // -- Axios
