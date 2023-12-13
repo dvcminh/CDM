@@ -3,6 +3,7 @@ import ManagerHome from '../pages/Manager/ManagerHome';
 import ManagerVehicleModelS from '../pages/Manager/ManagerVehicle/VehicleModels';
 import ManageCustomerPage from '../pages/Manager/ManageCustomer/ManageCustomer';
 import ManageStaffPage from '../pages/Manager/ManageStaff/ManageStaff';
+import ManageCarPage from '../pages/Manager/ManageCar/ManageCar';
 import CustomerHome from '../pages/Customer/CustomerHome';
 import CustomerOrderHistory from '../pages/Customer/CustomerOrderHistory';
 import CustomerPayment from '../pages/Customer/CustomerPayment';
@@ -30,6 +31,7 @@ const publicRoutes = [
     { path: config.routes.managerhome, component: ManagerHome, layout: ManagerLayout},
     { path: config.routes.managecustomer, component: ManageCustomerPage, layout: ManagerLayout},
     { path: config.routes.managestaff, component: ManageStaffPage, layout: ManagerLayout},
+    { path: config.routes.managecar, component: ManageCarPage, layout: ManagerLayout},
     { path: config.routes.customerhome, component: CustomerHome, layout: DefaultLayout},
     { path: config.routes.customerprofile, component: CustomerProfile , layout: DefaultLayout},
     { path: config.routes.customerpayment, component: CustomerPayment, layout: DefaultLayout },
