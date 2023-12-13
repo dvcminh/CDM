@@ -57,7 +57,7 @@ public class InventoryController {
     }
 
     @PutMapping("updateInventory/{id}")
-    public Inventory update(@PathVariable Long id, @RequestBody InventoryRequest inventoryRequest) {
+    public Inventory update(@PathVariable String id, @RequestBody InventoryRequest inventoryRequest) {
         Inventory inventory = inventoryService.findById(id);
         inventory.setQuantity(inventoryRequest.getQuantity());
         inventory.setProductId(inventoryRequest.getProductId());
@@ -66,7 +66,7 @@ public class InventoryController {
     }
 
     @DeleteMapping("deleteInventory/{id}")
-    public String delete(@PathVariable Long id) {
+    public String delete(@PathVariable String id) {
         Inventory inventory = inventoryService.findById(id);
         log.info("Delete inventory");
         return inventoryService.delete(inventory);

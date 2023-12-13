@@ -4,18 +4,15 @@ import jakarta.persistence.*;
 import lombok.*;
 import org.hibernate.annotations.GenericGenerator;
 import org.springframework.data.annotation.CreatedDate;
+import org.springframework.data.mongodb.core.mapping.Document;
 
-@Entity
-@Table(name = "reports")
-@Getter
-@Setter
+@Document(value = "cars")
 @AllArgsConstructor
 @NoArgsConstructor
 @Builder
+@Data
 public class Report {
         @Id
-        @GeneratedValue(generator = "uuid2")
-        @GenericGenerator(name = "uuid2", strategy = "org.hibernate.id.UUIDGenerator")
         private String id;
         private String userId;
         private String image;

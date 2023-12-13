@@ -5,12 +5,12 @@ import lombok.NonNull;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
-import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.mongodb.repository.MongoRepository;
 
 import java.util.List;
 import java.util.Optional;
 
-public interface InventoryRepository extends JpaRepository<Inventory, Long> {
+public interface InventoryRepository extends MongoRepository<Inventory, String> {
     List<Inventory> findByProductIdIn(List<String> skuCode);
     Optional<Inventory> findByProductIdContainsAllIgnoreCase(String skuCode);
 

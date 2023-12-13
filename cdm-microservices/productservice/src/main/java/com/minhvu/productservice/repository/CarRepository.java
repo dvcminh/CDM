@@ -8,5 +8,4 @@ import java.util.List;
 
 public interface CarRepository extends MongoRepository<Car, String> {
     List<Car> findAllByModelIgnoreCase(String model);
-    List<Car> findByNameContainsAllIgnoreCase(String name, Sort sort);
 }

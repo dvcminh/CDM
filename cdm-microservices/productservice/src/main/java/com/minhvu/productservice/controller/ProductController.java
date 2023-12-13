@@ -19,6 +19,7 @@ import java.util.List;
 
 @RestController
 @RequestMapping("/api/v1/products")
+@CrossOrigin(origins = "*")
 @RequiredArgsConstructor
 public class ProductController {
     private final CarService carService;
@@ -46,11 +47,6 @@ public class ProductController {
     @GetMapping("/getCarByModel/{model}")
     public List<Car> getProductByModel(@PathVariable String model) {
         return carService.findProductByModelIgnoreCase(model);
-    }
-    @GetMapping("/getCarsByNameContains")
-    public List<Car> getProductByNameAndCategory(@RequestParam("name") String name,
-                                                 @RequestParam("isAsc") boolean isAsc) {
-        return carService.findProductByNameContains(name, isAsc);
     }
 
     @PostMapping("/createCar")

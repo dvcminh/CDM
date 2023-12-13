@@ -6,8 +6,9 @@ import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.Document;
 
 import java.math.BigDecimal;
+import java.util.List;
 
-@Document(value = "cars")
+@Document(collection = "car")
 @AllArgsConstructor
 @NoArgsConstructor
 @Builder
@@ -15,13 +16,21 @@ import java.math.BigDecimal;
 public class Car {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private String id;
-    private String image_url;
-    private String name;
-    private String description;
-    private BigDecimal price;
     private String model;
+    private String orgPrice;
+    private String disPrice;
+    private String perMonthPrice;
+    private String trim;
+    private String odo;
+    private String range;
+    private String topSpeed;
+    private String timeToReach;
+    private String tech;
+    private List<String> keyFeatures;
+    private String gift;
+    private int count;
+    private String imgSrc;
     @Enumerated(EnumType.STRING)
     private Status status;
 }

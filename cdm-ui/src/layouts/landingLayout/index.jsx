@@ -4,7 +4,7 @@ import PropTypes from 'prop-types';
 function landingLayout({children}) {
     return (  
         <div>
-            <div className="hover:h-36"><NavBar/></div>
+            <div><NavBar/></div>
             <div>{children}</div> 
         </div>
     );

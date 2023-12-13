@@ -15,7 +15,7 @@ public interface OrderService {
     List<Order> findByPaymentStatus(String shippingStatus);
 
     void createOrder(CreateOrderRequest createOrderRequest);
-    Order findById(Long id);
+    Order findById(String id);
 
     List<Order> findByUserId(String id);
 

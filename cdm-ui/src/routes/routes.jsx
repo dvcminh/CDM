@@ -10,8 +10,8 @@ import CustomerPayment from '../pages/Customer/CustomerPayment';
 import CustomerProfile from '../pages/Customer/CustomerProflie';
 import CustomerReport from '../pages/Customer/CustomerReport';
 import ShoppingCart from '../pages/Customer/ShoppingCart/ShoppingCart';
-import ShopLifeStyle from '../pages/ShopLifeStyle';
-import VehicleModelS from '../pages/VehicleModelS';
+import Shop from '../pages/NavBar/Shop';
+import Vehicle from '../pages/NavBar/Vehicle';
 import Login from '../pages/Login/Login';
 import Register from '../pages/Register/Register';
 import loginregisLayout from '../layouts/loginregisLayout';
@@ -21,10 +21,13 @@ import landingLayout from '../layouts/landingLayout';
 import StaffHome from '../pages/Staff/StaffHome';
 import StaffReport from '../pages/Staff/StaffReport';
 import staffLayout from '../layouts/staffLayout';
+import VehicleDetail from '../pages/NavBar/VehicleDetail';
 import ManagerLayout from '../layouts/managerLayout/';
+import ShopAccessories from '../pages/NavBar/ShopAccessories';
+import ShopMerchandise from '../pages/NavBar/ShopMerchandise';
 // Public routes
 const publicRoutes = [
-    { path: config.routes.shoplifestyle, component: ShopLifeStyle, layout: DefaultLayout },
+    { path: config.routes.shop, component: Shop, layout: DefaultLayout },
     { path: config.routes.managervehicleS, component: ManagerVehicleModelS, layout: ManagerLayout },
     { path: config.routes.managerhome, component: ManagerHome, layout: ManagerLayout},
     { path: config.routes.managecustomer, component: ManageCustomerPage, layout: ManagerLayout},
@@ -36,12 +39,15 @@ const publicRoutes = [
     { path: config.routes.customerorderhis, component: CustomerOrderHistory, layout: DefaultLayout },
     { path: config.routes.customerreport, component: CustomerReport, layout: DefaultLayout} ,
     { path: config.routes.shoppingcart, component: ShoppingCart, layout: DefaultLayout },
-    { path: config.routes.vehicleS, component: VehicleModelS, layout: DefaultLayout },
+    { path: config.routes.vehicle, component: Vehicle, layout: DefaultLayout },
     { path: config.routes.login, component: Login, layout: loginregisLayout },
     { path: config.routes.register, component: Register, layout: loginregisLayout },
     { path: config.routes.start, component: LandingPage, layout: landingLayout },
     { path: config.routes.staffhome, component: StaffHome, layout: staffLayout },
-    { path: config.routes.staffreport, component: StaffReport, layout: staffLayout }
+    { path: config.routes.staffreport, component: StaffReport, layout: staffLayout },
+    { path: config.routes.vehicledetail, component: VehicleDetail, layout: loginregisLayout},
+    {path: config.routes.shopaccessories, component: ShopAccessories, layout: DefaultLayout},
+    {path: config.routes.shopmerchandise, component: ShopMerchandise, layout: DefaultLayout},
 ];
 
 const privateRoutes = [];
