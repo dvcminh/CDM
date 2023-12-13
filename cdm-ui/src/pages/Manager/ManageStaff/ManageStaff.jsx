@@ -1,5 +1,5 @@
 import React from 'react';
-import SideBar from '../../../layouts/components/SideBar';
+import ManagerSideBar from '../../../layouts/components/ManagerSideBar';
 import Box from '@mui/material/Box';
 import { DataGrid, GridToolbar, GridRowModes, GridToolbarContainer, GridActionsCellItem, GridRowEditStopReasons } from '@mui/x-data-grid';
 import { mockDataStaff } from "./mockData";
@@ -301,7 +301,7 @@ const ManageStaffPage = () => {
   //render
   return (
     <div className="flex">
-      <SideBar/>
+      <ManagerSideBar/>
       <div className='ml-8 flex-1 flex flex-col'>
         <div className="pt-8 w-full">
           <p className="text-4xl  font-bold">Staff</p>

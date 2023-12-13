@@ -2,12 +2,22 @@ import React, { useState } from "react"
 import './login-register.css'
 import { Link } from "react-router-dom" 
 import Validation from "./LoginValidation"
+import { GoogleLogin } from 'react-google-login';
+import { useNavigate } from 'react-router-dom';
+import { cdmApi } from "../../misc/cdmApi";
 
 function Login() {
+    const clientId ="671243941248-6t9bi1aq2om20nlksbvq9amc8snso34a.apps.googleusercontent.com";
+
     const [values, setValues] = useState({
         email: '',
         password: ''
     })
+
+    const [email, setEmail] = useState('');
+    const [password, setPassword] = useState('');
+
+    const navigate = useNavigate();
 
     const [errors, setErrors] = useState({})
 
@@ -17,8 +27,41 @@ function Login() {
 
     const handleSubmit = (event) => {
         event.preventDefault();
+        setValues({email: email, password: password});
         setErrors(Validation(values));
+        try {
+            const user = { email, password};
+            cdmApi.authenticate(user)
+            .then(async response => {
+                console.log(response);
+                if(response.data){
+                    localStorage.setItem("accessToken", response.data.accessToken);
+                    const userData = await cdmApi.getUserMe(email);
+                    if (userData.data.role === "MANAGER") navigate('/managerhome');
+                    else if (userData.data.role === "ADMIN") navigate('/staffhome');
+                    else
+                    navigate('/customerhome');
+                }
+            })
+            .catch(error => {
+                alert("Login failed!");
+                console.log(error);
+            })
+        }
+        catch(error) {
+            console.log(error);
+        }
     }
+
+    const responseGoogleSuccess = (response) => {
+        console.log("haha", response);
+        navigate('/customerhome');
+    };
+
+    const responseGoogleError = (response) => {
+        console.log("huhu", response);
+        // navigate('/customerhome');
+    };
 
     return (
         <div className="bg-gradient-to-b from-white to-gray-300 flex justify-center">
@@ -29,10 +72,10 @@ function Login() {
                     <form action='' className="login-form" onSubmit={handleSubmit}>
                         <label htmlFor="form" className="heading1">Login</label>
                         <label htmlFor="email"  className="label">Email</label>
-                        <input onChange={handleInput} type="email" placeholder="Your Email Address" name="email" className="input"/>
+                        <input onChange={(e) => setEmail(e.target.value)} type="email" placeholder="Your Email Address" name="email" className="input"/>
                         {errors.email && <span className="text-danger">{errors.email}</span>}
                         <label htmlFor="password" className="label">Password</label>
-                        <input onChange={handleInput} type="password" placeholder="Password" name="password" className="input"/>  
+                        <input onChange={(e) => setPassword(e.target.value)} type="password" placeholder="Password" name="password" className="input"/>  
                         {errors.password && <span className="text-danger">{errors.password}</span>}
                         <button type="submit" className="login-button bg-black">Sign in</button>
                         <div className="flex justify-center items-center">
@@ -40,9 +83,14 @@ function Login() {
                             <p>Or</p>
                             <div className="line-horizontal ml-4 mt-2"></div>
                         </div>
-                        <div className="flex justify-center items-center">
-                                <img src="src\assets\images\github-logo.png" alt="" className="logo mr-4"/>
-                                <img src="src\assets\images\google.png" alt="" className="logo ml-4" />
+                        <div className="flex flex-col justify-center items-center">
+                                <GoogleLogin
+                                clientId={clientId}
+                                buttonText="Login by google account"
+                                onSuccess={responseGoogleSuccess}
+                                onFailure={responseGoogleError}
+                                cookiePolicy={'single_host_origin'}
+                                />
                         </div>
                     </form>
                     <Link to='/register' className="link-btn">Don't have an account? Register here.</Link>

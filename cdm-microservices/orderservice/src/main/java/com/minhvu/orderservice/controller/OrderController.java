@@ -2,6 +2,7 @@ package com.minhvu.orderservice.controller;
 
 import com.minhvu.orderservice.dto.CreateOrderItemRequest;
 import com.minhvu.orderservice.dto.CreateOrderRequest;
+import com.minhvu.orderservice.dto.UpdateOrderRequest;
 import com.minhvu.orderservice.model.Order;
 import com.minhvu.orderservice.model.OrderItem;
 import com.minhvu.orderservice.service.OrderItemService;
@@ -26,9 +27,32 @@ public class OrderController {
         return ResponseEntity.ok("Success!");
     }
 
+    @GetMapping("/getOrders")
+    public ResponseEntity<Iterable<Order>> getOrders() {
+        return ResponseEntity.ok(orderService.viewAll());
+    }
+
+    @GetMapping("/getOrderItemsByOrderId")
+    public ResponseEntity<Iterable<OrderItem>> getOrderItemsByOrderId(@RequestParam("orderId") String orderId,
+                                                                      @RequestParam(defaultValue = "0") int page,
+                                                                      @RequestParam(defaultValue = "10") int pageSize) {
+        return ResponseEntity.ok(orderItemService.findByOrderId(orderId, page, pageSize));
+    }
+
+    @GetMapping("/getOrderByUserId")
+    public ResponseEntity<Iterable<Order>> getOrdersByUserId(@RequestParam("userId") String userId) {
+        return ResponseEntity.ok(orderService.findByUserId(userId));
+    }
+
     @GetMapping("/countOrders")
     public ResponseEntity<Integer> countProducts() {
         return ResponseEntity.ok(orderService.viewAll().size());
+    }
+
+    @PutMapping("/updateOrder")
+    public ResponseEntity<String> updateOrder(@RequestBody UpdateOrderRequest order) {
+        orderService.updateOrder(order);
+        return ResponseEntity.ok("Success!");
     }
 
 

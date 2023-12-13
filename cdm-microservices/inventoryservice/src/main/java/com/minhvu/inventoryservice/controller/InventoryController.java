@@ -24,9 +24,6 @@ public class InventoryController {
 
     private final InventoryService inventoryService;
 
-    // http://localhost:8082/api/inventory/iphone-13,iphone13-red
-
-    // http://localhost:8082/api/inventory?skuCode=iphone-13&skuCode=iphone13-red
     @GetMapping("getInventory")
     public Page<InventoryResponse> findAll(
             @RequestParam(defaultValue = "0") int page,
@@ -60,7 +57,7 @@ public class InventoryController {
     }
 
     @PutMapping("updateInventory/{id}")
-    public Inventory update(@PathVariable Long id, @RequestBody InventoryRequest inventoryRequest) {
+    public Inventory update(@PathVariable String id, @RequestBody InventoryRequest inventoryRequest) {
         Inventory inventory = inventoryService.findById(id);
         inventory.setQuantity(inventoryRequest.getQuantity());
         inventory.setProductId(inventoryRequest.getProductId());
@@ -69,7 +66,7 @@ public class InventoryController {
     }
 
     @DeleteMapping("deleteInventory/{id}")
-    public String delete(@PathVariable Long id) {
+    public String delete(@PathVariable String id) {
         Inventory inventory = inventoryService.findById(id);
         log.info("Delete inventory");
         return inventoryService.delete(inventory);

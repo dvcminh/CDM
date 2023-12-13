@@ -1,38 +1,47 @@
-import { faCreditCard, faCube, faHome, faHouse, faRightFromBracket, faShirt, faUser } from '@fortawesome/free-solid-svg-icons';
-import './SideBar.css';
+import { faCreditCard, faCube, faHome, faHouse, faRightFromBracket, faShirt, faUser, faFileLines } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { Link, useLocation } from 'react-router-dom';
 import config from '../../../config';
+import {
+  FaHome,
+  FaGithubSquare,
+  FaInstagramSquare,
+  FaTwitterSquare
+} from 'react-icons/fa'
+
+import { ArrowRightOnRectangleIcon, CreditCardIcon, HomeIcon, NewspaperIcon, ShoppingBagIcon, UserCircleIcon } from '@heroicons/react/24/outline'
+import { CreditCard, ShoppingBag } from '@mui/icons-material';
 
 function SideBar() {
   const sidebarItem = [
     {
-      icon: <FontAwesomeIcon icon={faHouse} className='sidebar__icon' />,
+      icon: <HomeIcon className='w-6 h-auto' />,
       title: 'Dashboard',
       to: config.routes.customerhome
     },
     {
-      icon: <FontAwesomeIcon icon={faUser} className='sidebar__icon' />,
+      icon: <UserCircleIcon className='w-6 h-auto' />,
       title: 'Profile Settings',
       to: config.routes.customerprofile
     },
     {
-      icon: <FontAwesomeIcon icon={faCreditCard} className='sidebar__icon' />,
+      icon: <CreditCardIcon  className='w-6 h-auto' />,
       title: 'Payment Methods',
       to: config.routes.customerpayment
     },
     {
-      icon: <FontAwesomeIcon icon={faCube} className='sidebar__icon' />,
-      title: 'Refer and Earn',
-      to: config.routes.c
-    },
-    {
-      icon: <FontAwesomeIcon icon={faShirt} className='sidebar__icon' />,
+      icon: <ShoppingBagIcon className='w-6 h-auto' />,
       title: 'Order History',
       to: config.routes.customerorderhis
     },
     {
-      icon: <FontAwesomeIcon icon={faRightFromBracket} className='sidebar__icon' />,
+      icon: <NewspaperIcon className='w-6 h-auto' />,
+      title: 'Report',
+      to: config.routes.customerreport
+    }
+    ,
+    {
+      icon: <ArrowRightOnRectangleIcon className='w-6 h-auto' />,
       title: 'Sign Out',
       to: config.routes.start
     }
@@ -41,7 +50,7 @@ function SideBar() {
   const location = useLocation();
 
   return (
-   <div style={{height: '90vh'}}>
+   <div style={{height: '90vh'}} className='hidden lg:block'>
      <div className='flex flex-col items-center h-4/5 mt-32' >
       {sidebarItem.map((item, index) => (
         <div key={index}>

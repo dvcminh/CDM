@@ -8,7 +8,7 @@ spring:
     gateway:
       routes:
         - id: REGISTRY-SERVICE
-          uri: lb://AUTH-SERVICE
+          uri: lb://REGISTRY-SERVICE
           predicates:
             - Path=/eureka
 
@@ -42,5 +42,12 @@ spring:
           uri: lb://ORDER-SERVICE
           predicates:
             - Path=/api/v1/orders/**
+          filters:
+            - AuthenticationFilter
+
+        - id: REPORT-SERVICE
+          uri: lb://REPORT-SERVICE
+          predicates:
+            - Path=/api/v1/reports/**
           filters:
             - AuthenticationFilter

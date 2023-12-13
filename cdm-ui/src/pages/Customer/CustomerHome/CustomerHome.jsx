@@ -2,6 +2,9 @@ import SideBar from '../../../layouts/components/SideBar';
 import '../../../components/DashboardItem/DashboardItem.css'
 import DashboardItem from '../../../components/DashboardItem'
 
+import { useState,useEffect } from 'react'
+import axios from 'axios';
+
 
 function CustomerHome() {
     const dashboardItems = [
@@ -29,7 +32,7 @@ function CustomerHome() {
         <div>
             <span className='flex'>
                 <SideBar className='flex-1'/>
-                <div className='flex flex-col'>
+                <div className='hidden sm:block flex flex-col'>
                     <h1 className='font-medium text-3xl mt-16 ml-10'>Dashboard</h1>
                     <div>
                         <span className='dashboard'>
@@ -42,9 +45,12 @@ function CustomerHome() {
                         </span>
                     </div>
                 </div>
-
-                
             </span>
+            <div className='block sm:hidden'>
+                      <DashboardItem data={dashboardItems[0]}/>
+                      <DashboardItem data={dashboardItems[1]} className="mt-4"/>
+                      <DashboardItem data={dashboardItems[2]} className="mt-4" /> 
+            </div>
       </div> 
      );
 }

@@ -23,6 +23,7 @@
         <module>orderservice</module>
         <module>energyservice</module>
         <module>inventoryservice</module>
+        <module>reportservice</module>
     </modules>
 
     <properties>
