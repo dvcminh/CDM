@@ -7,7 +7,9 @@ export const cdmApi = {
   signup,
   updateUser,
   getUserMe,
-  changePassword
+  changePassword,
+  loadCar,
+  loadCarDetail
 }
 
 function authenticate(user) {
@@ -46,6 +48,14 @@ function getUserMe(username) {
       Authorization: `Bearer ${accessToken}`
     }
   })
+}
+
+function loadCar() {
+  return instance.get('/api/v1/products/getAllCars')
+}
+
+function loadCarDetail(id) {
+  return instance.get('/api/v1/products/getCarById/' + {id})
 }
 
 // -- Axios

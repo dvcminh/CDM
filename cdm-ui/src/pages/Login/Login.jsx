@@ -36,6 +36,10 @@ function Login() {
                     else if (userData.data.role === "ADMIN") navigate('/staffhome'); //admin == staff 
                     else
                     navigate('/customerhome');
+
+                    alert(userData.data.name)
+                    localStorage.setItem('currentUser', JSON.stringify(userData.data.name));
+
                 }
             })
             .catch(error => {

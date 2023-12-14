@@ -2,7 +2,8 @@ import React, { useEffect, useState } from "react";
 import CarCard from "../../../components/CarCard";
 import '../../../components/CarCard/CarCard.css'
 import SortCarSideBar from "../../../components/SortCarSideBar";
-
+import { cdmApi
+ } from "../../../misc/cdmApi";
 function Vehicle () {
 
 
@@ -14,7 +15,6 @@ function Vehicle () {
         .then((res) => res.json())
         .then((d) => setData(d))
     }
-
 
     useEffect(() => {
         fetchInfo();
