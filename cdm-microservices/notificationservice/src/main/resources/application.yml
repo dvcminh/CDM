@@ -15,7 +15,7 @@ spring:
     kafka:
       bootstrap-servers: localhost:9092
       template:
-        default-topic: order-events
+        default-topic: order-events, change-password
       consumer:
         key-deserializer: org.apache.kafka.common.serialization.StringDeserializer
         value-deserializer: org.springframework.kafka.support.serializer.JsonDeserializer
@@ -23,7 +23,7 @@ spring:
           spring:
             json:
               type:
-                mapping: order:com.minhvu.notificationservice.event.OrderPlaceEvent
+                mapping: order:com.minhvu.notificationservice.event.OrderPlaceEvent, change-password:com.minhvu.notificationservice.event.ChangePasswordEvent
         group-id: notification-group-id
 
 

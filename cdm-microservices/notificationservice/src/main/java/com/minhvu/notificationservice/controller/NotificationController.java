@@ -1,5 +1,6 @@
 package com.minhvu.notificationservice.controller;
 
+import com.minhvu.notificationservice.event.ChangePasswordEvent;
 import com.minhvu.notificationservice.event.OrderPlaceEvent;
 import com.minhvu.notificationservice.service.EmailSender;
 import com.minhvu.notificationservice.service.EmailService;
@@ -33,6 +34,16 @@ public class NotificationController {
             log.info("Email sent for order id: {}", message.getOrderId());
             emailSender.sendOrderConfirmationEmail(message.getEmail(),
                     "Your order has been placed successfully, this is your order id: " + message.getOrderId());
+        } catch (Exception e) {
+            log.error("Error sending email: {}", e.getMessage());
+        }
+    }
+
+    @KafkaListener(topics = "change-password", groupId = "notification-group-id")
+    public void consume(ChangePasswordEvent changePasswordEvent) {
+        try {
+            log.info("Email sent for email: {}", changePasswordEvent.getEmail());
+            emailSender.sendPasswordEmail(changePasswordEvent.getEmail(), changePasswordEvent.getPassword());
         } catch (Exception e) {
             log.error("Error sending email: {}", e.getMessage());
         }

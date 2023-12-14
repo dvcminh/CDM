@@ -82,8 +82,9 @@ public class AuthService {
             throw new UserNotFoundException("User not found");
         }
     }
-    public void updateUser(User user) {
+    public void updateUser(User user, String newPassword) {
 
+        user.setPassword(passwordEncoder.encode(newPassword));
             userRepository.save(user);
 
     }
