@@ -7,6 +7,7 @@ import com.minhvu.inventoryservice.exception.ProductServiceCustomException;
 import com.minhvu.inventoryservice.external.client.ProductService;
 import com.minhvu.inventoryservice.model.Inventory;
 import com.minhvu.inventoryservice.repository.InventoryRepository;
+import lombok.NonNull;
 import lombok.RequiredArgsConstructor;
 import lombok.SneakyThrows;
 import lombok.extern.slf4j.Slf4j;
@@ -53,7 +54,21 @@ public class InventoryServiceImpl implements InventoryService {
     @Override
     public Page<InventoryResponse> findAll(Pageable pageable) {
         Page<Inventory> inventories = inventoryRepository.findAll(pageable);
+        List<ProductResponse> productResponseList = getProductResponses(inventories);
+        List<InventoryResponse> inventoryResponses = inventories.stream()
+                .map(inventory -> InventoryResponse.builder()
+                        .products(productResponseList)
+                        .build())
+                .collect(Collectors.toList());
+        return new PageImpl<>(inventoryResponses, pageable, inventoryResponses.size());
+    }
+
+    @NonNull
+    private List<ProductResponse> getProductResponses(Page<Inventory> inventories) {
         List<ProductResponse> productResponseList = productService.getProducts();
+        if(productResponseList.isEmpty()){
+            throw new ProductServiceCustomException("Product not found", "PRODUCT_NOT_FOUND");
+        }
         productResponseList.forEach(productResponse -> {
             inventories.forEach(inventory -> {
                 if (productResponse.getId().equals(inventory.getProductId())) {
@@ -61,12 +76,7 @@ public class InventoryServiceImpl implements InventoryService {
                 }
             });
         });
-        List<InventoryResponse> inventoryResponses = inventories.stream()
-                .map(inventory -> InventoryResponse.builder()
-                        .products(productResponseList)
-                        .build())
-                .collect(Collectors.toList());
-        return new PageImpl<>(inventoryResponses, pageable, inventoryResponses.size());
+        return productResponseList;
     }
 
     @Override

@@ -10,6 +10,7 @@ import java.util.List;
 
 public interface ShopService {
     Page<Shop> findAll(Pageable pageable);
+    List<Shop> findAll();
     Shop getProductById(String id);
 
     Shop createProduct(CreateShopRequest createShopRequest);
@@ -18,4 +19,6 @@ public interface ShopService {
 
     void deleteProduct(String id);
     List<Shop> findShopsByNameOrderedByPriceDesc(String name, boolean isAsc);
+
+    List<Shop> findProductByTypeIgnoreCase(String type);
 }

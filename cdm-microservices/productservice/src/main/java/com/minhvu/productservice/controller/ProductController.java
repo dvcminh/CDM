@@ -135,6 +135,12 @@ public class ProductController {
     // ///////////////
     // ///////////////
 
+    @GetMapping("/getAllShopWithoutPagination")
+    public ResponseEntity<List<Shop>> getAllShopWithoutPagination() {
+        List<Shop> shopList = shopService.findAll();
+        return ResponseEntity.ok(shopList);
+    }
+
     @GetMapping("/getAllShops")
     public ResponseEntity<Page<Shop>> getAllShops(
             @RequestParam(defaultValue = "0") int page,
@@ -149,6 +155,10 @@ public class ProductController {
     @GetMapping("/getShopById/{id}")
     public Shop getShopById(@PathVariable String id) {
         return shopService.getProductById(id);
+    }
+    @GetMapping("/getShopByType/{type}")
+    public List<Shop> getShopByType(@PathVariable String type) {
+        return shopService.findProductByTypeIgnoreCase(type);
     }
 
     @GetMapping("/getShopByNameOrderedByPriceDesc")

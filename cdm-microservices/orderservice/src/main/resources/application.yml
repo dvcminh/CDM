@@ -21,5 +21,16 @@ spring:
     database-platform: org.hibernate.dialect.PostgreSQLDialect
   application:
     name: ORDER-SERVICE
-
+  kafka:
+    bootstrap-servers: localhost:9092
+    template:
+      default-topic: order-events
+    producer:
+      key-serializer: org.apache.kafka.common.serialization.StringSerializer
+      value-serializer: org.springframework.kafka.support.serializer.JsonSerializer
+      properties:
+        spring:
+          json:
+            type:
+              mapping: order:com.minhvu.orderservice.event.OrderPlaceEvent
 

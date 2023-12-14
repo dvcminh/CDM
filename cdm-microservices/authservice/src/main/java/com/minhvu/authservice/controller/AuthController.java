@@ -10,6 +10,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Sort;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
@@ -68,6 +69,31 @@ public class AuthController {
     ) {
         Page<User> userPage = service.getAllUsers(PageRequest.of(page, size, Sort.by(direction, sortBy)));
         return ResponseEntity.ok(userPage);
+    }
+    @PostMapping("/reset-password")
+    public ResponseEntity<String> resetPassword(@RequestParam("email") String email) {
+
+        System.out.println(email);
+
+        String newPassword = generateRandomPassword();
+//        sendPasswordEmail(email, newPassword);
+
+        User user = service.getUserByUserName(email);
+
+        if (user == null) {
+            return new ResponseEntity<>("User not found", HttpStatus.NOT_FOUND);
+        }
+
+        service.updateUser(user);
+
+        return new ResponseEntity<>("An email with the new password has been sent to the user.", HttpStatus.OK);
+    }
+
+
+
+    private String generateRandomPassword() {
+        int password = (int) (Math.random() * 900000) + 100000;
+        return String.valueOf(password);
     }
     @PostMapping("/updateUser")
     public String updateUser(@RequestBody UpdateUserInformationRequest userDto) {

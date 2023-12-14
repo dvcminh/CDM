@@ -1,0 +1,40 @@
+package com.minhvu.notificationservice.controller;
+
+import com.minhvu.notificationservice.event.OrderPlaceEvent;
+import com.minhvu.notificationservice.service.EmailSender;
+import com.minhvu.notificationservice.service.EmailService;
+import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
+import org.springframework.kafka.annotation.KafkaListener;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.RestController;
+
+@RestController
+@RequiredArgsConstructor
+@RequestMapping("/api/v1/notifications")
+@Slf4j
+public class NotificationController {
+    private final EmailService emailService;
+    private final EmailSender emailSender;
+
+    @PostMapping("/sendResetPasswordEmail")
+    public ResponseEntity<String> sendResetPasswordEmail(@RequestParam String email, @RequestParam String password) {
+        emailSender.sendPasswordEmail(email, password);
+        return ResponseEntity.status(HttpStatus.OK).body("Email sent successfully");
+    }
+
+    @KafkaListener(topics = "order-topic", groupId = "notification-group-id")
+    public void consume(OrderPlaceEvent message) {
+        try {
+            log.info("Email sent for order id: {}", message.getOrderId());
+            emailSender.sendOrderConfirmationEmail(message.getEmail(),
+                    "Your order has been placed successfully, this is your order id: " + message.getOrderId());
+        } catch (Exception e) {
+            log.error("Error sending email: {}", e.getMessage());
+        }
+    }
+}

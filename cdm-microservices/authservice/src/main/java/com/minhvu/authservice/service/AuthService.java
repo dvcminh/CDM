@@ -16,7 +16,6 @@ import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
-import java.util.List;
 import java.util.Optional;
 
 @Service
@@ -82,6 +81,11 @@ public class AuthService {
         } else {
             throw new UserNotFoundException("User not found");
         }
+    }
+    public void updateUser(User user) {
+
+            userRepository.save(user);
+
     }
 
     public String changePassword(ChangePasswordRequest request) {

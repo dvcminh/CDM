@@ -22,6 +22,11 @@ public class ShopServiceImpl implements ShopService {
     }
 
     @Override
+    public List<Shop> findAll() {
+        return shopRepository.findAll();
+    }
+
+    @Override
     public Shop getProductById(String id) {
         return shopRepository.findById(id).orElse(null);
     }
@@ -67,5 +72,10 @@ public class ShopServiceImpl implements ShopService {
             sort = sort.descending();
         }
         return shopRepository.findDistinctByNameAllIgnoreCaseOrderByPriceAsc(name, sort);
+    }
+
+    @Override
+    public List<Shop> findProductByTypeIgnoreCase(String type) {
+        return shopRepository.findDistinctByTypeAllIgnoreCase(type);
     }
 }
