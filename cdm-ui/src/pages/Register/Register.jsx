@@ -29,7 +29,7 @@ function Register() {
         const values = {name, email, password};
         setErrors(Validation(values));
         try {
-            const user = { name, email, phone, address, password};
+            const user = { name, email, phone, address, password, role: "CUSTOMER"};
             cdmApi.signup(user)
             .then(response => {
                 alert("Register successfully!");

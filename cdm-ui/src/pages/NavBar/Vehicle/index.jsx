@@ -6,13 +6,12 @@ import SortCarSideBar from "../../../components/SortCarSideBar";
 function Vehicle () {
 
 
-    const url = "http://localhost:8083/api/v1/products/getAllCars";
+    const url = "http://localhost:9296/api/v1/products/getAllCars";
     const [data, setData] = useState([]);
 
-    const fetchInfo = () => {
-        return fetch(url)
-        .then((res) => res.json())
-        .then((d) => setData(d))
+    const fetchInfo = async () => {
+        const res = await fetch(url);
+        return setData(res);
     }
 
 
