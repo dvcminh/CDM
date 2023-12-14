@@ -23,6 +23,8 @@ import VehicleDetail from '../pages/NavBar/VehicleDetail';
 import ManagerLayout from '../layouts/managerLayout/';
 import ShopAccessories from '../pages/NavBar/ShopAccessories';
 import ShopMerchandise from '../pages/NavBar/ShopMerchandise';
+import ProductShopOverview from '../pages/NavBar/ProductShopOverview';
+
 // Public routes
 const publicRoutes = [
     { path: config.routes.shop, component: Shop, layout: DefaultLayout },
@@ -44,6 +46,7 @@ const publicRoutes = [
     { path: config.routes.vehicledetail, component: VehicleDetail, layout: loginregisLayout},
     {path: config.routes.shopaccessories, component: ShopAccessories, layout: DefaultLayout},
     {path: config.routes.shopmerchandise, component: ShopMerchandise, layout: DefaultLayout},
+    {path: config.routes.productdetail, component: ProductShopOverview, layout: loginregisLayout}
 ];
 
 const privateRoutes = [];
