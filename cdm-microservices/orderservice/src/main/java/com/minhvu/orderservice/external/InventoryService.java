@@ -1,12 +1,13 @@
 package com.minhvu.orderservice.external;
 
 import com.minhvu.orderservice.exception.CustomException;
+import io.github.resilience4j.circuitbreaker.annotation.CircuitBreaker;
 import org.springframework.cloud.openfeign.FeignClient;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestParam;
-
+@CircuitBreaker(name = "external", fallbackMethod = "fallback")
 @FeignClient(name = "INVENTORY-SERVICE/api/v1/inventory")
 public interface InventoryService {
 
