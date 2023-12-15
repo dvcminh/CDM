@@ -26,4 +26,14 @@ public class FallbackController {
         return "Auth Service is down!";
     }
 
+    @GetMapping("/inventoryServiceFallBack")
+    public String inventoryServiceFallback() {
+        return "Inventory Service is down!";
+    }
+
+    @GetMapping("/reportServiceFallBack")
+    public String reportServiceFallback() {
+        return "Report Service is down!";
+    }
+
 }

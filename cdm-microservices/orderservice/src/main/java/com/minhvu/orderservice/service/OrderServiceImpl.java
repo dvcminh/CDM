@@ -3,6 +3,7 @@ package com.minhvu.orderservice.service;
 import com.minhvu.orderservice.dto.CreateOrderItemRequest;
 import com.minhvu.orderservice.dto.CreateOrderRequest;
 import com.minhvu.orderservice.dto.UpdateOrderRequest;
+import com.minhvu.orderservice.event.OrderPlaceEvent;
 import com.minhvu.orderservice.external.InventoryService;
 import com.minhvu.orderservice.model.Order;
 import com.minhvu.orderservice.model.OrderItem;
@@ -15,6 +16,7 @@ import jakarta.persistence.TypedQuery;
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import org.aspectj.weaver.ast.Or;
+import org.springframework.kafka.core.KafkaTemplate;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
@@ -27,6 +29,7 @@ public class OrderServiceImpl implements OrderService {
     private final OrderRepository orderRepository;
     private final OrderItemRepository orderItemRepository;
     private final InventoryService inventoryService;
+    private final KafkaTemplate<String, OrderPlaceEvent> kafkaTemplate;
     @Override
     public List<Order> viewAll() {
         return orderRepository.findAllByOrderByOrderDateDesc();
@@ -46,7 +49,7 @@ public class OrderServiceImpl implements OrderService {
     @Transactional
     public void createOrder(CreateOrderRequest createOrderRequest) {
         Order order = new Order();
-        order.setUserId(createOrderRequest.getUserId());
+        order.setEmail(createOrderRequest.getEmail());
         order.setOrderDate(LocalDateTime.now());
         order.setPaymentStatus("Pending");
         order.setShippingStatus("Pending");
@@ -56,6 +59,8 @@ public class OrderServiceImpl implements OrderService {
         order.setTotalAmount(createOrderRequest.getTotalAmount());
 
         orderRepository.save(order);
+
+        kafkaTemplate.send("order-topic", new OrderPlaceEvent(order.getId(), order.getEmail()));
 
         for (CreateOrderItemRequest createOrderItemRequestList : createOrderRequest.getCreateOrderItemRequestList()) {
             inventoryService.reduceQuantity(createOrderItemRequestList.getProductId(), createOrderItemRequestList.getQuantity());
@@ -86,8 +91,8 @@ public class OrderServiceImpl implements OrderService {
     }
 
     @Override
-    public List<Order> findByUserId(String id) {
-        return orderRepository.findByUserId(id);
+    public List<Order> findByEmail(String email) {
+        return orderRepository.findByEmail(email);
     }
 
 

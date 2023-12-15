@@ -18,7 +18,7 @@ public class Order {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private String id;
 
-    private String userId;
+    private String email;
     private LocalDateTime orderDate;
     private BigDecimal totalAmount;
     private String paymentStatus;

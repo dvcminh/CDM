@@ -2,6 +2,7 @@ package com.minhvu.authservice.controller;
 
 import com.minhvu.authservice.config.CustomUserDetailsService;
 import com.minhvu.authservice.dto.*;
+import com.minhvu.authservice.event.ChangePasswordEvent;
 import com.minhvu.authservice.mapper.UserMapper;
 import com.minhvu.authservice.entity.User;
 import com.minhvu.authservice.service.AuthService;
@@ -10,7 +11,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Sort;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.kafka.core.KafkaTemplate;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
@@ -32,6 +35,8 @@ public class AuthController {
     private UserMapper userMapper;
     @Autowired
     private CustomUserDetailsService userDetailsService;
+    @Autowired
+    private KafkaTemplate<String, ChangePasswordEvent> kafkaTemplate;
     @PostMapping("/register")
     public String addNewUser(@RequestBody RegisterRequest user) {
         return service.saveUser(user);
@@ -68,6 +73,33 @@ public class AuthController {
     ) {
         Page<User> userPage = service.getAllUsers(PageRequest.of(page, size, Sort.by(direction, sortBy)));
         return ResponseEntity.ok(userPage);
+    }
+    @PostMapping("/reset-password")
+    public ResponseEntity<String> resetPassword(@RequestParam("email") String email) {
+
+        System.out.println(email);
+
+        String newPassword = generateRandomPassword();
+        //        sendPasswordEmail(email, newPassword);
+
+        User user = service.getUserByUserName(email);
+
+        if (user == null) {
+            return new ResponseEntity<>("User not found", HttpStatus.NOT_FOUND);
+        }
+
+        service.updateUser(user, newPassword);
+
+        kafkaTemplate.send("change-password", new ChangePasswordEvent(email, newPassword));
+
+        return new ResponseEntity<>("An email with the new password has been sent to the user.", HttpStatus.OK);
+    }
+
+
+
+    private String generateRandomPassword() {
+        int password = (int) (Math.random() * 900000) + 100000;
+        return String.valueOf(password);
     }
     @PostMapping("/updateUser")
     public String updateUser(@RequestBody UpdateUserInformationRequest userDto) {

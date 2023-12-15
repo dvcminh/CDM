@@ -62,6 +62,20 @@ public class CarServiceImpl implements CarService {
         Car product = carRepository.findById(updateCarRequest.getId()).orElse(null);
         if (product != null) {
             product.setModel(updateCarRequest.getModel());
+            product.setDisPrice(updateCarRequest.getDisPrice());
+            product.setOrgPrice(updateCarRequest.getOrgPrice());
+            product.setGift(updateCarRequest.getGift());
+            product.setCount(updateCarRequest.getCount());
+            product.setOdo(updateCarRequest.getOdo());
+            product.setTech(updateCarRequest.getTech());
+            product.setRange(updateCarRequest.getRange());
+            product.setTrim(updateCarRequest.getTrim());
+            product.setTopSpeed(updateCarRequest.getTopSpeed());
+            product.setTimeToReach(updateCarRequest.getTimeToReach());
+            product.setImgSrc(updateCarRequest.getImgSrc());
+            product.setPerMonthPrice(updateCarRequest.getPerMonthPrice());
+            product.setKeyFeatures(updateCarRequest.getKeyFeatures());
+            product.setStatus(updateCarRequest.getStatus());
 
             return carRepository.save(product);
         }
