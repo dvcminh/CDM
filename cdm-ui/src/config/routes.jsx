@@ -19,7 +19,7 @@ const routes = {
     register: '/register',
     staffhome: '/staffhome',
     vehicledetail: '/vehicledetail/:id',
-
+    productdetail: 'shop/productdetail'
 };
 
 export default routes;
