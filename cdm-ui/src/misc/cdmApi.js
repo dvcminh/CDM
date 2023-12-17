@@ -15,7 +15,8 @@ export const cdmApi = {
   deleteCar,
   createOrder,
   getAllInventory,
-  getShopByType
+  getShopByType,
+  getShopById,
 }
 
 function authenticate(user) {
@@ -115,6 +116,9 @@ function getShopByType(type) {
   });
 }
 
+function getShopById(id) {
+  return instance.get('http://localhost:9296/api/v1/products/getShopById/' + id);
+}
 // -- Axios
 
 const instance = axios.create({

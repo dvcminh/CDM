@@ -1,10 +1,12 @@
 
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
 import { StarIcon } from '@heroicons/react/20/solid'
 import { RadioGroup } from '@headlessui/react'
 import Navbar from '../../../layouts/components/NavBar'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faPlus, faSubtract } from '@fortawesome/free-solid-svg-icons'
+import { useParams } from 'react-router-dom'
+import { cdmApi } from '../../../misc/cdmApi'
 
 const product = {
     
@@ -65,7 +67,22 @@ function classNames(...classes) {
 }
 
 export default function Example() {
+    const params = useParams();
+    const [data, setData] = useState([]);
 
+    const url = "http://localhost:9296/api/v1/products/getShopById/" + params.id;
+    const fetchInfo = async () => {
+      try {
+          const res = await cdmApi.getShopById(params.id);
+          setData(res.data);
+      } catch (error) {
+          console.error("Error fetching data:", error);
+      }
+    }
+
+  useEffect(() => {
+     fetchInfo();
+  }, []); 
   const [quantity, setQuantity] = useState(1);
 
   const handleIncrement = (e) => {
@@ -91,7 +108,7 @@ export default function Example() {
         <div className="mx-auto mt-6 max-w-2xl sm:px-6 lg:grid lg:max-w-7xl lg:grid-cols-3 lg:gap-x-8 lg:px-8">
           <div className="aspect-h-4 aspect-w-3 hidden overflow-hidden rounded-lg lg:block">
             <img
-              src={product.images[0].src}
+              src={data.image_url}
               alt={product.images[0].alt}
               className="h-full w-full object-cover object-center"
             />
@@ -99,14 +116,14 @@ export default function Example() {
           <div className="hidden lg:grid lg:grid-cols-1 lg:gap-y-8">
             <div className="aspect-h-2 aspect-w-3 overflow-hidden rounded-lg">
               <img
-                src={product.images[1].src}
+                src={data.image_url}
                 alt={product.images[1].alt}
                 className="h-full w-full object-cover object-center"
               />
             </div>
             <div className="aspect-h-2 aspect-w-3 overflow-hidden rounded-lg">
               <img
-                src={product.images[2].src}
+                src={data.image_url}
                 alt={product.images[2].alt}
                 className="h-full w-full object-cover object-center"
               />
@@ -114,7 +131,7 @@ export default function Example() {
           </div>
           <div className="aspect-h-5 aspect-w-4 lg:aspect-h-4 lg:aspect-w-3 sm:overflow-hidden sm:rounded-lg">
             <img
-              src={product.images[3].src}
+              src={data.image_url}
               alt={product.images[3].alt}
               className="h-full w-full object-cover object-center"
             />
@@ -124,13 +141,13 @@ export default function Example() {
         {/* Product info */}
         <div className="mx-auto max-w-2xl px-4 pb-16 pt-10 sm:px-6 lg:grid lg:max-w-7xl lg:grid-cols-3 lg:grid-rows-[auto,auto,1fr] lg:gap-x-8 lg:px-8 lg:pb-24 lg:pt-16">
           <div className="lg:col-span-2 lg:border-r lg:border-gray-200 lg:pr-8">
-            <h1 className="text-2xl font-bold tracking-tight text-gray-900 sm:text-3xl">{product.name}</h1>
+            <h1 className="text-2xl font-bold tracking-tight text-gray-900 sm:text-3xl">{data.name}</h1>
           </div>
 
           {/* Options */}
           <div className="mt-4 lg:row-span-3 lg:mt-0">
             <h2 className="sr-only">Product information</h2>
-            <p className="text-3xl tracking-tight text-gray-900">{product.price}</p>            
+            <p className="text-3xl tracking-tight text-gray-900">${data.price}</p>            
 
             <form className="mt-10">
                     <div className="flex flex items-center space-x-4">
@@ -159,7 +176,7 @@ export default function Example() {
               <h3 className="sr-only">Description</h3>
 
               <div className="space-y-6">
-                <p className="text-base text-gray-900">{product.description}</p>
+                <p className="text-base text-gray-900">{data.description}</p>
               </div>
             </div>
 
