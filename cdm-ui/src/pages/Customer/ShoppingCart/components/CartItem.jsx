@@ -15,7 +15,7 @@ const CartItem = (props) => {
                     </div> */}
                 </div>
                 <div className="flex justify-between space-x-8 items-start w-full">
-                    {/* <p className="text-base xl:text-lg leading-6">${props.price} <span className="text-red-300 line-through"> ${props.discountPrice}</span></p> */}
+                    <p className="text-base xl:text-lg leading-6">${props.price}{ /*<span className="text-red-300 line-through"> ${props.discountPrice}</span> */}</p>
                     <p className="text-base xl:text-lg leading-6 text-black">{props.quantity}</p>
                     <p className="text-base xl:text-lg font-semibold leading-6 text-black">${props.total}</p>
                 </div>

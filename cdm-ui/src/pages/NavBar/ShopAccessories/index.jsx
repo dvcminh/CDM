@@ -10,23 +10,24 @@ import {
   Squares2X2Icon,
 } from "@heroicons/react/20/solid";
 import ReactPlayer from "react-player";
+import { useNavigate } from "react-router-dom";
 
 const products = [
   {
-    id: 1,
+    id: "657e8f96a0bd47c5ab37dfb7",
     name: "Earthen Bottle",
     href: "#",
-    price: "$48",
+    price: 48,
     imageSrc:
       "https://tailwindui.com/img/ecommerce-images/category-page-04-image-card-01.jpg",
     imageAlt:
       "Tall slender porcelain bottle with natural clay textured body and cork stopper.",
   },
   {
-    id: 2,
+    id: "657e9021a0bd47c5ab37dfbb",
     name: "Nomad Tumbler",
     href: "#",
-    price: "$35",
+    price: 35,
     imageSrc:
       "https://tailwindui.com/img/ecommerce-images/category-page-04-image-card-02.jpg",
     imageAlt:
@@ -36,7 +37,7 @@ const products = [
     id: 3,
     name: "Focus Paper Refill",
     href: "#",
-    price: "$89",
+    price: 89,
     imageSrc:
       "https://tailwindui.com/img/ecommerce-images/category-page-04-image-card-03.jpg",
     imageAlt:
@@ -46,7 +47,7 @@ const products = [
     id: 4,
     name: "Machined Mechanical Pencil",
     href: "#",
-    price: "$35",
+    price: "35",
     imageSrc:
       "https://tailwindui.com/img/ecommerce-images/category-page-04-image-card-04.jpg",
     imageAlt:
@@ -56,7 +57,7 @@ const products = [
     id: 5,
     name: "Earthen Bottle",
     href: "#",
-    price: "$48",
+    price: "48",
     imageSrc:
       "https://tailwindui.com/img/ecommerce-images/category-page-04-image-card-01.jpg",
     imageAlt:
@@ -66,7 +67,7 @@ const products = [
     id: 6,
     name: "Nomad Tumbler",
     href: "#",
-    price: "$35",
+    price: "35",
     imageSrc:
       "https://tailwindui.com/img/ecommerce-images/category-page-04-image-card-02.jpg",
     imageAlt:
@@ -76,7 +77,7 @@ const products = [
     id: 7,
     name: "Focus Paper Refill",
     href: "#",
-    price: "$89",
+    price: "89",
     imageSrc:
       "https://tailwindui.com/img/ecommerce-images/category-page-04-image-card-03.jpg",
     imageAlt:
@@ -86,7 +87,7 @@ const products = [
     id: 8,
     name: "Machined Mechanical Pencil",
     href: "#",
-    price: "$35",
+    price: "35",
     imageSrc:
       "https://tailwindui.com/img/ecommerce-images/category-page-04-image-card-04.jpg",
     imageAlt:
@@ -104,6 +105,7 @@ const sortOptions = [
 ];
 
 export default function Example() {
+  const navigate = useNavigate();
   const handleCart = (product, redirect) => {
     const cart = JSON.parse(localStorage.getItem("cart")) || [];
     const isProductExist = cart.find((item) => item.id === product.id);
@@ -124,8 +126,9 @@ export default function Example() {
         JSON.stringify([...cart, { ...product, quantity: 1 }])
       );
     }
+    alert("Add to cart successfully!");
     if (redirect) {
-      navigate("/cart");
+      navigate("/customerhome/shoppingcart");
     }
   };
   return (
@@ -174,7 +177,7 @@ export default function Example() {
                   </div>
                   <h3 className="mt-4 text-sm text-gray-700">{product.name}</h3>
                   <p className="mt-1 text-lg font-medium text-gray-900">
-                    {product.price}
+                    ${product.price}
                   </p>
                   <div className=" flex">
                     <button

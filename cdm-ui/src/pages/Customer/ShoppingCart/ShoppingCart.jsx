@@ -16,12 +16,8 @@ const ShoppingCart = () => {
   useEffect(() => {
     // This function will run every time the component renders
     const cart = localStorage.getItem('cart');
-    
-    if (cart) {
-      setCarts(JSON.parse(cart));
-    } else {
-      setCarts([]);
-    }
+    setCarts(JSON.parse(cart));
+    // console.log(carts);
   }, []);
 
   const handleCart = async () => {
@@ -33,7 +29,7 @@ const ShoppingCart = () => {
       shippingValue: shippingFee,
       createOrderItemRequestList: carts.map(cart => ({
         productId: cart.id,
-        quantity: cart.amount,
+        quantity: cart.quantity,
         pricePerUnit: cart.price,
         size: "sm", // default value
         color: "red", // default value
@@ -54,7 +50,7 @@ const ShoppingCart = () => {
 
   useEffect(() => {
     const total = carts.reduce((acc, item) => {
-      return acc + item.price * item.amount;
+      return acc + item.price * item.quantity;
     }, 0);
     
     setTotal(total);
@@ -92,15 +88,15 @@ const ShoppingCart = () => {
             return (
               <CartItem
                 key={cart.id}
-                image={cart.img}
-                title={cart.title}
+                image={cart.imageSrc}
+                title={cart.name}
                 // style={cart.style}
                 // size={cart.size}
                 // color={cart.color}
                 price={cart.price}
                 // discountPrice={cart.discountPrice}
-                quantity={cart.amount}
-                total={cart.price * cart.amount}
+                quantity={cart.quantity}
+                total={cart.price * cart.quantity}
               />
             );
           })}

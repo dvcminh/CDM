@@ -99,8 +99,7 @@ function createOrder(orderData) {
     orderData,
     {
       headers: {
-        Authorization: bearerAuth(localStorage.getItem("accessToken")),
-        "Content-Type": "application/json",
+        Authorization: bearerAuth(localStorage.getItem("accessToken"))
       },
     }
   );
