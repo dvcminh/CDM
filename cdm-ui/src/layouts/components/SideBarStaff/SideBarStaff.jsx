@@ -1,6 +1,6 @@
 import './SideBarStaff.css';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faHouse, faRightFromBracket , faUser, faFileLines, faUsers } from '@fortawesome/free-solid-svg-icons';
+import { faHouse, faRightFromBracket , faUser, faFileLines, faUsers , faBagShopping } from '@fortawesome/free-solid-svg-icons';
 import { Link, useLocation } from 'react-router-dom';
 import config from '../../../config';
 
@@ -15,12 +15,17 @@ function SideBarStaff() {
       icon: <FontAwesomeIcon icon={faUser} className='sidebar__icon' />,
       title: 'Profile Settings',
       to: config.routes.c
+    },
+    {
+      icon: <FontAwesomeIcon icon={faBagShopping} className='sidebar__icon' />,
+      title: 'Order',
+      to: config.routes.stafforder
     },    
     {
         icon: <FontAwesomeIcon icon={faFileLines} className='sidebar__icon' />,
         title: 'Reports',
-        to: config.routes.c
-      },
+        to: config.routes.staffreport
+    },
     {
         icon: <FontAwesomeIcon icon={faUsers} className='sidebar__icon' />,
         title: 'Customers',

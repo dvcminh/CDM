@@ -4,6 +4,7 @@ const routes = {
     managecustomer: '/managerhome/managecustomer',
     managestaff: '/managerhome/managestaff',
     managervehicleS: '/managervehicle/modelS',
+    managereport: '/managerhome/managereport',
     managecar: '/managerhome/managecar',
     customerhome: '/customerhome',
     customerprofile: '/customerhome/profile',
@@ -18,8 +19,12 @@ const routes = {
     login: '/login',
     register: '/register',
     staffhome: '/staffhome',
+    staffreport: '/staffhome/report',
+    stafforder: '/staffhome/order',
     vehicledetail: '/vehicledetail/:id',
     productdetail: 'shop/productdetail'
 };
+    
+
 
 export default routes;

@@ -3,6 +3,7 @@ import ManagerHome from '../pages/Manager/ManagerHome';
 import ManagerVehicleModelS from '../pages/Manager/ManagerVehicle/VehicleModels';
 import ManageCustomerPage from '../pages/Manager/ManageCustomer/ManageCustomer';
 import ManageStaffPage from '../pages/Manager/ManageStaff/ManageStaff';
+import ManageReport from '../pages/Manager/ManagerReport';
 import ManageCarPage from '../pages/Manager/ManageCar/ManageCar';
 import CustomerHome from '../pages/Customer/CustomerHome';
 import CustomerOrderHistory from '../pages/Customer/CustomerOrderHistory';
@@ -19,6 +20,8 @@ import DefaultLayout from '../layouts/defaultLayout'
 import LandingPage from '../pages/LandingPage/LandingPage'
 import landingLayout from '../layouts/landingLayout';
 import StaffHome from '../pages/Staff/StaffHome';
+import StaffReport from '../pages/Staff/StaffReport';
+import StaffOrder from '../pages/Staff/StaffOrder/StaffOrder';
 import staffLayout from '../layouts/staffLayout';
 import VehicleDetail from '../pages/NavBar/VehicleDetail';
 import ManagerLayout from '../layouts/managerLayout/';
@@ -33,6 +36,7 @@ const publicRoutes = [
     { path: config.routes.managerhome, component: ManagerHome, layout: ManagerLayout},
     { path: config.routes.managecustomer, component: ManageCustomerPage, layout: ManagerLayout},
     { path: config.routes.managestaff, component: ManageStaffPage, layout: ManagerLayout},
+    { path: config.routes.managereport, component: ManageReport, layout: ManagerLayout},
     { path: config.routes.managecar, component: ManageCarPage, layout: ManagerLayout},
     { path: config.routes.customerhome, component: CustomerHome, layout: DefaultLayout},
     { path: config.routes.customerprofile, component: CustomerProfile , layout: DefaultLayout},
@@ -45,6 +49,8 @@ const publicRoutes = [
     { path: config.routes.register, component: Register, layout: loginregisLayout },
     { path: config.routes.start, component: LandingPage, layout: landingLayout },
     { path: config.routes.staffhome, component: StaffHome, layout: staffLayout },
+    { path: config.routes.staffreport, component: StaffReport, layout: staffLayout },
+    { path: config.routes.stafforder, component: StaffOrder, layout: staffLayout },
     { path: config.routes.vehicledetail, component: VehicleDetail, layout: loginregisLayout},
     {path: config.routes.shopaccessories, component: ShopAccessories, layout: DefaultLayout},
     {path: config.routes.shopmerchandise, component: ShopMerchandise, layout: DefaultLayout},
