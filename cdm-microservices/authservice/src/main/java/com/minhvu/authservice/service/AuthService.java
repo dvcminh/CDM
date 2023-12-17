@@ -7,13 +7,15 @@ import com.minhvu.authservice.entity.User;
 import com.minhvu.authservice.exception.UserNotFoundException;
 import com.minhvu.authservice.repository.UserCredentialRepository;
 import com.minhvu.authservice.repository.UserRepository;
+import jakarta.ws.rs.BadRequestException;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
-import java.util.List;
 import java.util.Optional;
 
 @Service
@@ -29,6 +31,9 @@ public class AuthService {
     private JwtService jwtService;
 
     public String saveUser(RegisterRequest credential) {
+        if (userRepository.existsByNameAllIgnoreCase(credential.getName())) {
+            throw new BadRequestException("Username is already taken!");
+        }
         var user = User.builder()
                 .name(credential.getName())
                 .email(credential.getEmail())
@@ -61,8 +66,8 @@ public class AuthService {
         return userRepository.findByName(username);
     }
 
-    public List<User> getAllUsers() {
-        return userRepository.findAll();
+    public Page<User> getAllUsers(Pageable pageable) {
+        return userRepository.findAll(pageable);
     }
 
     public String updateUser(UpdateUserInformationRequest userDto) {
@@ -76,6 +81,12 @@ public class AuthService {
         } else {
             throw new UserNotFoundException("User not found");
         }
+    }
+    public void updateUser(User user, String newPassword) {
+
+        user.setPassword(passwordEncoder.encode(newPassword));
+            userRepository.save(user);
+
     }
 
     public String changePassword(ChangePasswordRequest request) {

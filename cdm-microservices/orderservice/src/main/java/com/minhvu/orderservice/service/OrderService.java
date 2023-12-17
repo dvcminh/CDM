@@ -17,7 +17,7 @@ public interface OrderService {
     void createOrder(CreateOrderRequest createOrderRequest);
     Order findById(String id);
 
-    List<Order> findByUserId(String id);
+    List<Order> findByEmail(String email);
 
     //    Order createOrderFromCartItems(List<Product> cartItems, User user);
     void saveOrder(Order order);

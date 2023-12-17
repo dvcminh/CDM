@@ -5,6 +5,8 @@ import com.minhvu.productservice.dto.UpdateShopRequest;
 import com.minhvu.productservice.model.Shop;
 import com.minhvu.productservice.repository.ShopRepository;
 import lombok.AllArgsConstructor;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
@@ -14,6 +16,10 @@ import java.util.List;
 @Service
 public class ShopServiceImpl implements ShopService {
     private final ShopRepository shopRepository;
+
+    public Page<Shop> findAll(Pageable pageable) {
+        return shopRepository.findAll(pageable);
+    }
 
     @Override
     public List<Shop> findAll() {
@@ -66,5 +72,10 @@ public class ShopServiceImpl implements ShopService {
             sort = sort.descending();
         }
         return shopRepository.findDistinctByNameAllIgnoreCaseOrderByPriceAsc(name, sort);
+    }
+
+    @Override
+    public List<Shop> findProductByTypeIgnoreCase(String type) {
+        return shopRepository.findDistinctByTypeAllIgnoreCase(type);
     }
 }

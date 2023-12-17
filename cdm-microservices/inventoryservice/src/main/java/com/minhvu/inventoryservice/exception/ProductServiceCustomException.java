@@ -3,7 +3,7 @@ package com.minhvu.inventoryservice.exception;
 import lombok.Data;
 
 @Data
-public class ProductServiceCustomException extends RuntimeException{
+public class ProductServiceCustomException extends IllegalStateException {
 
     private String errorCode;
 
