@@ -14,8 +14,8 @@ import static com.minhvu.authservice.entity.Permission.*;
 @RequiredArgsConstructor
 public enum Role {
 
-  USER(Collections.emptySet()),
-  ADMIN(Collections.emptySet()),
+  CUSTOMER(Collections.emptySet()),
+  STAFF(Collections.emptySet()),
   MANAGER(Collections.emptySet());
 
   @Getter

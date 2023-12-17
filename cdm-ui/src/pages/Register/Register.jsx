@@ -9,72 +9,137 @@ function Register() {
     const navigate = useNavigate();
     const [values, setValues] = useState({
         name: '',
-        email: '',
-        password: ''
+        password: '',
+        confpassword: ''
     })
     const [name, setName] = useState('');
-    const [email, setEmail] = useState('');
-    const [phone, setPhone] = useState('');
-    const [address, setAddress] = useState('');
     const [password, setPassword] = useState('');
+    const [confpassword, setConfPassword] = useState('');
 
     const [errors, setErrors] = useState({})
+
 
     const handleInput = (event) => {
         setValues(prev => ({...prev, [event.target.name]: [event.target.value]}))
     }
 
+
+    const email = ""
+    const phone = ""
+    const address = ""
+
     const handleSubmit = (event) => {
         event.preventDefault();
-        const values = {name, email, password};
+        const values = {name, password, confpassword};
         setErrors(Validation(values));
-        try {
-            const user = { name, email, phone, address, password};
-            cdmApi.signup(user)
-            .then(response => {
-                alert("Register successfully!");
-                navigate('/login')
-            })
-            .catch(error => {
-                alert("Register failed!");
+        if(errors.name === "" && errors.password === "" && errors.confpassword === ""){
+            try {
+                const user = { name, email, phone, address, password, role: "CUSTOMER"};
+                cdmApi.signup(user)
+                .then(response => {
+                    alert("Register successfully!");
+                    navigate('/login')
+                })
+                .catch(error => {
+                    alert("Register failed!");
+                    console.log(error);
+                })
+            }
+            catch(error) {
                 console.log(error);
-            })
-        }
-        catch(error) {
-            console.log(error);
+            }
         }
     }
 
     return (
-        <div className="bg-gradient-to-b from-white to-gray-400 flex justify-center">
-        <div className="container">
-            <div style={{flex: 1}}></div>
-            <div style={{flex: 1, display: 'flex', justifyContent: 'center', alignItems:'center'}}>
-                <div className="auth-form-container">
-                    <form className="register-form" onSubmit={handleSubmit}>
-                        <label htmlFor="form" className="heading1">Register account</label>
-                        <label htmlFor="name">Username</label>
-                        <input onChange={(e) => setEmail(e.target.value)} type="text" name="name" id="name" placeholder="Choose Your Username" className="input"/>
-                        {errors.name && <span className="text-danger">{errors.name}</span>}
-                        <label htmlFor="email">Email</label>
-                        <input onChange={(e) => setName(e.target.value)} type="email" placeholder="Your Email Address" id="email" name="email" className="input" />
-                        <label htmlFor="phone">Phone number</label>
-                        <input onChange={(e) => setPhone(e.target.value)} type="text" placeholder="Your Phone Number" id="phone" name="phone" className="input" />
-                        <label htmlFor="email">Address</label>
-                        <input onChange={(e) => setAddress(e.target.value)} type="text" placeholder="Your Home Address" id="address" name="address" className="input" />
-                        {errors.email && <span className="text-danger">{errors.email}</span>}
-                        <label htmlFor="password">Password</label>
-                        <input onChange={(e) => setPassword(e.target.value)} type="password" placeholder="Password" id="password" name="password" className="input" />  
-                        {errors.password && <span className="text-danger">{errors.password}</span>}
-                        <button type="submit" className="login-button bg-black">Sign up</button>
-                    </form>
-                    <Link to='/login' className="link-btn">Already have an account? Login here.</Link>
+        <>
+            <div className="flex min-h-full flex-1 flex-col justify-center px-6 py-4 lg:px-8">
+            <div className="sm:mx-auto sm:w-full sm:max-w-sm">
+            <img
+                className="mx-auto h-32 w-auto"
+                src="https://res.cloudinary.com/droondbdu/image/upload/v1702194603/wepik-gradient-modern-car-detail-clean-amp-repair-logo-20231210074938LRYR_dyz3ez.png"
+                alt="Your Company"
+                />
+                <h2 className="mt-2 text-center text-2xl font-bold leading-9 tracking-tight text-gray-900">
+                    Create New Account
+                </h2>
+            </div>
+
+            <div className="mt-10 sm:mx-auto sm:w-full sm:max-w-sm">
+                <div className="mt-4">
+                    <label htmlFor="email" className="block text-sm font-medium leading-6 text-gray-900">
+                            Email Address
+                    </label>
+                    <div className="mt-2">
+                    {/* Exchange name and email [Security...] */}
+                    <input onChange={(e) => setName(e.target.value)}
+                        id="email"
+                        name="email"
+                        type="email"
+                        autoComplete="email"
+                        required
+                        className="px-4 block w-full rounded-md border-0 py-3 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-gray-600 sm:text-sm sm:leading-6 bg-white"
+                    />
+                    {errors.name && <span className="text-danger">{errors.name}</span>}
+                    </div>
+                </div>
+
+                <div className="mt-4">
+                    <div className="flex items-center justify-between">
+                    <label htmlFor="password" className="block text-sm font-medium leading-6 text-gray-900">
+                        Password
+                    </label>
+                    </div>
+                    <div className="mt-2">
+                    <input onChange={(e) => setPassword(e.target.value)}
+                        id="password"
+                        name="password"
+                        type="password"
+                        autoComplete="current-password"
+                        required
+                        className="px-4 block w-full rounded-md border-0 py-3 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-gray-600 sm:text-sm sm:leading-6 bg-white"
+                    />
+                    {errors.password && <span className="text-danger">{errors.password}</span>}
+                    </div>
+                </div>
+                <div className="mt-4">
+                    <div className="flex items-center justify-between">
+                    <label htmlFor="password" className="block text-sm font-medium leading-6 text-gray-900">
+                        Confirm Password
+                    </label>
+                    </div>
+                    <div className="mt-2">
+                    <input onChange={(e) => setConfPassword(e.target.value)}
+                        id="password"
+                        name="password"
+                        type="password"
+                        autoComplete="current-password"
+                        required
+                        className="px-4 block w-full rounded-md border-0 py-3 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-gray-600 sm:text-sm sm:leading-6 bg-white"
+                    />
+                    {errors.confpassword && <span className="text-danger">{errors.confpassword}</span>}
+                    </div>
+                </div>
+
+                <div className="mt-6">
+                    <button onClick={handleSubmit}
+                    type="submit"
+                    className="flex w-full justify-center rounded-md bg-black px-3 py-3 text-sm font-semibold leading-6 text-white shadow-sm hover:bg-gray-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-gray-600"
+                    >
+                    Register
+                    </button>
                 </div>
             </div>
-            <div style={{flex: 1}}></div>
+            <p className="mt-10 text-center text-sm text-gray-500">
+                Already have an account?{' '}
+                <a href="/login" className="font-semibold leading-6 text-black hover:text-gray-500">
+                    Login here
+                </a>
+                </p>
         </div>
-        </div>
-    )
+        </>
+    );
 }
+
 
 export default Register;

@@ -24,6 +24,7 @@
         <module>energyservice</module>
         <module>inventoryservice</module>
         <module>reportservice</module>
+        <module>notificationservice</module>
     </modules>
 
     <properties>

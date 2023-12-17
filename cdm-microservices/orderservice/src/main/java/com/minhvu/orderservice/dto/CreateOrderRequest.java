@@ -9,7 +9,7 @@ import java.util.List;
 @Getter
 @Setter
 public class CreateOrderRequest {
-    private String userId;
+    private String email;
     private BigDecimal totalAmount;
     private String shippingAddress;
     private Integer voucherValue;

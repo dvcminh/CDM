@@ -7,7 +7,13 @@ export const cdmApi = {
   signup,
   updateUser,
   getUserMe,
-  changePassword
+  changePassword,
+  getAllCars,
+  getCarById,
+  createCar,
+  updateCar,
+  deleteCar,
+  createOrder,
 }
 
 function authenticate(user) {
@@ -46,6 +52,49 @@ function getUserMe(username) {
       Authorization: `Bearer ${accessToken}`
     }
   })
+}
+
+function getAllCars() {
+  return instance.get('http://localhost:9296/api/v1/products/getAllCars');
+}
+
+function getCarById(params) {
+  return instance.get('http://localhost:9296/api/v1/products/getCarById/' + params);
+}
+
+function createCar(carData) {
+  return instance.post('http://localhost:9296/api/v1/products/createCar', carData, {
+    headers: {
+      'Authorization': bearerAuth(localStorage.getItem('accessToken')),
+      'Content-Type': 'application/json'
+    }
+  });
+}
+
+function createOrder(orderData) {
+  return instance.post('http://localhost:9296/api/v1/orders/createOrder', orderData, {
+    headers: {
+      'Authorization': bearerAuth(localStorage.getItem('accessToken')),
+      'Content-Type': 'application/json'
+    }
+  });
+}
+
+function updateCar(carData) {
+  return instance.put('http://localhost:8083/api/v1/products/updateCar', carData, {
+    headers: {
+      'Authorization': bearerAuth(localStorage.getItem('accessToken')),
+      'Content-Type': 'application/json'
+    }
+  });
+}
+
+function deleteCar(id) {
+  return instance.delete(`http://localhost:8083/api/v1/products/deleteCar/${id}`, {
+    headers: {
+      'Authorization':  bearerAuth(localStorage.getItem('accessToken'))
+    }
+  });
 }
 
 // -- Axios

@@ -26,6 +26,8 @@ public class RouteValidator {
             "/api/v1/products/getShopById",
             "/api/v1/products/getShopByNameOrderedByPriceDesc",
 
+//            "/api/v1/inventory/getInventory",
+
             "/api/v1/energy/getAllEnergy",
             "/api/v1/energy/getEnergyById",
             "/api/v1/energy/getAllEnergy",

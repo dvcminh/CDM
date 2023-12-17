@@ -4,6 +4,7 @@ import ManagerVehicleModelS from '../pages/Manager/ManagerVehicle/VehicleModels'
 import ManageCustomerPage from '../pages/Manager/ManageCustomer/ManageCustomer';
 import ManageStaffPage from '../pages/Manager/ManageStaff/ManageStaff';
 import ManageReport from '../pages/Manager/ManagerReport';
+import ManageCarPage from '../pages/Manager/ManageCar/ManageCar';
 import CustomerHome from '../pages/Customer/CustomerHome';
 import CustomerOrderHistory from '../pages/Customer/CustomerOrderHistory';
 import CustomerPayment from '../pages/Customer/CustomerPayment';
@@ -25,6 +26,8 @@ import VehicleDetail from '../pages/NavBar/VehicleDetail';
 import ManagerLayout from '../layouts/managerLayout/';
 import ShopAccessories from '../pages/NavBar/ShopAccessories';
 import ShopMerchandise from '../pages/NavBar/ShopMerchandise';
+import ProductShopOverview from '../pages/NavBar/ProductShopOverview';
+
 // Public routes
 const publicRoutes = [
     { path: config.routes.shop, component: Shop, layout: DefaultLayout },
@@ -33,6 +36,7 @@ const publicRoutes = [
     { path: config.routes.managecustomer, component: ManageCustomerPage, layout: ManagerLayout},
     { path: config.routes.managestaff, component: ManageStaffPage, layout: ManagerLayout},
     { path: config.routes.managereport, component: ManageReport, layout: ManagerLayout},
+    { path: config.routes.managecar, component: ManageCarPage, layout: ManagerLayout},
     { path: config.routes.customerhome, component: CustomerHome, layout: DefaultLayout},
     { path: config.routes.customerprofile, component: CustomerProfile , layout: DefaultLayout},
     { path: config.routes.customerpayment, component: CustomerPayment, layout: DefaultLayout },
@@ -48,6 +52,7 @@ const publicRoutes = [
     { path: config.routes.vehicledetail, component: VehicleDetail, layout: loginregisLayout},
     {path: config.routes.shopaccessories, component: ShopAccessories, layout: DefaultLayout},
     {path: config.routes.shopmerchandise, component: ShopMerchandise, layout: DefaultLayout},
+    {path: config.routes.productdetail, component: ProductShopOverview, layout: loginregisLayout}
 ];
 
 const privateRoutes = [];
