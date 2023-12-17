@@ -56,9 +56,15 @@ public class InventoryServiceImpl implements InventoryService {
         Page<Inventory> inventories = inventoryRepository.findAll(pageable);
         List<ProductResponse> productResponseList = getProductResponses(inventories);
         List<InventoryResponse> inventoryResponses = inventories.stream()
-                .map(inventory -> InventoryResponse.builder()
-                        .products(productResponseList)
-                        .build())
+                .map(inventory -> {
+                    List<ProductResponse> matchedProducts = productResponseList.stream()
+                            .filter(productResponse -> productResponse.getId().equals(inventory.getProductId()))
+                            .collect(Collectors.toList());
+                    return InventoryResponse.builder()
+                            .products(matchedProducts)
+                            .build();
+                })
+                .filter(inventoryResponse -> !inventoryResponse.getProducts().isEmpty())
                 .collect(Collectors.toList());
         return new PageImpl<>(inventoryResponses, pageable, inventoryResponses.size());
     }
@@ -66,7 +72,7 @@ public class InventoryServiceImpl implements InventoryService {
     @NonNull
     private List<ProductResponse> getProductResponses(Page<Inventory> inventories) {
         List<ProductResponse> productResponseList = productService.getProducts();
-        if(productResponseList.isEmpty()){
+        if (productResponseList.isEmpty()) {
             throw new ProductServiceCustomException("Product not found", "PRODUCT_NOT_FOUND");
         }
         productResponseList.forEach(productResponse -> {

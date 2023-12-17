@@ -14,6 +14,8 @@ export const cdmApi = {
   updateCar,
   deleteCar,
   createOrder,
+  getAllInventory,
+  getShopByType
 }
 
 function authenticate(user) {
@@ -93,6 +95,22 @@ function deleteCar(id) {
   return instance.delete(`http://localhost:8083/api/v1/products/deleteCar/${id}`, {
     headers: {
       'Authorization':  bearerAuth(localStorage.getItem('accessToken'))
+    }
+  });
+}
+
+function getAllInventory() {
+  return instance.get('/api/v1/inventory/getInventory', {
+    headers: {
+      'Authorization': bearerAuth(localStorage.getItem('accessToken'))
+    }
+  })
+}
+
+function getShopByType(type) {
+  return instance.get(`/api/v1/products/getShopByType/${type}`, {
+    headers: {
+      'Authorization': bearerAuth(localStorage.getItem('accessToken'))
     }
   });
 }

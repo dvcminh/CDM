@@ -10,32 +10,41 @@ import {
 import { cdmApi } from "../../../misc/cdmApi";
 import React, { useEffect, useState } from "react";
 
-
 function CustomerProfile() {
+  const [userData, setUserData] = useState(
+    JSON.parse(localStorage.getItem("currentUser")) || []
+  );
   const [user, setUser] = useState({});
-  const [id, setId] = useState();
-  const [avatar, setAvatar] = useState();
-  const [username, setUsername] = useState();
-  const [email, setEmail] = useState();
-  const [phoneNumber, setPhoneNumber] = useState();
-  const [address, setAddress] = useState();
+  const [id, setId] = useState(userData.id);
+  const [avatar, setAvatar] = useState(userData.avatar);
+  const [username, setUsername] = useState(userData.email);
+  const [email, setEmail] = useState(userData.username);
+  const [phoneNumber, setPhoneNumber] = useState(userData.phoneNumber);
+  const [address, setAddress] = useState(userData.address);
   const [password, setPassword] = useState();
   const [newPassword, setNewPassword] = useState();
   const [confirmNewPassword, setConfirmNewPassword] = useState();
-  
+  const [type, setType] = useState("accessories");
+
   const getUserMe = async () => {
-    alert(currentUser)
-    let response = await cdmApi.getUserMe(currentUser);
-    setId(response.data.id);
-    setAddress(response.data.address);
-    setEmail(response.data.email);
-    setUsername(response.data.name);
-    setPhoneNumber(response.data.phoneNumber);
+    let response = await cdmApi.getUserMe(userData.username);
     setUser(response.data);
+    setAvatar(response.data.avatar);
+    setUsername(response.data.username);
+    setEmail(response.data.email);
+    setPhoneNumber(response.data.phoneNumber);
+    setAddress(response.data.address);
+  };
+
+  const getShop = async () => {
+    let dataa = await cdmApi.getShopByType(type);
+    console.log("getShop");
+    console.log(dataa.data);
   };
 
   const handleSubmitUserData = async (event) => {
     event.preventDefault();
+    console.log(id)
     try {
       const user = { id, avatar, username, email, phoneNumber, address };
       await cdmApi.updateUser(user);
@@ -66,7 +75,18 @@ function CustomerProfile() {
 
   useEffect(() => {
     getUserMe();
+    getShop();
   }, []);
+
+  useEffect(() => {
+    setId(userData.id);
+    setAvatar(user.avatar);
+    setUsername(user.email);
+    setEmail(user.username);
+    setPhoneNumber(user.phoneNumber);
+    setAddress(user.address);
+    console.log(user);
+  }, [user]);
 
   document.addEventListener("DOMContentLoaded", function () {
     const fileInput = document.getElementById("avatar-upload");
@@ -194,15 +214,11 @@ function CustomerProfile() {
                 onChange={(e) => setAddress(e.target.value)}
               />
             </div>
-            <div style={{width: "90%"}}>
-            <button
-              type="submit"
-              className="button button--light"
-            >
-              Save Change
-            </button>
+            <div style={{ width: "90%" }}>
+              <button type="submit" className="button button--light">
+                Save Change
+              </button>
             </div>
-            
           </form>
 
           {/* <div className="flex">
@@ -246,7 +262,10 @@ function CustomerProfile() {
                 <label for="cr" class="article">
                   Current Password
                 </label>
-                <input type="password" id="cr" class="input-article" 
+                <input
+                  type="password"
+                  id="cr"
+                  class="input-article"
                   onChange={(e) => setPassword(e.target.value)}
                 />
               </div>
@@ -254,7 +273,10 @@ function CustomerProfile() {
                 <label for="ne" class="article">
                   New Password
                 </label>
-                <input type="password" id="ne" class="input-article" 
+                <input
+                  type="password"
+                  id="ne"
+                  class="input-article"
                   onChange={(e) => setNewPassword(e.target.value)}
                 />
               </div>

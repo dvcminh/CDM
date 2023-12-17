@@ -76,15 +76,13 @@ function Login() {
             .then(async response => { 
                 console.log(response);
                 if(response.data){
-                    localStorage.setItem("accessToken", response.data.accessToken);
+                    localStorage.setItem("accessToken", response.data);
                     const userData = await cdmApi.getUserMe(email);
                     if (userData.data.role === "MANAGER") navigate('/managerhome');
-                    else if (userData.data.role === "ADMIN") navigate('/staffhome'); //admin == staff 
+                    else if (userData.data.role === "STAFF") navigate('/staffhome'); 
                     else
                     navigate('/customerhome');
-
-                    alert(userData.data.name)
-                    localStorage.setItem('currentUser', JSON.stringify(userData.data.name));
+                    localStorage.setItem('currentUser', JSON.stringify(userData.data));
 
                 }
             })
