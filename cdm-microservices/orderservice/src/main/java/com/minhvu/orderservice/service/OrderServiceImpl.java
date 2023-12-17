@@ -60,7 +60,6 @@ public class OrderServiceImpl implements OrderService {
 
         orderRepository.save(order);
 
-        kafkaTemplate.send("order-topic", new OrderPlaceEvent(order.getId(), order.getEmail()));
 
         for (CreateOrderItemRequest createOrderItemRequestList : createOrderRequest.getCreateOrderItemRequestList()) {
             inventoryService.reduceQuantity(createOrderItemRequestList.getProductId(), createOrderItemRequestList.getQuantity());
@@ -82,7 +81,7 @@ public class OrderServiceImpl implements OrderService {
 
             orderItemRepository.save(orderItem);
         }
-
+        kafkaTemplate.send("order-topic", new OrderPlaceEvent(order.getId(), order.getEmail()));
     }
 
     @Override

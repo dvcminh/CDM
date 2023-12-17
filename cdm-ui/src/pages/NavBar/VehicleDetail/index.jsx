@@ -3,17 +3,21 @@ import React, { useEffect, useState } from "react";
 import './vehicle.css'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faCaretLeft, faCaretRight, faChevronLeft, faChevronRight } from '@fortawesome/free-solid-svg-icons';
+import { cdmApi } from '../../../misc/cdmApi';
 
 function VehicleDetail() {
    const params = useParams();
    const [data, setData] = useState([]);
 
-   const url = "http://localhost:8083/api/v1/products/getCarById/" + params.id;
-   const fetchInfo = () => {
-      return fetch(url)
-      .then((res) => res.json())
-      .then((d) => setData(d))
-  }
+   const url = "http://localhost:9296/api/v1/products/getCarById/" + params.id;
+   const fetchInfo = async () => {
+      try {
+         const res = await cdmApi.getCarById(params.id);
+         setData(res.data);
+      } catch (error) {
+         console.error("Error fetching data:", error);
+      }
+   }
 
    useEffect(() => {
       fetchInfo();

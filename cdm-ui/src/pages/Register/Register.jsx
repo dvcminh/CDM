@@ -32,7 +32,7 @@ function Register() {
         event.preventDefault();
         const values = {name, password, confpassword};
         setErrors(Validation(values));
-        if(errors.name === "" && errors.password == "" && errors.confpassword == ""){
+        if(errors.name === "" && errors.password === "" && errors.confpassword === ""){
             try {
                 const user = { name, email, phone, address, password, role: "CUSTOMER"};
                 cdmApi.signup(user)

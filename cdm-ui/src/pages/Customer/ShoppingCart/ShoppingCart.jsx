@@ -3,11 +3,62 @@ import SideBar from "../../../layouts/components/SideBar";
 import CartList from './components/CartList';
 import FooterCart from './components/FooterCart';
 import CartData from './cart'
-import { useState } from 'react';
-
+import { useState, useEffect } from 'react';
+import CartItem from './components/CartItem';
+import { cdmApi } from '../../../misc/cdmApi';
 
 //new
 const ShoppingCart = () => {
+  const [carts, setCarts] = useState([]);
+  const [total, setTotal] = useState(0);
+  const [shippingFee, setShippingFee] = useState(8);
+
+  useEffect(() => {
+    // This function will run every time the component renders
+    const cart = localStorage.getItem('cart');
+    
+    if (cart) {
+      setCarts(JSON.parse(cart));
+    } else {
+      setCarts([]);
+    }
+  }, []);
+
+  const handleCart = async () => {
+    const orderData = {
+      totalAmount: total,
+      email: "vuducminh210503@gmail.com",
+      shippingAddress: "uit",
+      voucherValue: 10,
+      shippingValue: shippingFee,
+      createOrderItemRequestList: carts.map(cart => ({
+        productId: cart.id,
+        quantity: cart.amount,
+        pricePerUnit: cart.price,
+        size: "sm", // default value
+        color: "red", // default value
+        voucher: 10,
+        shipping: 10
+      }))
+    };
+
+    try {
+      const order = await cdmApi.createOrder(orderData);
+      console.log(order);
+      alert("Order successfully!");
+      localStorage.removeItem("cart");
+    } catch (error) {
+      console.error(error);
+    }
+  };
+
+  useEffect(() => {
+    const total = carts.reduce((acc, item) => {
+      return acc + item.price * item.amount;
+    }, 0);
+    
+    setTotal(total);
+  }, [carts]);
 
   return (
     <div className="py-8 px-4 md:px-6 2xl:px-20 2xl:container 2xl:mx-auto">
@@ -15,7 +66,8 @@ const ShoppingCart = () => {
       <div className="flex flex-col justify-start items-start w-full space-y-4 md:space-y-6 xl:space-y-8">
         <div className="flex flex-col justify-start items-start  bg-gray-50 px-4 py-4 md:py-6 md:p-6 xl:p-8 w-full">
           <p className="text-lg md:text-xl  font-semibold leading-6 xl:leading-5 text-black">Customer’s Cart</p>
-          <div className="mt-4 md:mt-6 flex flex-col md:flex-row justify-start items-start md:items-center md:space-x-6 xl:space-x-8 w-full">
+          {/* {carts} */}
+          {/* <div className="mt-4 md:mt-6 flex flex-col md:flex-row justify-start items-start md:items-center md:space-x-6 xl:space-x-8 w-full">
             <div className="pb-4 md:pb-8 w-full md:w-40">
               <img className="w-full hidden md:block" src="https://i.ibb.co/84qQR4p/Rectangle-10.png" alt="dress" />
               <img className="w-full md:hidden" src="https://i.ibb.co/L039qbN/Rectangle-10.png" alt="dress" />
@@ -35,8 +87,24 @@ const ShoppingCart = () => {
                 <p className="text-base xl:text-lg font-semibold leading-6 text-black">$36.00</p>
               </div>
             </div>
-          </div>
-          <div className="mt-6 md:mt-0 flex justify-start flex-col md:flex-row items-start md:items-center space-y-4 md:space-x-6 xl:space-x-8 w-full">
+          </div> */}
+          {carts.map((cart) => {
+            return (
+              <CartItem
+                key={cart.id}
+                image={cart.img}
+                title={cart.title}
+                // style={cart.style}
+                // size={cart.size}
+                // color={cart.color}
+                price={cart.price}
+                // discountPrice={cart.discountPrice}
+                quantity={cart.amount}
+                total={cart.price * cart.amount}
+              />
+            );
+          })}
+          {/* <div className="mt-6 md:mt-0 flex justify-start flex-col md:flex-row items-start md:items-center space-y-4 md:space-x-6 xl:space-x-8 w-full">
             <div className="w-full md:w-40">
               <img className="w-full hidden md:block" src="https://i.ibb.co/s6snNx0/Rectangle-17.png" alt="dress" />
               <img className="w-full md:hidden" src="https://i.ibb.co/BwYWJbJ/Rectangle-10.png" alt="dress" />
@@ -56,7 +124,7 @@ const ShoppingCart = () => {
                 <p className="text-base xl:text-lg font-semibold leading-6 text-black">$20.00</p>
               </div>
             </div>
-          </div>
+          </div> */}
         </div>
         <div className="flex justify-center flex-col md:flex-row flex-col items-stretch w-full space-y-4 md:space-y-0 md:space-x-6 xl:space-x-8">
           <div className="flex flex-col px-4 py-6 md:p-6 xl:p-8 w-full bg-gray-50 space-y-6">
@@ -64,12 +132,12 @@ const ShoppingCart = () => {
             <div className="flex justify-center items-center w-full space-y-4 flex-col border-gray-200 border-b pb-4">
               <div className="flex justify-between w-full">
                 <p className="text-base  leading-4 text-black">Subtotal</p>
-                <p className="text-base  leading-4 text-black">$56.00</p>
+                <p className="text-base  leading-4 text-black">${total}</p>
               </div>
-              <div className="flex justify-between items-center w-full">
+              {/* <div className="flex justify-between items-center w-full">
                 <p className="text-base  leading-4 text-black">Discount <span className="bg-gray-200 p-1 text-xs font-medium leading-3 text-gray-800">STUDENT</span></p>
                 <p className="text-base  leading-4 text-black">-$28.00 (50%)</p>
-              </div>
+              </div> */}
               <div className="flex justify-between items-center w-full">
                 <p className="text-base  leading-4 text-black">Shipping</p>
                 <p className="text-base  leading-4 text-black">$8.00</p>
@@ -77,7 +145,7 @@ const ShoppingCart = () => {
             </div>
             <div className="flex justify-between items-center w-full">
               <p className="text-base font-semibold leading-4 text-black">Total</p>
-              <p className="text-base  font-semibold leading-4 text-black">$36.00</p>
+              <p className="text-base  font-semibold leading-4 text-black">${((total + shippingFee)).toFixed(2)}</p>
             </div>
           </div>
           <div className="flex flex-col justify-center px-4 py-6 md:p-6 xl:p-8 w-full bg-gray-50 space-y-6">
@@ -91,7 +159,7 @@ const ShoppingCart = () => {
                   <p className="text-lg leading-6  font-semibold text-black">DPD Delivery<br /><span className="font-normal">Delivery with 24 Hours</span></p>
                 </div>
               </div>
-              <p className="text-lg font-semibold leading-6 text-black">$8.00</p>
+              <p className="text-lg font-semibold leading-6 text-black">${shippingFee}</p>
             </div>
             <div className="w-full flex justify-center items-center">
                 <button className="mt-6 md:mt-0  py-5 hover:bg-gray-200 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-gray-800 border border-gray-800 font-medium w-96 2xl:w-full text-base font-medium leading-4 text-gray-800">View Carrier Detail</button>
@@ -127,7 +195,7 @@ const ShoppingCart = () => {
               </div>
             </div>
             <div className="flex w-full justify-center items-center md:justify-start md:items-start">
-              <button className="mt-6 md:mt-0  py-5 hover:bg-gray-200 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-gray-800 border border-gray-800 font-medium w-96 2xl:w-full text-base font-medium leading-4 text-gray-800">Edit Details</button>
+              <button onClick={handleCart} className="mt-6 md:mt-0 py-5 hover:bg-gray-200 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-gray-800 border border-gray-800 w-96 2xl:w-full text-base font-black leading-4 text-gray-800">Orders</button>
             </div>
           </div>
         </div>

@@ -2,8 +2,7 @@ import React, { useEffect, useState } from "react";
 import CarCard from "../../../components/CarCard";
 import '../../../components/CarCard/CarCard.css'
 import SortCarSideBar from "../../../components/SortCarSideBar";
-import { cdmApi
- } from "../../../misc/cdmApi";
+import { cdmApi } from "../../../misc/cdmApi";
 function Vehicle () {
 
 
@@ -11,9 +10,14 @@ function Vehicle () {
     const [data, setData] = useState([]);
 
     const fetchInfo = async () => {
-        const res = await fetch(url);
-        return setData(res);
-    }
+        try {
+          const res = await cdmApi.getAllCars();
+          setData(res.data.content);
+        } catch (error) {
+          console.error("Error fetching data:", error);
+        }
+      }
+    
 
     useEffect(() => {
         fetchInfo();
