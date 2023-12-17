@@ -17,9 +17,9 @@ function CustomerProfile() {
   const [user, setUser] = useState({});
   const [id, setId] = useState(userData.id);
   const [avatar, setAvatar] = useState(userData.avatar);
-  const [username, setUsername] = useState(userData.email);
-  const [email, setEmail] = useState(userData.username);
-  const [phoneNumber, setPhoneNumber] = useState(userData.phoneNumber);
+  const [name, setName] = useState(userData.username);
+  const [email, setEmail] = useState(userData.email);
+  const [phone, setPhone] = useState(userData.phoneNumber);
   const [address, setAddress] = useState(userData.address);
   const [password, setPassword] = useState();
   const [newPassword, setNewPassword] = useState();
@@ -30,23 +30,17 @@ function CustomerProfile() {
     let response = await cdmApi.getUserMe(userData.username);
     setUser(response.data);
     setAvatar(response.data.avatar);
-    setUsername(response.data.username);
+    setName(response.data.username);
     setEmail(response.data.email);
-    setPhoneNumber(response.data.phoneNumber);
+    setPhone(response.data.phoneNumber);
     setAddress(response.data.address);
-  };
-
-  const getShop = async () => {
-    let dataa = await cdmApi.getShopByType(type);
-    console.log("getShop");
-    console.log(dataa.data);
   };
 
   const handleSubmitUserData = async (event) => {
     event.preventDefault();
-    console.log(id)
+    console.log(id);
     try {
-      const user = { id, avatar, username, email, phoneNumber, address };
+      const user = { id, avatar, name, email, phone, address };
       await cdmApi.updateUser(user);
       alert("Update user successfully");
     } catch (error) {
@@ -75,15 +69,14 @@ function CustomerProfile() {
 
   useEffect(() => {
     getUserMe();
-    getShop();
   }, []);
 
   useEffect(() => {
     setId(userData.id);
     setAvatar(user.avatar);
-    setUsername(user.email);
-    setEmail(user.username);
-    setPhoneNumber(user.phoneNumber);
+    setName(user.username);
+    setEmail(user.email);
+    setPhone(user.phoneNumber);
     setAddress(user.address);
     console.log(user);
   }, [user]);
@@ -139,7 +132,7 @@ function CustomerProfile() {
             </div>
             <div className="vertical-line"></div>
             <div style={{ flex: 4 }}>
-              <p className="font-medium underline mt-4">Mr. {username}</p>
+              <p className="font-medium underline mt-4">Mr. {email}</p>
               <p>
                 {" "}
                 {address} (Customer's address)
@@ -170,8 +163,8 @@ function CustomerProfile() {
                 id="last"
                 class="input-article"
                 style={{ width: "90%" }}
-                value={username}
-                onChange={(e) => setUsername(e.target.value)}
+                value={email}
+                onChange={(e) => setEmail(e.target.value)}
               />
             </div>
 
@@ -181,11 +174,13 @@ function CustomerProfile() {
                   Email Address
                 </label>
                 <input
+                  readOnly
                   type="text"
                   id="email"
                   class="input-article"
-                  value={email}
-                  onChange={(e) => setEmail(e.target.value)}
+                  value={name}
+                  onChange={(e) => setName(e.target.value)}
+                  title="This field is read-only"
                 />
               </div>
               <div class="form-group">
@@ -196,8 +191,8 @@ function CustomerProfile() {
                   type="text"
                   id="phone"
                   class="input-article"
-                  value={phoneNumber}
-                  onChange={(e) => setPhoneNumber(e.target.value)}
+                  value={phone}
+                  onChange={(e) => setPhone(e.target.value)}
                 />
               </div>
             </div>
