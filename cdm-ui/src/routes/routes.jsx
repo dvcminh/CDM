@@ -22,6 +22,8 @@ import landingLayout from '../layouts/landingLayout';
 import StaffHome from '../pages/Staff/StaffHome';
 import StaffReport from '../pages/Staff/StaffReport';
 import StaffOrder from '../pages/Staff/StaffOrder/StaffOrder';
+import StaffCustomer from '../pages/Staff/StaffCustomer/StaffCustomer';
+import StaffProfile from '../pages/Staff/StaffProfile/StaffProfile';
 import staffLayout from '../layouts/staffLayout';
 import VehicleDetail from '../pages/NavBar/VehicleDetail';
 import ManagerLayout from '../layouts/managerLayout/';
@@ -51,6 +53,8 @@ const publicRoutes = [
     { path: config.routes.staffhome, component: StaffHome, layout: staffLayout },
     { path: config.routes.staffreport, component: StaffReport, layout: staffLayout },
     { path: config.routes.stafforder, component: StaffOrder, layout: staffLayout },
+    { path: config.routes.staffcustomer, component: StaffCustomer, layout: staffLayout },
+    { path: config.routes.staffprofile, component: StaffProfile, layout: staffLayout },
     { path: config.routes.vehicledetail, component: VehicleDetail, layout: loginregisLayout},
     {path: config.routes.shopaccessories, component: ShopAccessories, layout: DefaultLayout},
     {path: config.routes.shopmerchandise, component: ShopMerchandise, layout: DefaultLayout},

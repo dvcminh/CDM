@@ -14,7 +14,7 @@ function SideBarStaff() {
     {
       icon: <FontAwesomeIcon icon={faUser} className='sidebar__icon' />,
       title: 'Profile Settings',
-      to: config.routes.c
+      to: config.routes.staffprofile
     },
     {
       icon: <FontAwesomeIcon icon={faBagShopping} className='sidebar__icon' />,
@@ -29,7 +29,7 @@ function SideBarStaff() {
     {
         icon: <FontAwesomeIcon icon={faUsers} className='sidebar__icon' />,
         title: 'Customers',
-        to: config.routes.c
+        to: config.routes.staffcustomer
     },
     {
       icon: <FontAwesomeIcon icon={faRightFromBracket} className='sidebar__icon' />,
