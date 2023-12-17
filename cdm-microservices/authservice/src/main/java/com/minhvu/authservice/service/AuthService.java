@@ -73,6 +73,7 @@ public class AuthService {
     public String updateUser(UpdateUserInformationRequest userDto) {
         Optional<User> user = userRepository.findById(userDto.getId());
         if (user.isPresent()) {
+            user.get().setEmail(userDto.getEmail());
             user.get().setAddress(userDto.getAddress());
             user.get().setPhone_number(userDto.getPhone());
             user.get().setAvatar(userDto.getAvatar());
