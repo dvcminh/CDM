@@ -6,6 +6,8 @@ import com.minhvu.productservice.dto.UpdateCarRequest;
 import com.minhvu.productservice.model.Car;
 import com.minhvu.productservice.repository.CarRepository;
 import lombok.AllArgsConstructor;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
@@ -22,8 +24,8 @@ public class CarServiceImpl implements CarService {
     private final CarRepository carRepository;
     private final Cloudinary cloudinary;
 
-    public List<Car> getAllProducts() {
-        return carRepository.findAll();
+    public Page<Car> getAllProducts(Pageable pageable) {
+        return carRepository.findAll(pageable);
     }
 
     @Override
@@ -60,6 +62,20 @@ public class CarServiceImpl implements CarService {
         Car product = carRepository.findById(updateCarRequest.getId()).orElse(null);
         if (product != null) {
             product.setModel(updateCarRequest.getModel());
+            product.setDisPrice(updateCarRequest.getDisPrice());
+            product.setOrgPrice(updateCarRequest.getOrgPrice());
+            product.setGift(updateCarRequest.getGift());
+            product.setCount(updateCarRequest.getCount());
+            product.setOdo(updateCarRequest.getOdo());
+            product.setTech(updateCarRequest.getTech());
+            product.setRange(updateCarRequest.getRange());
+            product.setTrim(updateCarRequest.getTrim());
+            product.setTopSpeed(updateCarRequest.getTopSpeed());
+            product.setTimeToReach(updateCarRequest.getTimeToReach());
+            product.setImgSrc(updateCarRequest.getImgSrc());
+            product.setPerMonthPrice(updateCarRequest.getPerMonthPrice());
+            product.setKeyFeatures(updateCarRequest.getKeyFeatures());
+            product.setStatus(updateCarRequest.getStatus());
 
             return carRepository.save(product);
         }

@@ -40,8 +40,8 @@ public class OrderController {
     }
 
     @GetMapping("/getOrderByUserId")
-    public ResponseEntity<Iterable<Order>> getOrdersByUserId(@RequestParam("userId") String userId) {
-        return ResponseEntity.ok(orderService.findByUserId(userId));
+    public ResponseEntity<Iterable<Order>> getOrdersByUserId(@RequestParam("email") String email) {
+        return ResponseEntity.ok(orderService.findByEmail(email));
     }
 
     @GetMapping("/countOrders")

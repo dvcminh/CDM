@@ -9,6 +9,8 @@ import {
 } from "@fortawesome/free-solid-svg-icons";
 import { cdmApi } from "../../../misc/cdmApi";
 import React, { useEffect, useState } from "react";
+
+
 function CustomerProfile() {
   const [user, setUser] = useState({});
   const [id, setId] = useState();
@@ -20,13 +22,14 @@ function CustomerProfile() {
   const [password, setPassword] = useState();
   const [newPassword, setNewPassword] = useState();
   const [confirmNewPassword, setConfirmNewPassword] = useState();
-
+  
   const getUserMe = async () => {
-    let response = await cdmApi.getUserMe();
+    alert(currentUser)
+    let response = await cdmApi.getUserMe(currentUser);
     setId(response.data.id);
     setAddress(response.data.address);
     setEmail(response.data.email);
-    setUsername(response.data.username);
+    setUsername(response.data.name);
     setPhoneNumber(response.data.phoneNumber);
     setUser(response.data);
   };
@@ -140,7 +143,7 @@ function CustomerProfile() {
           <form className="flex flex-col" onSubmit={handleSubmitUserData}>
             <div class="form-group">
               <label for="user" class="article">
-                User Name
+                Full Name
               </label>
               <input
                 type="user"

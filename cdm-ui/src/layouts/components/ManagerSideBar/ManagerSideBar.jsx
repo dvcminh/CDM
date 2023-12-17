@@ -34,7 +34,7 @@ function ManagerSideBar() {
     {
       icon: <FontAwesomeIcon icon={faCube} className='sidebar__icon' />,
       title: 'Inventories',
-      to: config.routes.c
+      to: config.routes.managecar
     },
     {
       icon: <FontAwesomeIcon icon={faRightFromBracket} className='sidebar__icon' />,
