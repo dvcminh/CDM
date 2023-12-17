@@ -5,8 +5,15 @@ import Validation from "./LoginValidation"
 import { GoogleLogin } from 'react-google-login';
 import { useNavigate } from 'react-router-dom';
 import { cdmApi } from "../../misc/cdmApi";
+import { jwtDecode as jwt_decode } from 'jwt-decode';
+import { useEffect } from 'react';
 
 function Login() {
+   
+    const [values, setValues] = useState({
+        email: '',
+        password: ''
+    })
     const clientId ="671243941248-6t9bi1aq2om20nlksbvq9amc8snso34a.apps.googleusercontent.com";
 
     const [email, setEmail] = useState('');
@@ -17,6 +24,45 @@ function Login() {
     const handleInput = (event) => {
         setValues(prev => ({...prev, [event.target.name]: [event.target.value]}))
     }
+
+    function handleCallbackResponse(response){
+        console.log("Encoded JWT ID token: " + response.credential);
+        var userObject = jwt_decode(response.credential);
+        console.log(userObject);
+        const user = {
+            email: userObject.email,
+            name: userObject.name.replace(/\s/g, ''),
+            avatar: userObject.picture
+          };
+        console.log(user);
+        try {
+            cdmApi.signup(user)
+            .then(response => {
+                alert("Welcome," + user.name + " login successfully!");
+                navigate('/customerhome');
+            })
+            .catch(error => {
+                alert("Login failed!");
+                console.log(error);
+            })
+        }
+        catch(error) {
+            console.log(error);
+        }
+        
+    }
+    
+    useEffect(() => {
+      /* global google */ 
+        google.accounts.id.initialize({
+            client_id: '127046372503-fcf9va4r603a399qvuvnms0pk7rpug0e.apps.googleusercontent.com',
+            callback: handleCallbackResponse
+        });
+        google.accounts.id.renderButton(
+            document.getElementById('signInDiv'),
+            { theme: "outline", size: "large"}
+        );
+    }, []);
 
     const handleSubmit = (event) => {
         event.preventDefault();
@@ -53,15 +99,6 @@ function Login() {
     }
     }
 
-    const responseGoogleSuccess = (response) => {
-        console.log("haha", response);
-        navigate('/customerhome');
-    };
-
-    const responseGoogleError = (response) => {
-        console.log("huhu", response);
-        // navigate('/customerhome');
-    };
 
     return (
         <>
@@ -133,14 +170,7 @@ function Login() {
                             <p>Or</p>
                             <div className="line-horizontal ml-4 mt-2"></div>
                         </div>
-                        <div className="flex flex-col justify-center items-center">
-                                <GoogleLogin
-                                clientId={clientId}
-                                buttonText="Login by google account"
-                                onSuccess={responseGoogleSuccess}
-                                onFailure={responseGoogleError}
-                                cookiePolicy={'single_host_origin'}
-                                />
+                        <div className="flex flex-col justify-center items-center" id='signInDiv'>
                         </div>
                 </form>
     
