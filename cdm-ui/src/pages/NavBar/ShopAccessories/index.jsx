@@ -15,6 +15,8 @@ const sortOptions = [
 ]
 
 export default function Example() {
+ 
+
     const [acc, setAcc] = useState([]);
     const fetchInfo = async () => {
         try {
@@ -28,33 +30,7 @@ export default function Example() {
       useEffect(() => {
         fetchInfo();
     }, []);
-  const navigate = useNavigate();
 
-  const handleCart = (product, redirect) => {
-    const cart = JSON.parse(localStorage.getItem("cart")) || [];
-    const isProductExist = cart.find((item) => item.id === product.id);
-    if (isProductExist) {
-      const updatedCart = cart.map((item) => {
-        if (item.id === product.id) {
-          return {
-            ...item,
-            quantity: item.quantity + 1,
-          };
-        }
-        return item;
-      });
-      localStorage.setItem("cart", JSON.stringify(updatedCart));
-    } else {
-      localStorage.setItem(
-        "cart",
-        JSON.stringify([...cart, { ...product, quantity: 1 }])
-      );
-    }
-    alert("Add to cart successfully!");
-    if (redirect) {
-      navigate("/customerhome/shoppingcart");
-    }
-  };
   return (
         <>
       <div className="hidden xl:block" style={{ height: 500, marginTop: 0 }}>

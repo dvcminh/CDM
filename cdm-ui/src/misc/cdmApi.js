@@ -20,7 +20,7 @@ export const cdmApi = {
   getOrderByUserId,
   createCustomerReport,
   getCustomerReport,
-
+}
 
 function authenticate(user) {
   return instance.post("/auth/login", user);
