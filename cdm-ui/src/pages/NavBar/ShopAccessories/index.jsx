@@ -3,6 +3,8 @@ import { useEffect, useState } from "react";
 import {cdmApi} from '../../../misc/cdmApi'
 import ReactPlayer from "react-player";
 import ShopCard from '../../../components/ShopCard'
+import { useNavigate } from "react-router-dom";
+
 
 const sortOptions = [
   { name: 'Most Popular', href: '#', current: true },
@@ -26,6 +28,7 @@ export default function Example() {
       useEffect(() => {
         fetchInfo();
     }, []);
+  const navigate = useNavigate();
 
   const handleCart = (product, redirect) => {
     const cart = JSON.parse(localStorage.getItem("cart")) || [];
@@ -47,12 +50,13 @@ export default function Example() {
         JSON.stringify([...cart, { ...product, quantity: 1 }])
       );
     }
+    alert("Add to cart successfully!");
     if (redirect) {
-      navigate("/cart");
+      navigate("/customerhome/shoppingcart");
     }
   };
   return (
-    <>
+        <>
       <div className="hidden xl:block" style={{ height: 500, marginTop: 0 }}>
         <ReactPlayer
           url="https://res.cloudinary.com/droondbdu/video/upload/v1702371267/car_online-video-cutter.com_bvwwag.mp4"

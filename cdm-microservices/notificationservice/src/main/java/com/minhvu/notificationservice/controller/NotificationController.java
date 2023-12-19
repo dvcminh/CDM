@@ -32,11 +32,7 @@ public class NotificationController {
     public void consume(OrderPlaceEvent message) {
         try {
             log.info("Email sent for order id: {}", message.getOrderId());
-            emailSender.sendOrderConfirmationEmail(message.getEmail(), "<h1>Thank you for your order</h1><br/>"
-                            + "<h3>Order ID: " + message.getOrderId() + "</h3><br/>"
-//                    + "<h3>Order Total: " + message.getTotal() + "</h3><br/>"
-//                    + "<h3>Order Date: " + message.getOrderDate() + "</h3><br/>");
-            );
+            emailSender.sendOrderConfirmationEmail(message.getEmail(), "Thank you for your order. Your order id is " + message.getOrderId());
         } catch (Exception e) {
             log.error("Error sending email: {}", e.getMessage());
         }

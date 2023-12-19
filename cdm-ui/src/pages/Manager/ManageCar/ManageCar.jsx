@@ -33,7 +33,7 @@ const ManageCarPage = () => {
       try {
         // const response = await axios.get('http://localhost:8083/api/v1/products/getAllCars');
         const response = await cdmApi.getAllCars();
-        const addedIndexData = response.data.map((row, index) => ({ ...row, index: index + 1 }));
+        const addedIndexData = response.data.content.map((row, index) => ({ ...row, index: index + 1 }));
         setRows(addedIndexData); 
       } catch (error) {
         console.error('Error fetching data:', error);
