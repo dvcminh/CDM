@@ -7,13 +7,13 @@ function ShopCard({data}) {
     }
     return ( 
         <div className="relative m-10 w-full max-w-xs overflow-hidden rounded-lg bg-white shadow-md">
-                <div onClick={viewDetail} className="">
-                    <a href="">
+                <div  className="">
+                    <a href="" onClick={viewDetail}>
                         <img className="h-60 rounded-t-lg object-cover" src={data.imgSrc} alt="product image" />
                     </a>
                     <span className="absolute top-0 left-0 w-28 translate-y-4 -translate-x-6 -rotate-45 bg-black text-center text-sm text-white">Sale</span>
                     <div className="mt-4 px-5 pb-5">
-                    <a href="">
+                    <a href="" onClick={viewDetail}>
                         <h5 className="text-xl font-semibold tracking-tight text-slate-900">{data.name}</h5>
                     </a>
                 </div>
