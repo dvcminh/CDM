@@ -16,10 +16,11 @@ export const cdmApi = {
   createOrder,
   getAllInventory,
   getShopByType,
+  getShopById,
   getOrderByUserId,
   createCustomerReport,
   getCustomerReport,
-};
+
 
 function authenticate(user) {
   return instance.post("/auth/login", user);
@@ -161,6 +162,9 @@ function getCustomerReport() {
   });
 }
 
+function getShopById(id) {
+  return instance.get('http://localhost:9296/api/v1/products/getShopById/' + id);
+}
 // -- Axios
 
 const instance = axios.create({
