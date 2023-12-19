@@ -1,10 +1,45 @@
 import { useNavigate } from "react-router-dom";
+import Snackbar from '@mui/material/Snackbar';
+import React, { useEffect } from 'react';
+import Alert from '@mui/material/Alert';
 
 function ShopCard({data}) {
+    const [snackbar, setSnackbar] = React.useState(null);
+    const handleCloseSnackbar = () => setSnackbar(null);
+    
     const usenavigate = useNavigate("");
     async function viewDetail() {
         usenavigate(`/shop/${data.id}`)
+    };
+
+  
+    const handleCart = (product, redirect) => {
+      const cart = JSON.parse(localStorage.getItem("cart")) || [];
+      const isProductExist = cart.find((item) => item.id === product.id);
+      if (isProductExist) {
+        const updatedCart = cart.map((item) => {
+          if (item.id === product.id) {
+            return {
+              ...item,
+              quantity: item.quantity + 1,
+            };
+          }
+          return item;
+        });
+        localStorage.setItem("cart", JSON.stringify(updatedCart));
+      } else {
+        localStorage.setItem(
+          "cart",
+          JSON.stringify([...cart, { ...product, quantity: 1 }])
+        );
+      }
+      setSnackbar({ children: "Add to cart successfully!", severity: "success" });
+
+      if (redirect) {
+        usenavigate("/customerhome/shoppingcart");
+      }
     }
+
     return ( 
         <div className="relative m-10 w-full max-w-xs overflow-hidden rounded-lg bg-white shadow-md">
                 <div  className="">
@@ -40,13 +75,18 @@ function ShopCard({data}) {
               <span className="text-3xl font-bold text-slate-900">{data.price}</span>
               <span className="text-sm text-slate-900 line-through">$299</span>
             </p>
-            <a href="" className="mr-4 mb-2 flex items-center rounded-md bg-slate-900 px-5 py-2.5 text-center text-sm font-medium text-white hover:bg-gray-700 focus:outline-none focus:ring-4 focus:ring-blue-300">
+            <button onClick={() => handleCart(data)}  className="mr-4 mb-2 flex items-center rounded-md bg-slate-900 px-5 py-2.5 text-center text-sm font-medium text-white hover:bg-gray-700 focus:outline-none focus:ring-4 focus:ring-blue-300">
               <svg xmlns="http://www.w3.org/2000/svg" className="mr-2 h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
                 <path strokeLinecap="round" strokeLinejoin="round" d="M3 3h2l.4 2M7 13h10l4-8H5.4M7 13L5.4 5M7 13l-2.293 2.293c-.63.63-.184 1.707.707 1.707H17m0 0a2 2 0 100 4 2 2 0 000-4zm-8 2a2 2 0 11-4 0 2 2 0 014 0z" />
               </svg>
-              Add to cart</a>
+              Add to cart</button>
           </div>
         </div>
+        {!!snackbar && (
+              <Snackbar open onClose={handleCloseSnackbar} autoHideDuration={6000} anchorOrigin={{ vertical: "bottom", horizontal: "center" }}>
+                <Alert {...snackbar} onClose={handleCloseSnackbar} />
+              </Snackbar>
+            )}
       </div>
      );
 }

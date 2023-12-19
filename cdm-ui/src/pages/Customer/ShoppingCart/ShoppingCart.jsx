@@ -12,29 +12,44 @@ const ShoppingCart = () => {
   const [carts, setCarts] = useState([]);
   const [total, setTotal] = useState(0);
   const [shippingFee, setShippingFee] = useState(8);
+  const [userData, setUserData] = useState(
+    JSON.parse(localStorage.getItem("currentUser")) || []
+  );
 
+  const [user, setUser] = useState([]);
+  const fetchInfo = async () => {
+      try {
+        const res = await cdmApi.getUserMe(userData.username);
+        setUser(res.data);
+      } catch (error) {
+        console.error("Error fetching data:", error);
+      }
+    }
+  
+    useEffect(() => {
+      fetchInfo();
+  }, []);
   useEffect(() => {
     // This function will run every time the component renders
     const cart = localStorage.getItem('cart');
     setCarts(JSON.parse(cart));
-    // console.log(carts);
   }, []);
 
   const handleCart = async () => {
     const orderData = {
-      totalAmount: total,
-      email: "vuducminh210503@gmail.com",
-      shippingAddress: "uit",
-      voucherValue: 10,
-      shippingValue: shippingFee,
-      createOrderItemRequestList: carts.map(cart => ({
-        productId: cart.id,
-        quantity: cart.quantity,
-        pricePerUnit: cart.price,
-        size: "sm", // default value
-        color: "red", // default value
-        voucher: 10,
-        shipping: 10
+          totalAmount: total,
+          email: user.name,
+          shippingAddress: user.address,
+          voucherValue: 10,
+          shippingValue: shippingFee,
+          createOrderItemRequestList: carts.map(cart => ({
+          productId: cart.id,
+          quantity: cart.quantity,
+          pricePerUnit: cart.price,
+          size: "sm", // default value
+          color: "red", // default value
+          voucher: 10,
+          shipping: 10
       }))
     };
 
@@ -88,13 +103,10 @@ const ShoppingCart = () => {
             return (
               <CartItem
                 key={cart.id}
-                image={cart.imageSrc}
+                id={cart.id}
+                image={cart.imgSrc}
                 title={cart.name}
-                // style={cart.style}
-                // size={cart.size}
-                // color={cart.color}
                 price={cart.price}
-                // discountPrice={cart.discountPrice}
                 quantity={cart.quantity}
                 total={cart.price * cart.quantity}
               />
@@ -158,7 +170,7 @@ const ShoppingCart = () => {
               <p className="text-lg font-semibold leading-6 text-black">${shippingFee}</p>
             </div>
             <div className="w-full flex justify-center items-center">
-                <button className="mt-6 md:mt-0  py-5 hover:bg-gray-200 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-gray-800 border border-gray-800 font-medium w-96 2xl:w-full text-base font-medium leading-4 text-gray-800">View Carrier Detail</button>
+                <button className="mt-6 md:mt-0 bg-black text-white py-5 hover:bg-gray-200 hover:text-black focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-gray-800 border border-gray-800 font-medium w-96 2xl:w-full text-base font-medium leading-4 text-gray-800">View Carrier Detail</button>
             </div>
           </div>
         </div>
@@ -170,28 +182,28 @@ const ShoppingCart = () => {
             <div className="flex justify-center w-full md:justify-start items-center space-x-4 py-8 border-b border-gray-200">
               <img src="https://i.ibb.co/5TSg7f6/Rectangle-18.png" alt="avatar" />
               <div className="flex justify-start items-start flex-col space-y-2">
-                <p className="text-base font-semibold leading-4 text-left text-black">David Kent</p>
+                <p className="text-base font-semibold leading-4 text-left text-black">{user.email}</p>
                 <p className="text-sm leading-5 text-black">10 Previous Orders</p>
               </div>
             </div>
             <div className="flex justify-center text-black md:justify-start items-center space-x-4 py-4 border-b border-gray-200 w-full">
               <img className="" src="https://tuk-cdn.s3.amazonaws.com/can-uploader/order-summary-3-svg1.svg" alt="email" />
-              <p className="cursor-pointer text-sm leading-5 ">david89@gmail.com</p>
+              <p className="cursor-pointer text-sm leading-5 ">{user.username}</p>
             </div>
           </div>
           <div className="flex justify-between xl:h-full items-stretch w-full flex-col mt-6 md:mt-0">
             <div className="flex justify-center md:justify-start xl:flex-col flex-col md:space-x-6 lg:space-x-8 xl:space-x-0 space-y-4 xl:space-y-12 md:space-y-0 md:flex-row items-center md:items-start">
               <div className="flex justify-center md:justify-start items-center md:items-start flex-col space-y-4 xl:mt-8">
                 <p className="text-base font-semibold leading-4 text-center md:text-left text-black">Shipping Address</p>
-                <p className="w-48 lg:w-full xl:w-48 text-center md:text-left text-sm leading-5 text-black">180 North King Street, Northhampton MA 1060</p>
+                <p className="w-48 lg:w-full xl:w-48 text-center md:text-left text-sm leading-5 text-black">{user.address}</p>
               </div>
               <div className="flex justify-center md:justify-start items-center md:items-start flex-col space-y-4">
                 <p className="text-base font-semibold leading-4 text-center md:text-left text-black">Billing Address</p>
-                <p className="w-48 lg:w-full xl:w-48 text-center md:text-left text-sm leading-5 text-black0">180 North King Street, Northhampton MA 1060</p>
+                <p className="w-48 lg:w-full xl:w-48 text-center md:text-left text-sm leading-5 text-black0">{user.address}</p>
               </div>
             </div>
             <div className="flex w-full justify-center items-center md:justify-start md:items-start">
-              <button onClick={handleCart} className="mt-6 md:mt-0 py-5 hover:bg-gray-200 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-gray-800 border border-gray-800 w-96 2xl:w-full text-base font-black leading-4 text-gray-800">Orders</button>
+              <button onClick={handleCart} className="mt-6 md:mt-0 py-5 bg-black text-white hover:text-black hover:bg-gray-200 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-gray-800 border border-gray-800 w-96 2xl:w-full text-base font-black leading-4 ">Orders</button>
             </div>
           </div>
         </div>
