@@ -1,5 +1,6 @@
 import config from '../config';
 import ManagerHome from '../pages/Manager/ManagerHome';
+import ManagerProfile from '../pages/Manager/ManagerProfile';
 import ManagerVehicleModelS from '../pages/Manager/ManagerVehicle/VehicleModels';
 import ManageCustomerPage from '../pages/Manager/ManageCustomer/ManageCustomer';
 import ManageStaffPage from '../pages/Manager/ManageStaff/ManageStaff';
@@ -36,6 +37,7 @@ const publicRoutes = [
     { path: config.routes.shop, component: Shop, layout: DefaultLayout },
     { path: config.routes.managervehicleS, component: ManagerVehicleModelS, layout: ManagerLayout },
     { path: config.routes.managerhome, component: ManagerHome, layout: ManagerLayout},
+    { path: config.routes.managerprofile, component: ManagerProfile, layout: ManagerLayout},
     { path: config.routes.managecustomer, component: ManageCustomerPage, layout: ManagerLayout},
     { path: config.routes.managestaff, component: ManageStaffPage, layout: ManagerLayout},
     { path: config.routes.managereport, component: ManageReport, layout: ManagerLayout},

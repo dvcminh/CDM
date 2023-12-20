@@ -3,41 +3,53 @@ import './ManagerSideBar.css';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { Link, useLocation } from 'react-router-dom';
 import config from '../../../config';
+import {
+  FaHome,
+  FaGithubSquare,
+  FaInstagramSquare,
+  FaTwitterSquare
+} from 'react-icons/fa'
+
+
+import { ArrowRightOnRectangleIcon, CreditCardIcon, HomeIcon, NewspaperIcon, ShoppingBagIcon, UserCircleIcon, UsersIcon, UserGroupIcon, Square3Stack3DIcon } from '@heroicons/react/24/outline'
+import { CreditCard, ShoppingBag } from '@mui/icons-material';
 
 function ManagerSideBar() {
   const sidebarItem = [
     {
-      icon: <FontAwesomeIcon icon={faHouse} className='sidebar__icon' />,
+      icon: <HomeIcon className='w-6 h-auto' />,
       title: 'Dashboard',
       to: config.routes.managerhome
     },
     {
-      icon: <FontAwesomeIcon icon={faUser} className='sidebar__icon' />,
+      icon: <UserCircleIcon className='w-6 h-auto' />,
       title: 'Profile Settings',
       to: config.routes.managerprofile
     },
     {
-      icon: <FontAwesomeIcon icon={faPeopleGroup} className='sidebar__icon' />,
+      icon: <UserGroupIcon  className='w-6 h-auto' />,
       title: 'Staffs',
       to: config.routes.managestaff
     },
     {
-      icon: <FontAwesomeIcon icon={faFileLines} className='sidebar__icon' />,
-      title: 'Reports',
-      to: config.routes.managereport
-    },
-    {
-      icon: <FontAwesomeIcon icon={faUsers} className='sidebar__icon' />,
+      icon: <UsersIcon className='w-6 h-auto' />,
       title: 'Customers',
       to: config.routes.managecustomer
     },
     {
-      icon: <FontAwesomeIcon icon={faCube} className='sidebar__icon' />,
+      icon: <Square3Stack3DIcon className='w-6 h-auto' />,
       title: 'Inventories',
       to: config.routes.managecar
-    },
+    }
+    ,
     {
-      icon: <FontAwesomeIcon icon={faRightFromBracket} className='sidebar__icon' />,
+      icon: <NewspaperIcon className='w-6 h-auto' />,
+      title: 'Reports',
+      to: config.routes.managereport
+    }
+    ,
+    {
+      icon: <ArrowRightOnRectangleIcon className='w-6 h-auto' />,
       title: 'Sign Out',
       to: config.routes.start
     }
@@ -46,7 +58,7 @@ function ManagerSideBar() {
   const location = useLocation();
 
   return (
-   <div style={{height: '90vh'}}>
+   <div style={{height: '90vh'}} className='hidden lg:block'>
      <div className='flex flex-col items-center h-4/5 mt-32' >
       {sidebarItem.map((item, index) => (
         <div key={index}>
