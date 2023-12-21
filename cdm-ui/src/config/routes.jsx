@@ -25,7 +25,8 @@ const routes = {
     staffcustomer: '/staffhome/customer',
     staffprofile: '/staffhome/profile',
     vehicledetail: '/vehicledetail/:id',
-    productdetail: 'shop/:id'
+    productdetail: '/shop/:id',
+    bookappointment: '/customerhome/bookappointment',
 };
     
 
