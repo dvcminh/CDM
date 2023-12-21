@@ -33,6 +33,8 @@ spring:
           json:
             type:
               mapping: order:com.minhvu.orderservice.event.OrderPlaceEvent
+  config:
+    import: optional:configserver:${CONFIG_SERVER_URL:http://localhost:8888}
 
 resilience4j:
   circuitbreaker:
