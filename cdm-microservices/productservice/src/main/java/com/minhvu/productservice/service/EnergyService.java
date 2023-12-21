@@ -20,4 +20,6 @@ public interface EnergyService {
 
     void deleteProduct(String id);
     List<Energy> findEnergyByNameOrderedByPriceDesc(String name, boolean isAsc);
+
+    List<Energy> findEnergyByNameContains(String name);
 }

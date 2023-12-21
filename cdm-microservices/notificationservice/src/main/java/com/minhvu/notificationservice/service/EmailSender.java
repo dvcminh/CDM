@@ -24,4 +24,13 @@ public class EmailSender {
 
         emailService.sendEmail(to, subject, text);
     }
+
+    public void createCarAppointment(String carId, String email, String date, String time, String note) {
+        String to = email;
+        String subject = "Car appointment confirmation";
+        String text = "Your appointment for car " + carId + " has been confirmed. " +
+                "Date: " + date + " Time: " + time + " Note: " + note;
+
+        emailService.sendEmail(to, subject, text);
+    }
 }

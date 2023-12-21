@@ -21,4 +21,6 @@ public interface ShopService {
     List<Shop> findShopsByNameOrderedByPriceDesc(String name, boolean isAsc);
 
     List<Shop> findProductByTypeIgnoreCase(String type);
+
+    List<Shop> findShopByNameContains(String name);
 }

@@ -2,6 +2,8 @@ server:
   port: 9296
 
 spring:
+  config:
+    import: optional:configserver:${CONFIG_SERVER_URL:http://localhost:8888}
   application:
     name: API-GATEWAY
   cloud:
@@ -68,6 +70,13 @@ spring:
 #              args:
 #                name: REPORT-SERVICE
 #                fallbackuri: forward:/reportServiceFallBack
+
+        - id: NOTIFICATION-SERVICE
+          uri: lb://NOTIFICATION-SERVICE
+          predicates:
+            - Path=/api/v1/notifications/**
+          filters:
+            - AuthenticationFilter
 
 management:
   zipkin:

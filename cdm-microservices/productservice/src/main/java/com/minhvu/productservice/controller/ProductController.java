@@ -47,6 +47,11 @@ public class ProductController {
         return ResponseEntity.ok(carPage);
     }
 
+    @GetMapping("/getCarsByNameContains")
+    public List<Car> getCarsByNameContains(@RequestParam("name") String name) {
+        return carService.findCarsByNameContains(name);
+    }
+
     @GetMapping("/getCarById/{id}")
     public Car getCarById(@PathVariable String id) {
         return carService.getProductById(id);
@@ -95,6 +100,11 @@ public class ProductController {
     ) {
         Page<Energy> energyPage = energyService.findAll(PageRequest.of(page, size, Sort.by(direction, sortBy)));
         return ResponseEntity.ok(energyPage);
+    }
+
+    @GetMapping("/getEnergyByNameContains")
+    public List<Energy> getEnergyByNameContains(@RequestParam("name") String name) {
+        return energyService.findEnergyByNameContains(name);
     }
 
     @GetMapping("/getEnergyById/{id}")
@@ -149,6 +159,11 @@ public class ProductController {
     ) {
         Page<Shop> shopPage = shopService.findAll(PageRequest.of(page, size, Sort.by(direction, sortBy)));
         return ResponseEntity.ok(shopPage);
+    }
+
+    @GetMapping("/getShopByNameContains")
+    public List<Shop> getShopByNameContains(@RequestParam("name") String name) {
+        return shopService.findShopByNameContains(name);
     }
 
     @GetMapping("/getShopById/{id}")

@@ -18,6 +18,8 @@ spring:
 #    database-platform: org.hibernate.dialect.PostgreSQLDialect
   application:
     name: REPORT-SERVICE
+  config:
+    import: optional:configserver:${CONFIG_SERVER_URL:http://localhost:8888}
 
 
 management:

@@ -78,4 +78,9 @@ public class ShopServiceImpl implements ShopService {
     public List<Shop> findProductByTypeIgnoreCase(String type) {
         return shopRepository.findDistinctByTypeAllIgnoreCase(type);
     }
+
+    @Override
+    public List<Shop> findShopByNameContains(String name) {
+        return shopRepository.findByNameContains(name);
+    }
 }
