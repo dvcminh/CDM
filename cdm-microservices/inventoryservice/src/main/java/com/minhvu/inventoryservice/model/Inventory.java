@@ -4,7 +4,7 @@ import jakarta.persistence.*;
 import lombok.*;
 import org.springframework.data.mongodb.core.mapping.Document;
 
-@Document(value = "inventory")
+@Document(collection = "inventory")
 @AllArgsConstructor
 @NoArgsConstructor
 @Builder
