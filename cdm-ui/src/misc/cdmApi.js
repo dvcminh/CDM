@@ -18,6 +18,7 @@ export const cdmApi = {
   getShopByType,
   getShopById,
   getOrderByUserId,
+  getOrderDetailByOrderId,
   createCustomerReport,
   getCustomerReport,
 }
@@ -74,6 +75,17 @@ function getOrderByUserId(params) {
   return instance.get("/api/v1/orders/getOrderByUserId", {
     params: {
       email: params,
+    },
+    headers: {
+      Authorization: `Bearer ${localStorage.getItem("accessToken")}`,
+    },
+  });
+}
+
+function getOrderDetailByOrderId(orderID) {
+  return instance.get("/api/v1/orders/getOrderItemsByOrderId", {
+    params: {
+      orderId: orderID,
     },
     headers: {
       Authorization: `Bearer ${localStorage.getItem("accessToken")}`,

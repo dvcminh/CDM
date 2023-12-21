@@ -1,19 +1,21 @@
 import SideBar from "../../../layouts/components/SideBar";
 import { cdmApi } from "../../../misc/cdmApi";
 import { useEffect, useState } from "react";
-
+import OderdetailModal from "./component/OderdetailModal";
 import "./OrderHis.css";
 
 function CustomerOrderHistory() {
   const [userData, setUserData] = useState(
     JSON.parse(localStorage.getItem("currentUser")) || []
   );
-
+  const [modalOpen, setModalOpen] = useState(false);
   const [orders, setOrders] = useState([]);
+  const [orderDetail, setOrderDetail] = useState([]);
+
   let totalAmount = 0;
   let totalOrder = 0;
   let ranking = "Bronze"
-  // Duyệt qua mảng orders và tính tổng
+
   orders.forEach((order) => {
     totalAmount += order.totalAmount;
     totalOrder += 1;
@@ -26,11 +28,23 @@ function CustomerOrderHistory() {
        }
     }
   });
+
   const getOrders = async () => {
     try {
       const response = await cdmApi.getOrderByUserId(userData.username);
       setOrders(response.data);
       console.log(response.data);
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
+  const getOrdersDetail = async (orderid) => {
+    try {
+      const response = await cdmApi.getOrderDetailByOrderId(orderid);
+      setOrderDetail(response.data.content);
+      console.log(response.data);
+      setModalOpen(true)
     } catch (error) {
       console.log(error);
     }
@@ -46,6 +60,8 @@ function CustomerOrderHistory() {
       <div className="flex">
         <SideBar />
         <div className="ml-8">
+        {modalOpen && <OderdetailModal setOpenModal={setModalOpen} />}
+
           <h1 className="font-medium text-3xl mt-16">Order History</h1>
 
           {/* banner area */}
@@ -233,7 +249,7 @@ function CustomerOrderHistory() {
                     <td>{order.shippingAddress}</td>
                     <td>${order.voucherValue}</td>
                     <td>${order.shippingValue}</td>
-                    <td><button>View</button></td>
+                    <td><button onClick={() => getOrdersDetail(order.id)} type="button" class="focus:outline-none text-white bg-green-700 hover:bg-green-800 focus:ring-4 focus:ring-green-300 font-medium rounded-lg text-sm px-5 py-2.5 me-2 mb-2 dark:bg-green-600 dark:hover:bg-green-700 dark:focus:ring-green-800">View</button></td>
                   </tr>
                 ))}
               </tbody>
