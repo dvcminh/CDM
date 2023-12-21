@@ -33,14 +33,18 @@ function CustomerPayment() {
            {modalOpen && <Modal setOpenModal={setModalOpen} />}
 
                 <SideBar/>
-                <div className="ml-4">
+                <div className="ml-4 hidden xl:block">
                     <h1 className='font-medium text-3xl mt-16 ml-4'>Payment Method</h1>
                     <div className="flex mt-4">
                         <DashboardItem data={paymentItem[0]}/>
                         <DashboardItem data={paymentItem[2]}/>
                     </div>
-
                 </div>
+
+                <div className="mt-8 mx-auto block xl:hidden">
+                        <DashboardItem data={paymentItem[0]}/>
+                        <DashboardItem data={paymentItem[2]}/>
+                    </div>
            </div>
         </>
      );

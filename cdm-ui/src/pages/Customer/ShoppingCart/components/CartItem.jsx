@@ -16,7 +16,7 @@ const CartItem = (props) => {
             });
 
             localStorage.setItem("cart", JSON.stringify(updatedCart));
-
+            window.location.reload()
     };
     
       const handleDecrement = () => {
@@ -30,12 +30,11 @@ const CartItem = (props) => {
                 return item;
             });
 
-            localStorage.setItem("cart", JSON.stringify(updatedCart));    
+            localStorage.setItem("cart", JSON.stringify(updatedCart));   
+            window.location.reload() 
       };
 
       useEffect(() => {
-        handleDecrement();
-        handleIncrement();
         setCart(JSON.parse(localStorage.getItem("cart")) || []);
     }, []);
 
