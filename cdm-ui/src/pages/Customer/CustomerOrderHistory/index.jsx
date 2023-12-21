@@ -10,7 +10,22 @@ function CustomerOrderHistory() {
   );
 
   const [orders, setOrders] = useState([]);
-
+  let totalAmount = 0;
+  let totalOrder = 0;
+  let ranking = "Bronze"
+  // Duyệt qua mảng orders và tính tổng
+  orders.forEach((order) => {
+    totalAmount += order.totalAmount;
+    totalOrder += 1;
+    if(totalAmount > 10000){
+        ranking = "GOLD";
+    }
+    else   {
+       if(totalAmount > 5000){
+        ranking = "Silver";
+       }
+    }
+  });
   const getOrders = async () => {
     try {
       const response = await cdmApi.getOrderByUserId(userData.username);
@@ -20,6 +35,7 @@ function CustomerOrderHistory() {
       console.log(error);
     }
   };
+
 
   useEffect(() => {
     getOrders();
@@ -42,8 +58,7 @@ function CustomerOrderHistory() {
                 Total Spending:
               </p>
               <p className="ml-6 mt-2 text-lg text-red-700 italic">
-                $450.000.00
-              </p>
+                ${totalAmount}              </p>
               <p className="ml-4 mt-2 text-xs font-thin">
                 as figures of December 2022
               </p>
@@ -52,7 +67,7 @@ function CustomerOrderHistory() {
               <p className="text-stone-950 font-semibold ml-4 mt-4 text-xl underline">
                 Total order:
               </p>
-              <p className="ml-6 mt-2 text-lg italic text-indigo-700">20</p>
+              <p className="ml-6 mt-2 text-lg italic text-indigo-700">{totalOrder}</p>
               <p className="ml-4 mt-2 text-xs font-thin">
                 as figures of December 2022
               </p>
@@ -61,84 +76,14 @@ function CustomerOrderHistory() {
               <p className="text-stone-950 font-semibold ml-4 mt-4 text-xl underline">
                 Ranking:
               </p>
+              <p className="ml-6 mt-2 text-lg italic text-gray-700">{ranking}</p>
+              <p className="ml-4 mt-2 text-xs font-thin">
+                update to the end of year
+              </p>
             </div>
           </div>
 
-          {/* option area */}
-          <div className="flex space-x-1 mt-6">
-            <div className="flex-1">
-              <input
-                type="radio"
-                id="all"
-                name="option"
-                value="all"
-                class="hidden peer"
-              />
-              <label
-                for="all"
-                class=" inline-flex items-center justify-between w-4/5 p-0 text-gray-500 bg-white border border-gray-200 rounded-lg cursor-pointer dark:hover:text-gray-300 dark:border-gray-700 dark:peer-checked:text-blue-500 peer-checked:border-blue-600 peer-checked:text-blue-600 hover:text-gray-600 hover:bg-gray-100 dark:text-gray-400 dark:bg-gray-800 dark:hover:bg-gray-700"
-              >
-                <div class="w-full bg-white px-4 py-2 rounded-3xl text-center">
-                  All
-                </div>
-              </label>
-            </div>
-            <div className="flex-1">
-              <input
-                type="radio"
-                id="pending"
-                name="option"
-                value="pending"
-                class="hidden peer"
-              />
-              <label
-                for="pending"
-                class=" inline-flex items-center justify-between w-4/5 p-0 text-gray-500 bg-white border border-gray-200 rounded-lg cursor-pointer dark:hover:text-gray-300 dark:border-gray-700 dark:peer-checked:text-blue-500 peer-checked:border-blue-600 peer-checked:text-blue-600 hover:text-gray-600 hover:bg-gray-100 dark:text-gray-400 dark:bg-gray-800 dark:hover:bg-gray-700"
-              >
-                <div class="w-full bg-white px-4 py-2 rounded-3xl text-center">
-                  Pending
-                </div>
-              </label>
-            </div>
-            <div className="flex-1">
-              <input
-                type="radio"
-                id="processing"
-                name="option"
-                value="processing"
-                class="hidden peer"
-              />
-              <label
-                for="processing"
-                class=" inline-flex items-center justify-between w-4/5 p-0 text-gray-500 bg-white border border-gray-200 rounded-lg cursor-pointer dark:hover:text-gray-300 dark:border-gray-700 dark:peer-checked:text-blue-500 peer-checked:border-blue-600 peer-checked:text-blue-600 hover:text-gray-600 hover:bg-gray-100 dark:text-gray-400 dark:bg-gray-800 dark:hover:bg-gray-700"
-              >
-                <div class="w-full bg-white px-4 py-2 rounded-3xl text-center">
-                  Processing
-                </div>
-              </label>
-            </div>
-            <div className="flex-1">
-              <input
-                type="radio"
-                id="complete"
-                name="option"
-                value="complete"
-                class="hidden peer"
-              />
-              <label
-                for="complete"
-                class=" inline-flex items-center justify-between w-4/5 p-0 text-gray-500 bg-white border border-gray-200 rounded-lg cursor-pointer dark:hover:text-gray-300 dark:border-gray-700 dark:peer-checked:text-blue-500 peer-checked:border-blue-600 peer-checked:text-blue-600 hover:text-gray-600 hover:bg-gray-100 dark:text-gray-400 dark:bg-gray-800 dark:hover:bg-gray-700"
-              >
-                <div class="w-full bg-white px-4 py-2 rounded-3xl text-center">
-                  Complete
-                </div>
-              </label>
-            </div>
-            <div className="flex-1"></div>
-            <div className="flex-1"></div>
-            <div className="flex-1"></div>
-          </div>
-
+          
           {/* Table display orders */}
 
           {/* <div class="relative overflow-x-auto shadow-md sm:rounded-lg mt-6">
@@ -262,7 +207,7 @@ function CustomerOrderHistory() {
             </table>
           </div> */}
 
-          <div>
+          <div className="mt-8 mr-16">
             <table>
               <thead>
                 <tr>
@@ -274,6 +219,7 @@ function CustomerOrderHistory() {
                   <th>Shipping Address</th>
                   <th>Voucher Value</th>
                   <th>Shipping Value</th>
+                  <th>Action</th>
                 </tr>
               </thead>
               <tbody>
@@ -281,12 +227,13 @@ function CustomerOrderHistory() {
                   <tr key={order.id}>
                     <td>{index + 1}</td>
                     <td>{new Date(order.orderDate).toLocaleDateString()}</td>
-                    <td>{order.totalAmount}</td>
-                    <td>{order.paymentStatus}</td>
-                    <td>{order.shippingStatus}</td>
+                    <td>${order.totalAmount}</td>
+                    <td className="text-lime-700">{order.paymentStatus}</td>
+                    <td className="text-lime-700">{order.shippingStatus}</td>
                     <td>{order.shippingAddress}</td>
-                    <td>{order.voucherValue}</td>
-                    <td>{order.shippingValue}</td>
+                    <td>${order.voucherValue}</td>
+                    <td>${order.shippingValue}</td>
+                    <td><button>View</button></td>
                   </tr>
                 ))}
               </tbody>
