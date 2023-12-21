@@ -91,6 +91,11 @@ public class CarServiceImpl implements CarService {
         carRepository.deleteById(id);
     }
 
+    @Override
+    public List<Car> findCarsByNameContains(String name) {
+        return carRepository.findAllByModelContains(name);
+    }
+
     public String uploadProductImage(MultipartFile imageFile) throws IOException {
         Map<String, String> params = new HashMap<>();
         params.put("folder", "product_images");

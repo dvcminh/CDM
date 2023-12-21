@@ -21,4 +21,6 @@ public interface CarService {
     List<Car> findProductByModelIgnoreCase(String category);
 
     void deleteProduct(String id);
+
+    List<Car> findCarsByNameContains(String name);
 }

@@ -69,6 +69,13 @@ spring:
 #                name: REPORT-SERVICE
 #                fallbackuri: forward:/reportServiceFallBack
 
+        - id: NOTIFICATION-SERVICE
+          uri: lb://NOTIFICATION-SERVICE
+          predicates:
+            - Path=/api/v1/notifications/**
+          filters:
+            - AuthenticationFilter
+
 management:
   zipkin:
     tracing:

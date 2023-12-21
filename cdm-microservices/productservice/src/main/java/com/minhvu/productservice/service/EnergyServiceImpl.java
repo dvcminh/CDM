@@ -66,5 +66,10 @@ public class EnergyServiceImpl implements EnergyService{
         return energyRepository.findDistinctByNameAllIgnoreCaseOrderByPriceAsc(name, sort);
     }
 
+    @Override
+    public List<Energy> findEnergyByNameContains(String name) {
+        return energyRepository.findByNameContains(name);
+    }
+
 
 }

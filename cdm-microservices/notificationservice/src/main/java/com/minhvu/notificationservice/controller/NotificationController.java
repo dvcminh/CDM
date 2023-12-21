@@ -1,5 +1,6 @@
 package com.minhvu.notificationservice.controller;
 
+import com.minhvu.notificationservice.dto.CreateCarAppointment;
 import com.minhvu.notificationservice.event.ChangePasswordEvent;
 import com.minhvu.notificationservice.event.OrderPlaceEvent;
 import com.minhvu.notificationservice.service.EmailSender;
@@ -9,10 +10,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.kafka.annotation.KafkaListener;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 @RestController
 @RequiredArgsConstructor
@@ -25,6 +23,16 @@ public class NotificationController {
     @PostMapping("/sendResetPasswordEmail")
     public ResponseEntity<String> sendResetPasswordEmail(@RequestParam String email, @RequestParam String password) {
         emailSender.sendPasswordEmail(email, password);
+        return ResponseEntity.status(HttpStatus.OK).body("Email sent successfully");
+    }
+
+    @PostMapping("/createCarAppointment")
+    public ResponseEntity<String> createCarAppointment(@RequestBody CreateCarAppointment createCarAppointment) {
+        emailSender.createCarAppointment(createCarAppointment.getCarId(),
+                createCarAppointment.getEmail(),
+                createCarAppointment.getDate(),
+                createCarAppointment.getTime(),
+                createCarAppointment.getNote());
         return ResponseEntity.status(HttpStatus.OK).body("Email sent successfully");
     }
 
