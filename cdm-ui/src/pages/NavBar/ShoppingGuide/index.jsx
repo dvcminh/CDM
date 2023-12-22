@@ -4,7 +4,7 @@ import { faCaretDown, faClose } from "@fortawesome/free-solid-svg-icons";
 
 function Modal({ setOpenModal, data }) {
   return (
-    <div className="modalBackground mt-0 z-50">
+    <div className="modalBackground z-50">
       <div className="modalContainer mx-8 " style={{width: 500}}>
                 <span className="titleCloseBtn">
                     <button onClick={() => {setOpenModal(false);}}><FontAwesomeIcon icon={faClose} /></button>
