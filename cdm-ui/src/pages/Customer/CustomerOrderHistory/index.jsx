@@ -33,7 +33,7 @@ function CustomerOrderHistory() {
     try {
       const response = await cdmApi.getOrderByUserId(userData.username);
       setOrders(response.data);
-      console.log(response.data);
+      //console.log(response.data);
     } catch (error) {
       console.log(error);
     }
@@ -43,8 +43,8 @@ function CustomerOrderHistory() {
     try {
       const response = await cdmApi.getOrderDetailByOrderId(orderid);
       setOrderDetail(response.data.content);
-      console.log(response.data);
-      setModalOpen(true)
+      console.log(orderDetail);
+      setModalOpen(true);
     } catch (error) {
       console.log(error);
     }
@@ -57,10 +57,11 @@ function CustomerOrderHistory() {
 
   return (
     <>
+      {modalOpen && <OderdetailModal data={orderDetail} setOpenModal={setModalOpen} />}
+
       <div className="flex">
         <SideBar />
         <div className="ml-8">
-        {modalOpen && <OderdetailModal setOpenModal={setModalOpen} />}
 
           <h1 className="font-medium text-3xl mt-16">Order History</h1>
 
@@ -233,8 +234,8 @@ function CustomerOrderHistory() {
                   <th>Payment Status</th>
                   <th>Shipping Status</th>
                   <th>Shipping Address</th>
-                  <th>Voucher Value</th>
-                  <th>Shipping Value</th>
+                  {/* <th>Voucher Value</th>
+                  <th>Shipping Value</th> */}
                   <th>Action</th>
                 </tr>
               </thead>
@@ -247,8 +248,8 @@ function CustomerOrderHistory() {
                     <td className="text-lime-700">{order.paymentStatus}</td>
                     <td className="text-lime-700">{order.shippingStatus}</td>
                     <td>{order.shippingAddress}</td>
-                    <td>${order.voucherValue}</td>
-                    <td>${order.shippingValue}</td>
+                    {/* <td>${order.voucherValue}</td>
+                    <td>${order.shippingValue}</td> */}
                     <td><button onClick={() => getOrdersDetail(order.id)} type="button" class="focus:outline-none text-white bg-green-700 hover:bg-green-800 focus:ring-4 focus:ring-green-300 font-medium rounded-lg text-sm px-5 py-2.5 me-2 mb-2 dark:bg-green-600 dark:hover:bg-green-700 dark:focus:ring-green-800">View</button></td>
                   </tr>
                 ))}
