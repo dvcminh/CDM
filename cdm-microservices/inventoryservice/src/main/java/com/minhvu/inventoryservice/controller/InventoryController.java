@@ -65,7 +65,6 @@ public class InventoryController {
     public Inventory update(@PathVariable String id, @RequestBody InventoryRequest inventoryRequest) {
         Inventory inventory = inventoryService.findById(id);
         inventory.setQuantity(inventoryRequest.getQuantity());
-        inventory.setProductId(inventoryRequest.getProductId());
         log.info("Update inventory");
         return inventoryService.update(inventory);
     }

@@ -108,7 +108,7 @@ public class InventoryServiceImpl implements InventoryService {
 
     @Override
     public Inventory findById(String id) {
-        return inventoryRepository.findById(id).orElseThrow();
+        return inventoryRepository.findByProductId(id).orElseThrow();
     }
 
     @Override
