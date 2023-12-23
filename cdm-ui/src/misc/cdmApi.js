@@ -21,6 +21,7 @@ export const cdmApi = {
   getOrderDetailByOrderId,
   createCustomerReport,
   getCustomerReport,
+  createAppointment,
 }
 
 function authenticate(user) {
@@ -97,6 +98,19 @@ function createCar(carData) {
   return instance.post(
     "/api/v1/products/createCar",
     carData,
+    {
+      headers: {
+        Authorization: bearerAuth(localStorage.getItem("accessToken")),
+        "Content-Type": "application/json",
+      },
+    }
+  );
+}
+
+function createAppointment(content) {
+  return instance.post(
+    "/api/v1/notifications/createCarAppointment",
+    content,
     {
       headers: {
         Authorization: bearerAuth(localStorage.getItem("accessToken")),
