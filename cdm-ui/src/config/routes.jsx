@@ -19,6 +19,8 @@ const routes = {
     vehicle: '/vehicle',
     login: '/login',
     register: '/register',
+    forgotpassword: 'login/forgotpassword',
+    resetpassword: '/login/resetpassword',
     staffhome: '/staffhome',
     staffreport: '/staffhome/report',
     stafforder: '/staffhome/order',

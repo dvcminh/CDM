@@ -83,7 +83,7 @@ function Login() {
                     else
                     navigate('/customerhome');
                     localStorage.setItem('currentUser', JSON.stringify(userData.data));
-
+    
                 }
             })
             .catch(error => {
@@ -137,7 +137,7 @@ function Login() {
                         Password
                     </label>
                     <div className="text-sm">
-                        <a href="#" className="font-semibold text-black hover:text-gray-500">
+                        <a href="/login/forgotpassword" className="font-semibold text-black hover:text-gray-500">
                         Forgot password?
                         </a>
                     </div>
