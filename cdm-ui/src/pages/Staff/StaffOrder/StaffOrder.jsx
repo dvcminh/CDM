@@ -3,103 +3,136 @@ import SideBarStaff from '../../../layouts/components/SideBarStaff';
 import './StaffOrder.css';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faCircleXmark } from '@fortawesome/free-solid-svg-icons';
+import OrderDetailModal from '../../Customer/CustomerOrderHistory/component/OderdetailModal'
+import { cdmApi } from '../../../misc/cdmApi';
+import { useEffect } from 'react';
+import RightClickComponent from './MenuContext';
+import MenuDefault from './MenuContext';
 
 const StaffOrder = () => {
-    const [selectedReport, setSelectedReport] = useState(null);
-    const [selectedImage, setSelectedImage] = useState(null);
 
-    const reports = [
-        { customer: 'Nguyễn Hoàng Minh', product: 'Apple MacBook Pro 17"', img: 'https://images.macrumors.com/t/Lo8cqaC9hCeaj2tvFeeSBqbG39s=/1600x900/smart/article-new/2017/05/apple-mbp2011-17-angle_osx-lg.jpg' , date: '21-10-2023', status: 'complete', category: 'Laptop',  price:'2999' },
-        { customer: 'Vũ Đức Minh', product: 'Microsoft Surface Pro', img: 'https://img-prod-cms-rt-microsoft-com.akamaized.net/cms/api/am/imageFileData/RE4P7Wb?ver=24e9' , date: '21-10-2023', status: 'pending', category: 'Laptop PC', price: '1999' },
-        { customer: 'Nguyễn Nhật Khang', product: 'Magic Mouse 2', img: 'https://cdn.tgdd.vn/hoi-dap/1359212/Thumbnail/co-nen-mua-apple-magic-mouse-2-lieu-co-xung-dang-voi-so333.jpg' , date: '21-10-2023', status: 'processing', category: 'Accessories' , price: '99' },
-        { customer: 'Nguyễn Hải Minh', product: 'Google Pixel Phone', img: 'https://fdn.gsmarena.com/imgroot/static/headers/makers/google-2023-1.jpg' , date: '21-10-2023', status: 'complete' , category: 'Phone' , price: '199' },
-      ];
+    const [modalOpen, setModalOpen] = useState(false);
+    const [orders, setOrders] = useState([]);
+    const [orderDetail, setOrderDetail] = useState([]);
+    const [userInfor, setUserInfor] = useState([]);
+    const [hasFetchedData, setHasFetchedData] = useState(false);
+    const [hasOrders, setHasOrders] = useState(false);
 
-    const renderStatus = (status) => {
-        const statusClasses = {
-          complete: 'green',
-          pending: 'red',
-          processing: 'orange'
-        };
-        return <span className={`status ${statusClasses[status]}`}>• {status}</span>;
+  
+    const getUserInfor = async (email) => {
+      const response = await cdmApi.getUserMe(email);
+      setUserInfor((prevData) => [...prevData, response.data]);
+    };
+  
+    const getAllUserInfor = async () => {
+      await Promise.all(
+        orders.map(async (order) => {
+          await getUserInfor(order.email);
+        })
+      );
+      setHasFetchedData(true);
     };
 
-    const ImageModal = ({ src, onClose }) => {
-        if (!src) return null;
-      
-        return (
-          <div className={`modal ${selectedImage ? 'active' : ''}`}>
-            <div className="modal-content">
-            <div className='title-bar'>
-              <div className='heading-report'>Image</div>
-              <button class="close-button" onClick={onClose}><FontAwesomeIcon icon={faCircleXmark} className='closes-icon' /></button>
-            </div>          
-            <img src={src} alt="Expanded" style={{ width: '100%' }} />
-            </div>
-          </div>
-        );
-      };
+    const getOrders = async () => {
+      try {
+        const response = await cdmApi.getAllOrders();
+        setOrders(response.data);
+        console.log("order:" , response.data);
+        setHasOrders(true);
+      } catch (error) {
+        console.log(error);
+      }
+    };
+  
+    const getOrdersDetail = async (orderid) => {
+      try {
+        const response = await cdmApi.getOrderDetailByOrderId(orderid);
+        setOrderDetail(response.data.content);
+        console.log(orderDetail);
+        setModalOpen(true);
+      } catch (error) {
+        console.log(error);
+      }
+    };
+  
+    useEffect(() => {
+      getOrders();
+      if(hasOrders){
+        if (!hasFetchedData) {
+          getAllUserInfor();
+        }
+      }
+    }, [hasFetchedData, hasOrders]);
 
-      const handleCloseModal = () => {
-        setSelectedReport(null);
-      };
-    
-      const handleImageClick = (imageSrc) => {
-        setSelectedImage(imageSrc);
-      };
+    useEffect(() => {
+      console.log("Updated productData:", userInfor[0]);
+    }, [userInfor]);
 
+    //menu context
+    const [menuVisible, setMenuVisible] = useState(false);
+    const [menuPosition, setMenuPosition] = useState({ top: 0, left: 0 });
+    const [selectedOption, setSelectedOption] = useState(null);
+
+    const handleContextMenu = (e) => {
+      e.preventDefault();
+      setMenuVisible(true);
+      setMenuPosition({ top: e.clientY, left: e.clientX });
+    };
+
+    const handleOptionClick = (option) => {
+      // Handle the selected option here
+      setSelectedOption(option);
+      // Close the menu
+      setMenuVisible(false);
+    };
+
+    const handleOutsideClick = () => {
+      // Close the menu when clicking outside
+      setMenuVisible(false);
+    };
     return(
         <div>
+        {modalOpen && <OrderDetailModal data={orderDetail} setOpenModal={setModalOpen} />}
+        {userInfor.length === orders.length ? (
         <span className='flex'>
-        <SideBarStaff className='flex-1'/>
-        <div className="ml-8">
-                    <h1 className='font-medium text-3xl mt-16'>Order History</h1>
-
-                    <div class="relative overflow-x-auto shadow-md sm:rounded-lg mt-16">
-                        <table class="w-full text-sm text-left rtl:text-right text-gray-500">
-                            <thead class="text-xs text-gray-700 uppercase bg-gray-400">
-                                <tr>
-                                    <th scope="col" class="px-6 py-3">
-                                        Customer
-                                    </th>
-                                    <th scope="col" class="px-6 py-3">
-                                        Product name
-                                    </th>
-                                    <th scope="col" class="px-6 py-3">
-                                        Image
-                                    </th>
-                                    <th scope="col" class="px-6 py-3">
-                                        Date
-                                    </th>
-                                    <th scope="col" class="px-6 py-3">
-                                        Category
-                                    </th>
-                                    <th scope="col" class="px-6 py-3">
-                                        Price
-                                    </th>
-                                    <th scope="col" class="px-6 py-3">
-                                        Status
-                                    </th>
-                                </tr>
-                            </thead>
-                            <tbody>
-                            {reports.map((report, index) => (
-                                <tr key={index} class="odd:bg-white even:bg-gray-300">
-                                <td scope="row" class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap">{report.customer}</td>
-                                <td class="px-3 py-4">{report.product}</td>
-                                <td class="px-6 py-4"> <img src={report.img} className='img-mini' onClick={() => handleImageClick(report.img)} alt="preview" width="60" height="60" /> </td>
-                                <td class="px-6 py-4">{report.date}</td>
-                                <td class="px-6 py-4">{report.category}</td>
-                                <td class="px-6 py-4">${report.price}</td>
-                                <td class="px-6 py-4">{renderStatus(report.status)}</td>
-                                </tr>
-                            ))}
-                            </tbody>
-                        </table>
-                        {selectedImage && <ImageModal src={selectedImage} onClose={() => setSelectedImage(null)} />}
-                    </div>
-                </div>
+            <SideBarStaff className='flex-1'/>
+            <div className="mt-8 mr-16">
+            <h1 className='font-medium text-3xl mt-8 ml-12'>Manage Customer's Orders</h1>
+            <table className='ml-12 mt-8'>
+              <thead>
+                <tr>
+                  <th>No.</th>
+                  <th>Customer's Name</th>
+                  <th>Order Date</th>
+                  <th>Total Amount</th>
+                  <th>Shipping Address</th>
+                  <th>Payment Status</th>
+                  <th>Shipping Status</th>
+                  <th>Detail</th>
+                </tr>
+              </thead>
+              <tbody>
+                {orders.map((order, index) => (
+                  <tr key={order.id}>
+                    <td>{index + 1}</td>
+                    <td>{userInfor[index].email}</td>
+                    <td>{new Date(order.orderDate).toLocaleDateString()}</td>
+                    <td>${order.totalAmount}</td>
+                    <td>{order.shippingAddress}</td>
+                    <td className="text-lime-700"><MenuDefault option={["Waiting", "Paid"]} current={"Waiting"}/></td>
+                    <td className="text-lime-700"><MenuDefault option={["Pending", "Approved", "Reject"]}  current={"Pending"}/></td>
+                    {/* <td>${order.voucherValue}</td>
+                    <td>${order.shippingValue}</td> */}
+                    <td><button onClick={() => getOrdersDetail(order.id)} type="button" class="focus:outline-none text-white bg-green-700 hover:bg-green-800 focus:ring-4 focus:ring-green-300 font-medium rounded-lg text-sm px-5 py-2.5 me-2 mb-2 dark:bg-green-600 dark:hover:bg-green-700 dark:focus:ring-green-800">View</button></td>
+                  </tr>
+                ))}
+              </tbody>
+            </table>
+          </div>
         </span>
+        ) : (
+          <p>Loading data...</p>
+        )}
     </div>
     );
 };

@@ -17,7 +17,6 @@ import {
 import { cdmApi } from "../../../../../misc/cdmApi";
 
 function OderdetailModal({ setOpenModal, data }) {
-  const TABLE_HEAD = ["ID", "Name", "Quantity"];
   const [productData, setProductData] = useState([]);
   const [hasFetchedData, setHasFetchedData] = useState(false);
 

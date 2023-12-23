@@ -22,6 +22,7 @@ export const cdmApi = {
   createCustomerReport,
   getCustomerReport,
   createAppointment,
+  getAllOrders,
 }
 
 function authenticate(user) {
@@ -77,6 +78,14 @@ function getOrderByUserId(params) {
     params: {
       email: params,
     },
+    headers: {
+      Authorization: `Bearer ${localStorage.getItem("accessToken")}`,
+    },
+  });
+}
+
+function getAllOrders() {
+  return instance.get("/api/v1/orders/getOrders", {
     headers: {
       Authorization: `Bearer ${localStorage.getItem("accessToken")}`,
     },

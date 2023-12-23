@@ -26,9 +26,9 @@ function Vehicle () {
     return (  
         <div className="container-flex">
             <div className="vehicle-models-sort">
-                <SortCarSideBar />
+                <SortCarSideBar/>
             </div>
-            <div className="vehicle-models-page">
+            <div className="bg-gray-100 flex flex-wrap">
                     {data.map((dataObj, index) => {
                         return (
                             <CarCard data={{

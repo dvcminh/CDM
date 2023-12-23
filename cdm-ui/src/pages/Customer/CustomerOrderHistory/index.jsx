@@ -1,6 +1,6 @@
 import SideBar from "../../../layouts/components/SideBar";
 import { cdmApi } from "../../../misc/cdmApi";
-import { useEffect, useState } from "react";
+import {  useEffect, useState } from "react";
 import OderdetailModal from "./component/OderdetailModal";
 import "./OrderHis.css";
 
@@ -67,8 +67,8 @@ function CustomerOrderHistory() {
 
           {/* banner area */}
           <div
-            className="flex mt-4 space-x-2"
-            style={{ width: "70vw", height: "20vh" }}
+            className="flex mt-4 space-x-2 w-4/5"
+            style={{ height: "20vh" }}
           >
             <div className="w-4/5 rounded-lg bg-red-200 flex-1 opacity-90">
               <p className="text-stone-950 font-semibold ml-4 mt-6 text-xl underline">
@@ -77,7 +77,7 @@ function CustomerOrderHistory() {
               <p className="ml-6 mt-2 text-lg text-red-700 italic">
                 ${totalAmount}              </p>
               <p className="ml-4 mt-2 text-xs font-thin">
-                as figures of December 2022
+                as figures of December 2023
               </p>
             </div>
             <div className="w-4/5 rounded-lg bg-violet-200 flex-1 opacity-90">
@@ -86,7 +86,7 @@ function CustomerOrderHistory() {
               </p>
               <p className="ml-6 mt-2 text-lg italic text-indigo-700">{totalOrder}</p>
               <p className="ml-4 mt-2 text-xs font-thin">
-                as figures of December 2022
+                as figures of December 2023
               </p>
             </div>
             <div className="w-4/5 rounded-lg bg-gray-200 flex-1 opacity-90">
@@ -95,7 +95,7 @@ function CustomerOrderHistory() {
               </p>
               <p className="ml-6 mt-2 text-lg italic text-gray-700">{ranking}</p>
               <p className="ml-4 mt-2 text-xs font-thin">
-                update to the end of year
+                as figures of December 2023
               </p>
             </div>
           </div>

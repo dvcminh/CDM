@@ -8,6 +8,7 @@ function SortCarSideBar() {
     const gradientGray = 'linear-gradient(to bottom, #ffffff, #cfd1cf)';
     return ( 
         <>
+            <div className='hidden bg-white xl:block bg-gray-100 xl:bg-white'>
             <select className="select-car-sort">
                     <option value="option1">Price: Low to High</option>
                     <option value="option2">Price: High to Low</option>
@@ -79,6 +80,7 @@ function SortCarSideBar() {
                     <div className="color-option-car-sort" style={{backgroundColor: 'white'}}></div>
                     <div className="color-option-car-sort" style={{backgroundColor: '#7c471f'}}></div>
                 </div>
+            </div>
         </>
      );
 }
