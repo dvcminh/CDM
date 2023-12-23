@@ -1,11 +1,11 @@
 import PropTypes from 'prop-types';
 import NavBarStaff from '../components/NavBarStaff';
-
+import NavBar from '../components/NavBar'
 
 function staffLayout({children}) {
     return (  
        <div>
-        <NavBarStaff/>
+        <NavBar/>
         <div>{children}</div> 
        </div>
     );

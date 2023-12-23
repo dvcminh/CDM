@@ -21,6 +21,8 @@ export const cdmApi = {
   getOrderDetailByOrderId,
   createCustomerReport,
   getCustomerReport,
+  createAppointment,
+  getAllOrders,
 }
 
 function authenticate(user) {
@@ -82,6 +84,14 @@ function getOrderByUserId(params) {
   });
 }
 
+function getAllOrders() {
+  return instance.get("/api/v1/orders/getOrders", {
+    headers: {
+      Authorization: `Bearer ${localStorage.getItem("accessToken")}`,
+    },
+  });
+}
+
 function getOrderDetailByOrderId(orderID) {
   return instance.get("/api/v1/orders/getOrderItemsByOrderId", {
     params: {
@@ -97,6 +107,19 @@ function createCar(carData) {
   return instance.post(
     "/api/v1/products/createCar",
     carData,
+    {
+      headers: {
+        Authorization: bearerAuth(localStorage.getItem("accessToken")),
+        "Content-Type": "application/json",
+      },
+    }
+  );
+}
+
+function createAppointment(content) {
+  return instance.post(
+    "/api/v1/notifications/createCarAppointment",
+    content,
     {
       headers: {
         Authorization: bearerAuth(localStorage.getItem("accessToken")),
