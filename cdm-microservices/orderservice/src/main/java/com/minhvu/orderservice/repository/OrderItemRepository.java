@@ -11,6 +11,7 @@ import java.util.List;
 public interface OrderItemRepository extends MongoRepository<OrderItem, OrderItemPK> {
     Page<OrderItem> findById_OrderIdAllIgnoreCase(String orderId, Pageable pageable);
 
+    List<OrderItem> findById_OrderId(String orderId, Pageable pageable);
 
     // Additional custom query methods can be added here
 }

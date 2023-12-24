@@ -32,6 +32,7 @@ import ShopAccessories from '../pages/NavBar/ShopAccessories';
 import ShopMerchandise from '../pages/NavBar/ShopMerchandise';
 import ProductShopOverview from '../pages/NavBar/ProductShopOverview';
 import BookAppointment from '../pages/Customer/BookAppointment';
+import { ManagerChat } from '../pages/Manager/ManagerChat/ManagerChat';
 
 // Public routes
 const publicRoutes = [
@@ -62,7 +63,8 @@ const publicRoutes = [
     {path: config.routes.shopaccessories, component: ShopAccessories, layout: DefaultLayout},
     {path: config.routes.shopmerchandise, component: ShopMerchandise, layout: DefaultLayout},
     {path: config.routes.productdetail, component: ProductShopOverview, layout: loginregisLayout},
-    {path: config.routes.bookappointment, component: BookAppointment, layout: DefaultLayout}
+    {path: config.routes.bookappointment, component: BookAppointment, layout: DefaultLayout},
+    {path: config.routes.managerchat, component: ManagerChat, layout: DefaultLayout}
 ];
 
 const privateRoutes = [];

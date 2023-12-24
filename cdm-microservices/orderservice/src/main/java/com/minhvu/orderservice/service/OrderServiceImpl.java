@@ -19,8 +19,15 @@ import org.aspectj.weaver.ast.Or;
 import org.springframework.kafka.core.KafkaTemplate;
 import org.springframework.stereotype.Service;
 
+import java.math.BigDecimal;
+import java.math.RoundingMode;
 import java.time.LocalDateTime;
+import java.time.Month;
+import java.util.Arrays;
 import java.util.List;
+import java.util.Map;
+import java.util.TreeMap;
+import java.util.function.Function;
 import java.util.stream.Collectors;
 
 @Service
@@ -30,14 +37,58 @@ public class OrderServiceImpl implements OrderService {
     private final OrderItemRepository orderItemRepository;
     private final InventoryService inventoryService;
     private final KafkaTemplate<String, OrderPlaceEvent> kafkaTemplate;
+
     @Override
     public List<Order> viewAll() {
         return orderRepository.findAllByOrderByOrderDateDesc();
     }
 
     @Override
+    public Map<Month, BigDecimal> calculateMonthlyRevenue() {
+        Map<Month, BigDecimal> monthlyRevenue = new TreeMap<>(Arrays.stream(Month.values())
+                .collect(Collectors.toMap(Function.identity(), month -> BigDecimal.ZERO)));
+
+        orderRepository.findAll().forEach(order -> {
+            Month month = order.getOrderDate().getMonth();
+            BigDecimal currentAmount = monthlyRevenue.get(month);
+            monthlyRevenue.put(month, currentAmount.add(order.getTotalAmount()));
+        });
+
+        return monthlyRevenue;
+    }
+
+    @Override
+    public BigDecimal calculateAverageOrderValue() {
+        List<Order> allOrders = orderRepository.findAll();
+        BigDecimal totalAmount = allOrders.stream()
+                .map(Order::getTotalAmount)
+                .reduce(BigDecimal.ZERO, BigDecimal::add);
+
+        return totalAmount.divide(BigDecimal.valueOf(allOrders.size()), RoundingMode.HALF_UP);
+    }
+
+    @Override
+    public Map<Month, Long> calculateOrdersPerMonth() {
+        Map<Month, Long> ordersPerMonth = new TreeMap<>();
+
+        orderRepository.findAll().forEach(order -> {
+            Month month = order.getOrderDate().getMonth();
+            ordersPerMonth.put(month, ordersPerMonth.getOrDefault(month, 0L) + 1);
+        });
+
+        return ordersPerMonth;
+    }
+
+    @Override
     public List<Order> findByShippingStatus(String shippingStatus) {
         return orderRepository.findByShippingStatus(shippingStatus);
+    }
+
+    @Override
+    public BigDecimal calculateTotalRevenue() {
+        return orderRepository.findAll().stream()
+                .map(Order::getTotalAmount)
+                .reduce(BigDecimal.ZERO, BigDecimal::add);
     }
 
     @Override

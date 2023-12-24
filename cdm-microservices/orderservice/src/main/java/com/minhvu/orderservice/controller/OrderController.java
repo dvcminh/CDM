@@ -12,7 +12,10 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.math.BigDecimal;
 import java.time.LocalDateTime;
+import java.time.Month;
+import java.util.Map;
 
 @RestController
 @RequiredArgsConstructor
@@ -25,6 +28,26 @@ public class OrderController {
     public ResponseEntity<String> checkout(@RequestBody CreateOrderRequest createOrderRequest) {
         orderService.createOrder(createOrderRequest);
         return ResponseEntity.ok("Success!");
+    }
+
+    @GetMapping("/getTotalRevenue")
+    public ResponseEntity<String> getRevenue() {
+        return ResponseEntity.ok(orderService.calculateTotalRevenue().toString());
+    }
+
+    @GetMapping("/getMonthlyRevenue")
+    public ResponseEntity<Map<Month, BigDecimal>> getMonthlyRevenue() {
+        return ResponseEntity.ok(orderService.calculateMonthlyRevenue());
+    }
+
+    @GetMapping("/getAverageOrderValue")
+    public ResponseEntity<String> getAverageOrderValue() {
+        return ResponseEntity.ok(orderService.calculateAverageOrderValue().toString());
+    }
+
+    @GetMapping("/getOrdersPerMonth")
+    public ResponseEntity<Map<Month, Long>> getOrdersPerMonth() {
+        return ResponseEntity.ok(orderService.calculateOrdersPerMonth());
     }
 
     @GetMapping("/getOrders")
