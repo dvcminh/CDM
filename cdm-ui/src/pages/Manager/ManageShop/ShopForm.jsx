@@ -1,34 +1,27 @@
 import React, { useEffect } from 'react'
 import InsertPhotoIcon from '@mui/icons-material/InsertPhoto';
-const ModalForm = (props) => {
 
+
+const CustomerModalForm = (props) => {
   
   //Form
   const [formState, setFormState] = React.useState( 
     props.defaultValues || {
-      trim: '',
-      orgPrice: '',
-      disPrice: '',
-      perMonthPrice:'',
-      odo: '',
-      range: '',
-      topSpeed: '',
-      timeToReach: '',
-      tech: '',
-      keyFeatures: null,
-      gift: '',
-      count: '',
-      imgSrc: '',
-      model: '',
+      name: '',
+      description: '',
+      quantity: '',
+      price: '',
+      type: '',
       status: 'AVAILABLE',
+      image_url: '',
   });
 
 
   //Image
   const inputRef = React.useRef(null);
-  const [formImage, setFormImage] = React.useState(formState.imgSrc);
+  const [formImage, setFormImage] = React.useState(formState.image_url);
   const handleImageChange = (e) => {
-    setFormState({...formState, imgSrc: e.target.files[0]});
+    setFormState({...formState, image_url: e.target.files[0]});
     setFormImage(URL.createObjectURL(e.target.files[0]));
   }
 
@@ -71,121 +64,59 @@ const ModalForm = (props) => {
          }}
     >
       
-        <form onSubmit={handleSubmitForm} className=" my-8 py-6 px-9 w-[40%] max-xl:overflow-y-scroll ml-[30%] bg-white rounded-md
+        <form onSubmit={handleSubmitForm} className=" max-sm:my-8 my-auto py-6 px-9 w-[40%]  max-xl:overflow-y-scroll ml-[30%] bg-white rounded-md
                                             max-lg:mx-auto max-lg:w-[90%] ">
           
           <div>
-            <label  htmlFor="trim" className="block text-sm font-medium leading-6 text-gray-900">
+            <label  htmlFor="name" className="block text-sm font-medium leading-6 text-gray-900">
               Name
             </label>
-            <input type="text" name="trim" id="trim" value={formState.trim}  onChange={handleChange}
+            <input type="text" name="name" id="name" value={formState.name}  onChange={handleChange}
                 className="mt-2  w-[100%] rounded-md border border-[#e0e0e0] bg-white py-[8px] px-4 text-base font-medium outline-none focus:border-[#1F2937] focus:shadow-md"
             />
           </div>
   
-          <div className="mt-[20px] grid grid-cols-2 gap-x-4 max-lg:grid-cols-1">
+          <div className="mt-[20px] grid grid-cols-1 gap-x-4 max-lg:grid-cols-1">
             <div className='col-span-1'>
-              <label  htmlFor="model" className="block text-sm font-medium leading-6 text-gray-900">
-                Model
+              <label  htmlFor="description" className="block text-sm font-medium leading-6 text-gray-900">
+                Description
               </label>
-              <input type="text" name="model" id="model" value={formState.model}  onChange={handleChange}
-                  className="mt-2  w-[100%] rounded-md border border-[#e0e0e0] bg-white py-[8px] px-4 text-base font-medium outline-none focus:border-[#1F2937] focus:shadow-md"
-              />
-            </div>
-            <div className=' col-span-1'>
-              <label  htmlFor="count" className="block text-sm font-medium leading-6 text-gray-900">
-                Quantity
-              </label>
-              <input type="number" name="count" id="count" value={formState.count}  onChange={handleChange}
+              <textarea type="text" rows={3} name="description" id="description" value={formState.description}  onChange={handleChange}
                   className="mt-2  w-[100%] rounded-md border border-[#e0e0e0] bg-white py-[8px] px-4 text-base font-medium outline-none focus:border-[#1F2937] focus:shadow-md"
               />
             </div>
           </div>
-  
-          <div className="mt-[20px] grid grid-cols-3 gap-x-4 max-xl:grid-cols-1">
+
+          <div className="mt-[20px] grid grid-cols-2 gap-x-4 max-xl:grid-cols-1">
               <div className='col-span-1 '>
-                <label  htmlFor="orgPrice" className="block text-sm font-medium leading-6 text-gray-900">
-                  Original Price
+                <label  htmlFor="type" className="block text-sm font-medium leading-6 text-gray-900">
+                   Type
                 </label>
-                <input type="text" name="orgPrice" id="orgPrice" value={formState.orgPrice}  onChange={handleChange}
+                <input type="text" name="type" id="type" value={formState.type}  onChange={handleChange}
+                    className="mt-2  w-[100%] rounded-md border border-[#e0e0e0] bg-white py-[8px] px-4 text-base font-medium outline-none focus:border-[#1F2937] focus:shadow-md"
+                />
+              </div>
+          </div>
+
+          <div className="mt-[20px] grid grid-cols-2 gap-x-4 max-xl:grid-cols-1">
+              <div className='col-span-1 '>
+                <label  htmlFor="price" className="block text-sm font-medium leading-6 text-gray-900">
+                   Price
+                </label>
+                <input type="text" name="price" id="price" value={formState.price}  onChange={handleChange}
                     className="mt-2  w-[100%] rounded-md border border-[#e0e0e0] bg-white py-[8px] px-4 text-base font-medium outline-none focus:border-[#1F2937] focus:shadow-md"
                 />
               </div>
               <div className='col-span-1 max-md:mt-[20px]'>
-                <label htmlFor="disPrice" className="block text-sm font-medium leading-6 text-gray-900">
-                  Discounted Price
+                <label htmlFor="quantity" className="block text-sm font-medium leading-6 text-gray-900">
+                  Quantity
                 </label>
-                <input type="text" name="disPrice" id="disPrice" value={formState.disPrice} onChange={handleChange}
+                <input type="text" name="quantity" id="quantity" value={formState.quantity} onChange={handleChange}
                     className="mt-2 w-[100%]  rounded-md border border-[#e0e0e0] bg-white py-[8px] px-4 text-base font-medium outline-none focus:border-[#1F2937] focus:shadow-md"
                 />
-              </div>
-              <div className='col-span-1 max-md:mt-[20px]'>
-                <label htmlFor="perMonthPrice" className="block text-sm font-medium leading-6 text-gray-900">
-                  Price Per Month
-                </label>
-                <input type="text" name="perMonthPrice" id="perMonthPrice" value={formState.perMonthPrice} onChange={handleChange}
-                    className="mt-2 w-[100%]  rounded-md border border-[#e0e0e0] bg-white py-[8px] px-4 text-base font-medium outline-none focus:border-[#1F2937] focus:shadow-md"
-                />
-              </div>
+              </div>          
           </div>
-  
-          <div className="mt-[20px] grid grid-cols-4 gap-x-4 max-lg:grid-cols-2">
-              <div className='col-span-1'>
-                <label  htmlFor="odo" className="block text-sm font-medium leading-6 text-gray-900">
-                  Odo
-                </label>
-                <input type="text" name="odo" id="odo" value={formState.odo}  onChange={handleChange}
-                    className="mt-2  w-[100%] rounded-md border border-[#e0e0e0] bg-white py-[8px] px-4 text-base font-medium outline-none focus:border-[#1F2937] focus:shadow-md"
-                />
-              </div>
-              <div className='col-span-1'>
-                <label htmlFor="range" className="block text-sm font-medium leading-6 text-gray-900">
-                  Range
-                </label>
-                <input type="number" name="range" id="range" value={formState.range} onChange={handleChange}
-                    className="mt-2 w-[100%]  rounded-md border border-[#e0e0e0] bg-white py-[8px] px-4 text-base font-medium outline-none focus:border-[#1F2937] focus:shadow-md"
-                />
-              </div>
-              <div className='col-span-1 max-md:mt-[20px]'>
-                <label htmlFor="topSpeed" className="block text-sm font-medium leading-6 text-gray-900">
-                  Top Speed
-                </label>
-                <input type="number" name="topSpeed" id="topSpeed" value={formState.topSpeed} onChange={handleChange}
-                    className="mt-2 w-[100%]  rounded-md border border-[#e0e0e0] bg-white py-[8px] px-4 text-base font-medium outline-none focus:border-[#1F2937] focus:shadow-md"
-                />
-              </div>
-              <div className='col-span-1 max-md:mt-[20px]'>
-                <label htmlFor="timeToReach" className="block text-sm font-medium leading-6 text-gray-900">
-                  Time To Reach
-                </label>
-                <input type="number" name="timeToReach" id="timeToReach" value={formState.timeToReach} onChange={handleChange}
-                    className="mt-2 w-[100%]  rounded-md border border-[#e0e0e0] bg-white py-[8px] px-4 text-base font-medium outline-none focus:border-[#1F2937] focus:shadow-md"
-                />
-              </div>
-          </div>
-  
-          <div className="mt-[20px] grid grid-cols-4 gap-x-4 max-lg:grid-cols-1">
-              <div className='col-span-1'>
-                <label  htmlFor="tech" className="block text-sm font-medium leading-6 text-gray-900">
-                  Technology
-                </label>
-                <input type="text" name="tech" id="tech" value={formState.tech}  onChange={handleChange}
-                    className="mt-2  w-[100%] rounded-md border border-[#e0e0e0] bg-white py-[8px] px-4 text-base font-medium outline-none focus:border-[#1F2937] focus:shadow-md"
-                />
-              </div>
-              <div className='col-span-3 max-md:mt-[20px]'>
-                <label htmlFor="gift" className="block text-sm font-medium leading-6 text-gray-900">
-                  Gift
-                </label>
-                <input type="text" name="gift" id="gift" value={formState.gift} onChange={handleChange}
-                    className="mt-2 w-[100%]  rounded-md border border-[#e0e0e0] bg-white py-[8px] px-4 text-base font-medium outline-none focus:border-[#1F2937] focus:shadow-md"
-                />
-              </div>        
-          </div>
-  
-  
-        
-  
+
           <div className="mt-[20px]">
             <div className='col-span-1'>
               <label htmlFor="price" className="block text-sm font-medium leading-6 text-gray-900">
@@ -202,10 +133,10 @@ const ModalForm = (props) => {
                 </select>
             </div>
           </div>
-          
+
           <div className='bg-white flex flex-col max-h-[550px] rounded-md mt-[30px]
                         lg:hidden'>
-              { (formImage || formState.imgSrc) 
+              { (formImage || formState.image_url) 
               ? 
                 <div>
                   <img src={formImage} alt="car" onClick={() => inputRef.current.click()} className='w-[100%] max-w-[390px] max-h-[500px] m-auto '/> 
@@ -239,11 +170,11 @@ const ModalForm = (props) => {
           </div>
         </form>
 
-        <div className='bg-white flex flex-col w-[400px] max-h-[550px] m-[30px] rounded-md ml-[10px]
+        <div className='bg-white my-auto min-h-[460px] flex flex-col w-[400px] max-h-[550px] m-[30px] rounded-md ml-[10px]
                         max-lg:hidden'>
-              { (formImage || formState.imgSrc) 
+              { (formImage || formState.image_url) 
               ? 
-                <img src={formImage} alt="car" className='w-[90%] max-w-[390px] max-h-[500px] m-auto '/> 
+                <img src={formImage} alt="car" className='w-[90%] max-w-[390px] max-h-[500px] m-auto'/> 
               :
                 <div className="w-[80%] mx-auto mt-[70px] ">
                   <div className="mt-2 flex justify-center rounded-lg border border-dashed border-gray-900/25 px-6 py-10">
@@ -267,4 +198,4 @@ const ModalForm = (props) => {
   );
 }
 
-export default ModalForm
+export default CustomerModalForm

@@ -19,9 +19,15 @@ export const cdmApi = {
   getShopByType,
   getShopById,
   getOrderByUserId,
+  getOrderDetailByOrderId,
   createCustomerReport,
   getCustomerReport,
   getPublicChat,
+  createAppointment,
+  getAllOrders,
+  updateShop,
+  createShop,
+  addProductToInventory,
 }
 
 function authenticate(user) {
@@ -69,6 +75,19 @@ function getAllUsers() {
     },
   });
 }
+
+function getAllUsers(size = 10000) {
+  return instance.get('/auth/getAllUsers', {
+    params: {
+      size : size,
+    },
+    headers: {
+      'Authorization': bearerAuth(localStorage.getItem('accessToken'))
+    }
+  });
+}
+
+
 function getAllCars() {
   return instance.get("/api/v1/products/getAllCars");
 }
@@ -90,10 +109,42 @@ function getOrderByUserId(params) {
   });
 }
 
+function getAllOrders() {
+  return instance.get("/api/v1/orders/getOrders", {
+    headers: {
+      Authorization: `Bearer ${localStorage.getItem("accessToken")}`,
+    },
+  });
+}
+
+function getOrderDetailByOrderId(orderID) {
+  return instance.get("/api/v1/orders/getOrderItemsByOrderId", {
+    params: {
+      orderId: orderID,
+    },
+    headers: {
+      Authorization: `Bearer ${localStorage.getItem("accessToken")}`,
+    },
+  });
+}
+
 function createCar(carData) {
   return instance.post(
     "/api/v1/products/createCar",
     carData,
+    {
+      headers: {
+        Authorization: bearerAuth(localStorage.getItem("accessToken")),
+        "Content-Type": "application/json",
+      },
+    }
+  );
+}
+
+function createAppointment(content) {
+  return instance.post(
+    "/api/v1/notifications/createCarAppointment",
+    content,
     {
       headers: {
         Authorization: bearerAuth(localStorage.getItem("accessToken")),
@@ -145,6 +196,45 @@ function getAllInventory() {
       Authorization: bearerAuth(localStorage.getItem("accessToken")),
     },
   });
+}
+
+function addProductToInventory(productData) {
+  return instance.post(
+    "/api/v1/inventory/addInventory",
+    productData,
+    {
+      headers: {
+        Authorization: bearerAuth(localStorage.getItem("accessToken")),
+        "Content-Type": "application/json",
+      },
+    }
+  );
+}
+
+function createShop(shopData) {
+  return instance.post(
+    "/api/v1/products/createShop",
+    shopData,
+    {
+      headers: {
+        Authorization: bearerAuth(localStorage.getItem("accessToken")),
+        "Content-Type": "application/json",
+      },
+    }
+  );
+}
+
+function updateShop(shopData) {
+  return instance.put(
+    "/api/v1/products/updateShop",
+    shopData,
+    {
+      headers: {
+        Authorization: bearerAuth(localStorage.getItem("accessToken")),
+        "Content-Type": "application/json",
+      },
+    }
+  );
 }
 
 function getShopByType(type) {

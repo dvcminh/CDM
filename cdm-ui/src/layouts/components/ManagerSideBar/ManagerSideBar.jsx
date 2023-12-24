@@ -3,6 +3,8 @@ import './ManagerSideBar.css';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { Link, useLocation } from 'react-router-dom';
 import config from '../../../config';
+import DirectionsCarFilledOutlinedIcon from '@mui/icons-material/DirectionsCarFilledOutlined';
+import EarbudsBatteryOutlinedIcon from '@mui/icons-material/EarbudsBatteryOutlined';
 import {
   FaHome,
   FaGithubSquare,
@@ -37,7 +39,12 @@ function ManagerSideBar() {
       to: config.routes.managecustomer
     },
     {
-      icon: <Square3Stack3DIcon className='w-6 h-auto' />,
+      icon: <EarbudsBatteryOutlinedIcon className='w-6 h-auto' />,
+      title: 'Products',
+      to: config.routes.manageshop
+    },
+    {
+      icon: <DirectionsCarFilledOutlinedIcon className='w-6 h-auto' />,
       title: 'Inventories',
       to: config.routes.managecar
     }
@@ -65,7 +72,7 @@ function ManagerSideBar() {
 
   return (
    <div style={{height: '90vh'}} className='hidden lg:block'>
-     <div className='flex flex-col items-center h-4/5 mt-32' >
+     <div className='flex flex-col items-center h-4/5 mt-28' >
       {sidebarItem.map((item, index) => (
         <div key={index}>
           <Link to={item.to} className='no-decoration'>

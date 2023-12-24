@@ -1,25 +1,55 @@
 import SideBar from "../../../layouts/components/SideBar";
 import { cdmApi } from "../../../misc/cdmApi";
-import { useEffect, useState } from "react";
-
+import {  useEffect, useState } from "react";
+import OderdetailModal from "./component/OderdetailModal";
 import "./OrderHis.css";
 
 function CustomerOrderHistory() {
   const [userData, setUserData] = useState(
     JSON.parse(localStorage.getItem("currentUser")) || []
   );
-
+  const [modalOpen, setModalOpen] = useState(false);
   const [orders, setOrders] = useState([]);
+  const [orderDetail, setOrderDetail] = useState([]);
+
+  let totalAmount = 0;
+  let totalOrder = 0;
+  let ranking = "Bronze"
+
+  orders.forEach((order) => {
+    totalAmount += order.totalAmount;
+    totalOrder += 1;
+    if(totalAmount > 10000){
+        ranking = "GOLD";
+    }
+    else   {
+       if(totalAmount > 5000){
+        ranking = "Silver";
+       }
+    }
+  });
 
   const getOrders = async () => {
     try {
       const response = await cdmApi.getOrderByUserId(userData.username);
       setOrders(response.data);
-      console.log(response.data);
+      //console.log(response.data);
     } catch (error) {
       console.log(error);
     }
   };
+
+  const getOrdersDetail = async (orderid) => {
+    try {
+      const response = await cdmApi.getOrderDetailByOrderId(orderid);
+      setOrderDetail(response.data.content);
+      console.log(orderDetail);
+      setModalOpen(true);
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
 
   useEffect(() => {
     getOrders();
@@ -27,118 +57,50 @@ function CustomerOrderHistory() {
 
   return (
     <>
+      {modalOpen && <OderdetailModal data={orderDetail} setOpenModal={setModalOpen} />}
+
       <div className="flex">
         <SideBar />
         <div className="ml-8">
+
           <h1 className="font-medium text-3xl mt-16">Order History</h1>
 
           {/* banner area */}
           <div
-            className="flex mt-4 space-x-2"
-            style={{ width: "70vw", height: "20vh" }}
+            className="flex mt-4 space-x-2 w-4/5"
+            style={{ height: "20vh" }}
           >
             <div className="w-4/5 rounded-lg bg-red-200 flex-1 opacity-90">
               <p className="text-stone-950 font-semibold ml-4 mt-6 text-xl underline">
                 Total Spending:
               </p>
               <p className="ml-6 mt-2 text-lg text-red-700 italic">
-                $450.000.00
-              </p>
+                ${totalAmount}              </p>
               <p className="ml-4 mt-2 text-xs font-thin">
-                as figures of December 2022
+                as figures of December 2023
               </p>
             </div>
             <div className="w-4/5 rounded-lg bg-violet-200 flex-1 opacity-90">
               <p className="text-stone-950 font-semibold ml-4 mt-4 text-xl underline">
                 Total order:
               </p>
-              <p className="ml-6 mt-2 text-lg italic text-indigo-700">20</p>
+              <p className="ml-6 mt-2 text-lg italic text-indigo-700">{totalOrder}</p>
               <p className="ml-4 mt-2 text-xs font-thin">
-                as figures of December 2022
+                as figures of December 2023
               </p>
             </div>
             <div className="w-4/5 rounded-lg bg-gray-200 flex-1 opacity-90">
               <p className="text-stone-950 font-semibold ml-4 mt-4 text-xl underline">
                 Ranking:
               </p>
+              <p className="ml-6 mt-2 text-lg italic text-gray-700">{ranking}</p>
+              <p className="ml-4 mt-2 text-xs font-thin">
+                as figures of December 2023
+              </p>
             </div>
           </div>
 
-          {/* option area */}
-          <div className="flex space-x-1 mt-6">
-            <div className="flex-1">
-              <input
-                type="radio"
-                id="all"
-                name="option"
-                value="all"
-                class="hidden peer"
-              />
-              <label
-                for="all"
-                class=" inline-flex items-center justify-between w-4/5 p-0 text-gray-500 bg-white border border-gray-200 rounded-lg cursor-pointer dark:hover:text-gray-300 dark:border-gray-700 dark:peer-checked:text-blue-500 peer-checked:border-blue-600 peer-checked:text-blue-600 hover:text-gray-600 hover:bg-gray-100 dark:text-gray-400 dark:bg-gray-800 dark:hover:bg-gray-700"
-              >
-                <div class="w-full bg-white px-4 py-2 rounded-3xl text-center">
-                  All
-                </div>
-              </label>
-            </div>
-            <div className="flex-1">
-              <input
-                type="radio"
-                id="pending"
-                name="option"
-                value="pending"
-                class="hidden peer"
-              />
-              <label
-                for="pending"
-                class=" inline-flex items-center justify-between w-4/5 p-0 text-gray-500 bg-white border border-gray-200 rounded-lg cursor-pointer dark:hover:text-gray-300 dark:border-gray-700 dark:peer-checked:text-blue-500 peer-checked:border-blue-600 peer-checked:text-blue-600 hover:text-gray-600 hover:bg-gray-100 dark:text-gray-400 dark:bg-gray-800 dark:hover:bg-gray-700"
-              >
-                <div class="w-full bg-white px-4 py-2 rounded-3xl text-center">
-                  Pending
-                </div>
-              </label>
-            </div>
-            <div className="flex-1">
-              <input
-                type="radio"
-                id="processing"
-                name="option"
-                value="processing"
-                class="hidden peer"
-              />
-              <label
-                for="processing"
-                class=" inline-flex items-center justify-between w-4/5 p-0 text-gray-500 bg-white border border-gray-200 rounded-lg cursor-pointer dark:hover:text-gray-300 dark:border-gray-700 dark:peer-checked:text-blue-500 peer-checked:border-blue-600 peer-checked:text-blue-600 hover:text-gray-600 hover:bg-gray-100 dark:text-gray-400 dark:bg-gray-800 dark:hover:bg-gray-700"
-              >
-                <div class="w-full bg-white px-4 py-2 rounded-3xl text-center">
-                  Processing
-                </div>
-              </label>
-            </div>
-            <div className="flex-1">
-              <input
-                type="radio"
-                id="complete"
-                name="option"
-                value="complete"
-                class="hidden peer"
-              />
-              <label
-                for="complete"
-                class=" inline-flex items-center justify-between w-4/5 p-0 text-gray-500 bg-white border border-gray-200 rounded-lg cursor-pointer dark:hover:text-gray-300 dark:border-gray-700 dark:peer-checked:text-blue-500 peer-checked:border-blue-600 peer-checked:text-blue-600 hover:text-gray-600 hover:bg-gray-100 dark:text-gray-400 dark:bg-gray-800 dark:hover:bg-gray-700"
-              >
-                <div class="w-full bg-white px-4 py-2 rounded-3xl text-center">
-                  Complete
-                </div>
-              </label>
-            </div>
-            <div className="flex-1"></div>
-            <div className="flex-1"></div>
-            <div className="flex-1"></div>
-          </div>
-
+          
           {/* Table display orders */}
 
           {/* <div class="relative overflow-x-auto shadow-md sm:rounded-lg mt-6">
@@ -262,7 +224,7 @@ function CustomerOrderHistory() {
             </table>
           </div> */}
 
-          <div>
+          <div className="mt-8 mr-16">
             <table>
               <thead>
                 <tr>
@@ -272,8 +234,9 @@ function CustomerOrderHistory() {
                   <th>Payment Status</th>
                   <th>Shipping Status</th>
                   <th>Shipping Address</th>
-                  <th>Voucher Value</th>
-                  <th>Shipping Value</th>
+                  {/* <th>Voucher Value</th>
+                  <th>Shipping Value</th> */}
+                  <th>Action</th>
                 </tr>
               </thead>
               <tbody>
@@ -281,12 +244,13 @@ function CustomerOrderHistory() {
                   <tr key={order.id}>
                     <td>{index + 1}</td>
                     <td>{new Date(order.orderDate).toLocaleDateString()}</td>
-                    <td>{order.totalAmount}</td>
-                    <td>{order.paymentStatus}</td>
-                    <td>{order.shippingStatus}</td>
+                    <td>${order.totalAmount}</td>
+                    <td className="text-lime-700">{order.paymentStatus}</td>
+                    <td className="text-lime-700">{order.shippingStatus}</td>
                     <td>{order.shippingAddress}</td>
-                    <td>{order.voucherValue}</td>
-                    <td>{order.shippingValue}</td>
+                    {/* <td>${order.voucherValue}</td>
+                    <td>${order.shippingValue}</td> */}
+                    <td><button onClick={() => getOrdersDetail(order.id)} type="button" class="focus:outline-none text-white bg-green-700 hover:bg-green-800 focus:ring-4 focus:ring-green-300 font-medium rounded-lg text-sm px-5 py-2.5 me-2 mb-2 dark:bg-green-600 dark:hover:bg-green-700 dark:focus:ring-green-800">View</button></td>
                   </tr>
                 ))}
               </tbody>

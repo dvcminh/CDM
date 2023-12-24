@@ -3,9 +3,11 @@ import SideBar from "../../../layouts/components/SideBar";
 import CartList from './components/CartList';
 import FooterCart from './components/FooterCart';
 import CartData from './cart'
-import { useState, useEffect } from 'react';
+import React, { useState, useEffect } from 'react';
 import CartItem from './components/CartItem';
 import { cdmApi } from '../../../misc/cdmApi';
+import { Snackbar } from '@mui/material';
+import Alert from '@mui/material/Alert';
 
 //new
 const ShoppingCart = () => {
@@ -38,7 +40,7 @@ const ShoppingCart = () => {
   const handleCart = async () => {
     const orderData = {
           totalAmount: total,
-          email: user.name,
+          email: user.username,
           shippingAddress: user.address,
           voucherValue: 10,
           shippingValue: shippingFee,
@@ -56,8 +58,9 @@ const ShoppingCart = () => {
     try {
       const order = await cdmApi.createOrder(orderData);
       console.log(order);
-      alert("Order successfully!");
-      localStorage.removeItem("cart");
+      setSnackbar({ children: "Order successfully!", severity: "success" });
+      localStorage.setItem("cart", "[]");
+      window.location.reload();
     } catch (error) {
       console.error(error);
     }
@@ -70,6 +73,9 @@ const ShoppingCart = () => {
     
     setTotal(total);
   }, [carts]);
+
+  const [snackbar, setSnackbar] = React.useState(null);
+  const handleCloseSnackbar = () => setSnackbar(null);
 
   return (
     <div className="py-8 px-4 md:px-6 2xl:px-20 2xl:container 2xl:mx-auto">
@@ -209,6 +215,11 @@ const ShoppingCart = () => {
         </div>
       </div>
     </div>
+    {!!snackbar && (
+              <Snackbar open onClose={handleCloseSnackbar} autoHideDuration={6000} anchorOrigin={{ vertical: "bottom", horizontal: "center" }}>
+                <Alert {...snackbar} onClose={handleCloseSnackbar} />
+              </Snackbar>
+            )}
   </div>
   );
 }
