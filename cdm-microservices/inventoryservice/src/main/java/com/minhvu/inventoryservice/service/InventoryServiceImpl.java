@@ -88,7 +88,6 @@ public class InventoryServiceImpl implements InventoryService {
     @Override
     public String create(InventoryRequest inventory) {
         Inventory newInventory = Inventory.builder()
-                .productId(inventory.getProductId())
                 .quantity(inventory.getQuantity())
                 .build();
         inventoryRepository.save(newInventory);

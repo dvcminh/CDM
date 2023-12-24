@@ -123,9 +123,11 @@ const ChatRoom = () => {
     setUserData({ ...userData, message: value });
   };
   const sendValue = () => {
+    const now = new Date();
     if (stompClient) {
       var chatMessage = {
         senderName: userData.username,
+        date: now.getTime(),
         receiverName: "public",
         message: userData.message,
         status: "MESSAGE",
