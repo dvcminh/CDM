@@ -7,6 +7,7 @@ export const cdmApi = {
   signup,
   updateUser,
   getUserMe,
+  getAllUsers,
   changePassword,
   getAllCars,
   getCarById,
@@ -23,6 +24,9 @@ export const cdmApi = {
   getCustomerReport,
   createAppointment,
   getAllOrders,
+  updateShop,
+  createShop,
+  addProductToInventory,
 }
 
 function authenticate(user) {
@@ -60,6 +64,17 @@ function getUserMe(username) {
     headers: {
       Authorization: `Bearer ${accessToken}`,
     },
+  });
+}
+
+function getAllUsers(size = 10000) {
+  return instance.get('/auth/getAllUsers', {
+    params: {
+      size : size,
+    },
+    headers: {
+      'Authorization': bearerAuth(localStorage.getItem('accessToken'))
+    }
   });
 }
 
@@ -171,6 +186,45 @@ function getAllInventory() {
       Authorization: bearerAuth(localStorage.getItem("accessToken")),
     },
   });
+}
+
+function addProductToInventory(productData) {
+  return instance.post(
+    "/api/v1/inventory/addInventory",
+    productData,
+    {
+      headers: {
+        Authorization: bearerAuth(localStorage.getItem("accessToken")),
+        "Content-Type": "application/json",
+      },
+    }
+  );
+}
+
+function createShop(shopData) {
+  return instance.post(
+    "/api/v1/products/createShop",
+    shopData,
+    {
+      headers: {
+        Authorization: bearerAuth(localStorage.getItem("accessToken")),
+        "Content-Type": "application/json",
+      },
+    }
+  );
+}
+
+function updateShop(shopData) {
+  return instance.put(
+    "/api/v1/products/updateShop",
+    shopData,
+    {
+      headers: {
+        Authorization: bearerAuth(localStorage.getItem("accessToken")),
+        "Content-Type": "application/json",
+      },
+    }
+  );
 }
 
 function getShopByType(type) {
