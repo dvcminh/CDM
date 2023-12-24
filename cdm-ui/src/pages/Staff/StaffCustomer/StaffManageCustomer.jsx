@@ -3,7 +3,6 @@ import ManagerSideBar from '../../../layouts/components/ManagerSideBar';
 import Box from '@mui/material/Box';
 import { DataGrid, GridToolbar, GridRowModes, GridToolbarContainer, GridActionsCellItem, GridRowEditStopReasons } from '@mui/x-data-grid';
 import { mockDataTeam } from "./mockData";
-import { avatars } from '../ManageStaff/avatar';
 import CustomerModalForm from './CustomerForm';
 
 import Button from '@mui/material/Button';
@@ -18,11 +17,12 @@ import DialogTitle from '@mui/material/DialogTitle';
 import DialogContent from '@mui/material/DialogContent';
 import DialogActions from '@mui/material/DialogActions';
 import Alert from '@mui/material/Alert';
-
+import { avatars } from '../../Manager/ManageStaff/avatar';
 import { cdmApi } from '../../../misc/cdmApi';
+import SideBarStaff from '../../../layouts/components/SideBarStaff';
 
 //Main Page
-const ManageCustomerPage = () => {
+const StaffManageCustomerPage = () => {
 
   const [rows, setRows] = React.useState(mockDataTeam);
   const [formState, setFormState] = React.useState(null);
@@ -38,7 +38,7 @@ const ManageCustomerPage = () => {
         filtedRoleData.forEach((row, index) => {
           if(!row.avatar)
             row.avatar = avatars[index % avatars.length];
-      });
+        });
         const addedIndexData = filtedRoleData.map((row, index) => ({ ...row, index: index + 1 }));
         setRows(addedIndexData); 
       } catch (error) {
@@ -295,7 +295,7 @@ const ManageCustomerPage = () => {
         return [
           <GridActionsCellItem
           icon={<EditIcon className='bg-[#1F2937] text-white rounded-md box-content p-[4px]
-                                       hover:bg-[#455265]'/>}
+          hover:bg-[#455265]'/>}
             label="Edit"
             className="textPrimary"
             onClick={handleEditClick(id)}
@@ -318,7 +318,7 @@ const ManageCustomerPage = () => {
   //render
   return (
     <div className="flex">
-      <ManagerSideBar/>
+      <SideBarStaff/>
       { modalOpen && ( 
       <CustomerModalForm 
         closeModel={() => {setModalOpen(false); setRowToEdit(null);}}
@@ -402,4 +402,4 @@ const ManageCustomerPage = () => {
   );
 }
 
-export default ManageCustomerPage;
+export default StaffManageCustomerPage;

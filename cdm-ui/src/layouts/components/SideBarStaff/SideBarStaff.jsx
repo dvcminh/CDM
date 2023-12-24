@@ -2,6 +2,8 @@ import './SideBarStaff.css';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faHouse, faRightFromBracket , faUser, faFileLines, faUsers , faBagShopping } from '@fortawesome/free-solid-svg-icons';
 import { Link, useLocation } from 'react-router-dom';
+import DirectionsCarFilledOutlinedIcon from '@mui/icons-material/DirectionsCarFilledOutlined';
+import EarbudsBatteryOutlinedIcon from '@mui/icons-material/EarbudsBatteryOutlined';
 import config from '../../../config';
 
 function SideBarStaff() {
@@ -32,6 +34,16 @@ function SideBarStaff() {
         to: config.routes.staffcustomer
     },
     {
+      icon: <EarbudsBatteryOutlinedIcon className='w-6 h-auto' />,
+      title: 'Products',
+      to: config.routes.staffshop
+    },
+    {
+      icon: <DirectionsCarFilledOutlinedIcon className='w-6 h-auto' />,
+      title: 'Inventories',
+      to: config.routes.staffcar
+    },
+    {
       icon: <FontAwesomeIcon icon={faRightFromBracket} className='sidebar__icon' />,
       title: 'Sign Out',
       to: config.routes.start
@@ -42,7 +54,7 @@ function SideBarStaff() {
 
   return (
    <div style={{height: 'auto'}}>
-     <div className='flex flex-col items-center h-4/5 mt-32' >
+     <div className='flex flex-col items-center h-4/5 mt-24' >
       {sidebarItem.map((item, index) => (
         <div key={index}>
           <Link to={item.to} className='no-decoration'>

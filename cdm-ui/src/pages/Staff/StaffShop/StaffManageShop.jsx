@@ -1,10 +1,8 @@
-import React, { useEffect } from 'react';
+import React, { useEffect,useState } from 'react';
 import ManagerSideBar from '../../../layouts/components/ManagerSideBar';
 import Box from '@mui/material/Box';
 import { DataGrid, GridToolbar, GridRowModes, GridToolbarContainer, GridActionsCellItem, GridRowEditStopReasons } from '@mui/x-data-grid';
-import { mockDataTeam } from "./mockData";
-import { avatars } from '../ManageStaff/avatar';
-import CustomerModalForm from './CustomerForm';
+import axios from 'axios';
 
 import Button from '@mui/material/Button';
 import AddIcon from '@mui/icons-material/Add';
@@ -19,27 +17,27 @@ import DialogContent from '@mui/material/DialogContent';
 import DialogActions from '@mui/material/DialogActions';
 import Alert from '@mui/material/Alert';
 
+import WarningIcon from '@mui/icons-material/Warning';
 import { cdmApi } from '../../../misc/cdmApi';
+import ShopForm from './ShopForm';
+import SideBarStaff from '../../../layouts/components/SideBarStaff';
 
-//Main Page
-const ManageCustomerPage = () => {
 
-  const [rows, setRows] = React.useState(mockDataTeam);
+const StaffManageShopPage = () => {
+
+  const [rows, setRows] = React.useState([]);
   const [formState, setFormState] = React.useState(null);
-
-
+  const [dataChangeFlag, setDataChangeFlag] = useState(false);
+  
   useEffect(() => {
     const fetchData = async () => {
       try {
         // const response = await axios.get('http://localhost:8083/api/v1/products/getAllCars');
-        const response = await cdmApi.getAllUsers();
-        console.log(response.data.content);
-        const filtedRoleData = response.data.content.filter((row) => row.role === "CUSTOMER");
-        filtedRoleData.forEach((row, index) => {
-          if(!row.avatar)
-            row.avatar = avatars[index % avatars.length];
-      });
-        const addedIndexData = filtedRoleData.map((row, index) => ({ ...row, index: index + 1 }));
+        const response = await cdmApi.getAllInventory();
+        const newArray = [];
+        response.data.content.forEach((item) => newArray.push(item.products[0]));
+        console.log(newArray);
+        const addedIndexData = newArray.map((row, index) => ({ ...row, index: index + 1 }));
         setRows(addedIndexData); 
       } catch (error) {
         console.error('Error fetching data:', error);
@@ -47,9 +45,11 @@ const ManageCustomerPage = () => {
     };
     fetchData();
   
-  }, []);
+  }, [dataChangeFlag]);
+
   
 
+  const [rowModesModel, setRowModesModel] = React.useState({});
 
   //Modal
   const [modalOpen, setModalOpen] = React.useState(false);
@@ -72,18 +72,14 @@ const ManageCustomerPage = () => {
     // noButtonRef.current?.focus();
   };
 
-  const handleSubmit = (newFormState)  => {
-
-
-    //delete newFormState.index;
-
+  const handleSubmit = (newFormState)  => {    
+    delete newFormState.index;
     setFormState(newFormState);
     if(rowToEdit === null) 
-      setPopupMessage(`Do you really want to create a new customer?`);
+      setPopupMessage(`Do you really want to create a new item?`);
     else
-      setPopupMessage(`Do you really want to update customer's information?`);
-    //setPopupOpen(true);
-    setModalOpen(false);
+      setPopupMessage(`Do you really want to update item's information?`);
+    setPopupOpen(true);
   };
 
   const handleNo = () => {
@@ -93,38 +89,45 @@ const ManageCustomerPage = () => {
 
   const handleYes = async () => {
     
-    // if (deletingId !== null) 
-    //   handleDeleteApi();
-    // else 
-    // {
-    //   const formData = new FormData();
-    //   formData.append("file", formState.imgSrc);
-    //   formData.append("upload_preset", "nhatkhang");
+    if (deletingId !== null) 
+      handleDeleteApi();
+    else 
+    {
+      const formData = new FormData();
+      formData.append("file", formState.image_url);
+      formData.append("upload_preset", "nhatkhang");
 
-    //   const resUpload = await axios.post("https://api.cloudinary.com/v1_1/dbixymfbp/image/upload", formData);
-    //   //setFormState({...formState, imgSrc: response.data.secure_url});
+      const resUpload = await axios.post("https://api.cloudinary.com/v1_1/dbixymfbp/image/upload", formData);
 
-    //   setFormState({...formState, imgSrc: resUpload.data.secure_url});
-    //   const subFormState = {...formState, imgSrc: resUpload.data.secure_url};
-      
-    //   if (rowToEdit === null)  
-    //     handleCreateApi(subFormState);
-    //   else 
-    //     handleUpdateApi(subFormState);
+      setFormState({...formState, image_url: resUpload.data.secure_url});
+      const subFormState = {...formState, image_url: resUpload.data.secure_url};
+      // const subFormState = {...formState, image_url: "image_url"};
+      if (rowToEdit === null)  
+        handleCreateApi(subFormState);
+      else 
+        handleUpdateApi(subFormState);
         
       
-    // }
+    }
     setPopupOpen(false);
     setModalOpen(false);
   };
 
   const handleCreateApi = async (subFormState) => {
     try {
-      console.log("Create");
-      // const response = await cdmApi.createCar(subFormState);
+      const response = await cdmApi.createShop(subFormState);
+      response.data.quantity = subFormState.quantity;
+      setRows([...rows, response.data]);
+      const inventoryData = 
+      {
+        "productId": response.data.id,
+        "quantity": subFormState.quantity,
+      }
+      const respopnse = await cdmApi.addProductToInventory(inventoryData);
+      setSnackbar({ children: "Updated successfully", severity: "success" });
+      setDataChangeFlag(!dataChangeFlag);
 
-      // setRows([...rows, response.data]);
-      // setSnackbar({ children: "Updated successfully", severity: "success" });
+
     } catch (error) {
       console.error("Error creating new product:", error);
       setSnackbar({children: "Couldn't create a new product", severity: "error"});
@@ -133,11 +136,12 @@ const ManageCustomerPage = () => {
 
   const handleUpdateApi = async (subFormState) => {
     try{
-      console.log("Update");
-
-      // const response = await cdmApi.updateCar(subFormState);
-      // setRows(rows.map((row) => (row === rowToEdit ? response.data : row)));
-      // setSnackbar({ children: "Updated successfully", severity: "success" });
+      console.log(subFormState);
+      const response = await cdmApi.updateShop(subFormState);
+      response.data.quantity = subFormState.quantity;
+      setRows(rows.map((row) => (row === rowToEdit ? response.data : row)));
+      setDataChangeFlag(!dataChangeFlag);
+      setSnackbar({ children: "Updated successfully", severity: "success" });
     }
     catch(error){
       console.error("Error updating product:", error);
@@ -147,12 +151,11 @@ const ManageCustomerPage = () => {
 
   const handleDeleteApi = async () => {
     try {
-      console.log("Delete");
-
-      // await cdmApi.deleteCar(deletingId);
-      // setRows(rows.filter((row) => row.id !== deletingId));
-      // setSnackbar({ children: "Deleted successfully", severity: "success" });
-      // setDeletingId(null);
+      await cdmApi.deleteCar(deletingId);
+      setRows(rows.filter((row) => row.id !== deletingId));
+      setDataChangeFlag(!dataChangeFlag);
+      setSnackbar({ children: "Deleted successfully", severity: "success" });
+      setDeletingId(null);
     } catch (error) {
       console.error("Error deleting product:", error);
     }
@@ -205,7 +208,7 @@ const ManageCustomerPage = () => {
   const handleDeleteClick = (id) => async () => {
     console.log(id);  
     setDeletingId(id);
-    setPopupMessage(`Do you really want to delete this car?`);
+    setPopupMessage(`Do you really want to delete this item?`);
     setPopupOpen(true);
   };
 
@@ -213,7 +216,7 @@ const ManageCustomerPage = () => {
 
   //customizer columns
   const columns = [
-    //{ field: "id", headerName: "ID" },
+    // { field: "id", headerName: "ID" },
     {
       field: "index",
       headerName: "ID",
@@ -223,65 +226,54 @@ const ManageCustomerPage = () => {
       },
     },
     {
-      field: "avatar",
-      headerName: "Avatar",
-      width: 150,
+      field: "name",
+      headerName: "Name",
+      width: 210,
+      cellClassName: "name-column--cell",
+      editable: true,
+    },
+    {
+      field: "image_url",
+      headerName: "Image",
+      width: 200,
       cellClassName: "image-column--cell",
       renderCell: (params) => {
         return (
           <div >
-            {(params.row.avatar && params.row.avatar.length > 10 ) ? 
-              (
-                <img
-                  className="rounded-full w-[50px]"
-                  src={params.row.avatar}
-                  alt="avatar"
-                />
-              ) :
-              (
-                <img
-                  className="rounded-full w-[50px]"
-                  src="https://t4.ftcdn.net/jpg/04/08/24/43/360_F_408244382_Ex6k7k8XYzTbiXLNJgIL8gssebpLLBZQ.jpg"
-                  alt="avatar"
-                />
-              )
-            }
+            {params.row.image_url && <img className=" rounded-md  ml-[-15px] " src={params.row.image_url} alt="avatar" />}
           </div>
         );
       },
     },
     {
-      field: "name",
-      headerName: "Name",
-      width: 180,
-      cellClassName: "name-column--cell",
+      field: "price",
+      headerName: " Price",
+      width: 130,
       editable: true,
     },
     // {
-    //   field: "age",
-    //   headerName: "Age",
-    //   type: "number",
+    //   field: "description",
+    //   headerName: "Description",
     //   width: 100,
-    //   headerAlign: "left",
-    //   align: "left",
     //   editable: true,
     // },
     {
-      field: "phone_number",
-      headerName: "Phone Number",
-      width: 180,
+      field: "type",
+      headerName: "Type",
+      width: 150,
+      cellClassName: "name-column--cell",
       editable: true,
     },
     {
-      field: "email",
-      headerName: "Email",
-      width: 220,
+      field: "quantity",
+      headerName: "Quantity",
+      width: 110,
       editable: true,
     },
     {
-      field: "address",
-      headerName: "Address",
-      width: 250,
+      field: "status",
+      headerName: "Status",
+      width: 120,
       editable: true,
     },
     {
@@ -290,12 +282,11 @@ const ManageCustomerPage = () => {
       headerName: 'Actions',
       width: 100,
       cellClassName: 'actions',
-      getActions: ({ id }) => {
-  
+      getActions: ({ id }) => {  
         return [
           <GridActionsCellItem
           icon={<EditIcon className='bg-[#1F2937] text-white rounded-md box-content p-[4px]
-                                       hover:bg-[#455265]'/>}
+          hover:bg-[#455265]'/>}
             label="Edit"
             className="textPrimary"
             onClick={handleEditClick(id)}
@@ -313,14 +304,13 @@ const ManageCustomerPage = () => {
     },
   ];
 
-  
-
+  const [value, setValue] = React.useState(2);
   //render
   return (
     <div className="flex">
-      <ManagerSideBar/>
+      <SideBarStaff/>
       { modalOpen && ( 
-      <CustomerModalForm 
+      <ShopForm 
         closeModel={() => {setModalOpen(false); setRowToEdit(null);}}
         defaultValues={rowToEdit}        
         onSubmit={handleSubmit}
@@ -329,31 +319,34 @@ const ManageCustomerPage = () => {
 
       <div className='ml-8 flex-1 flex flex-col overflow-x-hidden'>
         <div className="pt-8 w-full">
-          <p className="text-4xl  font-bold">Customer</p>
+          <p className="text-4xl  font-bold">Shop</p>
         </div>
-        <button className='self-end mr-[50px] mb-0 bg-[#000] hover:bg-[#6d7986] rounded-md text-white font-bold w-[150px] max-sm:ml-0 my-2 py-2 max-lg:self-start max-lg:mt-[50px]' 
+        <button className='self-end mr-[50px] mb-0 bg-[#000] hover:bg-[#6d7986] rounded-md text-white font-bold w-[150px] my-2 py-2 max-lg:self-start max-lg:mt-[50px]' 
                 onClick={() => {setModalOpen(true);}}>CREATE NEW</button>
         
         {/* Data Grid */}
         <div className="mt-[15px]">
           {renderConfirmDialog()}
-          <Box height="544px" width="100%"  sx={{
+          <Box height="544px" width="100%" maxWidth="100%" sx={{
               "& .MuiDataGrid-root" : {
                 border : "none",
               },
               "& .MuiDataGrid-cell" : {
                 borderBottom : "none",
                 fontSize: '12px',
-                
               },
               "& .name-column--cell" : {
                 // color : '#15803D',
+              },
+              "& .image-column--cell" : {
+                fontSize: '40px',
               },
               "& .MuiDataGrid-columnHeaders": {
                 backgroundColor: '#607286',
                 color: '#fff',
                 borderBottom: "none",
-                fontSize: '16px',
+                fontSize: '14px',
+                
               },
               "& .MuiDataGrid-root .MuiDataGrid-row--editing .MuiDataGrid-cell": {
                 boxShadow: '0px 4px 1px 0px rgba(0,0,0,0.2), 0px 0px 1px 0px rgba(0,0,0,0.14), 0px -8px 10px 0px rgba(0,0,0,0.12) !important',
@@ -402,4 +395,4 @@ const ManageCustomerPage = () => {
   );
 }
 
-export default ManageCustomerPage;
+export default StaffManageShopPage;
