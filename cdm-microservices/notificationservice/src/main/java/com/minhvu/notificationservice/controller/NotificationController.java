@@ -32,7 +32,9 @@ public class NotificationController {
                 createCarAppointment.getEmail(),
                 createCarAppointment.getDate(),
                 createCarAppointment.getTime(),
-                createCarAppointment.getNote());
+                createCarAppointment.getNote(),
+                createCarAppointment.getPhone(),
+                createCarAppointment.getUsername());
         return ResponseEntity.status(HttpStatus.OK).body("Email sent successfully");
     }
 

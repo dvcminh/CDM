@@ -6,6 +6,7 @@ const routes = {
     managestaff: '/managerhome/managestaff',
     managervehicleS: '/managervehicle/modelS',
     managereport: '/managerhome/managereport',
+    managerchat: '/managerhome/managerchat',
     managecar: '/managerhome/managecar',
     manageshop: '/managerhome/manageshop',
     customerhome: '/customerhome',

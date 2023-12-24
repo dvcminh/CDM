@@ -26,6 +26,7 @@
         <module>reportservice</module>
         <module>notificationservice</module>
         <module>configserver</module>
+        <module>chatservice</module>
     </modules>
 
     <properties>

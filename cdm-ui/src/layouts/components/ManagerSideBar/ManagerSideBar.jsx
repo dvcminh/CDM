@@ -14,7 +14,7 @@ import {
 
 
 import { ArrowRightOnRectangleIcon, CreditCardIcon, HomeIcon, NewspaperIcon, ShoppingBagIcon, UserCircleIcon, UsersIcon, UserGroupIcon, Square3Stack3DIcon } from '@heroicons/react/24/outline'
-import { CreditCard, ShoppingBag } from '@mui/icons-material';
+import { Chat, CreditCard, ShoppingBag } from '@mui/icons-material';
 
 function ManagerSideBar() {
   const sidebarItem = [
@@ -53,6 +53,12 @@ function ManagerSideBar() {
       icon: <NewspaperIcon className='w-6 h-auto' />,
       title: 'Reports',
       to: config.routes.managereport
+    }
+    ,
+    {
+      icon: <Chat className='w-6 h-auto' />,
+      title: 'Conversation',
+      to: config.routes.managerchat
     }
     ,
     {

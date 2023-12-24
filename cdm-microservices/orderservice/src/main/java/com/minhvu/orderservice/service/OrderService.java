@@ -5,12 +5,18 @@ import com.minhvu.orderservice.dto.CreateOrderRequest;
 import com.minhvu.orderservice.dto.UpdateOrderRequest;
 import com.minhvu.orderservice.model.Order;
 
+import java.math.BigDecimal;
+import java.time.Month;
 import java.util.List;
+import java.util.Map;
 
 public interface OrderService {
 
     List<Order> viewAll();
-
+    BigDecimal calculateTotalRevenue();
+    Map<Month, BigDecimal> calculateMonthlyRevenue();
+    BigDecimal calculateAverageOrderValue();
+    Map<Month, Long> calculateOrdersPerMonth();
     List<Order> findByShippingStatus(String shippingStatus);
     List<Order> findByPaymentStatus(String shippingStatus);
 

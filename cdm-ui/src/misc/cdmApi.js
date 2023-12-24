@@ -22,6 +22,7 @@ export const cdmApi = {
   getOrderDetailByOrderId,
   createCustomerReport,
   getCustomerReport,
+  getPublicChat,
   createAppointment,
   getAllOrders,
   updateShop,
@@ -67,6 +68,14 @@ function getUserMe(username) {
   });
 }
 
+function getAllUsers() {
+  return instance.get("/auth/getAllUsers", {
+    headers: {
+      Authorization: bearerAuth(localStorage.getItem("accessToken")),
+    },
+  });
+}
+
 function getAllUsers(size = 10000) {
   return instance.get('/auth/getAllUsers', {
     params: {
@@ -77,6 +86,7 @@ function getAllUsers(size = 10000) {
     }
   });
 }
+
 
 function getAllCars() {
   return instance.get("/api/v1/products/getAllCars");
@@ -254,6 +264,11 @@ function getCustomerReport() {
 function getShopById(id) {
   return instance.get('http://localhost:9296/api/v1/products/getShopById/' + id);
 }
+
+function getPublicChat() {
+  return axios.get("localhost:8080/api/chat/public-messages");
+}
+
 // -- Axios
 
 const instance = axios.create({
