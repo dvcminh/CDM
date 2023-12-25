@@ -76,16 +76,16 @@ function getAllUsers() {
   });
 }
 
-function getAllUsers(size = 10000) {
-  return instance.get('/auth/getAllUsers', {
-    params: {
-      size : size,
-    },
-    headers: {
-      'Authorization': bearerAuth(localStorage.getItem('accessToken'))
-    }
-  });
-}
+// function getAllUsers(size = 10000) {
+//   return instance.get('/auth/getAllUsers', {
+//     params: {
+//       size : size,
+//     },
+//     headers: {
+//       'Authorization': bearerAuth(localStorage.getItem('accessToken'))
+//     }
+//   });
+// }
 
 
 function getAllCars() {

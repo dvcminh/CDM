@@ -9,6 +9,8 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
+
 
 @Service
 @Log4j2
@@ -22,6 +24,11 @@ public class OrderItemServiceImpl implements OrderItemService{
     public Page<OrderItem> findByOrderId(String orderId, int page, int size) {
         Pageable pageable = Pageable.ofSize(size).withPage(page);
         return orderItemRepository.findById_OrderIdAllIgnoreCase(orderId, pageable);
+    }
+
+    @Override
+    public List<OrderItem> findAll() {
+        return orderItemRepository.findAll();
     }
 
 

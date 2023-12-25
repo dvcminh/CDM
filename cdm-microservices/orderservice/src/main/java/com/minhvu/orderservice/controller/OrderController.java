@@ -9,12 +9,14 @@ import com.minhvu.orderservice.service.OrderItemService;
 import com.minhvu.orderservice.service.OrderService;
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Page;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
 import java.time.Month;
+import java.util.List;
 import java.util.Map;
 
 @RestController
@@ -56,10 +58,15 @@ public class OrderController {
     }
 
     @GetMapping("/getOrderItemsByOrderId")
-    public ResponseEntity<Iterable<OrderItem>> getOrderItemsByOrderId(@RequestParam("orderId") String orderId,
-                                                                      @RequestParam(defaultValue = "0") int page,
-                                                                      @RequestParam(defaultValue = "10") int pageSize) {
+    public ResponseEntity<Page<OrderItem>> getOrderItemsByOrderId(@RequestParam("orderId") String orderId,
+                                                                  @RequestParam(defaultValue = "0") int page,
+                                                                  @RequestParam(defaultValue = "10") int pageSize) {
         return ResponseEntity.ok(orderItemService.findByOrderId(orderId, page, pageSize));
+    }
+
+    @GetMapping("/getAllOrderItems")
+    public ResponseEntity<List<OrderItem>> getAllOrderItems() {
+        return ResponseEntity.ok(orderItemService.findAll());
     }
 
     @GetMapping("/getOrderByUserId")
