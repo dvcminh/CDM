@@ -53,7 +53,7 @@ public class OrderController {
     }
 
     @GetMapping("/getOrders")
-    public ResponseEntity<Iterable<Order>> getOrders() {
+    public ResponseEntity<List<Order>> getOrders() {
         return ResponseEntity.ok(orderService.viewAll());
     }
 

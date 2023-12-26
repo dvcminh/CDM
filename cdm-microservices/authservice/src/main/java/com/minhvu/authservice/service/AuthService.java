@@ -8,6 +8,7 @@ import com.minhvu.authservice.exception.UserNotFoundException;
 import com.minhvu.authservice.repository.UserCredentialRepository;
 import com.minhvu.authservice.repository.UserRepository;
 import jakarta.ws.rs.BadRequestException;
+import lombok.Data;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -19,6 +20,7 @@ import org.springframework.stereotype.Service;
 import java.util.Optional;
 
 @Service
+@Data
 public class AuthService {
 
     @Autowired
@@ -29,6 +31,12 @@ public class AuthService {
     private UserRepository userRepository;
     @Autowired
     private JwtService jwtService;
+
+    public AuthService(UserRepository userRepository, PasswordEncoder passwordEncoder, JwtService jwtService) {
+        this.userRepository = userRepository;
+        this.passwordEncoder = passwordEncoder;
+        this.jwtService = jwtService;
+    }
 
     public String saveUser(RegisterRequest credential) {
         if (userRepository.existsByNameAllIgnoreCase(credential.getName())) {

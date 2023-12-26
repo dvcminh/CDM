@@ -22,7 +22,6 @@ import java.util.Map;
 @AllArgsConstructor
 public class CarServiceImpl implements CarService {
     private final CarRepository carRepository;
-    private final Cloudinary cloudinary;
 
     public Page<Car> getAllProducts(Pageable pageable) {
         return carRepository.findAll(pageable);
@@ -94,14 +93,5 @@ public class CarServiceImpl implements CarService {
     @Override
     public List<Car> findCarsByNameContains(String name) {
         return carRepository.findAllByModelContains(name);
-    }
-
-    public String uploadProductImage(MultipartFile imageFile) throws IOException {
-        Map<String, String> params = new HashMap<>();
-        params.put("folder", "product_images");
-
-        Map<?, ?> uploadResult = cloudinary.uploader().upload(imageFile.getBytes(), params);
-
-        return uploadResult.get("secure_url").toString();
     }
 }
