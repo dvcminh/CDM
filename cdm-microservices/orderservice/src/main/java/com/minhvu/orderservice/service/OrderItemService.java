@@ -12,5 +12,7 @@ public interface OrderItemService {
 
     Page<OrderItem> findByOrderId(String orderId, int page, int size);
 
+    List<OrderItem> findAll();
+
 //    OrderItem createOrderItem(CreateOrderItemRequest createOrderItemRequest);
 }

@@ -37,6 +37,11 @@ public class AuthController {
     private CustomUserDetailsService userDetailsService;
     @Autowired
     private KafkaTemplate<String, ChangePasswordEvent> kafkaTemplate;
+
+    public AuthController(AuthService authService) {
+        this.service = authService;
+    }
+
     @PostMapping("/register")
     public String addNewUser(@RequestBody RegisterRequest user) {
         return service.saveUser(user);

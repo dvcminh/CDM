@@ -7,6 +7,7 @@ export const cdmApi = {
   signup,
   updateUser,
   getUserMe,
+  getAllUsers,
   changePassword,
   getAllCars,
   getCarById,
@@ -21,8 +22,12 @@ export const cdmApi = {
   getOrderDetailByOrderId,
   createCustomerReport,
   getCustomerReport,
+  getPublicChat,
   createAppointment,
   getAllOrders,
+  updateShop,
+  createShop,
+  addProductToInventory,
 }
 
 function authenticate(user) {
@@ -62,6 +67,26 @@ function getUserMe(username) {
     },
   });
 }
+
+function getAllUsers() {
+  return instance.get("/auth/getAllUsers", {
+    headers: {
+      Authorization: bearerAuth(localStorage.getItem("accessToken")),
+    },
+  });
+}
+
+// function getAllUsers(size = 10000) {
+//   return instance.get('/auth/getAllUsers', {
+//     params: {
+//       size : size,
+//     },
+//     headers: {
+//       'Authorization': bearerAuth(localStorage.getItem('accessToken'))
+//     }
+//   });
+// }
+
 
 function getAllCars() {
   return instance.get("/api/v1/products/getAllCars");
@@ -173,6 +198,45 @@ function getAllInventory() {
   });
 }
 
+function addProductToInventory(productData) {
+  return instance.post(
+    "/api/v1/inventory/addInventory",
+    productData,
+    {
+      headers: {
+        Authorization: bearerAuth(localStorage.getItem("accessToken")),
+        "Content-Type": "application/json",
+      },
+    }
+  );
+}
+
+function createShop(shopData) {
+  return instance.post(
+    "/api/v1/products/createShop",
+    shopData,
+    {
+      headers: {
+        Authorization: bearerAuth(localStorage.getItem("accessToken")),
+        "Content-Type": "application/json",
+      },
+    }
+  );
+}
+
+function updateShop(shopData) {
+  return instance.put(
+    "/api/v1/products/updateShop",
+    shopData,
+    {
+      headers: {
+        Authorization: bearerAuth(localStorage.getItem("accessToken")),
+        "Content-Type": "application/json",
+      },
+    }
+  );
+}
+
 function getShopByType(type) {
   return instance.get(`/api/v1/products/getShopByType/${type}`, {
     headers: {
@@ -200,6 +264,11 @@ function getCustomerReport() {
 function getShopById(id) {
   return instance.get('http://localhost:9296/api/v1/products/getShopById/' + id);
 }
+
+function getPublicChat() {
+  return axios.get("localhost:8080/api/chat/public-messages");
+}
+
 // -- Axios
 
 const instance = axios.create({

@@ -15,7 +15,7 @@ import java.time.LocalDateTime;
 public class Order {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @GeneratedValue(strategy = GenerationType.AUTO)
     private String id;
 
     private String email;
@@ -26,5 +26,10 @@ public class Order {
     private String shippingAddress;
     private Integer voucherValue;
     private Integer shippingValue;
+
+    public Order(String number, BigDecimal bigDecimal) {
+        this.id = number;
+        this.totalAmount = bigDecimal;
+    }
 }
 

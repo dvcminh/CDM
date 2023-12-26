@@ -88,7 +88,6 @@ public class InventoryServiceImpl implements InventoryService {
     @Override
     public String create(InventoryRequest inventory) {
         Inventory newInventory = Inventory.builder()
-                .productId(inventory.getProductId())
                 .quantity(inventory.getQuantity())
                 .build();
         inventoryRepository.save(newInventory);
@@ -108,7 +107,7 @@ public class InventoryServiceImpl implements InventoryService {
 
     @Override
     public Inventory findById(String id) {
-        return inventoryRepository.findById(id).orElseThrow();
+        return inventoryRepository.findByProductId(id).orElseThrow();
     }
 
     @Override
