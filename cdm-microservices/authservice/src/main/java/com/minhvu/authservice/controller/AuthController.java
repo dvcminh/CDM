@@ -94,10 +94,10 @@ public class AuthController {
         }
 
         service.updateUser(user, newPassword);
-
+        
         kafkaTemplate.send("change-password", new ChangePasswordEvent(email, newPassword));
 
-        return new ResponseEntity<>("An email with the new password has been sent to the user.", HttpStatus.OK);
+        return new ResponseEntity<>(newPassword, HttpStatus.OK);
     }
 
 
