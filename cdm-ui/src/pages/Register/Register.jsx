@@ -4,6 +4,9 @@ import { Link } from "react-router-dom"
 import Validation from "./RegisterValidation"
 import { cdmApi } from "../../misc/cdmApi"
 import { useNavigate } from 'react-router-dom';
+import { jwtDecode as jwt_decode } from 'jwt-decode';
+import { useEffect } from 'react';
+
 
 function Register() {
     const navigate = useNavigate();
@@ -17,7 +20,7 @@ function Register() {
     const [confpassword, setConfPassword] = useState('');
 
     const [errors, setErrors] = useState({})
-
+    // const clientId ="671243941248-6t9bi1aq2om20nlksbvq9amc8snso34a.apps.googleusercontent.com";
 
     const handleInput = (event) => {
         setValues(prev => ({...prev, [event.target.name]: [event.target.value]}))
@@ -50,6 +53,42 @@ function Register() {
             }
         }
     }
+
+    function handleCallbackResponse(response){
+        console.log("Encoded JWT ID token: " + response.credential);
+        var userObject = jwt_decode(response.credential);
+        console.log(userObject);
+        try {
+            const name = userObject.email + '';
+            setPassword('Dat20031234');
+            const user = { name, email, phone, address, password: 'Dat20031234', role: "CUSTOMER"};
+            console.log(user);
+            cdmApi.signup(user)
+            .then(response => {
+                alert("Register successfully!");
+                navigate('/login')
+            })
+            .catch(error => {
+                alert("Register failed!");
+                console.log(error);
+            })
+        }
+        catch(error) {
+            console.log(error);
+        }      
+    }
+
+    useEffect(() => {
+        /* global google */ 
+          google.accounts.id.initialize({
+              client_id: '127046372503-fcf9va4r603a399qvuvnms0pk7rpug0e.apps.googleusercontent.com',
+              callback: handleCallbackResponse
+          });
+          google.accounts.id.renderButton(
+              document.getElementById('signInDiv'),
+              { theme: "outline", size: "large"}
+          );
+      }, []);
 
     return (
         <>
@@ -129,6 +168,13 @@ function Register() {
                     Register
                     </button>
                 </div>
+                <div className="flex justify-center items-center">
+                            <div className="line-horizontal mr-4 mt-2"></div>
+                            <p>Or</p>
+                            <div className="line-horizontal ml-4 mt-2"></div>
+                        </div>
+                        <div className="flex flex-col justify-center items-center" id='signInDiv'>
+                        </div>
             </div>
             <p className="mt-10 text-center text-sm text-gray-500">
                 Already have an account?{' '}

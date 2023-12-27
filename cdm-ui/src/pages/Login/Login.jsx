@@ -25,21 +25,29 @@ function Login() {
         setValues(prev => ({...prev, [event.target.name]: [event.target.value]}))
     }
 
+    const phone = "";
+    const address = "";
+
     function handleCallbackResponse(response){
         console.log("Encoded JWT ID token: " + response.credential);
         var userObject = jwt_decode(response.credential);
         console.log(userObject);
-        const user = {
-            email: userObject.email,
-            name: userObject.name.replace(/\s/g, ''),
-            avatar: userObject.picture
-          };
-        console.log(user);
+        const email = userObject.email + '';
         try {
-            cdmApi.signup(user)
-            .then(response => {
-                alert("Welcome," + user.name + " login successfully!");
-                navigate('/customerhome');
+            const user = { email , password: 'Dat20031234'};
+            console.log(user);
+            cdmApi.authenticate(user)
+            .then(async response => { 
+                console.log(response);
+                if(response.data){
+                    localStorage.setItem("accessToken", response.data);
+                    const userData = await cdmApi.getUserMe(email);
+                    if (userData.data.role === "MANAGER") navigate('/managerhome');
+                    else if (userData.data.role === "STAFF") navigate('/staffhome'); 
+                    else
+                    navigate('/customerhome');
+                    localStorage.setItem('currentUser', JSON.stringify(userData.data));
+                }
             })
             .catch(error => {
                 alert("Login failed!");
@@ -49,7 +57,7 @@ function Login() {
         catch(error) {
             console.log(error);
         }
-        
+            
     }
     
     useEffect(() => {
@@ -83,7 +91,6 @@ function Login() {
                     else
                     navigate('/customerhome');
                     localStorage.setItem('currentUser', JSON.stringify(userData.data));
-    
                 }
             })
             .catch(error => {
