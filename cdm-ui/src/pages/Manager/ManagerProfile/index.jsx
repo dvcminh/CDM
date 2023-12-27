@@ -101,6 +101,26 @@ function ManagerProfile() {
     avar.style.opacity = 1;
   };
 
+  const handleFileUpload = async (event) => {
+    const file = event.target.files[0];
+    if (file && file.type.startsWith('image/')) {
+
+      const reader = new FileReader();
+      reader.onloadend = () => {
+
+        setAvatar(reader.result);
+      };
+      reader.readAsDataURL(file);
+    } else {
+      alert('Please select an image file.');
+    }
+  };
+
+  const triggerFileInput = () => {
+    const fileInput = document.getElementById("avatar-upload");
+    fileInput.click();
+  };
+
   return (
     <>
       <div className="flex">
@@ -111,7 +131,7 @@ function ManagerProfile() {
             <div className="flex-2">
               <label for="avatar-upload" className="avatar-container mt-2">
                 <img
-                  src="https://i.pinimg.com/originals/c0/50/07/c050078eb83a332666a3847ff748023d.jpg"
+                  src={avatar}
                   alt="avatar"
                   className="avatar-input"
                   id="avartar"
@@ -128,6 +148,7 @@ function ManagerProfile() {
                 type="file"
                 id="avatar-upload"
                 style={{ display: "none" }}
+                onChange={handleFileUpload}
               />
             </div>
             <div className="vertical-line"></div>

@@ -8,6 +8,7 @@ export const cdmApi = {
   updateUser,
   getUserMe,
   getAllUsers,
+  resetPassword,
   changePassword,
   getAllCars,
   getCarById,
@@ -46,6 +47,14 @@ function updateUser(user) {
       Authorization: bearerAuth(localStorage.getItem("accessToken")),
     },
   });
+}
+
+function resetPassword(mail) {
+  return instance.post("/auth/reset-password", null , { 
+    params: {
+      email: mail,
+    }
+   });
 }
 
 function changePassword(user) {

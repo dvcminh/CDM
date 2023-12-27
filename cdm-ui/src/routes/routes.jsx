@@ -17,6 +17,7 @@ import Shop from '../pages/NavBar/Shop';
 import Vehicle from '../pages/NavBar/Vehicle';
 import Login from '../pages/Login/Login';
 import Register from '../pages/Register/Register';
+import ForgotPassword from '../pages/ForgotPassword/ForgotPassword';
 import loginregisLayout from '../layouts/loginregisLayout';
 import DefaultLayout from '../layouts/defaultLayout'
 import LandingPage from '../pages/LandingPage/LandingPage'
@@ -57,6 +58,7 @@ const publicRoutes = [
     { path: config.routes.vehicle, component: Vehicle, layout: DefaultLayout },
     { path: config.routes.login, component: Login, layout: loginregisLayout },
     { path: config.routes.register, component: Register, layout: loginregisLayout },
+    { path: config.routes.forgotpassword, component: ForgotPassword, layout: loginregisLayout },
     { path: config.routes.start, component: LandingPage, layout: landingLayout },
     { path: config.routes.staffhome, component: StaffHome, layout: staffLayout },
     { path: config.routes.staffreport, component: StaffReport, layout: staffLayout },
