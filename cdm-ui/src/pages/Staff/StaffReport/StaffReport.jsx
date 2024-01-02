@@ -58,7 +58,7 @@ const StaffReport = () => {
           <div className="detail-box">
             <p className="flex mt-6 ml-10">
               <strong className="mr-12">{report.customer}</strong>{" "}
-              <div className="mr-12">{report.date}</div>{" "}
+              <div className="mr-12">{report.createdDate.split("T")[0]}</div>{" "}
               {report.status.toUpperCase()}
             </p>
             <textarea
@@ -85,7 +85,7 @@ const StaffReport = () => {
               <FontAwesomeIcon icon={faCircleXmark} className="closes-icon" />
             </button>
           </div>
-          <img src={src} alt="Expanded" style={{ width: "100%" }} />
+          <img src={src} className="img-box" alt="Expanded" style={{ width: "400px" }} />
         </div>
       </div>
     );
@@ -118,7 +118,6 @@ const StaffReport = () => {
                 <th>Title</th>
                 <th>Status</th>
                 <th>Type</th>
-                <th>Created Date</th>
                 <th>Detail</th>
               </tr>
             </thead>
@@ -127,7 +126,7 @@ const StaffReport = () => {
                 <tr key={report.id}>
                   <td className="id-col">{index + 1}</td>
                   <td className="customer-col">{report.userId}</td>
-                  <td className="img-col">NULL</td>
+                  <td className="img-col"><img onClick={() => handleImageClick(report.image)} className='image-col' src={report.image} alt="" /></td>
                   <td className="problem-col">{report.title}</td>
                   {/* <td className="img-col">
                     {" "}

@@ -2,7 +2,6 @@ import React, { useState } from "react"
 import './login-register.css'
 import { Link } from "react-router-dom" 
 import Validation from "./LoginValidation"
-import { GoogleLogin } from 'react-google-login';
 import { useNavigate } from 'react-router-dom';
 import { cdmApi } from "../../misc/cdmApi";
 import { jwtDecode as jwt_decode } from 'jwt-decode';
@@ -50,7 +49,8 @@ function Login() {
                 }
             })
             .catch(error => {
-                alert("Login failed!");
+                alert("Login failed, Maybe you haven't created an account with Google yet, please register here first!");
+                navigate('/register');
                 console.log(error);
             })
         }
