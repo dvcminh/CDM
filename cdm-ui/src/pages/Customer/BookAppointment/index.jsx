@@ -1,12 +1,19 @@
-import { useState } from "react";
+import React, { useEffect, useState } from "react";
 import SideBar from "../../../layouts/components/SideBar";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faArrowLeft, faArrowLeftRotate } from "@fortawesome/free-solid-svg-icons";
 import { useNavigate } from "react-router-dom";
 import { cdmApi } from "../../../misc/cdmApi";
+import Loading from "../../../components/Loading";
+import { Snackbar } from "@mui/material";
+import Alert from "@mui/material/Alert";
+import OtherLoading from "../../../components/OtherLoading"
 
 function BookAppointment() {
-
+    const [loading, setLoading] = useState(false);
+    const [snackbar, setSnackbar] = React.useState(null);
+    const handleCloseSnackbar = () => setSnackbar(null);
+    const [isOK, setIsOK] = useState(false);
     const [userData, setUserData] = useState(
         JSON.parse(localStorage.getItem("currentUser")) || ""
     );
@@ -25,12 +32,13 @@ function BookAppointment() {
     }
 
     const submitApp = async () => {
+        setLoading(true);
         try {
             await cdmApi.createAppointment(content)
-            alert("Update successfully");
+            setIsOK(true);
           } catch (error) {
-            alert("Update failed");
-          }
+            setSnackbar({ children: "Please fill all these field", severity: "error" });
+        }
     }
 
     const formatDate = (dateString) => {
@@ -43,10 +51,23 @@ function BookAppointment() {
         const [hour, minute] = timePart.split(':');
         return `${hour}:${minute}`;
       };
-    
+    useEffect(() => {
+        if(!loading)
+            return;
+        const timeoutId = setTimeout(() => {
+            if(isOK === true){
+                setSnackbar({ children: "Thank for your booking!", severity: "success" });
+                window.location.reload() 
+            }
+           setLoading(false);
+        }, 3000);
+        return () => clearTimeout(timeoutId);
+  }, [loading]);
+
 
     return ( 
-        <>
+        <>        
+            {loading && <OtherLoading setOpenModal={setLoading}/>}
             <div className="flex">
                     <a href="/customerhome"><FontAwesomeIcon icon={faArrowLeft} className="text-2xl ml-2 mt-2 xl:m-8 p-4 hover:bg-gray-200 rounded-full" /></a>
                     <div className="flex items-center justify-center p-12 mx-auto">
@@ -124,7 +145,13 @@ function BookAppointment() {
                     </div>
                     </div>
                 </div>
+                   
             </div>
+            {!!snackbar && (
+              <Snackbar open onClose={handleCloseSnackbar} autoHideDuration={6000} anchorOrigin={{ vertical: "bottom", horizontal: "center" }}>
+                <Alert {...snackbar} onClose={handleCloseSnackbar} />
+              </Snackbar>
+            )}
         </>
      );
 }

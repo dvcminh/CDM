@@ -8,7 +8,7 @@ function Modal({ setOpenModal, data }) {
     <div className="modalBackground">
       <div className="modalContainer">
                 <span className="titleCloseBtn">
-                    <button onClick={() => {setOpenModal(false);}}><FontAwesomeIcon icon={faClose} /></button>
+                    <button onClick={() => {setOpenModal(false);}}><FontAwesomeIcon className="text-black" icon={faClose} /></button>
                 </span>
                 <div className="flex">
                     <div className="card-info mt-4">
