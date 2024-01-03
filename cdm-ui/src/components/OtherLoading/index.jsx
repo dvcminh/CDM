@@ -6,7 +6,7 @@ function Loading({ setOpenModal, data }) {
   return (
     <div className="modalBackground">
         <RotateLoader
- />
+    />
     </div>
   );
 }

@@ -76,10 +76,17 @@ function Login() {
                 if(response.data){
                     localStorage.setItem("accessToken", response.data);
                     const userData = await cdmApi.getUserMe(email);
-                    if (userData.data.role === "MANAGER") navigate('/managerhome');
-                    else if (userData.data.role === "STAFF") navigate('/staffhome'); 
-                    else
-                    navigate('/customerhome');
+                    if (userData.data.role === "MANAGER") {
+                        navigate('/managerhome');
+
+
+                    }
+                    else if (userData.data.role === "STAFF") {
+                        navigate('/staffhome'); 
+                    }
+                    else{
+                        navigate('/customerhome');
+                    }
                     localStorage.setItem('currentUser', JSON.stringify(userData.data));
                 }
             })
