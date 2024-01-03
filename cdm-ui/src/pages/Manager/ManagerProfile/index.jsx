@@ -1,4 +1,4 @@
-import ManagerSideBar from "../../../layouts/components/ManagerSideBar";
+import SideBar from "../../../layouts/components/SideBar";
 import "../../../components/CarCard/CarCard.css";
 import "./ManagerProfile.css";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
@@ -9,8 +9,11 @@ import {
 } from "@fortawesome/free-solid-svg-icons";
 import { cdmApi } from "../../../misc/cdmApi";
 import React, { useEffect, useState } from "react";
-
-function ManagerProfile() {
+import  Alert from "@mui/material/Alert";
+import { Snackbar } from "@mui/material";
+import OtherLoading from "../../../components/OtherLoading"
+import ManagerSideBar from "../../../layouts/components/ManagerSideBar";
+function CustomerProfile() {
   const [userData, setUserData] = useState(
     JSON.parse(localStorage.getItem("currentUser")) || []
   );
@@ -24,6 +27,9 @@ function ManagerProfile() {
   const [password, setPassword] = useState();
   const [newPassword, setNewPassword] = useState();
   const [confirmNewPassword, setConfirmNewPassword] = useState();
+  const [snackbar, setSnackbar] = React.useState(null);
+  const handleCloseSnackbar = () => setSnackbar(null);
+  const [loading, setLoading] = useState(false);
   const [type, setType] = useState("accessories");
 
   const getUserMe = async () => {
@@ -40,30 +46,41 @@ function ManagerProfile() {
     event.preventDefault();
     console.log(id);
     try {
+      setLoading(true);
+
       const user = { id, avatar, name, email, phone, address };
       await cdmApi.updateUser(user);
-      alert("Update user successfully");
+      setSnackbar({ children: "Update personal information successfully!", severity: "success" });
+
     } catch (error) {
-      alert("Update user failed");
+      setSnackbar({ children: "Update personal information fail!", severity: "error" });
     }
   };
 
   const handleChangePassword = async (event) => {
     event.preventDefault();
+    if(password == null || newPassword == null || confirmNewPassword == null)
+    {
+      setSnackbar({ children: "These field cannot be null!", severity: "warning" });
+      return;
+    }
     if (password === newPassword) {
-      alert("New password and current password are the same");
+      setSnackbar({ children: "New password and current password are the same!", severity: "warning" });
       return;
     }
     if (newPassword !== confirmNewPassword) {
-      alert("New password and confirm new password are not the same");
+      setSnackbar({ children: "New password and confirm new password are not match!", severity: "warning" });
       return;
     }
     try {
+      setLoading(true);
       const user = { id, password, newPassword, confirmNewPassword };
       await cdmApi.changePassword(user);
-      alert("Change password successfully");
+      setSnackbar({ children: "Change password successfully!", severity: "success" });
+      //Document.getElementById("cr").value = "";
     } catch (error) {
-      alert("Change password failed");
+      setSnackbar({ children: "Change password failed!", severity: "error" });
+
     }
   };
 
@@ -121,8 +138,20 @@ function ManagerProfile() {
     fileInput.click();
   };
 
+  useEffect(() => {
+    if(!loading)
+        return;
+    const timeoutId = setTimeout(() => {
+        
+       setLoading(false);
+    }, 2000);
+    return () => clearTimeout(timeoutId);
+}, [loading]);
+
   return (
     <>
+      {loading && <OtherLoading setOpenModal={setLoading}/>}
+
       <div className="flex">
         <ManagerSideBar />
         <div style={{ marginLeft: 40, width: "100vw" }}>
@@ -156,15 +185,10 @@ function ManagerProfile() {
               <p className="font-medium underline mt-4">Mr. {email}</p>
               <p>
                 {" "}
-                {address} (Customer's address)
-                <FontAwesomeIcon icon={faPenToSquare} className="edit-button" />
+                {address} 
               </p>
 
-              <p>
-                I am Monkey D Luffy - who will become King Of Pirate in the
-                future (Customer's bio)
-                <FontAwesomeIcon icon={faPenToSquare} className="edit-button" />
-              </p>
+              
             </div>
             <div className="flex-5 flex justify-center items-center"></div>
           </div>
@@ -319,8 +343,13 @@ function ManagerProfile() {
           </form>
         </div>
       </div>
+      {!!snackbar && (
+              <Snackbar open onClose={handleCloseSnackbar} autoHideDuration={6000} anchorOrigin={{ vertical: "bottom", horizontal: "center" }}>
+                <Alert {...snackbar} onClose={handleCloseSnackbar} />
+              </Snackbar>
+            )}
     </>
   );
 }
 
-export default ManagerProfile;
+export default CustomerProfile;
