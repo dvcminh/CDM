@@ -12,7 +12,8 @@ import axios, { Axios } from "axios";
 import DragAndDrop from "../../../components/DragAndDrop";
 import { Snackbar } from "@mui/material";
 import Alert from "@mui/material/Alert";
-
+import Loading from "../../../components/Loading";
+import OtherLoading from "../../../components/OtherLoading"
 
 function CustomerReport() {
   const [snackbar, setSnackbar] = React.useState(null);
@@ -25,6 +26,8 @@ function CustomerReport() {
   const [imagePreviewUrl, setImagePreviewUrl] = useState("");
   const fileInput = useRef(null)
   const user = JSON.parse(localStorage.getItem("currentUser"));
+  const [loading, setLoading] = useState(false);
+  const [modalOpen, setModalOpen] = useState(false);
 
   let img = "";
   const uploadImage = async (thing) => {
@@ -60,8 +63,7 @@ function CustomerReport() {
     }
     await cdmApi.createCustomerReport(report)
       .then((response) => {
-        setSnackbar({ children: "Your report is sent", severity: "success" });
-        window.location.reload() 
+        setLoading(true);
         console.log(response.data);
       })
       .catch((error) => {
@@ -87,8 +89,21 @@ function CustomerReport() {
     }
   };
 
+  useEffect(() => {
+    if(!loading)
+        return;
+    const timeoutId = setTimeout(() => {
+        setLoading(false);
+        setSnackbar({ children: "Your report is sent", severity: "success" });
+        window.location.reload() 
+      }, 3000);
+      return () => clearTimeout(timeoutId);
+  }, [loading]);
+
   return (
-    <>
+    <>            
+        {loading && <OtherLoading setOpenModal={setLoading} />}
+
         <div className="flex">
             <SideBar />
             <div style={{ marginLeft: 40, width: "100vw" }}>

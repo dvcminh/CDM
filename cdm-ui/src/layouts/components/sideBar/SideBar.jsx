@@ -52,7 +52,6 @@ function SideBar() {
     if (title === 'Sign Out') {
       localStorage.removeItem("currentUser");
       localStorage.removeItem("accessToken");
-      localStorage.removeItem("cart");
     }
   };
   return (
