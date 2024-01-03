@@ -14,7 +14,7 @@ public interface InventoryService {
     @PutMapping("/reduceQuantity/{id}")
     ResponseEntity<Void> reduceQuantity(
             @PathVariable("id") String productId,
-            @RequestParam long quantity
+            @RequestParam ("quantity") long quantity
     );
 
 //    default ResponseEntity<Void> fallback(Exception e) {
