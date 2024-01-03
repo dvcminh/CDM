@@ -78,8 +78,6 @@ function Login() {
                     const userData = await cdmApi.getUserMe(email);
                     if (userData.data.role === "MANAGER") {
                         navigate('/managerhome');
-
-
                     }
                     else if (userData.data.role === "STAFF") {
                         navigate('/staffhome'); 

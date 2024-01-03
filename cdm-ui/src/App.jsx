@@ -1,12 +1,10 @@
 import { useState } from 'react'
 import './components/DashboardItem/DashboardItem.css'
 import {customerRole, managerRole, publicRoutes, staffRole} from './routes'
-import { privateRoutes } from './routes';
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 
 
 function App() {
-  const isLogged = false;
   const [userData, setUserData] = useState(
     JSON.parse(localStorage.getItem("currentUser")) || []
   ); 
