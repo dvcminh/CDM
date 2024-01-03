@@ -24,6 +24,7 @@
 
 .dashboard__item-button{
     margin-left: 15px;
+    font-size: 14px;
     text-decoration: underline;
     background-color: white;
     color: rgb(59, 56, 56);
