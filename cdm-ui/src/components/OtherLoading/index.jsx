@@ -1,10 +1,12 @@
 import React from "react";
-import { RingLoader} from "react-spinners";
+import { RotateLoader
+} from "react-spinners";
 
 function Loading({ setOpenModal, data }) {
   return (
     <div className="modalBackground">
-        <RingLoader />
+        <RotateLoader
+ />
     </div>
   );
 }
