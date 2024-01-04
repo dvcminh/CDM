@@ -24,6 +24,8 @@ function Login() {
             else if (userData.data.role === "STAFF") navigate('/staffhome'); 
             else
             navigate('/customerhome');
+
+            window.location.reload();
             localStorage.setItem('currentUser', JSON.stringify(userData.data));
     }
     useEffect(() => {
@@ -40,7 +42,7 @@ function Login() {
             return;
         const timeoutId = setTimeout(() => {
             handleNavigate();
-          }, 1000);
+          }, 3000);
           return () => clearTimeout(timeoutId);
       }, [loading]);
 

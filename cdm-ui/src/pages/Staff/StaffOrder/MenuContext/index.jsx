@@ -24,11 +24,24 @@ import { useEffect, useState } from "react";
     return (
       <Menu>
         <MenuHandler>
-          <button className="">{selectedOption}</button>
+          <button className={
+                      selectedOption === "Pending" ? "text-yellow-500" :
+                      selectedOption === "Reject" ? "text-red-700" :
+                      selectedOption === "Waiting" ? "text-blue-500" : "text-green-700"
+                    }>{selectedOption}</button>
         </MenuHandler>
         <MenuList>
             {option.map((op) => (
-                  <MenuItem onClick={() => handleOptionClick(op)}>{op}</MenuItem>
+                    <MenuItem
+                    className={
+                      op === "Pending" ? "text-yellow-500" :
+                      op === "Reject" ? "text-red-700" :
+                      op === "Waiting" ? "text-blue-500" : "text-green-700"
+                    }
+                    onClick={() => handleOptionClick(op)}
+                  >
+                    {op}
+                  </MenuItem>
             ))}
         </MenuList>
       </Menu>

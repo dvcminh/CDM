@@ -25,7 +25,13 @@ export default function Example() {
     if(userData == ""){
       navigate('/login');
     }else{
-      navigate('/customerhome');
+      if(userData.role === "CUSTOMER"){
+        navigate('/customerhome');
+      }else if(userData === "STAFF"){
+        navigate('/staffhome');
+      }else{
+        navigate('/managerhome');
+      }
     }
   }
 
