@@ -1,12 +1,9 @@
-import React, { useState, useEffect } from 'react';
-import ManagerSideBar from "../../../layouts/components/ManagerSideBar";
+import React, { useState, useEffect } from "react";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faCircleXmark } from "@fortawesome/free-solid-svg-icons";
 import { cdmApi } from "../../../misc/cdmApi";
-import './ManageReport.css'
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faCircleXmark } from '@fortawesome/free-solid-svg-icons';
-
-
-const ManageReport = () => {
+import ManagerSideBar from "../../../layouts/components/ManagerSideBar"
+const StaffReport = () => {
   const [selectedReport, setSelectedReport] = useState(null);
   const [selectedImage, setSelectedImage] = useState(null);
   const [report, setReport] = useState([]);
@@ -26,13 +23,18 @@ const ManageReport = () => {
     getReport();
   }, []);
 
-  // const reports = [
-  //   { customer: 'Nguyễn Hoàng Minh', problem: 'website', img: 'https://www.kanatechsys.co.ke/wp-content/uploads/2023/04/Reasons-why-you-must-have-a-company-website-in-Kenya.-1024x574.png' , date: '21-10-2023', status: 'complete', detail: 'tôi có một báo cáo về việc ...........................................................................................aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa................' },
-  //   { customer: 'Vũ Đức Minh', problem: 'staff', img: 'https://fellow.app/wp-content/uploads/2022/08/staff-senior-engineer.jpg' , date: '21-10-2023', status: 'pending', detail: 'tôi có một báo cáo về việc .........................zzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzz' },
-  //   { customer: 'Nguyễn Nhật Khang', problem: 'car', img: 'https://www.topgear.com/sites/default/files/2022/07/6_0.jpg' , date: '21-10-2023', status: 'processing', detail: 'tôi có điều muốn nói ..........................aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa' },
-  //   { customer: 'Nguyễn Hải Minh', problem: 'website', img: 'https://www.actuatedigital.co.ke/wp-content/uploads/2023/07/Actuate-Digital-Solutions_Website-Development.jpg' , date: '21-10-2023', status: 'complete' },
-  // ];
 
+  const [currentPage, setCurrentPage] = useState(1);
+  const recordsPerPage = 5;
+  const lastIndex = currentPage * recordsPerPage;
+  const firstIndex = lastIndex - recordsPerPage;
+  const records = report.slice(firstIndex, lastIndex);
+  const npage = Math.ceil(report.length / recordsPerPage);
+  const numbers = [ ... Array(npage +1).keys()].slice(1);
+
+  function changeCPage(id){
+    setCurrentPage(id);
+  }
   const renderStatus = (status) => {
     const statusClasses = {
       complete: "green",
@@ -46,7 +48,6 @@ const ManageReport = () => {
 
   const DetailModal = ({ report, onClose }) => {
     if (!report) return null;
-
     return (
       <div className={`modal ${report ? "active" : ""}`}>
         <div className="modal-content">
@@ -113,20 +114,19 @@ const ManageReport = () => {
           <table className="mt-12 ml-10">
             <thead>
               <tr>
-                <th>ID</th>
+                <th>No.</th>
                 <th>User ID</th>
                 <th>Image</th>
                 <th>Title</th>
                 <th>Status</th>
                 <th>Type</th>
-                <th>Created Date</th>
                 <th>Detail</th>
               </tr>
             </thead>
             <tbody>
-              {report.map((report, index) => (
+              {records.map((report, index) => (
                 <tr key={report.id}>
-                  <td className="id-col">{index + 1}</td>
+                  <td className="id-col">{(currentPage - 1) * recordsPerPage + index + 1}</td>
                   <td className="customer-col">{report.userId}</td>
                   <td className="img-col">NULL</td>
                   <td className="problem-col">{report.title}</td>
@@ -156,19 +156,53 @@ const ManageReport = () => {
               ))}
             </tbody>
           </table>
-          {selectedReport && (
-            <DetailModal report={selectedReport} onClose={handleCloseModal} />
-          )}
-          {selectedImage && (
-            <ImageModal
-              src={selectedImage}
-              onClose={() => setSelectedImage(null)}
-            />
-          )}
+          
+            {selectedReport && (
+              <DetailModal report={selectedReport} onClose={handleCloseModal} />
+            )}
+            {selectedImage && (
+              <ImageModal
+                src={selectedImage}
+                onClose={() => setSelectedImage(null)}
+              />
+            )}
+            
         </div>
+        
       </span>
+      <div className='float-right mr-32' style={{marginTop: -100}}>
+                    <nav >
+                      <ul className="flex items-center -space-x-px h-10 text-base">
+                        <li style={{margin: 0}}>
+                          <a href="#" className="flex items-center justify-center px-4 h-10 ms-0 leading-tight text-gray-500 bg-white border border-e-0 border-gray-300 rounded-s-lg hover:bg-gray-100 hover:text-gray-700 ">
+                            <span className="sr-only">Previous</span>
+                            <svg className="w-3 h-3 rtl:rotate-180" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 6 10">
+                              <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 1 1 5l4 4"/>
+                            </svg>
+                          </a>
+                        </li>
+                          {
+                              numbers.map((n, i) => (
+                                  <li className={ `flex items-center justify-center px-4 h-10 leading-tight text-gray-500 bg-white border border-gray-300 hover:bg-gray-100 hover:text-gray-700  ${currentPage === n ? 'active' : ''}` } key={i}>
+                                      <a href="#" onClick={() => changeCPage(n)} >{n}</a>
+                                  </li>
+                              ))
+                          }
+                        
+                        <li>
+                          <a href="#" className="flex items-center justify-center px-4 h-10 leading-tight text-gray-500 bg-white border border-gray-300 rounded-e-lg hover:bg-gray-100 hover:text-gray-700 ">
+                            <span className="sr-only">Next</span>
+                            <svg className="w-3 h-3 rtl:rotate-180" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 6 10">
+                              <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="m1 9 4-4-4-4"/>
+                            </svg>
+                          </a>
+                        </li>
+                      </ul>
+                    </nav>
+                </div>
     </div>
+    
   );
 };
 
-export default ManageReport;
+export default StaffReport;
