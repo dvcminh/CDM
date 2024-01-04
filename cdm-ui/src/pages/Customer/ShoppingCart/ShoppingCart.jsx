@@ -1,76 +1,99 @@
-import './cartStyle.css';
+import "./cartStyle.css";
 import SideBar from "../../../layouts/components/SideBar";
-import CartList from './components/CartList';
-import FooterCart from './components/FooterCart';
-import CartData from './cart'
-import React, { useState, useEffect } from 'react';
-import CartItem from './components/CartItem';
-import { cdmApi } from '../../../misc/cdmApi';
-import { Snackbar } from '@mui/material';
-import Alert from '@mui/material/Alert';
+import CartList from "./components/CartList";
+import FooterCart from "./components/FooterCart";
+import CartData from "./cart";
+import React, { useState, useEffect } from "react";
+import CartItem from "./components/CartItem";
+import { cdmApi } from "../../../misc/cdmApi";
+import { Snackbar } from "@mui/material";
+import Alert from "@mui/material/Alert";
+import { useNavigate } from "react-router-dom";
+import axios from "axios";
 
 //new
 const ShoppingCart = () => {
+  const navigate = useNavigate();
   const [carts, setCarts] = useState([]);
   const [total, setTotal] = useState(0);
   const [shippingFee, setShippingFee] = useState(8);
+  const [paymentMethod, setPaymentMethod] = useState(
+    localStorage.getItem("payment_method")
+  ); // ["Cash", "VNPay"]
   const [userData, setUserData] = useState(
     JSON.parse(localStorage.getItem("currentUser")) || []
   );
-
   const [user, setUser] = useState([]);
+
   const fetchInfo = async () => {
-      try {
-        const res = await cdmApi.getUserMe(userData.username);
-        setUser(res.data);
-      } catch (error) {
-        console.error("Error fetching data:", error);
-      }
+    try {
+      const res = await cdmApi.getUserMe(userData.username);
+      setUser(res.data);
+    } catch (error) {
+      console.error("Error fetching data:", error);
     }
-  
-    useEffect(() => {
-      fetchInfo();
-  }, []);
+  };
+
   useEffect(() => {
+    fetchInfo();
     // This function will run every time the component renders
-    const cart = localStorage.getItem('cart');
+    const cart = localStorage.getItem("cart");
     setCarts(JSON.parse(cart));
   }, []);
 
   const handleCart = async () => {
     const orderData = {
-          totalAmount: total,
-          email: user.username,
-          shippingAddress: user.address,
-          voucherValue: 10,
-          shippingValue: shippingFee,
-          createOrderItemRequestList: carts.map(cart => ({
-          productId: cart.id,
-          quantity: cart.quantity,
-          pricePerUnit: cart.price,
-          size: "sm", // default value
-          color: "red", // default value
-          voucher: 10,
-          shipping: 10
-      }))
+      totalAmount: total,
+      email: user.username,
+      shippingAddress: user.address,
+      voucherValue: 10,
+      shippingValue: shippingFee,
+      createOrderItemRequestList: carts.map((cart) => ({
+        productId: cart.id,
+        quantity: cart.quantity,
+        pricePerUnit: cart.price,
+        size: "sm", // default value
+        color: "red", // default value
+        voucher: 10,
+        shipping: 10,
+      })),
     };
 
     try {
-      const order = await cdmApi.createOrder(orderData);
-      console.log(order);
-      setSnackbar({ children: "Order successfully!", severity: "success" });
-      localStorage.setItem("cart", "[]");
-      window.location.reload();
+      const response = await axios.get(
+        "http://localhost:9296/api/payment/create_payment", {
+          params: {
+            amount: total * 100,
+          },
+        }
+      );
+      const payment = response.data;
+      console.log("payment data");
+      console.log(payment);
+      // navigate(payment.url);
+      window.location.href = payment.url;
     } catch (error) {
       console.error(error);
+      return;
     }
+
+    // try {
+    //   const order = await cdmApi.createOrder(orderData);
+    //   console.log(order);
+    //   setSnackbar({ children: "Order successfully!", severity: "success" });
+    //   localStorage.setItem("cart", "[]");
+    //   window.location.reload();
+    // } catch (error) {
+    //   console.error(error);
+    // }
+
   };
 
   useEffect(() => {
     const total = carts.reduce((acc, item) => {
       return acc + item.price * item.quantity;
     }, 0);
-    
+
     setTotal(total);
   }, [carts]);
 
@@ -79,12 +102,14 @@ const ShoppingCart = () => {
 
   return (
     <div className="py-8 px-4 md:px-6 2xl:px-20 2xl:container 2xl:mx-auto">
-    <div className="mt-10 flex flex-col xl:flex-row jusitfy-center items-stretch w-full xl:space-x-8 space-y-4 md:space-y-6 xl:space-y-0">
-      <div className="flex flex-col justify-start items-start w-full space-y-4 md:space-y-6 xl:space-y-8">
-        <div className="flex flex-col justify-start items-start  bg-gray-50 px-4 py-4 md:py-6 md:p-6 xl:p-8 w-full">
-          <p className="text-lg md:text-xl  font-semibold leading-6 xl:leading-5 text-black">Customer’s Cart</p>
-          {/* {carts} */}
-          {/* <div className="mt-4 md:mt-6 flex flex-col md:flex-row justify-start items-start md:items-center md:space-x-6 xl:space-x-8 w-full">
+      <div className="mt-10 flex flex-col xl:flex-row jusitfy-center items-stretch w-full xl:space-x-8 space-y-4 md:space-y-6 xl:space-y-0">
+        <div className="flex flex-col justify-start items-start w-full space-y-4 md:space-y-6 xl:space-y-8">
+          <div className="flex flex-col justify-start items-start  bg-gray-50 px-4 py-4 md:py-6 md:p-6 xl:p-8 w-full">
+            <p className="text-lg md:text-xl  font-semibold leading-6 xl:leading-5 text-black">
+              Customer’s Cart
+            </p>
+            {/* {carts} */}
+            {/* <div className="mt-4 md:mt-6 flex flex-col md:flex-row justify-start items-start md:items-center md:space-x-6 xl:space-x-8 w-full">
             <div className="pb-4 md:pb-8 w-full md:w-40">
               <img className="w-full hidden md:block" src="https://i.ibb.co/84qQR4p/Rectangle-10.png" alt="dress" />
               <img className="w-full md:hidden" src="https://i.ibb.co/L039qbN/Rectangle-10.png" alt="dress" />
@@ -105,20 +130,20 @@ const ShoppingCart = () => {
               </div>
             </div>
           </div> */}
-          {carts.map((cart) => {
-            return (
-              <CartItem
-                key={cart.id}
-                id={cart.id}
-                image={cart.imgSrc}
-                title={cart.name}
-                price={cart.price}
-                quantity={cart.quantity}
-                total={cart.price * cart.quantity}
-              />
-            );
-          })}
-          {/* <div className="mt-6 md:mt-0 flex justify-start flex-col md:flex-row items-start md:items-center space-y-4 md:space-x-6 xl:space-x-8 w-full">
+            {carts.map((cart) => {
+              return (
+                <CartItem
+                  key={cart.id}
+                  id={cart.id}
+                  image={cart.imgSrc}
+                  title={cart.name}
+                  price={cart.price}
+                  quantity={cart.quantity}
+                  total={cart.price * cart.quantity}
+                />
+              );
+            })}
+            {/* <div className="mt-6 md:mt-0 flex justify-start flex-col md:flex-row items-start md:items-center space-y-4 md:space-x-6 xl:space-x-8 w-full">
             <div className="w-full md:w-40">
               <img className="w-full hidden md:block" src="https://i.ibb.co/s6snNx0/Rectangle-17.png" alt="dress" />
               <img className="w-full md:hidden" src="https://i.ibb.co/BwYWJbJ/Rectangle-10.png" alt="dress" />
@@ -139,89 +164,197 @@ const ShoppingCart = () => {
               </div>
             </div>
           </div> */}
-        </div>
-        <div className="flex justify-center flex-col md:flex-row flex-col items-stretch w-full space-y-4 md:space-y-0 md:space-x-6 xl:space-x-8">
-          <div className="flex flex-col px-4 py-6 md:p-6 xl:p-8 w-full bg-gray-50 space-y-6">
-            <h3 className="text-xl font-semibold leading-5 text-black">Summary</h3>
-            <div className="flex justify-center items-center w-full space-y-4 flex-col border-gray-200 border-b pb-4">
-              <div className="flex justify-between w-full">
-                <p className="text-base  leading-4 text-black">Subtotal</p>
-                <p className="text-base  leading-4 text-black">${total}</p>
-              </div>
-              {/* <div className="flex justify-between items-center w-full">
+          </div>
+          <div className="flex justify-center flex-col md:flex-row flex-col items-stretch w-full space-y-4 md:space-y-0 md:space-x-6 xl:space-x-8">
+            <div className="flex flex-col px-4 py-6 md:p-6 xl:p-8 w-full bg-gray-50 space-y-6">
+              <h3 className="text-xl font-semibold leading-5 text-black">
+                Summary
+              </h3>
+              <div className="flex justify-center items-center w-full space-y-4 flex-col border-gray-200 border-b pb-4">
+                <div className="flex justify-between w-full">
+                  <p className="text-base  leading-4 text-black">Subtotal</p>
+                  <p className="text-base  leading-4 text-black">${total}</p>
+                </div>
+                {/* <div className="flex justify-between items-center w-full">
                 <p className="text-base  leading-4 text-black">Discount <span className="bg-gray-200 p-1 text-xs font-medium leading-3 text-gray-800">STUDENT</span></p>
                 <p className="text-base  leading-4 text-black">-$28.00 (50%)</p>
               </div> */}
+                <div className="flex justify-between items-center w-full">
+                  <p className="text-base  leading-4 text-black">Shipping</p>
+                  <p className="text-base  leading-4 text-black">$8.00</p>
+                </div>
+              </div>
               <div className="flex justify-between items-center w-full">
-                <p className="text-base  leading-4 text-black">Shipping</p>
-                <p className="text-base  leading-4 text-black">$8.00</p>
+                <p className="text-base font-semibold leading-4 text-black">
+                  Total
+                </p>
+                <p className="text-base  font-semibold leading-4 text-black">
+                  ${(total + shippingFee).toFixed(2)}
+                </p>
               </div>
             </div>
-            <div className="flex justify-between items-center w-full">
-              <p className="text-base font-semibold leading-4 text-black">Total</p>
-              <p className="text-base  font-semibold leading-4 text-black">${((total + shippingFee)).toFixed(2)}</p>
+
+            <div className="flex flex-col justify-center px-4 py-6 md:p-6 xl:p-8 w-full bg-gray-50 space-y-6">
+              <h3 className="text-xl font-semibold leading-5 text-black">
+                Payment Method
+              </h3>
+              {paymentMethod === "Cash" ? (
+                <div className="flex justify-between items-center w-full">
+                  <div className="flex justify-center items-center">
+                    <div className="w-32 h-16">
+                      <img
+                        className="w-full h-full"
+                        alt="logo"
+                        src="https://res.cloudinary.com/droondbdu/image/upload/v1699951017/cash-payment-button-web-template-speech-bubble-banner-label-cash-payment-sign-icon-illustration-vector_wzovut.jpg"
+                      />
+                    </div>
+                    <div className="flex flex-col justify-start items-center">
+                      <p className="text-lg leading-6  font-semibold text-black">
+                        Cash on Delivery
+                        <br />
+                        <span className="font-normal">
+                          Delivery with 24 Hours
+                        </span>
+                      </p>
+                    </div>
+                  </div>
+                  {/* <p className="text-lg font-semibold leading-6 text-black">
+                    ${shippingFee}
+                  </p> */}
+                </div>
+              ) : (
+                <div className="flex justify-between items-center w-full">
+                  <div className="flex justify-center items-center">
+                    <div className="w-32 h-16">
+                      <img
+                        className="w-full h-full"
+                        alt="logo"
+                        src="https://is1-ssl.mzstatic.com/image/thumb/Purple126/v4/9d/11/23/9d1123ee-079c-762d-bdda-ef59f3f6abd9/AppIcon-0-0-1x_U007emarketing-0-0-0-7-0-0-sRGB-0-0-0-GLES2_U002c0-512MB-85-220-0-0.png/1200x630wa.png"
+                      />
+                    </div>
+                    <div className="flex flex-col justify-start items-center">
+                      <p className="text-lg leading-6  font-semibold text-black">
+                        VNPay
+                        <br />
+                        <span className="font-normal">
+                          Delivery with 24 Hours
+                        </span>
+                      </p>
+                    </div>
+                  </div>
+                  {/* <p className="text-lg font-semibold leading-6 text-black">
+                    ${shippingFee}
+                  </p> */}
+                </div>
+              )}
+              {/* <div className="flex justify-between items-start w-full">
+                <div className="flex justify-center items-center space-x-4">
+                  <div className="w-8 h-8">
+                    <img
+                      className="w-full h-full"
+                      alt="logo"
+                      src="https://i.ibb.co/L8KSdNQ/image-3.png"
+                    />
+                  </div>
+                  <div className="flex flex-col justify-start items-center">
+                    <p className="text-lg leading-6  font-semibold text-black">
+                      VNPay
+                      <br />
+                      <span className="font-normal">
+                        Delivery with 24 Hours
+                      </span>
+                    </p>
+                  </div>
+                </div>
+                <p className="text-lg font-semibold leading-6 text-black">
+                  ${shippingFee}
+                </p>
+              </div> */}
+              <div className="w-full flex justify-center items-center">
+                <button
+                  onClick={() => navigate("/customerhome/payment")}
+                  className="mt-6 md:mt-0 bg-black text-white py-5 hover:bg-gray-200 hover:text-black focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-gray-800 border border-gray-800 font-medium w-96 2xl:w-full text-base font-medium leading-4 text-gray-800"
+                >
+                  Change Payment Method
+                </button>
+              </div>
             </div>
           </div>
-          <div className="flex flex-col justify-center px-4 py-6 md:p-6 xl:p-8 w-full bg-gray-50 space-y-6">
-            <h3 className="text-xl font-semibold leading-5 text-black">Shipping</h3>
-            <div className="flex justify-between items-start w-full">
-              <div className="flex justify-center items-center space-x-4">
-                <div className="w-8 h-8">
-                  <img className="w-full h-full" alt="logo" src="https://i.ibb.co/L8KSdNQ/image-3.png" />
-                </div>
-                <div className="flex flex-col justify-start items-center">
-                  <p className="text-lg leading-6  font-semibold text-black">DPD Delivery<br /><span className="font-normal">Delivery with 24 Hours</span></p>
+        </div>
+        <div className="bg-gray-50  w-full xl:w-96 flex justify-between items-center md:items-start px-4 py-6 md:p-6 xl:p-8 flex-col">
+          <h3 className="text-xl  font-semibold leading-5 text-black">
+            Customer
+          </h3>
+          <div className="flex flex-col md:flex-row xl:flex-col justify-start items-stretch h-full w-full md:space-x-6 lg:space-x-8 xl:space-x-0">
+            <div className="flex flex-col justify-start items-start flex-shrink-0">
+              <div className="flex justify-center w-full md:justify-start items-center space-x-4 py-8 border-b border-gray-200">
+                <img
+                  src="https://i.ibb.co/5TSg7f6/Rectangle-18.png"
+                  alt="avatar"
+                />
+                <div className="flex justify-start items-start flex-col space-y-2">
+                  <p className="text-base font-semibold leading-4 text-left text-black">
+                    {user.email}
+                  </p>
+                  <p className="text-sm leading-5 text-black">
+                    10 Previous Orders
+                  </p>
                 </div>
               </div>
-              <p className="text-lg font-semibold leading-6 text-black">${shippingFee}</p>
+              <div className="flex justify-center text-black md:justify-start items-center space-x-4 py-4 border-b border-gray-200 w-full">
+                <img
+                  className=""
+                  src="https://tuk-cdn.s3.amazonaws.com/can-uploader/order-summary-3-svg1.svg"
+                  alt="email"
+                />
+                <p className="cursor-pointer text-sm leading-5 ">
+                  {user.username}
+                </p>
+              </div>
             </div>
-            <div className="w-full flex justify-center items-center">
-                <button className="mt-6 md:mt-0 bg-black text-white py-5 hover:bg-gray-200 hover:text-black focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-gray-800 border border-gray-800 font-medium w-96 2xl:w-full text-base font-medium leading-4 text-gray-800">View Carrier Detail</button>
+            <div className="flex justify-between xl:h-full items-stretch w-full flex-col mt-6 md:mt-0">
+              <div className="flex justify-center md:justify-start xl:flex-col flex-col md:space-x-6 lg:space-x-8 xl:space-x-0 space-y-4 xl:space-y-12 md:space-y-0 md:flex-row items-center md:items-start">
+                <div className="flex justify-center md:justify-start items-center md:items-start flex-col space-y-4 xl:mt-8">
+                  <p className="text-base font-semibold leading-4 text-center md:text-left text-black">
+                    Shipping Address
+                  </p>
+                  <p className="w-48 lg:w-full xl:w-48 text-center md:text-left text-sm leading-5 text-black">
+                    {user.address}
+                  </p>
+                </div>
+                <div className="flex justify-center md:justify-start items-center md:items-start flex-col space-y-4">
+                  <p className="text-base font-semibold leading-4 text-center md:text-left text-black">
+                    Billing Address
+                  </p>
+                  <p className="w-48 lg:w-full xl:w-48 text-center md:text-left text-sm leading-5 text-black0">
+                    {user.address}
+                  </p>
+                </div>
+              </div>
+              <div className="flex w-full justify-center items-center md:justify-start md:items-start">
+                <button
+                  onClick={handleCart}
+                  className="mt-6 md:mt-0 py-5 bg-black text-white hover:text-black hover:bg-gray-200 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-gray-800 border border-gray-800 w-96 2xl:w-full text-base font-black leading-4 "
+                >
+                  Orders
+                </button>
+              </div>
             </div>
           </div>
         </div>
       </div>
-      <div className="bg-gray-50  w-full xl:w-96 flex justify-between items-center md:items-start px-4 py-6 md:p-6 xl:p-8 flex-col">
-        <h3 className="text-xl  font-semibold leading-5 text-black">Customer</h3>
-        <div className="flex flex-col md:flex-row xl:flex-col justify-start items-stretch h-full w-full md:space-x-6 lg:space-x-8 xl:space-x-0">
-          <div className="flex flex-col justify-start items-start flex-shrink-0">
-            <div className="flex justify-center w-full md:justify-start items-center space-x-4 py-8 border-b border-gray-200">
-              <img src="https://i.ibb.co/5TSg7f6/Rectangle-18.png" alt="avatar" />
-              <div className="flex justify-start items-start flex-col space-y-2">
-                <p className="text-base font-semibold leading-4 text-left text-black">{user.email}</p>
-                <p className="text-sm leading-5 text-black">10 Previous Orders</p>
-              </div>
-            </div>
-            <div className="flex justify-center text-black md:justify-start items-center space-x-4 py-4 border-b border-gray-200 w-full">
-              <img className="" src="https://tuk-cdn.s3.amazonaws.com/can-uploader/order-summary-3-svg1.svg" alt="email" />
-              <p className="cursor-pointer text-sm leading-5 ">{user.username}</p>
-            </div>
-          </div>
-          <div className="flex justify-between xl:h-full items-stretch w-full flex-col mt-6 md:mt-0">
-            <div className="flex justify-center md:justify-start xl:flex-col flex-col md:space-x-6 lg:space-x-8 xl:space-x-0 space-y-4 xl:space-y-12 md:space-y-0 md:flex-row items-center md:items-start">
-              <div className="flex justify-center md:justify-start items-center md:items-start flex-col space-y-4 xl:mt-8">
-                <p className="text-base font-semibold leading-4 text-center md:text-left text-black">Shipping Address</p>
-                <p className="w-48 lg:w-full xl:w-48 text-center md:text-left text-sm leading-5 text-black">{user.address}</p>
-              </div>
-              <div className="flex justify-center md:justify-start items-center md:items-start flex-col space-y-4">
-                <p className="text-base font-semibold leading-4 text-center md:text-left text-black">Billing Address</p>
-                <p className="w-48 lg:w-full xl:w-48 text-center md:text-left text-sm leading-5 text-black0">{user.address}</p>
-              </div>
-            </div>
-            <div className="flex w-full justify-center items-center md:justify-start md:items-start">
-              <button onClick={handleCart} className="mt-6 md:mt-0 py-5 bg-black text-white hover:text-black hover:bg-gray-200 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-gray-800 border border-gray-800 w-96 2xl:w-full text-base font-black leading-4 ">Orders</button>
-            </div>
-          </div>
-        </div>
-      </div>
+      {snackbar && (
+        <Snackbar
+          open
+          onClose={handleCloseSnackbar}
+          autoHideDuration={6000}
+          anchorOrigin={{ vertical: "bottom", horizontal: "center" }}
+        >
+          <Alert {...snackbar} onClose={handleCloseSnackbar} />
+        </Snackbar>
+      )}
     </div>
-    {!!snackbar && (
-              <Snackbar open onClose={handleCloseSnackbar} autoHideDuration={6000} anchorOrigin={{ vertical: "bottom", horizontal: "center" }}>
-                <Alert {...snackbar} onClose={handleCloseSnackbar} />
-              </Snackbar>
-            )}
-  </div>
   );
-}
+};
 
 export default ShoppingCart;
