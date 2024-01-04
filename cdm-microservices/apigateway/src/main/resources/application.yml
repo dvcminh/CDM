@@ -84,6 +84,10 @@ spring:
           predicates:
             - Path=/api/chat/**
 
+        - id: PAYMENT-SERVICE
+          uri: lb://PAYMENT-SERVICE
+          predicates:
+            - Path=/api/payment/**
 management:
   zipkin:
     tracing:
