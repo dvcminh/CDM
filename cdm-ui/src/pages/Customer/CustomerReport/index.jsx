@@ -44,7 +44,8 @@ function CustomerReport() {
         }
     )
     const imgData = await response.json();
-    img = imgData.url.toString();
+    //img = imgData.url.jsxToString();  
+    console.log(imgData.url);
   };
 
   const handleChange = (event) => {
@@ -53,7 +54,8 @@ function CustomerReport() {
 
   const handleSubmit = async (event) => {
     event.preventDefault();
-    //uploadImage(img);
+    uploadImage(img);
+    console.log(img);
     const userId = user.id;
     const report = { title, description, userId, image: img, type: "USER" };
     if(title == "" || description == "")
@@ -95,7 +97,7 @@ function CustomerReport() {
     const timeoutId = setTimeout(() => {
         setLoading(false);
         setSnackbar({ children: "Your report is sent", severity: "success" });
-        window.location.reload() 
+        //window.location.reload() 
       }, 3000);
       return () => clearTimeout(timeoutId);
   }, [loading]);

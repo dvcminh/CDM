@@ -17,41 +17,25 @@ function App() {
                     {publicRoutes.map((route, index) => {
                           const Page = route.component;
                           let Layout = route.layout;
-                          return (
-                            <Route key={index} path={route.path} element = {<Layout>
-                                                                                <Page/>
-                                                                            </Layout>}/>
-                          )
+                          return (<Route key={index} path={route.path} element = {<Layout><Page/></Layout>}/>)
                       }
                     )}
-                    {(userData.role === "CUSTOMER")  && customerRole.map((route, index) => {
+                    {(userData.role === "CUSTOMER") && customerRole.map((route, index) => {
                           const Page = route.component;
                           let Layout = route.layout;
-                          return (
-                            <Route key={index} path={route.path} element = {<Layout>
-                                                                                <Page/>
-                                                                            </Layout>}/>
-                          )
+                          return (<Route key={index} path={route.path} element = {<Layout><Page/></Layout>}/>)
                       }
                     )}
-                    {(userData.role === "STAFF")  && staffRole.map((route, index) => {
+                    {(userData.role === "STAFF") && staffRole.map((route, index) => {
                           const Page = route.component;
                           let Layout = route.layout;
-                          return (
-                            <Route key={index} path={route.path} element = {<Layout>
-                                                                                <Page/>
-                                                                            </Layout>}/>
-                          )
+                          return (<Route key={index} path={route.path} element = {<Layout><Page/></Layout>}/>)
                       }
                     )}
-                    {(userData.role === "MANAGER")  && managerRole.map((route, index) => {
+                    {(userData.role === "MANAGER") && managerRole.map((route, index) => {
                           const Page = route.component;
                           let Layout = route.layout;
-                          return (
-                            <Route key={index} path={route.path} element = {<Layout>
-                                                                                <Page/>
-                                                                            </Layout>}/>
-                          )
+                          return (<Route key={index} path={route.path} element = {<Layout><Page/></Layout>}/>)
                       }
                     )}
                 </Routes>
