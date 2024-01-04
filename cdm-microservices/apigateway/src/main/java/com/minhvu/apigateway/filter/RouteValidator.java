@@ -37,6 +37,9 @@ public class RouteValidator {
             "/api/v1/energy/getEnergyById",
             "/api/v1/energy/getAllEnergy",
 
+            "/api/payment/create_payment",
+            "/api/payment/vnpay_return",
+
             "/eureka"
     );
 
