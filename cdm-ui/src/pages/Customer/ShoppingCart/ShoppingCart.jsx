@@ -16,7 +16,7 @@ const ShoppingCart = () => {
   const navigate = useNavigate();
   const [carts, setCarts] = useState([]);
   const [total, setTotal] = useState(0);
-  const [shippingFee, setShippingFee] = useState(8);
+  const [shippingFee, setShippingFee] = useState(8000);
   const [paymentMethod, setPaymentMethod] = useState(
     localStorage.getItem("payment_method")
   ); // ["Cash", "VNPay"]
@@ -24,11 +24,12 @@ const ShoppingCart = () => {
     JSON.parse(localStorage.getItem("currentUser")) || []
   );
   const [user, setUser] = useState([]);
-
+  const [orderDataState, setOrderDataState] = useState([]); // [{productId, quantity, pricePerUnit, size, color, voucher, shipping}]
   const fetchInfo = async () => {
     try {
       const res = await cdmApi.getUserMe(userData.username);
       setUser(res.data);
+      console.log(user);
     } catch (error) {
       console.error("Error fetching data:", error);
     }
@@ -39,6 +40,7 @@ const ShoppingCart = () => {
     // This function will run every time the component renders
     const cart = localStorage.getItem("cart");
     setCarts(JSON.parse(cart));
+    handlePaymentReturn();
   }, []);
 
   const handleCart = async () => {
@@ -59,34 +61,73 @@ const ShoppingCart = () => {
       })),
     };
 
-    try {
-      const response = await axios.get(
-        "http://localhost:9296/api/payment/create_payment", {
-          params: {
-            amount: total * 100,
-          },
-        }
-      );
-      const payment = response.data;
-      console.log("payment data");
-      console.log(payment);
-      // navigate(payment.url);
-      window.location.href = payment.url;
-    } catch (error) {
-      console.error(error);
-      return;
+    setOrderDataState(orderData);
+
+    if (paymentMethod === "Cash") {
+      try {
+        const order = await cdmApi.createOrder(orderData);
+        console.log("order by cash" + order);
+        setSnackbar({ children: "Order successfully!", severity: "success" });
+        localStorage.setItem("cart", "[]");
+        window.location.reload();
+      } catch (error) {
+        console.error(error);
+      }
+    } 
+    else {
+      try {
+        const response = await axios.get(
+          "http://localhost:9296/api/payment/create_payment",
+          {
+            params: {
+              amount: total,
+            },
+          }
+        );
+        const payment = response.data;
+        window.location.href = payment.url;
+      } catch (error) {
+        console.error(error);
+        return;
+      }
     }
-
-    // try {
-    //   const order = await cdmApi.createOrder(orderData);
-    //   console.log(order);
-    //   setSnackbar({ children: "Order successfully!", severity: "success" });
-    //   localStorage.setItem("cart", "[]");
-    //   window.location.reload();
-    // } catch (error) {
-    //   console.error(error);
+  };
+  
+  const handlePaymentReturn = async () => {
+    const urlParams = new URLSearchParams(window.location.search);
+    const responseCode = urlParams.get("vnp_ResponseCode");
+    if (responseCode === "00") {
+      const orderData = {
+        totalAmount: total,
+        email: user.username,
+        shippingAddress: user.address,
+        voucherValue: 10,
+        shippingValue: shippingFee,
+        createOrderItemRequestList: carts.map((cart) => ({
+          productId: cart.id,
+          quantity: cart.quantity,
+          pricePerUnit: cart.price,
+          size: "sm", // default value
+          color: "red", // default value
+          voucher: 10,
+          shipping: 10,
+        })),
+      };
+      console.log("Payment success");
+      console.log("order by vnpay", JSON.stringify(orderData))
+      try {
+        const order = await cdmApi.createOrder(orderData);
+        setSnackbar({ children: "Order successfully!", severity: "success" });
+        localStorage.setItem("cart", "[]");
+        setCarts([]);
+      } catch (error) {
+        console.error(error);
+      }
+    } 
+    // else 
+    // {
+    //   setSnackbar({ children: "Order failed!", severity: "error" });
     // }
-
   };
 
   useEffect(() => {
@@ -173,7 +214,7 @@ const ShoppingCart = () => {
               <div className="flex justify-center items-center w-full space-y-4 flex-col border-gray-200 border-b pb-4">
                 <div className="flex justify-between w-full">
                   <p className="text-base  leading-4 text-black">Subtotal</p>
-                  <p className="text-base  leading-4 text-black">${total}</p>
+                  <p className="text-base  leading-4 text-black">{total}</p>
                 </div>
                 {/* <div className="flex justify-between items-center w-full">
                 <p className="text-base  leading-4 text-black">Discount <span className="bg-gray-200 p-1 text-xs font-medium leading-3 text-gray-800">STUDENT</span></p>
@@ -181,7 +222,9 @@ const ShoppingCart = () => {
               </div> */}
                 <div className="flex justify-between items-center w-full">
                   <p className="text-base  leading-4 text-black">Shipping</p>
-                  <p className="text-base  leading-4 text-black">$8.00</p>
+                  <p className="text-base  leading-4 text-black">
+                    {shippingFee}
+                  </p>
                 </div>
               </div>
               <div className="flex justify-between items-center w-full">
@@ -189,7 +232,7 @@ const ShoppingCart = () => {
                   Total
                 </p>
                 <p className="text-base  font-semibold leading-4 text-black">
-                  ${(total + shippingFee).toFixed(2)}
+                  {total + shippingFee} VND
                 </p>
               </div>
             </div>
