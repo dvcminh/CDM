@@ -17,9 +17,9 @@ const StaffModalForm = (props) => {
 
   //Image
   const inputRef = React.useRef(null);
-  const [formImage, setFormImage] = React.useState(formState.imgSrc);
+  const [formImage, setFormImage] = React.useState(formState.avatar);
   const handleImageChange = (e) => {
-    setFormState({...formState, imgSrc: e.target.files[0]});
+    setFormState({...formState, avatar: e.target.files[0]});
     setFormImage(URL.createObjectURL(e.target.files[0]));
   }
 
@@ -62,24 +62,24 @@ const StaffModalForm = (props) => {
          }}
     >
       
-        <form onSubmit={handleSubmitForm} className=" max-sm:my-8 my-auto py-6 px-9 w-[40%] max-lg:overflow-y-scroll ml-[30%] bg-white rounded-md
+        <form onSubmit={handleSubmitForm} className=" max-sm:my-auto my-auto py-6 px-9 w-[40%] max-lg:overflow-y-scroll ml-[30%] bg-white rounded-md
                                             max-lg:mx-auto max-lg:w-[90%] ">
           
           <div>
-            <label  htmlFor="name" className="block text-sm font-medium leading-6 text-gray-900">
+            <label  htmlFor="email" className="block text-sm font-medium leading-6 text-gray-900">
               Name
             </label>
-            <input type="text" name="name" id="name" value={formState.name}  onChange={handleChange}
+            <input type="text" name="email" id="email" value={formState.email}  onChange={handleChange}
                 className="mt-2  w-[100%] rounded-md border border-[#e0e0e0] bg-white py-[8px] px-4 text-base font-medium outline-none focus:border-[#1F2937] focus:shadow-md"
             />
           </div>
   
           <div className="mt-[20px] grid grid-cols-1 gap-x-4 max-lg:grid-cols-1">
             <div className='col-span-1'>
-              <label  htmlFor="phone" className="block text-sm font-medium leading-6 text-gray-900">
+              <label  htmlFor="phone_number" className="block text-sm font-medium leading-6 text-gray-900">
                 Phone
               </label>
-              <input type="text" name="phone" id="phone" value={formState.phone_number}  onChange={handleChange}
+              <input type="text" name="phone_number" id="phone_number" value={formState.phone_number}  onChange={handleChange}
                   className="mt-2  w-[100%] rounded-md border border-[#e0e0e0] bg-white py-[8px] px-4 text-base font-medium outline-none focus:border-[#1F2937] focus:shadow-md"
               />
             </div>
@@ -91,10 +91,10 @@ const StaffModalForm = (props) => {
   
           <div className="mt-[20px] grid grid-cols-1 gap-x-4 max-lg:grid-cols-1">
               <div className='col-span-1'>
-                <label  htmlFor="email" className="block text-sm font-medium leading-6 text-gray-900">
+                <label  htmlFor="name" className="block text-sm font-medium leading-6 text-gray-900">
                   Email
                 </label>
-                <input type="text" name="email" id="email" value={formState.email}  onChange={handleChange}
+                <input type="text" name="name" id="name" value={formState.name}  onChange={handleChange}
                     className="mt-2  w-[100%] rounded-md border border-[#e0e0e0] bg-white py-[8px] px-4 text-base font-medium outline-none focus:border-[#1F2937] focus:shadow-md"
                 />
               </div>

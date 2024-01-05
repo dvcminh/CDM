@@ -17,9 +17,9 @@ const CustomerModalForm = (props) => {
 
   //Image
   const inputRef = React.useRef(null);
-  const [formImage, setFormImage] = React.useState(formState.imgSrc);
+  const [formImage, setFormImage] = React.useState(formState.avatar);
   const handleImageChange = (e) => {
-    setFormState({...formState, imgSrc: e.target.files[0]});
+    setFormState({...formState, avatar: e.target.files[0]});
     setFormImage(URL.createObjectURL(e.target.files[0]));
   }
 

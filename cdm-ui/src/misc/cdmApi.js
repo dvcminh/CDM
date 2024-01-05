@@ -8,8 +8,10 @@ export const cdmApi = {
   updateUser,
   getUserMe,
   getAllUsers,
+  createCustomer,
   resetPassword,
   changePassword,
+  deleteUser,
   getAllCars,
   getCarById,
   createCar,
@@ -77,8 +79,25 @@ function getUserMe(username) {
   });
 }
 
-function getAllUsers() {
+function getAllUsers(amount = 10) {
   return instance.get("/auth/getAllUsers", {
+    params: {
+      size: amount,
+    },
+    headers: {
+      Authorization: bearerAuth(localStorage.getItem("accessToken")),
+    },
+  });
+}
+
+function createCustomer(data) {
+  return instance.post("/auth/register", data, {
+    headers: { "Content-type": "application/json" },
+  });
+}
+
+function deleteUser(id) {
+  return instance.delete(`/auth/deleteUser/${id}`,{
     headers: {
       Authorization: bearerAuth(localStorage.getItem("accessToken")),
     },
@@ -97,8 +116,13 @@ function getAllUsers() {
 // }
 
 
-function getAllCars() {
-  return instance.get("/api/v1/products/getAllCars");
+function getAllCars(amount = 10) {
+
+  return instance.get("/api/v1/products/getAllCars", {
+    params: {
+      size: amount,
+    },
+  });
 }
 
 function getCarById(params) {
@@ -199,8 +223,11 @@ function deleteCar(id) {
   );
 }
 
-function getAllInventory() {
+function getAllInventory(amount = 10) {
   return instance.get("/api/v1/inventory/getInventory", {
+    params: {
+      size: amount,
+    },
     headers: {
       Authorization: bearerAuth(localStorage.getItem("accessToken")),
     },

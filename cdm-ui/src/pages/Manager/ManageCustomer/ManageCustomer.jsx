@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import ManagerSideBar from '../../../layouts/components/ManagerSideBar';
 import Box from '@mui/material/Box';
 import { DataGrid, GridToolbar, GridRowModes, GridToolbarContainer, GridActionsCellItem, GridRowEditStopReasons } from '@mui/x-data-grid';
@@ -18,27 +18,27 @@ import DialogTitle from '@mui/material/DialogTitle';
 import DialogContent from '@mui/material/DialogContent';
 import DialogActions from '@mui/material/DialogActions';
 import Alert from '@mui/material/Alert';
+import WarningIcon from '@mui/icons-material/Warning';
 
 import { cdmApi } from '../../../misc/cdmApi';
+import axios from 'axios';
 
 //Main Page
 const ManageCustomerPage = () => {
 
-  const [rows, setRows] = React.useState(mockDataTeam);
+  const [rows, setRows] = React.useState([]);
   const [formState, setFormState] = React.useState(null);
 
-
+  const [dataChangeFlag, setDataChangeFlag] = useState(false);
   useEffect(() => {
     const fetchData = async () => {
       try {
-        // const response = await axios.get('http://localhost:8083/api/v1/products/getAllCars');
-        const response = await cdmApi.getAllUsers();
-        console.log(response.data.content);
+        const response = await cdmApi.getAllUsers(1000);
         const filtedRoleData = response.data.content.filter((row) => row.role === "CUSTOMER");
         filtedRoleData.forEach((row, index) => {
           if(!row.avatar)
             row.avatar = avatars[index % avatars.length];
-      });
+       });
         const addedIndexData = filtedRoleData.map((row, index) => ({ ...row, index: index + 1 }));
         setRows(addedIndexData); 
       } catch (error) {
@@ -47,7 +47,7 @@ const ManageCustomerPage = () => {
     };
     fetchData();
   
-  }, []);
+  }, [dataChangeFlag]);
   
 
 
@@ -73,17 +73,13 @@ const ManageCustomerPage = () => {
   };
 
   const handleSubmit = (newFormState)  => {
-
-
-    //delete newFormState.index;
-
+    delete newFormState.index;
     setFormState(newFormState);
     if(rowToEdit === null) 
       setPopupMessage(`Do you really want to create a new customer?`);
     else
       setPopupMessage(`Do you really want to update customer's information?`);
-    //setPopupOpen(true);
-    setModalOpen(false);
+    setPopupOpen(true);
   };
 
   const handleNo = () => {
@@ -92,39 +88,40 @@ const ManageCustomerPage = () => {
   };
 
   const handleYes = async () => {
-    
-    // if (deletingId !== null) 
-    //   handleDeleteApi();
-    // else 
-    // {
-    //   const formData = new FormData();
-    //   formData.append("file", formState.imgSrc);
-    //   formData.append("upload_preset", "nhatkhang");
+    console.log("Yes");
+    if (deletingId !== null)
+      handleDeleteApi();   
+    else 
+    {
 
-    //   const resUpload = await axios.post("https://api.cloudinary.com/v1_1/dbixymfbp/image/upload", formData);
-    //   //setFormState({...formState, imgSrc: response.data.secure_url});
+      const formData = new FormData();
+      formData.append("file", formState.avatar);
+      formData.append("upload_preset", "nhatkhang");
 
-    //   setFormState({...formState, imgSrc: resUpload.data.secure_url});
-    //   const subFormState = {...formState, imgSrc: resUpload.data.secure_url};
+      const resUpload = await axios.post("https://api.cloudinary.com/v1_1/dbixymfbp/image/upload", formData);
       
-    //   if (rowToEdit === null)  
-    //     handleCreateApi(subFormState);
-    //   else 
-    //     handleUpdateApi(subFormState);
+      setFormState({...formState, avatar: resUpload.data.secure_url});
+      const subFormState = {...formState, avatar: resUpload.data.secure_url};
+      
+      if (rowToEdit === null)  
+        handleCreateApi(subFormState);
+      else 
+        handleUpdateApi(subFormState);
         
       
-    // }
+    }
     setPopupOpen(false);
     setModalOpen(false);
   };
 
   const handleCreateApi = async (subFormState) => {
     try {
-      console.log("Create");
-      // const response = await cdmApi.createCar(subFormState);
-
-      // setRows([...rows, response.data]);
-      // setSnackbar({ children: "Updated successfully", severity: "success" });
+      subFormState.role = "CUSTOMER";
+      subFormState.password = "Newuser123";
+      const response = await cdmApi.createCustomer(subFormState);
+      //setRows([...rows, response.data]);
+      setDataChangeFlag(!dataChangeFlag);
+      setSnackbar({ children: "Updated successfully", severity: "success" });
     } catch (error) {
       console.error("Error creating new product:", error);
       setSnackbar({children: "Couldn't create a new product", severity: "error"});
@@ -133,11 +130,11 @@ const ManageCustomerPage = () => {
 
   const handleUpdateApi = async (subFormState) => {
     try{
-      console.log("Update");
-
-      // const response = await cdmApi.updateCar(subFormState);
-      // setRows(rows.map((row) => (row === rowToEdit ? response.data : row)));
-      // setSnackbar({ children: "Updated successfully", severity: "success" });
+      const response = await cdmApi.updateUser(subFormState);
+      //setRows(rows.map((row) => (row === rowToEdit ? response.data : row)));
+      setDataChangeFlag(!dataChangeFlag);
+      setSnackbar({ children: "Updated successfully", severity: "success" });
+      setRowToEdit(null);
     }
     catch(error){
       console.error("Error updating product:", error);
@@ -147,12 +144,11 @@ const ManageCustomerPage = () => {
 
   const handleDeleteApi = async () => {
     try {
-      console.log("Delete");
-
-      // await cdmApi.deleteCar(deletingId);
-      // setRows(rows.filter((row) => row.id !== deletingId));
-      // setSnackbar({ children: "Deleted successfully", severity: "success" });
-      // setDeletingId(null);
+      await cdmApi.deleteUser(deletingId);
+      //setRows(rows.filter((row) => row.id !== deletingId));
+      setDataChangeFlag(!dataChangeFlag);
+      setSnackbar({ children: "Deleted successfully", severity: "success" });
+      setDeletingId(null);
     } catch (error) {
       console.error("Error deleting product:", error);
     }
@@ -225,7 +221,7 @@ const ManageCustomerPage = () => {
     {
       field: "avatar",
       headerName: "Avatar",
-      width: 150,
+      width: 120,
       cellClassName: "image-column--cell",
       renderCell: (params) => {
         return (
@@ -251,7 +247,7 @@ const ManageCustomerPage = () => {
       },
     },
     {
-      field: "name",
+      field: "email",
       headerName: "Name",
       width: 180,
       cellClassName: "name-column--cell",
@@ -269,11 +265,11 @@ const ManageCustomerPage = () => {
     {
       field: "phone_number",
       headerName: "Phone Number",
-      width: 180,
+      width: 160,
       editable: true,
     },
     {
-      field: "email",
+      field: "name",
       headerName: "Email",
       width: 220,
       editable: true,
@@ -288,7 +284,8 @@ const ManageCustomerPage = () => {
       field: 'actions',
       type: 'actions',
       headerName: 'Actions',
-      width: 100,
+      flex: 1,
+      minWidth: 80,
       cellClassName: 'actions',
       getActions: ({ id }) => {
   
@@ -331,7 +328,7 @@ const ManageCustomerPage = () => {
         <div className="pt-8 w-full">
           <p className="text-4xl  font-bold">Customer</p>
         </div>
-        <button className='self-end mr-[50px] mb-0 bg-[#000] hover:bg-[#6d7986] rounded-md text-white font-bold w-[150px] max-sm:ml-0 my-2 py-2 max-lg:self-start max-lg:mt-[50px]' 
+        <button className='self-end mr-[50px] mb-0 bg-[#000] hover:bg-[#6d7986] rounded-md text-white font-bold w-[150px] max-sm:ml-0 my-2 py-2 max-lg:self-start max-lg:mt-[40px]' 
                 onClick={() => {setModalOpen(true);}}>CREATE NEW</button>
         
         {/* Data Grid */}

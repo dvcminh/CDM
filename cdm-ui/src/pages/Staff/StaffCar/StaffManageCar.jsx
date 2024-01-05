@@ -34,7 +34,7 @@ const StaffManageCarPage = () => {
     const fetchData = async () => {
       try {
         // const response = await axios.get('http://localhost:8083/api/v1/products/getAllCars');
-        const response = await cdmApi.getAllCars();
+        const response = await cdmApi.getAllCars(10000);
         const addedIndexData = response.data.content.map((row, index) => ({ ...row, index: index + 1 }));
         setRows(addedIndexData); 
       } catch (error) {
@@ -240,7 +240,7 @@ const StaffManageCarPage = () => {
     {
       field: "orgPrice",
       headerName: "Original Price",
-      width: 130,
+      width: 120,
       editable: true,
     },
     {
@@ -279,7 +279,8 @@ const StaffManageCarPage = () => {
       field: 'actions',
       type: 'actions',
       headerName: 'Actions',
-      width: 100,
+      flex: 1,
+      minWidth: 80,
       cellClassName: 'actions',
       getActions: ({ id }) => {  
         return [

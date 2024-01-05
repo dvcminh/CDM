@@ -117,4 +117,10 @@ public class AuthController {
     ) {
         return ResponseEntity.ok(service.changePassword(request));
     }
+
+    @DeleteMapping("/deleteUser/{id}")
+    public ResponseEntity<String> deleteUser(@PathVariable String id) {
+        service.deleteUser(id);
+        return ResponseEntity.ok("Delete User successfully");
+    }
 }

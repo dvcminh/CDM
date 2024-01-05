@@ -81,6 +81,7 @@ public class AuthService {
     public String updateUser(UpdateUserInformationRequest userDto) {
         Optional<User> user = userRepository.findById(userDto.getId());
         if (user.isPresent()) {
+            user.get().setName(userDto.getName());
             user.get().setEmail(userDto.getEmail());
             user.get().setAddress(userDto.getAddress());
             user.get().setPhone_number(userDto.getPhone());
@@ -107,5 +108,9 @@ public class AuthService {
         } else {
             throw new UserNotFoundException("User not found");
         }
+    }
+
+    public void deleteUser(String id) {
+        userRepository.deleteById(id);
     }
 }
