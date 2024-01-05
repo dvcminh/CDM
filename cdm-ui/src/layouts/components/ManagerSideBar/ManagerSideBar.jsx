@@ -38,17 +38,17 @@ function ManagerSideBar() {
       title: 'Customers',
       to: config.routes.managecustomer
     },
-    {
-      icon: <EarbudsBatteryOutlinedIcon className='w-6 h-auto' />,
-      title: 'Products',
-      to: config.routes.manageshop
-    },
-    {
-      icon: <DirectionsCarFilledOutlinedIcon className='w-6 h-auto' />,
-      title: 'Inventories',
-      to: config.routes.managecar
-    }
-    ,
+    // {
+    //   icon: <EarbudsBatteryOutlinedIcon className='w-6 h-auto' />,
+    //   title: 'Products',
+    //   to: config.routes.manageshop
+    // },
+    // {
+    //   icon: <DirectionsCarFilledOutlinedIcon className='w-6 h-auto' />,
+    //   title: 'Inventories',
+    //   to: config.routes.managecar
+    // }
+    // ,
     {
       icon: <NewspaperIcon className='w-6 h-auto' />,
       title: 'Reports',

@@ -34,16 +34,16 @@ function SideBarStaff() {
         title: 'Customers',
         to: config.routes.staffcustomer
     },
-    {
-      icon: <EarbudsBatteryOutlinedIcon className='w-6 h-auto' />,
-      title: 'Products',
-      to: config.routes.staffshop
-    },
-    {
-      icon: <DirectionsCarFilledOutlinedIcon className='w-6 h-auto' />,
-      title: 'Inventories',
-      to: config.routes.staffcar
-    },
+    // {
+    //   icon: <EarbudsBatteryOutlinedIcon className='w-6 h-auto' />,
+    //   title: 'Products',
+    //   to: config.routes.staffshop
+    // },
+    // {
+    //   icon: <DirectionsCarFilledOutlinedIcon className='w-6 h-auto' />,
+    //   title: 'Inventories',
+    //   to: config.routes.staffcar
+    // },
     {
       icon: <ArrowRightOnRectangleIcon className='w-6 h-auto' />,
       title: 'Sign Out',
