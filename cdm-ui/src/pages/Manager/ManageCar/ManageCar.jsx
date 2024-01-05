@@ -1,7 +1,7 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import ManagerSideBar from '../../../layouts/components/ManagerSideBar';
 import Box from '@mui/material/Box';
-import { DataGrid, GridToolbar, GridRowModes, GridToolbarContainer, GridActionsCellItem, GridRowEditStopReasons } from '@mui/x-data-grid';
+import { DataGrid, GridToolbar, GridRowModes, GridToolbarContainer, GridActionsCellItem, GridRowEditStopReasons, GridLogicOperator } from '@mui/x-data-grid';
 import { mockDataTeam } from "./mockData";
 import ModalForm from './CarForm';
 import axios from 'axios';
@@ -25,15 +25,15 @@ import { cdmApi } from '../../../misc/cdmApi';
 
 const ManageCarPage = () => {
 
-  const [rows, setRows] = React.useState([]);
-  const [formState, setFormState] = React.useState(null);
-  
+  const [rows, setRows] = useState([]);
+  const [formState, setFormState] = useState(null);
+
+  const [dataChangeFlag, setDataChangeFlag] = useState(false);
   useEffect(() => {
     const fetchData = async () => {
       try {
-        // const response = await axios.get('http://localhost:8083/api/v1/products/getAllCars');
         const response = await cdmApi.getAllCars();
-        const addedIndexData = response.data.map((row, index) => ({ ...row, index: index + 1 }));
+        const addedIndexData = response.data.content.map((row, index) => ({...row, index: index + 1}));
         setRows(addedIndexData); 
       } catch (error) {
         console.error('Error fetching data:', error);
@@ -41,11 +41,9 @@ const ManageCarPage = () => {
     };
     fetchData();
   
-  }, []);
+  }, [dataChangeFlag]);
 
   
-
-  const [rowModesModel, setRowModesModel] = React.useState({});
 
   //Modal
   const [modalOpen, setModalOpen] = React.useState(false);
@@ -69,25 +67,6 @@ const ManageCarPage = () => {
   };
 
   const handleSubmit = (newFormState)  => {
-
-  //   newFormState = {
-  //     // "id": "389491dnde",
-  //     "model": "Model S", 
-  //     "orgPrice": "$88888",
-  //     "disPrice": "$44444",
-  //     "perMonthPrice": "$1,113/month",
-  //     "trim": "Model S Dual Khang Khang",
-  //     "odo": "3,355",
-  //     "range": "375",
-  //     "topSpeed": "149",
-  //     "timeToReach": "3.1",
-  //     "tech": "autopilot",
-  //     "keyFeatures": null,
-  //     "gift": "1-year premium Connectivity Trial",
-  //     "count": 20,
-  //     "imgSrc": "image_URL",
-  //     "status": "AVAILABLE"
-  // }
     delete newFormState.index;
     setFormState(newFormState);
     if(rowToEdit === null) 
@@ -131,27 +110,9 @@ const ManageCarPage = () => {
 
   const handleCreateApi = async (subFormState) => {
     try {
-    //   subFormState = {
-    //     "model": "Model S", 
-    //     "orgPrice": "$88888",
-    //     "disPrice": "$44444",
-    //     "perMonthPrice": "$1,113/month",
-    //     "trim": "Model S Dual Khang Khang",
-    //     "odo": "3,355",
-    //     "range": "375",
-    //     "topSpeed": "149",
-    //     "timeToReach": "3.1",
-    //     "tech": "autopilot",
-    //     "keyFeatures": null,
-    //     "gift": "1-year premium Connectivity Trial",
-    //     "count": 20,
-    //     "imgSrc": "https://res.cloudinary.com/dbixymfbp/image/upload/v1702444097/nbjdjslovzzxxnupxmcx.jpg",
-    //     "status": "AVAILABLE"
-    // }
-
       const response = await cdmApi.createCar(subFormState);
-
       setRows([...rows, response.data]);
+      setDataChangeFlag(!dataChangeFlag);
       setSnackbar({ children: "Updated successfully", severity: "success" });
     } catch (error) {
       console.error("Error creating new product:", error);
@@ -161,10 +122,11 @@ const ManageCarPage = () => {
 
   const handleUpdateApi = async (subFormState) => {
     try{
-      console.log(subFormState);
       const response = await cdmApi.updateCar(subFormState);
       setRows(rows.map((row) => (row === rowToEdit ? response.data : row)));
+      setDataChangeFlag(!dataChangeFlag);
       setSnackbar({ children: "Updated successfully", severity: "success" });
+      setRowToEdit(null);
     }
     catch(error){
       console.error("Error updating product:", error);
@@ -176,6 +138,7 @@ const ManageCarPage = () => {
     try {
       await cdmApi.deleteCar(deletingId);
       setRows(rows.filter((row) => row.id !== deletingId));
+      setDataChangeFlag(!dataChangeFlag);
       setSnackbar({ children: "Deleted successfully", severity: "success" });
       setDeletingId(null);
     } catch (error) {
@@ -248,15 +211,8 @@ const ManageCarPage = () => {
       },
     },
     {
-      field: "trim",
-      headerName: "Name",
-      width: 210,
-      cellClassName: "name-column--cell",
-      editable: true,
-    },
-    {
       field: "imgSrc",
-      headerName: "Image",
+      headerName: "Car",
       width: 150,
       cellClassName: "image-column--cell",
       renderCell: (params) => {
@@ -266,6 +222,13 @@ const ManageCarPage = () => {
           </div>
         );
       },
+    },
+    {
+      field: "trim",
+      headerName: "Name",
+      width: 210,
+      cellClassName: "name-column--cell",
+      editable: true,
     },
     {
       field: "orgPrice",
@@ -314,8 +277,8 @@ const ManageCarPage = () => {
       getActions: ({ id }) => {  
         return [
           <GridActionsCellItem
-            icon={<EditIcon className='bg-purple-600 text-white rounded-md box-content p-[4px]
-                                       hover:bg-purple-400'/>}
+            icon={<EditIcon className='bg-[#1F2937] text-white rounded-md box-content p-[4px]
+                                       hover:bg-[#455265]'/>}
             label="Edit"
             className="textPrimary"
             onClick={handleEditClick(id)}
@@ -346,17 +309,17 @@ const ManageCarPage = () => {
       />
       )}
 
-      <div className='ml-8 flex-1 flex flex-col'>
+      <div className='ml-8 flex-1 flex flex-col overflow-x-hidden'>
         <div className="pt-8 w-full">
           <p className="text-4xl  font-bold">Car</p>
         </div>
-        <button className='self-end mr-[50px] mb-0 bg-[#00df9a] hover:bg-[#5effcc] rounded-md text-black font-medium w-[150px] max-sm:ml-0 my-2 py-2' 
+        <button className='self-end mr-[50px] mb-0 bg-[#232331] hover:bg-[#6d7986] rounded-md text-white font-bold w-[150px] my-2 py-2  max-lg:self-start max-lg:mt-[50px]' 
                 onClick={() => {setModalOpen(true);}}>CREATE NEW</button>
         
         {/* Data Grid */}
         <div className="mt-[15px]">
           {renderConfirmDialog()}
-          <Box height="530px" width="100%" maxWidth="100%" sx={{
+          <Box height="544px" width="100%" maxWidth="100%" sx={{
               "& .MuiDataGrid-root" : {
                 border : "none",
               },
@@ -371,7 +334,7 @@ const ManageCarPage = () => {
                 fontSize: '40px',
               },
               "& .MuiDataGrid-columnHeaders": {
-                backgroundColor: '#85a3d6',
+                backgroundColor: '#607286',
                 color: '#fff',
                 borderBottom: "none",
                 fontSize: '14px',
@@ -384,7 +347,6 @@ const ManageCarPage = () => {
               "& .MuiCheckbox-root": {
                 color: `${'#294bd6'} !important`,
               },
-              
             }}
           >
             <DataGrid
@@ -401,20 +363,16 @@ const ManageCarPage = () => {
                 },
                 toolbar: {
                   showQuickFilter: true,
+                  
                 },
               }}
               initialState={{
                 pagination: {
                   paginationModel: { pageSize: 25, page: 0 },
-                },
+                },                
               }}
               disableDensitySelector
-              //processRowUpdate={processRowUpdate}
-              
-              // editMode="row"
-              // rowModesModel={rowModesModel}
-              // onRowModesModelChange={handleRowModesModelChange}
-              // onRowEditStop={handleRowEditStop}
+              isCellEditable={() => false}
               
             />
             {!!snackbar && (

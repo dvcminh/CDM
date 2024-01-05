@@ -5,6 +5,8 @@ import com.minhvu.productservice.dto.UpdateEnergyRequest;
 import com.minhvu.productservice.model.Energy;
 import com.minhvu.productservice.repository.EnergyRepository;
 import lombok.AllArgsConstructor;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
@@ -15,9 +17,8 @@ import java.util.List;
 @AllArgsConstructor
 public class EnergyServiceImpl implements EnergyService{
     private final EnergyRepository energyRepository;
-    @Override
-    public List<Energy> findAll() {
-        return energyRepository.findAll();
+    public Page<Energy> findAll(Pageable pageable) {
+        return energyRepository.findAll(pageable);
     }
 
     @Override
@@ -63,6 +64,11 @@ public class EnergyServiceImpl implements EnergyService{
             sort = sort.descending();
         }
         return energyRepository.findDistinctByNameAllIgnoreCaseOrderByPriceAsc(name, sort);
+    }
+
+    @Override
+    public List<Energy> findEnergyByNameContains(String name) {
+        return energyRepository.findByNameContains(name);
     }
 
 

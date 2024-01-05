@@ -8,6 +8,9 @@ import com.minhvu.productservice.service.CarService;
 import com.minhvu.productservice.service.EnergyService;
 import com.minhvu.productservice.service.ShopService;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Sort;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -19,7 +22,6 @@ import java.util.List;
 
 @RestController
 @RequestMapping("/api/v1/products")
-@CrossOrigin(origins = "*")
 @RequiredArgsConstructor
 public class ProductController {
     private final CarService carService;
@@ -35,8 +37,19 @@ public class ProductController {
     // ///////////////
 
     @GetMapping("/getAllCars")
-    public List<Car> getAllCars() {
-        return carService.getAllProducts();
+    public ResponseEntity<Page<Car>> getAllCars(
+            @RequestParam(defaultValue = "0") int page,
+            @RequestParam(defaultValue = "10") int size,
+            @RequestParam(defaultValue = "model") String sortBy,
+            @RequestParam(defaultValue = "ASC") Sort.Direction direction
+    ) {
+        Page<Car> carPage = carService.getAllProducts(PageRequest.of(page, size, Sort.by(direction, sortBy)));
+        return ResponseEntity.ok(carPage);
+    }
+
+    @GetMapping("/getCarsByNameContains")
+    public List<Car> getCarsByNameContains(@RequestParam("name") String name) {
+        return carService.findCarsByNameContains(name);
     }
 
     @GetMapping("/getCarById/{id}")
@@ -77,9 +90,21 @@ public class ProductController {
     // ///////////////
     // ///////////////
     // ///////////////
+
     @GetMapping("/getAllEnergies")
-    public List<Energy> getAllEnergies() {
-        return energyService.findAll();
+    public ResponseEntity<Page<Energy>> getAllEnergies(
+            @RequestParam(defaultValue = "0") int page,
+            @RequestParam(defaultValue = "10") int size,
+            @RequestParam(defaultValue = "name") String sortBy,
+            @RequestParam(defaultValue = "ASC") Sort.Direction direction
+    ) {
+        Page<Energy> energyPage = energyService.findAll(PageRequest.of(page, size, Sort.by(direction, sortBy)));
+        return ResponseEntity.ok(energyPage);
+    }
+
+    @GetMapping("/getEnergyByNameContains")
+    public List<Energy> getEnergyByNameContains(@RequestParam("name") String name) {
+        return energyService.findEnergyByNameContains(name);
     }
 
     @GetMapping("/getEnergyById/{id}")
@@ -119,14 +144,35 @@ public class ProductController {
     // ///////////////
     // ///////////////
 
+    @GetMapping("/getAllShopWithoutPagination")
+    public ResponseEntity<List<Shop>> getAllShopWithoutPagination() {
+        List<Shop> shopList = shopService.findAll();
+        return ResponseEntity.ok(shopList);
+    }
+
     @GetMapping("/getAllShops")
-    public List<Shop> getAllShops() {
-        return shopService.findAll();
+    public ResponseEntity<Page<Shop>> getAllShops(
+            @RequestParam(defaultValue = "0") int page,
+            @RequestParam(defaultValue = "10") int size,
+            @RequestParam(defaultValue = "name") String sortBy,
+            @RequestParam(defaultValue = "ASC") Sort.Direction direction
+    ) {
+        Page<Shop> shopPage = shopService.findAll(PageRequest.of(page, size, Sort.by(direction, sortBy)));
+        return ResponseEntity.ok(shopPage);
+    }
+
+    @GetMapping("/getShopByNameContains")
+    public List<Shop> getShopByNameContains(@RequestParam("name") String name) {
+        return shopService.findShopByNameContains(name);
     }
 
     @GetMapping("/getShopById/{id}")
     public Shop getShopById(@PathVariable String id) {
         return shopService.getProductById(id);
+    }
+    @GetMapping("/getShopByType/{type}")
+    public List<Shop> getShopByType(@PathVariable String type) {
+        return shopService.findProductByTypeIgnoreCase(type);
     }
 
     @GetMapping("/getShopByNameOrderedByPriceDesc")

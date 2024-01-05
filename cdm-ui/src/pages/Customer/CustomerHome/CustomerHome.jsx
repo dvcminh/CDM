@@ -4,27 +4,23 @@ import DashboardItem from '../../../components/DashboardItem'
 
 import { useState,useEffect } from 'react'
 import axios from 'axios';
+import { useNavigate } from 'react-router-dom';
 
 
 function CustomerHome() {
+    const navigate = useNavigate();
     const dashboardItems = [
         {
           img: <img src='https://digitalassets.tesla.com/oxp/image/upload/solar-marketing_636x300_4bd7119e4705e.jpg' alt='solar' className='dashboard__item-img'/>,
-          article: 'Order Tesla Solar',
-          content: 'Produce energy to power your Tesla life',
-          button: <button className='dashboard__item-button' onClick={() => alert('View Solar')}>View Solar</button>
+          article: 'Appointment',
+          content: 'Book a test drive or get your car',
+          button: <button className='dashboard__item-button' onClick={() => navigate('/customerhome/bookappointment')}>Book Appointment</button>
         },
         {
           img: <img src='https://digitalassets.tesla.com/oxp/image/upload/v1692297205/dscf6059-4_acb1b643864e2.png' alt='order' className='dashboard__item-img'/>,
-          article: 'Reserve a Car',
-          content: 'Browse our models',
-          button: <button className='dashboard__item-button' onClick={() => alert('Shop Now')}>Shop Now</button>
-        },
-        {
-          img: <img src='https://digitalassets.tesla.com/oxp/image/upload/third-party-car_636x300_ed18888cb5f98.jpg' alt='pluss' className='dashboard__item-img'/>,
-          content: 'Purchased a car from a third party?',
-          article: 'Reserve a Car',
-          button: <button className='dashboard__item-button' onClick={() => alert('Add')}>Add</button>
+          article: 'Vehicle',
+          content: 'Discovery our vehicle now',
+          button: <button className='dashboard__item-button' onClick={() => navigate('/vehicle')}>View All</button>
         }
       ]
 
@@ -40,16 +36,12 @@ function CustomerHome() {
                             <DashboardItem data={dashboardItems[1]}/>
                         </span>
                         
-                        <span className='dashboard' style={{marginTop: 5}}>
-                        <DashboardItem data={dashboardItems[2]}/> 
-                        </span>
                     </div>
                 </div>
             </span>
             <div className='block sm:hidden'>
                       <DashboardItem data={dashboardItems[0]}/>
                       <DashboardItem data={dashboardItems[1]} className="mt-4"/>
-                      <DashboardItem data={dashboardItems[2]} className="mt-4" /> 
             </div>
       </div> 
      );

@@ -1,13 +1,24 @@
 .modalBackground {
-  margin-top: -50px;
+  margin-top: -60px;
   position: fixed;
   width: 100vw;
   height: 100vh;
   background: rgba(200, 200, 200, 0.5); /* 0.5 là độ mờ, có thể điều chỉnh */
-
   display: flex;
   justify-content: center;
   align-items: center;
+  z-index: 500;
+}
+
+.modalLoading {
+  position: fixed;
+  width: 100vw;
+  height: 100vh;
+  background: rgba(200, 200, 200, 0.5); /* 0.5 là độ mờ, có thể điều chỉnh */
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 500;
 }
 
 .modalContainer {

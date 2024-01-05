@@ -1,49 +1,70 @@
-import React from 'react'
+import { faPlus, faSubtract } from "@fortawesome/free-solid-svg-icons";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import React, { useEffect, useState } from 'react';
 
 const CartItem = (props) => {
-    const cartItem = props.cartItem
+    const [cart, setCart] = useState([]);
+    const handleIncrement =  () => {
+        const updatedCart = cart.map((item) => {
+                if (item.id === props.id) {
+                    return {
+                        ...item,
+                        quantity: item.quantity + 1,
+                    };
+                }
+                return item;
+            });
 
-    const handleRemoveItem = (id) =>{
-        props.onclickRemove(id);
-    }
-
-    const handleIncreaseAmount = (id) =>{
-        props.onclickIncreaseAmount(id);
-    }
-
-    const handleDecreaseAmount = (id) =>{
-        props.onclickDecreaseAmount(id);
-    }
+            localStorage.setItem("cart", JSON.stringify(updatedCart));
+            window.location.reload()
+    };
     
+      const handleDecrement = () => {
+        const updatedCart = cart.map((item) => {
+                if (item.id === props.id) {
+                    return {
+                        ...item,
+                        quantity: item.quantity - 1,
+                    };
+                }
+                return item;
+            });
+
+            localStorage.setItem("cart", JSON.stringify(updatedCart));   
+            window.location.reload() 
+      };
+
+      useEffect(() => {
+        setCart(JSON.parse(localStorage.getItem("cart")) || []);
+    }, []);
+
     return (
-        <article className="cart-item">
-            <img src={cartItem.img} alt="" />
-            <div>
-                <h4>{cartItem.title}</h4>
-                <h4 className="item-price">{cartItem.price * cartItem.amount}$</h4>
-                <div className='remove-btn' onClick={() => handleRemoveItem(cartItem.id)}>
-                    <svg className='mt-[3px] ml-[0.5px]' xmlns="http://www.w3.org/2000/svg" height="1em" viewBox="0 0 448 512"><path  d="M135.2 17.7L128 32H32C14.3 32 0 46.3 0 64S14.3 96 32 96H416c17.7 0 32-14.3 32-32s-14.3-32-32-32H320l-7.2-14.3C307.4 6.8 296.3 0 284.2 0H163.8c-12.1 0-23.2 6.8-28.6 17.7zM416 128H32L53.2 467c1.6 25.3 22.6 45 47.9 45H346.9c25.3 0 46.3-19.7 47.9-45L416 128z"/></svg>
+        <div className="mt-4 md:mt-6 flex flex-col md:flex-row justify-start items-start md:items-center md:space-x-6 xl:space-x-8 w-full">
+            <div className="pb-4 md:pb-8 w-full md:w-40">
+                <img className="w-full hidden md:block" src={props.image} alt={props.title} />
+                <img className="w-full md:hidden" src={props.image} alt={props.title} />
+            </div>
+            <div className="border-b border-gray-200 md:flex-row flex-col flex justify-between items-start w-full pb-8 space-y-4 md:space-y-0">
+                <div className="w-full flex flex-col justify-start items-start space-y-8">
+                    <h3 className="text-xl xl:text-2xl font-semibold leading-6 text-black">{props.title}</h3>
+                    {/* <div className="flex justify-start items-start flex-col space-y-2">
+                        <p className="text-sm leading-none text-gray-800"><span className="text-black underline">Style:</span> {props.style}</p>
+                        <p className="text-sm leading-none text-gray-800"><span className="text-black underline">Size:</span> {props.size}</p>
+                        <p className="text-sm leading-none text-gray-800"><span className="text-black underline">Color:</span> {props.color}</p>
+                    </div> */}
                 </div>
-                <div>
+                <div className="flex justify-between space-x-8 items-start w-full">
+                    <p className="text-base xl:text-lg leading-6">${props.price}{ /*<span className="text-red-300 line-through"> ${props.discountPrice}</span> */}</p>
+                    <div className="flex" style={{marginTop: -8}}>
+                            <button onClick={handleDecrement}><FontAwesomeIcon className="text-black" icon={faSubtract} /></button>
+                            <p className="text-sm xl:text-xl leading-6 text-black border-solid border-2 border- px-4 py-2">{props.quantity}</p>
+                            <button onClick={handleIncrement} ><FontAwesomeIcon className="text-black" icon={faPlus}/></button>
+                    </div>
+                    <p className="text-base xl:text-lg font-semibold leading-6 text-black ">${props.total}</p>
                 </div>
             </div>
-            <div>
-                <button className="amount-btn" onClick={() => handleIncreaseAmount(cartItem.id)}>
-                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20">
-                        <path d="M10.707 7.05L10 6.343 4.343 12l1.414 1.414L10 9.172l4.243 4.242L15.657 12z" />
-                    </svg>
-                </button>
+        </div>
+    );
+};
 
-                <p className="amount">{cartItem.amount}</p>
-
-                <button className="amount-btn" onClick={() => handleDecreaseAmount(cartItem.id)}>
-                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20">
-                        <path d="M9.293 12.95l.707.707L15.657 8l-1.414-1.414L10 10.828 5.757 6.586 4.343 8z" />
-                    </svg>
-                </button>
-            </div>
-        </article>
-    )
-}
-
-export default CartItem
+export default CartItem;

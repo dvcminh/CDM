@@ -9,7 +9,7 @@ function CarCard({data}) {
         usenavigate(`/vehicledetail/${data.id}`)
     }
     return ( 
-        <div className="card">
+        <div className="card xl:m-12 mx-0 mt-4" >
             <div className='flex'>
                 <p className='card__model'>{data.model}</p>
                 <p style={{marginTop: 10, marginRight: 20}}>

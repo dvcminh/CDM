@@ -6,6 +6,8 @@ import com.minhvu.productservice.dto.UpdateCarRequest;
 import com.minhvu.productservice.model.Car;
 import com.minhvu.productservice.repository.CarRepository;
 import lombok.AllArgsConstructor;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
@@ -20,10 +22,9 @@ import java.util.Map;
 @AllArgsConstructor
 public class CarServiceImpl implements CarService {
     private final CarRepository carRepository;
-    private final Cloudinary cloudinary;
 
-    public List<Car> getAllProducts() {
-        return carRepository.findAll();
+    public Page<Car> getAllProducts(Pageable pageable) {
+        return carRepository.findAll(pageable);
     }
 
     @Override
@@ -89,12 +90,8 @@ public class CarServiceImpl implements CarService {
         carRepository.deleteById(id);
     }
 
-    public String uploadProductImage(MultipartFile imageFile) throws IOException {
-        Map<String, String> params = new HashMap<>();
-        params.put("folder", "product_images");
-
-        Map<?, ?> uploadResult = cloudinary.uploader().upload(imageFile.getBytes(), params);
-
-        return uploadResult.get("secure_url").toString();
+    @Override
+    public List<Car> findCarsByNameContains(String name) {
+        return carRepository.findAllByModelContains(name);
     }
 }

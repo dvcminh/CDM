@@ -9,61 +9,93 @@ import {
 } from "@fortawesome/free-solid-svg-icons";
 import { cdmApi } from "../../../misc/cdmApi";
 import React, { useEffect, useState } from "react";
+import  Alert from "@mui/material/Alert";
+import { Snackbar } from "@mui/material";
+import OtherLoading from "../../../components/OtherLoading"
 function CustomerProfile() {
+  const [userData, setUserData] = useState(
+    JSON.parse(localStorage.getItem("currentUser")) || []
+  );
   const [user, setUser] = useState({});
-  const [id, setId] = useState();
-  const [avatar, setAvatar] = useState();
-  const [username, setUsername] = useState();
-  const [email, setEmail] = useState();
-  const [phoneNumber, setPhoneNumber] = useState();
-  const [address, setAddress] = useState();
+  const [id, setId] = useState(userData.id);
+  const [avatar, setAvatar] = useState(userData.avatar);
+  const [name, setName] = useState(userData.username);
+  const [email, setEmail] = useState(userData.email);
+  const [phone, setPhone] = useState(userData.phoneNumber);
+  const [address, setAddress] = useState(userData.address);
   const [password, setPassword] = useState();
   const [newPassword, setNewPassword] = useState();
   const [confirmNewPassword, setConfirmNewPassword] = useState();
+  const [snackbar, setSnackbar] = React.useState(null);
+  const handleCloseSnackbar = () => setSnackbar(null);
+  const [loading, setLoading] = useState(false);
+  const [type, setType] = useState("accessories");
 
   const getUserMe = async () => {
-    let response = await cdmApi.getUserMe();
-    setId(response.data.id);
-    setAddress(response.data.address);
-    setEmail(response.data.email);
-    setUsername(response.data.username);
-    setPhoneNumber(response.data.phoneNumber);
+    let response = await cdmApi.getUserMe(userData.username);
     setUser(response.data);
+    setAvatar(response.data.avatar);
+    setName(response.data.username);
+    setEmail(response.data.email);
+    setPhone(response.data.phoneNumber);
+    setAddress(response.data.address);
   };
 
   const handleSubmitUserData = async (event) => {
     event.preventDefault();
+    console.log(id);
     try {
-      const user = { id, avatar, username, email, phoneNumber, address };
+      setLoading(true);
+
+      const user = { id, avatar, name, email, phone, address };
       await cdmApi.updateUser(user);
-      alert("Update user successfully");
+      setSnackbar({ children: "Update personal information successfully!", severity: "success" });
+
     } catch (error) {
-      alert("Update user failed");
+      setSnackbar({ children: "Update personal information fail!", severity: "error" });
     }
   };
 
   const handleChangePassword = async (event) => {
     event.preventDefault();
+    if(password == null || newPassword == null || confirmNewPassword == null)
+    {
+      setSnackbar({ children: "These field cannot be null!", severity: "warning" });
+      return;
+    }
     if (password === newPassword) {
-      alert("New password and current password are the same");
+      setSnackbar({ children: "New password and current password are the same!", severity: "warning" });
       return;
     }
     if (newPassword !== confirmNewPassword) {
-      alert("New password and confirm new password are not the same");
+      setSnackbar({ children: "New password and confirm new password are not match!", severity: "warning" });
       return;
     }
     try {
+      setLoading(true);
       const user = { id, password, newPassword, confirmNewPassword };
       await cdmApi.changePassword(user);
-      alert("Change password successfully");
+      setSnackbar({ children: "Change password successfully!", severity: "success" });
+      //Document.getElementById("cr").value = "";
     } catch (error) {
-      alert("Change password failed");
+      setSnackbar({ children: "Change password failed!", severity: "error" });
+
     }
   };
 
   useEffect(() => {
     getUserMe();
   }, []);
+
+  useEffect(() => {
+    setId(userData.id);
+    setAvatar(user.avatar);
+    setName(user.username);
+    setEmail(user.email);
+    setPhone(user.phoneNumber);
+    setAddress(user.address);
+    console.log(user);
+  }, [user]);
 
   document.addEventListener("DOMContentLoaded", function () {
     const fileInput = document.getElementById("avatar-upload");
@@ -85,8 +117,40 @@ function CustomerProfile() {
     avar.style.opacity = 1;
   };
 
+  const handleFileUpload = async (event) => {
+    const file = event.target.files[0];
+    if (file && file.type.startsWith('image/')) {
+
+      const reader = new FileReader();
+      reader.onloadend = () => {
+
+        setAvatar(reader.result);
+      };
+      reader.readAsDataURL(file);
+    } else {
+      alert('Please select an image file.');
+    }
+  };
+
+  const triggerFileInput = () => {
+    const fileInput = document.getElementById("avatar-upload");
+    fileInput.click();
+  };
+
+  useEffect(() => {
+    if(!loading)
+        return;
+    const timeoutId = setTimeout(() => {
+        
+       setLoading(false);
+    }, 2000);
+    return () => clearTimeout(timeoutId);
+}, [loading]);
+
   return (
     <>
+      {loading && <OtherLoading setOpenModal={setLoading}/>}
+
       <div className="flex">
         <SideBar />
         <div style={{ marginLeft: 40, width: "100vw" }}>
@@ -95,7 +159,7 @@ function CustomerProfile() {
             <div className="flex-2">
               <label for="avatar-upload" className="avatar-container mt-2">
                 <img
-                  src="https://i.pinimg.com/originals/c0/50/07/c050078eb83a332666a3847ff748023d.jpg"
+                  src={avatar}
                   alt="avatar"
                   className="avatar-input"
                   id="avartar"
@@ -112,22 +176,18 @@ function CustomerProfile() {
                 type="file"
                 id="avatar-upload"
                 style={{ display: "none" }}
+                onChange={handleFileUpload}
               />
             </div>
             <div className="vertical-line"></div>
             <div style={{ flex: 4 }}>
-              <p className="font-medium underline mt-4">Mr. {username}</p>
+              <p className="font-medium underline mt-4">Mr. {email}</p>
               <p>
                 {" "}
-                {address} (Customer's address)
-                <FontAwesomeIcon icon={faPenToSquare} className="edit-button" />
+                {address} 
               </p>
 
-              <p>
-                I am Monkey D Luffy - who will become King Of Pirate in the
-                future (Customer's bio)
-                <FontAwesomeIcon icon={faPenToSquare} className="edit-button" />
-              </p>
+              
             </div>
             <div className="flex-5 flex justify-center items-center"></div>
           </div>
@@ -140,15 +200,15 @@ function CustomerProfile() {
           <form className="flex flex-col" onSubmit={handleSubmitUserData}>
             <div class="form-group">
               <label for="user" class="article">
-                User Name
+                Full Name
               </label>
               <input
                 type="user"
                 id="last"
                 class="input-article"
                 style={{ width: "90%" }}
-                value={username}
-                onChange={(e) => setUsername(e.target.value)}
+                value={email}
+                onChange={(e) => setEmail(e.target.value)}
               />
             </div>
 
@@ -158,11 +218,13 @@ function CustomerProfile() {
                   Email Address
                 </label>
                 <input
+                  readOnly
                   type="text"
                   id="email"
                   class="input-article"
-                  value={email}
-                  onChange={(e) => setEmail(e.target.value)}
+                  value={name}
+                  onChange={(e) => setName(e.target.value)}
+                  title="This field is read-only"
                 />
               </div>
               <div class="form-group">
@@ -173,8 +235,8 @@ function CustomerProfile() {
                   type="text"
                   id="phone"
                   class="input-article"
-                  value={phoneNumber}
-                  onChange={(e) => setPhoneNumber(e.target.value)}
+                  value={phone}
+                  onChange={(e) => setPhone(e.target.value)}
                 />
               </div>
             </div>
@@ -191,15 +253,11 @@ function CustomerProfile() {
                 onChange={(e) => setAddress(e.target.value)}
               />
             </div>
-            <div style={{width: "90%"}}>
-            <button
-              type="submit"
-              className="button button--light"
-            >
-              Save Change
-            </button>
+            <div style={{ width: "90%" }}>
+              <button type="submit" className="button button--light">
+                Save Change
+              </button>
             </div>
-            
           </form>
 
           {/* <div className="flex">
@@ -243,7 +301,10 @@ function CustomerProfile() {
                 <label for="cr" class="article">
                   Current Password
                 </label>
-                <input type="password" id="cr" class="input-article" 
+                <input
+                  type="password"
+                  id="cr"
+                  class="input-article"
                   onChange={(e) => setPassword(e.target.value)}
                 />
               </div>
@@ -251,7 +312,10 @@ function CustomerProfile() {
                 <label for="ne" class="article">
                   New Password
                 </label>
-                <input type="password" id="ne" class="input-article" 
+                <input
+                  type="password"
+                  id="ne"
+                  class="input-article"
                   onChange={(e) => setNewPassword(e.target.value)}
                 />
               </div>
@@ -278,6 +342,11 @@ function CustomerProfile() {
           </form>
         </div>
       </div>
+      {!!snackbar && (
+              <Snackbar open onClose={handleCloseSnackbar} autoHideDuration={6000} anchorOrigin={{ vertical: "bottom", horizontal: "center" }}>
+                <Alert {...snackbar} onClose={handleCloseSnackbar} />
+              </Snackbar>
+            )}
     </>
   );
 }

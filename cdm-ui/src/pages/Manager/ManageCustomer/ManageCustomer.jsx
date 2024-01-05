@@ -1,9 +1,10 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import ManagerSideBar from '../../../layouts/components/ManagerSideBar';
 import Box from '@mui/material/Box';
 import { DataGrid, GridToolbar, GridRowModes, GridToolbarContainer, GridActionsCellItem, GridRowEditStopReasons } from '@mui/x-data-grid';
 import { mockDataTeam } from "./mockData";
-
+import { avatars } from '../ManageStaff/avatar';
+import CustomerModalForm from './CustomerForm';
 
 import Button from '@mui/material/Button';
 import AddIcon from '@mui/icons-material/Add';
@@ -18,148 +19,175 @@ import DialogContent from '@mui/material/DialogContent';
 import DialogActions from '@mui/material/DialogActions';
 import Alert from '@mui/material/Alert';
 
-
-//Ask before save
-const useFakeMutation = () => {
-  return React.useCallback(
-    (user) =>
-      new Promise((resolve, reject) => {
-        setTimeout(() => {
-          if (user.name?.trim() === '') {
-            reject();
-          } else {
-            resolve(user);
-          }
-        }, 200);
-      }),
-    [],
-  );
-};
-
-function computeMutation(newRow, oldRow) {
-  if (newRow.name !== oldRow.name) {
-    return `Name from '${oldRow.name}' to '${newRow.name}'`;
-  }
-  if (newRow.age !== oldRow.age) {
-    return `Age from '${oldRow.age || ''}' to '${newRow.age || ''}'`;
-  }
-  return null;
-}
-
-//
-function EditToolbar(props) {
-  const { setRows, setRowModesModel } = props;
-
-  const handleClick = () => {
-    const id = 15;
-    setRows((oldRows) => [...oldRows, { id, name: '', age: '', isNew: true }]);
-    setRowModesModel((oldModel) => ({
-      ...oldModel,
-      [id]: { mode: GridRowModes.Edit, fieldToFocus: 'name' },
-    }));
-  };
-
-  return (
-    <GridToolbarContainer>
-      <Button color="primary" startIcon={<AddIcon />} onClick={handleClick}>
-        Add record
-      </Button>
-    </GridToolbarContainer>
-  );
-}
-
-
-
-
-
-
-
+import { cdmApi } from '../../../misc/cdmApi';
 
 //Main Page
 const ManageCustomerPage = () => {
 
   const [rows, setRows] = React.useState(mockDataTeam);
-  const [rowModesModel, setRowModesModel] = React.useState({});
+  const [formState, setFormState] = React.useState(null);
 
+
+  useEffect(() => {
+    const fetchData = async () => {
+      try {
+        // const response = await axios.get('http://localhost:8083/api/v1/products/getAllCars');
+        const response = await cdmApi.getAllUsers();
+        console.log(response.data.content);
+        const filtedRoleData = response.data.content.filter((row) => row.role === "CUSTOMER");
+        filtedRoleData.forEach((row, index) => {
+          if(!row.avatar)
+            row.avatar = avatars[index % avatars.length];
+      });
+        const addedIndexData = filtedRoleData.map((row, index) => ({ ...row, index: index + 1 }));
+        setRows(addedIndexData); 
+      } catch (error) {
+        console.error('Error fetching data:', error);
+      }
+    };
+    fetchData();
+  
+  }, []);
+  
+
+
+  //Modal
+  const [modalOpen, setModalOpen] = React.useState(false);
+  
+  //Popup
+  const [popupOpen, setPopupOpen] = React.useState(false);
+  const [popupMessage, setPopupMessage] = React.useState(null);
+  
+  //
+  const [rowToEdit, setRowToEdit] = React.useState(null);
+  const [deletingId, setDeletingId] = React.useState(null);
 
   //Ask before save
-  const mutateRow = useFakeMutation();
-  const noButtonRef = React.useRef(null);
-  const [promiseArguments, setPromiseArguments] = React.useState(null);
 
   const [snackbar, setSnackbar] = React.useState(null);
 
   const handleCloseSnackbar = () => setSnackbar(null);
 
-  const processRowUpdate = React.useCallback(
-    (newRow, oldRow) =>
-      new Promise((resolve, reject) => {
-        const mutation = computeMutation(newRow, oldRow);
-        if (mutation) {
-          // Save the arguments to resolve or reject the promise later
-          setPromiseArguments({ resolve, reject, newRow, oldRow });
-        } else {
-          resolve(oldRow); // Nothing was changed
-        }
-      }),
-    [],
-  );
-
-
-  const handleNo = () => {
-    const { oldRow, resolve } = promiseArguments;
-    resolve(oldRow); // Resolve with the old row to not update the internal state
-    setPromiseArguments(null);
-  };
-
-  const handleYes = async () => {
-    const { newRow, oldRow, reject, resolve } = promiseArguments;
-
-    try {
-      const updatedRow = { ...newRow, isNew: false };
-      setRows(rows.map((row) => (row.id === newRow.id ? updatedRow : row)));
-      // Make the HTTP request to save in the backend
-      const response = await mutateRow(newRow);
-      setSnackbar({ children: 'User successfully saved', severity: 'success' });
-      resolve(response);
-      setPromiseArguments(null);
-    } catch (error) {
-      setSnackbar({ children: "Name can't be empty", severity: 'error' });
-      reject(oldRow);
-      setPromiseArguments(null);
-    }
-  };
-
   const handleEntered = () => {
-    // The `autoFocus` is not used because, if used, the same Enter that saves
-    // the cell triggers "No". Instead, we manually focus the "No" button once
-    // the dialog is fully open.
     // noButtonRef.current?.focus();
   };
 
+  const handleSubmit = (newFormState)  => {
+
+
+    //delete newFormState.index;
+
+    setFormState(newFormState);
+    if(rowToEdit === null) 
+      setPopupMessage(`Do you really want to create a new customer?`);
+    else
+      setPopupMessage(`Do you really want to update customer's information?`);
+    //setPopupOpen(true);
+    setModalOpen(false);
+  };
+
+  const handleNo = () => {
+    setDeletingId(null);
+    setPopupOpen(false);
+  };
+
+  const handleYes = async () => {
+    
+    // if (deletingId !== null) 
+    //   handleDeleteApi();
+    // else 
+    // {
+    //   const formData = new FormData();
+    //   formData.append("file", formState.imgSrc);
+    //   formData.append("upload_preset", "nhatkhang");
+
+    //   const resUpload = await axios.post("https://api.cloudinary.com/v1_1/dbixymfbp/image/upload", formData);
+    //   //setFormState({...formState, imgSrc: response.data.secure_url});
+
+    //   setFormState({...formState, imgSrc: resUpload.data.secure_url});
+    //   const subFormState = {...formState, imgSrc: resUpload.data.secure_url};
+      
+    //   if (rowToEdit === null)  
+    //     handleCreateApi(subFormState);
+    //   else 
+    //     handleUpdateApi(subFormState);
+        
+      
+    // }
+    setPopupOpen(false);
+    setModalOpen(false);
+  };
+
+  const handleCreateApi = async (subFormState) => {
+    try {
+      console.log("Create");
+      // const response = await cdmApi.createCar(subFormState);
+
+      // setRows([...rows, response.data]);
+      // setSnackbar({ children: "Updated successfully", severity: "success" });
+    } catch (error) {
+      console.error("Error creating new product:", error);
+      setSnackbar({children: "Couldn't create a new product", severity: "error"});
+    }
+  }
+
+  const handleUpdateApi = async (subFormState) => {
+    try{
+      console.log("Update");
+
+      // const response = await cdmApi.updateCar(subFormState);
+      // setRows(rows.map((row) => (row === rowToEdit ? response.data : row)));
+      // setSnackbar({ children: "Updated successfully", severity: "success" });
+    }
+    catch(error){
+      console.error("Error updating product:", error);
+      setSnackbar({ children: "Couldn't update product", severity: "error" });
+    }
+  }
+
+  const handleDeleteApi = async () => {
+    try {
+      console.log("Delete");
+
+      // await cdmApi.deleteCar(deletingId);
+      // setRows(rows.filter((row) => row.id !== deletingId));
+      // setSnackbar({ children: "Deleted successfully", severity: "success" });
+      // setDeletingId(null);
+    } catch (error) {
+      console.error("Error deleting product:", error);
+    }
+  }
+
+
   const renderConfirmDialog = () => {
-    if (!promiseArguments) {
+    if (!popupOpen) {
       return null;
     }
-
-    const { newRow, oldRow } = promiseArguments;
-    const mutation = computeMutation(newRow, oldRow);
 
     return (
       <Dialog
         maxWidth="xs"
         TransitionProps={{ onEntered: handleEntered }}
-        open={!!promiseArguments}
+        open={popupOpen} 
       >
-        <DialogTitle>Are you sure?</DialogTitle>
+        <DialogTitle style={{display: "flex",}}>
+          <WarningIcon className='text-yellow-500 mx-auto' style={{fontSize : "50px"}}/>
+        </DialogTitle>
+
         <DialogContent dividers>
-          {`Pressing 'Yes' will change ${mutation}.`}
+          {popupMessage}
+          
         </DialogContent>
+
         <DialogActions>
-          <Button ref={noButtonRef} onClick={handleNo}>
-            No
-          </Button>
-          <Button onClick={handleYes}>Yes</Button>
+          <div className='flex gap-6'>
+            <button className=' bg-white border-2 border-gray-400 hover:bg-[#a1a3a2] hover:text-white rounded-md text-black font-medium w-[50px]  my-0 py-[6px]'  onClick={handleNo}>
+              No
+            </button>
+            <button className='text-white bg-[#6A64F1] hover:bg-[#a5a2d4] rounded-md font-medium w-[50px]  my-0 py-[6px]' onClick={handleYes}>
+              Yes
+            </button>
+          </div>
         </DialogActions>
       </Dialog>
     );
@@ -167,75 +195,92 @@ const ManageCustomerPage = () => {
 
 
   //Function button
-  const handleRowEditStop = (params, event) => {
-    if (params.reason === GridRowEditStopReasons.rowFocusOut) {
-      event.defaultMuiPrevented = true;
-    }
-  };
-
   const handleEditClick = (id) => () => {
-    setRowModesModel({ ...rowModesModel, [id]: { mode: GridRowModes.Edit } });
-  };
-
-  const handleSaveClick = (id) => () => {
-    setRowModesModel({ ...rowModesModel, [id]: { mode: GridRowModes.View } });
-  };
-
-  const handleDeleteClick = (id) => () => {
-    setRows(rows.filter((row) => row.id !== id));
-  };
-
-  const handleCancelClick = (id) => () => {
-    setRowModesModel({
-      ...rowModesModel,
-      [id]: { mode: GridRowModes.View, ignoreModifications: true },
-    });
-
-    const editedRow = rows.find((row) => row.id === id);
-    if (editedRow.isNew) {
-      setRows(rows.filter((row) => row.id !== id));
-    }
-  };
-  
-
-  const handleRowModesModelChange = (newRowModesModel) => {
-    setRowModesModel(newRowModesModel);
+    setRowToEdit(rows.find((row) => row.id === id));
+    setModalOpen(true);
   };
 
 
 
+  const handleDeleteClick = (id) => async () => {
+    console.log(id);  
+    setDeletingId(id);
+    setPopupMessage(`Do you really want to delete this car?`);
+    setPopupOpen(true);
+  };
 
 
 
   //customizer columns
   const columns = [
-    { field: "id", headerName: "ID" },
+    //{ field: "id", headerName: "ID" },
+    {
+      field: "index",
+      headerName: "ID",
+      width: 50,
+      renderCell: (params) => {
+        return <div>{params.row.index}</div>;
+      },
+    },
+    {
+      field: "avatar",
+      headerName: "Avatar",
+      width: 150,
+      cellClassName: "image-column--cell",
+      renderCell: (params) => {
+        return (
+          <div >
+            {(params.row.avatar && params.row.avatar.length > 10 ) ? 
+              (
+                <img
+                  className="rounded-full w-[50px]"
+                  src={params.row.avatar}
+                  alt="avatar"
+                />
+              ) :
+              (
+                <img
+                  className="rounded-full w-[50px]"
+                  src="https://t4.ftcdn.net/jpg/04/08/24/43/360_F_408244382_Ex6k7k8XYzTbiXLNJgIL8gssebpLLBZQ.jpg"
+                  alt="avatar"
+                />
+              )
+            }
+          </div>
+        );
+      },
+    },
     {
       field: "name",
       headerName: "Name",
-      width: 250,
+      width: 180,
       cellClassName: "name-column--cell",
       editable: true,
-      
     },
+    // {
+    //   field: "age",
+    //   headerName: "Age",
+    //   type: "number",
+    //   width: 100,
+    //   headerAlign: "left",
+    //   align: "left",
+    //   editable: true,
+    // },
     {
-      field: "age",
-      headerName: "Age",
-      type: "number",
-      width: 100,
-      headerAlign: "left",
-      align: "left",
-      editable: true,
-    },
-    {
-      field: "phone",
+      field: "phone_number",
       headerName: "Phone Number",
-      width: 150,
+      width: 180,
       editable: true,
     },
     {
       field: "email",
       headerName: "Email",
+      width: 220,
+      editable: true,
+    },
+    {
+      field: "address",
+      headerName: "Address",
       width: 250,
       editable: true,
     },
@@ -246,33 +291,11 @@ const ManageCustomerPage = () => {
       width: 100,
       cellClassName: 'actions',
       getActions: ({ id }) => {
-        const isInEditMode = rowModesModel[id]?.mode === GridRowModes.Edit;
-  
-        if (isInEditMode) {
-          return [
-            <GridActionsCellItem
-              icon={<SaveIcon className='bg-green-600 text-white rounded-md box-content p-[4px]
-                                        hover:bg-green-400'/>}
-              label="Save"
-              sx={{
-                color: 'primary.main',
-              }}
-              onClick={handleSaveClick(id)}
-            />,
-            <GridActionsCellItem
-              icon={<CancelIcon className='border-2 p-[3px] rounded-md box-content hover:bg-gray-400 hover:text-white'/>}
-              label="Cancel"
-              className="textPrimary"
-              onClick={handleCancelClick(id)}
-              color="inherit"
-            />,
-          ];
-        }
   
         return [
           <GridActionsCellItem
-            icon={<EditIcon className='bg-purple-600 text-white rounded-md box-content p-[4px]
-                                       hover:bg-purple-400'/>}
+          icon={<EditIcon className='bg-[#1F2937] text-white rounded-md box-content p-[4px]
+                                       hover:bg-[#455265]'/>}
             label="Edit"
             className="textPrimary"
             onClick={handleEditClick(id)}
@@ -296,28 +319,38 @@ const ManageCustomerPage = () => {
   return (
     <div className="flex">
       <ManagerSideBar/>
-      <div className='ml-8 flex-1 flex flex-col'>
+      { modalOpen && ( 
+      <CustomerModalForm 
+        closeModel={() => {setModalOpen(false); setRowToEdit(null);}}
+        defaultValues={rowToEdit}        
+        onSubmit={handleSubmit}
+      />
+      )}
+
+      <div className='ml-8 flex-1 flex flex-col overflow-x-hidden'>
         <div className="pt-8 w-full">
           <p className="text-4xl  font-bold">Customer</p>
         </div>
-        <button className='self-end mr-[50px] mb-0 bg-[#00df9a] hover:bg-[#5effcc] rounded-md text-black font-medium w-[150px] max-sm:ml-0 my-2 py-2' onClick={() => {alert("Created");}}>CREATE NEW</button>
+        <button className='self-end mr-[50px] mb-0 bg-[#000] hover:bg-[#6d7986] rounded-md text-white font-bold w-[150px] max-sm:ml-0 my-2 py-2 max-lg:self-start max-lg:mt-[50px]' 
+                onClick={() => {setModalOpen(true);}}>CREATE NEW</button>
         
         {/* Data Grid */}
         <div className="mt-[15px]">
           {renderConfirmDialog()}
-          <Box height="530px" width="100%"  sx={{
+          <Box height="544px" width="100%"  sx={{
               "& .MuiDataGrid-root" : {
                 border : "none",
               },
               "& .MuiDataGrid-cell" : {
                 borderBottom : "none",
+                fontSize: '12px',
                 
               },
               "& .name-column--cell" : {
                 // color : '#15803D',
               },
               "& .MuiDataGrid-columnHeaders": {
-                backgroundColor: '#85a3d6',
+                backgroundColor: '#607286',
                 color: '#fff',
                 borderBottom: "none",
                 fontSize: '16px',
@@ -354,11 +387,7 @@ const ManageCustomerPage = () => {
                 },
               }}
               disableDensitySelector
-              processRowUpdate={processRowUpdate}
-              editMode="row"
-              rowModesModel={rowModesModel}
-              onRowModesModelChange={handleRowModesModelChange}
-              onRowEditStop={handleRowEditStop}
+              isCellEditable={() => false}
               
             />
             {!!snackbar && (

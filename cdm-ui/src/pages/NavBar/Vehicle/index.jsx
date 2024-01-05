@@ -2,19 +2,22 @@ import React, { useEffect, useState } from "react";
 import CarCard from "../../../components/CarCard";
 import '../../../components/CarCard/CarCard.css'
 import SortCarSideBar from "../../../components/SortCarSideBar";
-
+import { cdmApi } from "../../../misc/cdmApi";
 function Vehicle () {
 
 
-    const url = "http://localhost:8083/api/v1/products/getAllCars";
+    const url = "http://localhost:9296/api/v1/products/getAllCars";
     const [data, setData] = useState([]);
 
-    const fetchInfo = () => {
-        return fetch(url)
-        .then((res) => res.json())
-        .then((d) => setData(d))
-    }
-
+    const fetchInfo = async () => {
+        try {
+          const res = await cdmApi.getAllCars();
+          setData(res.data.content);
+        } catch (error) {
+          console.error("Error fetching data:", error);
+        }
+      }
+    
 
     useEffect(() => {
         fetchInfo();
@@ -23,9 +26,9 @@ function Vehicle () {
     return (  
         <div className="container-flex">
             <div className="vehicle-models-sort">
-                <SortCarSideBar />
+                <SortCarSideBar/>
             </div>
-            <div className="vehicle-models-page">
+            <div className="bg-gray-100 flex flex-wrap">
                     {data.map((dataObj, index) => {
                         return (
                             <CarCard data={{

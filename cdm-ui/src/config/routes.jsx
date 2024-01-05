@@ -1,10 +1,14 @@
 const routes = {
     start: '/',
     managerhome: '/managerhome',
+    managerprofile: '/managerhome/managerprofile',
     managecustomer: '/managerhome/managecustomer',
     managestaff: '/managerhome/managestaff',
     managervehicleS: '/managervehicle/modelS',
+    managereport: '/managerhome/managereport',
+    managerchat: '/managerhome/managerchat',
     managecar: '/managerhome/managecar',
+    manageshop: '/managerhome/manageshop',
     customerhome: '/customerhome',
     customerprofile: '/customerhome/profile',
     customerpayment: '/customerhome/payment',
@@ -17,9 +21,19 @@ const routes = {
     vehicle: '/vehicle',
     login: '/login',
     register: '/register',
+    forgotpassword: 'login/forgotpassword',
     staffhome: '/staffhome',
+    staffreport: '/staffhome/report',
+    stafforder: '/staffhome/order',
+    staffcustomer: '/staffhome/customer',
+    staffcar: '/staffhome/car',
+    staffshop: '/staffhome/shop',
+    staffprofile: '/staffhome/profile',
     vehicledetail: '/vehicledetail/:id',
-
+    productdetail: '/shop/:id',
+    bookappointment: '/customerhome/bookappointment',
 };
+    
+
 
 export default routes;

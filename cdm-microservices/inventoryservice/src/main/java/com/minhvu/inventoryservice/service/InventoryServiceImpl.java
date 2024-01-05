@@ -7,6 +7,7 @@ import com.minhvu.inventoryservice.exception.ProductServiceCustomException;
 import com.minhvu.inventoryservice.external.client.ProductService;
 import com.minhvu.inventoryservice.model.Inventory;
 import com.minhvu.inventoryservice.repository.InventoryRepository;
+import lombok.NonNull;
 import lombok.RequiredArgsConstructor;
 import lombok.SneakyThrows;
 import lombok.extern.slf4j.Slf4j;
@@ -51,10 +52,29 @@ public class InventoryServiceImpl implements InventoryService {
 //    }
 
     @Override
-    public Page<InventoryResponse> findAll(int page, int pageSize) {
-        Pageable pageable = PageRequest.of(page, pageSize);
+    public Page<InventoryResponse> findAll(Pageable pageable) {
         Page<Inventory> inventories = inventoryRepository.findAll(pageable);
+        List<ProductResponse> productResponseList = getProductResponses(inventories);
+        List<InventoryResponse> inventoryResponses = inventories.stream()
+                .map(inventory -> {
+                    List<ProductResponse> matchedProducts = productResponseList.stream()
+                            .filter(productResponse -> productResponse.getId().equals(inventory.getProductId()))
+                            .collect(Collectors.toList());
+                    return InventoryResponse.builder()
+                            .products(matchedProducts)
+                            .build();
+                })
+                .filter(inventoryResponse -> !inventoryResponse.getProducts().isEmpty())
+                .collect(Collectors.toList());
+        return new PageImpl<>(inventoryResponses, pageable, inventoryResponses.size());
+    }
+
+    @NonNull
+    private List<ProductResponse> getProductResponses(Page<Inventory> inventories) {
         List<ProductResponse> productResponseList = productService.getProducts();
+        if (productResponseList.isEmpty()) {
+            throw new ProductServiceCustomException("Product not found", "PRODUCT_NOT_FOUND");
+        }
         productResponseList.forEach(productResponse -> {
             inventories.forEach(inventory -> {
                 if (productResponse.getId().equals(inventory.getProductId())) {
@@ -62,18 +82,12 @@ public class InventoryServiceImpl implements InventoryService {
                 }
             });
         });
-        List<InventoryResponse> inventoryResponses = inventories.stream()
-                .map(inventory -> InventoryResponse.builder()
-                        .products(productResponseList)
-                        .build())
-                .collect(Collectors.toList());
-        return new PageImpl<>(inventoryResponses, pageable, inventoryResponses.size());
+        return productResponseList;
     }
 
     @Override
     public String create(InventoryRequest inventory) {
         Inventory newInventory = Inventory.builder()
-                .productId(inventory.getProductId())
                 .quantity(inventory.getQuantity())
                 .build();
         inventoryRepository.save(newInventory);
@@ -93,7 +107,7 @@ public class InventoryServiceImpl implements InventoryService {
 
     @Override
     public Inventory findById(String id) {
-        return inventoryRepository.findById(id).orElseThrow();
+        return inventoryRepository.findByProductId(id).orElseThrow();
     }
 
     @Override

@@ -8,8 +8,11 @@ import com.minhvu.reportservice.model.Type;
 import com.minhvu.reportservice.repository.ReportRepository;
 import lombok.AllArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
+import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Objects;
 
@@ -28,13 +31,13 @@ public class ReportServiceImpl implements ReportService {
                 .image(createReportRequest.getImage())
                 .status(Status.PENDING)
                 .type(Type.valueOf(createReportRequest.getType()))
+                .createdDate(LocalDateTime.now().toString())
                 .build();
         return reportRepository.save(report);
     }
 
-    @Override
-    public List<Report> getAllReports() {
-        return reportRepository.findAll();
+    public Page<Report> getAllReports(Pageable pageable) {
+        return reportRepository.findAll(pageable);
     }
 
     @Override

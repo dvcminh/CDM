@@ -6,7 +6,7 @@ import org.hibernate.annotations.GenericGenerator;
 import org.springframework.data.annotation.CreatedDate;
 import org.springframework.data.mongodb.core.mapping.Document;
 
-@Document(value = "cars")
+@Document(collection = "reports")
 @AllArgsConstructor
 @NoArgsConstructor
 @Builder

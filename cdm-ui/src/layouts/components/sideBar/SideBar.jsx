@@ -48,13 +48,18 @@ function SideBar() {
   ];
 
   const location = useLocation();
-
+  const handleClick = (title) => {
+    if (title === 'Sign Out') {
+      localStorage.removeItem("currentUser");
+      localStorage.removeItem("accessToken");
+    }
+  };
   return (
    <div style={{height: '90vh'}} className='hidden lg:block'>
      <div className='flex flex-col items-center h-4/5 mt-32' >
       {sidebarItem.map((item, index) => (
         <div key={index}>
-          <Link to={item.to} className='no-decoration'>
+          <Link to={item.to} className='no-decoration' onClick={() => handleClick(item.title)}>
             <div className={`sidebar-item ${location.pathname === item.to ? 'active' : ''}`}>
               {item.icon}
               <div className='flex justify-center items-center'><p className='sidebar__title'>{item.title}</p></div>

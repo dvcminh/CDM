@@ -1,27 +1,32 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { FaArrowLeft, FaArrowRight } from 'react-icons/fa'; // Import arrow icons from react-icons
 import SimpleAreaChart from './index';
 
-const CardWithAreaChart = () => {
+const CardWithAreaChart = ({monthlyRevenue}) => {
   const [chartDataIndex, setChartDataIndex] = useState(0);
-  const chartData = [
-    // Define your different sets of data for the pie chart
-    // Example data sets
-    [
-      { name: 'Category A', value: 400 },
-      { name: 'Category B', value: 300 },
-      { name: 'Category C', value: 300 },
-      { name: 'Category D', value: 200 },
-    ],
-    // Another set of data
-    [
-      { name: 'Category E', value: 200 },
-      { name: 'Category F', value: 400 },
-      { name: 'Category G', value: 100 },
-      { name: 'Category H', value: 300 },
-    ],
-    // Add more data sets if needed
-  ];
+  const chartData = Object.entries(monthlyRevenue).map(([name, value]) => ({ name, value }));
+  useEffect(() => {
+    console.log("chart data");
+    console.log(chartData);
+  }, [chartData]);
+  // const chartData = [
+  //   // Define your different sets of data for the pie chart
+  //   // Example data sets
+  //   [
+  //     { name: 'Category A', value: 400 },
+  //     { name: 'Category B', value: 300 },
+  //     { name: 'Category C', value: 300 },
+  //     { name: 'Category D', value: 200 },
+  //   ],
+  //   // Another set of data
+  //   [
+  //     { name: 'Category E', value: 200 },
+  //     { name: 'Category F', value: 400 },
+  //     { name: 'Category G', value: 100 },
+  //     { name: 'Category H', value: 300 },
+  //   ],
+  //   // Add more data sets if needed
+  // ];
 
   const handlePreviousClick = () => {
     setChartDataIndex((prevIndex) => (prevIndex === 0 ? chartData.length - 1 : prevIndex - 1));
@@ -35,7 +40,7 @@ const CardWithAreaChart = () => {
     <div className="bg-white rounded-lg shadow-md p-4 w-96">
       <div className="relative h-64">
         <div className="absolute inset-0 flex items-center justify-center">
-          <SimpleAreaChart data={chartData[chartDataIndex]} />
+          <SimpleAreaChart data={monthlyRevenue} />
         </div>
       </div>
 

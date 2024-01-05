@@ -24,6 +24,10 @@
         <module>energyservice</module>
         <module>inventoryservice</module>
         <module>reportservice</module>
+        <module>notificationservice</module>
+        <module>configserver</module>
+        <module>chatservice</module>
+        <module>paymentservice</module>
     </modules>
 
     <properties>

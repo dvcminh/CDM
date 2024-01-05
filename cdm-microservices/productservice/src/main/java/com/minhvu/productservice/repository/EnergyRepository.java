@@ -8,4 +8,6 @@ import java.util.List;
 
 public interface EnergyRepository extends MongoRepository<Energy, String> {
     List<Energy> findDistinctByNameAllIgnoreCaseOrderByPriceAsc(String name, Sort sort);
+
+    List<Energy> findByNameContains(String name);
 }

@@ -24,13 +24,14 @@
 
 .dashboard__item-button{
     margin-left: 15px;
+    font-size: 14px;
     text-decoration: underline;
     background-color: white;
     color: rgb(59, 56, 56);
     font-weight: 400;
     border: transparent;
     float: left;
-    width: 100px;
+    width: 150px;
     padding: 5px;
     cursor: pointer;
     text-align: left;
@@ -39,7 +40,7 @@
 
 .dashboard__item-button:hover{
     color: black;
-        font-weight: 700;
+        font-weight: 500;
         text-decoration-thickness: 2px;
 }
 

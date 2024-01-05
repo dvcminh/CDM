@@ -9,6 +9,8 @@ import com.minhvu.inventoryservice.service.InventoryService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Sort;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -27,9 +29,12 @@ public class InventoryController {
     @GetMapping("getInventory")
     public Page<InventoryResponse> findAll(
             @RequestParam(defaultValue = "0") int page,
-            @RequestParam(defaultValue = "10") int pageSize) {
+            @RequestParam(defaultValue = "10") int pageSize,
+            @RequestParam(defaultValue = "productId") String sortBy,
+            @RequestParam(defaultValue = "ASC") Sort.Direction direction
+    ) {
         log.info("Find all inventory");
-        return inventoryService.findAll(page, pageSize);
+        return inventoryService.findAll(PageRequest.of(page, pageSize, Sort.by(direction, sortBy)));
     }
 
     @GetMapping("test")
@@ -60,7 +65,6 @@ public class InventoryController {
     public Inventory update(@PathVariable String id, @RequestBody InventoryRequest inventoryRequest) {
         Inventory inventory = inventoryService.findById(id);
         inventory.setQuantity(inventoryRequest.getQuantity());
-        inventory.setProductId(inventoryRequest.getProductId());
         log.info("Update inventory");
         return inventoryService.update(inventory);
     }
