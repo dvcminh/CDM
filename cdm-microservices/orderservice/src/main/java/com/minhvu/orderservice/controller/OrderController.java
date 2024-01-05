@@ -70,7 +70,7 @@ public class OrderController {
     }
 
     @GetMapping("/getOrderByUserId")
-    public ResponseEntity<Iterable<Order>> getOrdersByUserId(@RequestParam("email") String email) {
+    public ResponseEntity<List<Order>> getOrdersByUserId(@RequestParam("email") String email) {
         return ResponseEntity.ok(orderService.findByEmail(email));
     }
 
