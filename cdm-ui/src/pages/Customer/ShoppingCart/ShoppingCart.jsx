@@ -10,6 +10,7 @@ import { Snackbar } from "@mui/material";
 import Alert from "@mui/material/Alert";
 import { useNavigate } from "react-router-dom";
 import axios from "axios";
+import emptycart from "../../../assets/images/cartEmpty.gif";
 
 //new
 const ShoppingCart = () => {
@@ -34,6 +35,11 @@ const ShoppingCart = () => {
     } catch (error) {
       console.error("Error fetching data:", error);
     }
+  };
+
+  const handleDeleteCart = () => {
+    localStorage.setItem("cart", "[]");
+    setCarts([]);
   };
 
   useEffect(() => {
@@ -146,6 +152,38 @@ const ShoppingCart = () => {
   const [snackbar, setSnackbar] = React.useState(null);
   const handleCloseSnackbar = () => setSnackbar(null);
 
+  if (carts.length === 0) {
+    return (
+      <div className=" h-[55vh] flex justify-center items-center text-4xl flex flex-col">
+        <div>
+          <h3 className="text-white">Cart is Empty</h3>
+        </div>
+
+        <div>
+          <img className=" h-[25vh]" src={emptycart} alt="emptycart" />
+        </div>
+        <div className="text-xl">
+          Your cart lives to serve. Give it purpose — fill it with whell,
+          key chain, or other products that you love. Continue shopping on the{" "}
+          <a
+            onClick={() => navigate("/shop")}
+            className="text-blue-500 hover:text-blue-700"
+          >
+            shop
+          </a>
+        </div>
+        <div className="mt-6">
+          <button
+            onClick={() => navigate("/shop")}
+            className="mt-10 md:mt-0 bg-black text-white py-5 hover:bg-gray-200 hover:text-black focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-gray-800 border border-gray-800 font-medium w-96 2xl:w-full text-base font-medium leading-4 text-gray-800"
+          >
+            Continue Shopping
+          </button>
+        </div>
+      </div>
+    );
+  }
+
   return (
     <div className="py-8 px-4 md:px-6 2xl:px-20 2xl:container 2xl:mx-auto">
       <div className="mt-10 flex flex-col xl:flex-row jusitfy-center items-stretch w-full xl:space-x-8 space-y-4 md:space-y-6 xl:space-y-0">
@@ -154,6 +192,10 @@ const ShoppingCart = () => {
             <p className="text-lg md:text-xl  font-semibold leading-6 xl:leading-5 text-black">
               Customer’s Cart
             </p>
+            <div className="flex justify-between items-center w-full mt-10">
+              <button className="text-base font-semibold leading-4 text-black bg-gray-300 p-3" onClick={() => handleDeleteCart()}>
+              Delete cart</button>
+            </div>
             {/* {carts} */}
             {/* <div className="mt-4 md:mt-6 flex flex-col md:flex-row justify-start items-start md:items-center md:space-x-6 xl:space-x-8 w-full">
             <div className="pb-4 md:pb-8 w-full md:w-40">

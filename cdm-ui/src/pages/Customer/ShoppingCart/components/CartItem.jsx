@@ -19,20 +19,23 @@ const CartItem = (props) => {
             window.location.reload()
     };
     
-      const handleDecrement = () => {
-        const updatedCart = cart.map((item) => {
-                if (item.id === props.id) {
-                    return {
-                        ...item,
-                        quantity: item.quantity - 1,
-                    };
-                }
-                return item;
-            });
+    const handleDecrement = () => {
+        let updatedCart = cart.map((item) => {
+            if (item.id === props.id) {
+                return {
+                    ...item,
+                    quantity: item.quantity - 1,
+                };
+            }
+            return item;
+        });
 
-            localStorage.setItem("cart", JSON.stringify(updatedCart));   
-            window.location.reload() 
-      };
+        // Filter out items with quantity 0
+        updatedCart = updatedCart.filter(item => item.quantity > 0);
+
+        localStorage.setItem("cart", JSON.stringify(updatedCart));   
+        window.location.reload() 
+    };
 
       useEffect(() => {
         setCart(JSON.parse(localStorage.getItem("cart")) || []);
