@@ -291,6 +291,9 @@ function createCustomerReport(report) {
 
 function getCustomerReport() {
   return instance.get("/api/v1/reports", {
+    params: {
+      size: 200
+    },
     headers: { 
       Authorization: bearerAuth(localStorage.getItem("accessToken")),
     },

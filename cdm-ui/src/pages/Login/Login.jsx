@@ -2,7 +2,6 @@ import React, { useState } from "react"
 import './login-register.css'
 import { Link } from "react-router-dom" 
 import Validation from "./LoginValidation"
-// import { GoogleLogin } from 'react-google-login';
 import { useNavigate } from 'react-router-dom';
 import { cdmApi } from "../../misc/cdmApi";
 import { jwtDecode as jwt_decode } from 'jwt-decode';

@@ -138,3 +138,12 @@ table {
 .img-mini{
   cursor: pointer;
 }
+
+.img-box{
+  align-self: center;
+}
+
+.image-col{
+  height: 3rem;
+  cursor: pointer;
+}
