@@ -14,40 +14,49 @@ import axios from "axios";
 //new
 const ShoppingCart = () => {
   const navigate = useNavigate();
-  const [carts, setCarts] = useState([]);
+  let isRunning = false;
+  const [carts, setCarts] = useState(JSON.parse(localStorage.getItem("cart")) || []);
   const [total, setTotal] = useState(0);
   const [shippingFee, setShippingFee] = useState(8000);
   const [paymentMethod, setPaymentMethod] = useState(
     localStorage.getItem("payment_method")
   ); // ["Cash", "VNPay"]
-  const [userData, setUserData] = useState(
+  const userData = useState(
     JSON.parse(localStorage.getItem("currentUser")) || []
   );
   const [user, setUser] = useState([]);
-  const [orderDataState, setOrderDataState] = useState([]); // [{productId, quantity, pricePerUnit, size, color, voucher, shipping}]
   const fetchInfo = async () => {
     try {
       const res = await cdmApi.getUserMe(userData.username);
       setUser(res.data);
-      console.log(user);
+      console.log("userData:")
+      console.log(userData)
     } catch (error) {
       console.error("Error fetching data:", error);
     }
   };
 
   useEffect(() => {
-    fetchInfo();
+    // fetchInfo();
     // This function will run every time the component renders
-    const cart = localStorage.getItem("cart");
-    setCarts(JSON.parse(cart));
+    // const cart = localStorage.getItem("cart");
+    // setCarts(JSON.parse(cart));
     handlePaymentReturn();
   }, []);
 
+  useEffect(() => {
+    const total = carts.reduce((acc, item) => {
+      return acc + item.price * item.quantity;
+    }, 0);
+
+    setTotal(total);
+  }, [carts]);
+
   const handleCart = async () => {
     const orderData = {
-      totalAmount: total,
-      email: user.username,
-      shippingAddress: user.address,
+      totalAmount: total + shippingFee,
+      email: userData[0].username,
+      shippingAddress: userData[0].address,
       voucherValue: 10,
       shippingValue: shippingFee,
       createOrderItemRequestList: carts.map((cart) => ({
@@ -60,8 +69,6 @@ const ShoppingCart = () => {
         shipping: 10,
       })),
     };
-
-    setOrderDataState(orderData);
 
     if (paymentMethod === "Cash") {
       try {
@@ -94,13 +101,15 @@ const ShoppingCart = () => {
   };
   
   const handlePaymentReturn = async () => {
+    if (isRunning) return;
+    isRunning = true;
     const urlParams = new URLSearchParams(window.location.search);
     const responseCode = urlParams.get("vnp_ResponseCode");
     if (responseCode === "00") {
       const orderData = {
-        totalAmount: total,
-        email: user.username,
-        shippingAddress: user.address,
+        totalAmount: total + shippingFee,
+        email: userData[0].username,
+        shippingAddress: userData[0].address,
         voucherValue: 10,
         shippingValue: shippingFee,
         createOrderItemRequestList: carts.map((cart) => ({
@@ -114,29 +123,25 @@ const ShoppingCart = () => {
         })),
       };
       console.log("Payment success");
-      console.log("order by vnpay", JSON.stringify(orderData))
+      console.log("order by vnpay", orderData)
       try {
         const order = await cdmApi.createOrder(orderData);
+        console.log("order after created")
+        console.log(order)
         setSnackbar({ children: "Order successfully!", severity: "success" });
         localStorage.setItem("cart", "[]");
         setCarts([]);
       } catch (error) {
         console.error(error);
+        setSnackbar({ children: "Order failed!", severity: "error" });
       }
     } 
+    isRunning = false;
     // else 
     // {
     //   setSnackbar({ children: "Order failed!", severity: "error" });
     // }
   };
-
-  useEffect(() => {
-    const total = carts.reduce((acc, item) => {
-      return acc + item.price * item.quantity;
-    }, 0);
-
-    setTotal(total);
-  }, [carts]);
 
   const [snackbar, setSnackbar] = React.useState(null);
   const handleCloseSnackbar = () => setSnackbar(null);
@@ -337,7 +342,7 @@ const ShoppingCart = () => {
                 />
                 <div className="flex justify-start items-start flex-col space-y-2">
                   <p className="text-base font-semibold leading-4 text-left text-black">
-                    {user.email}
+                    {userData[0].email}
                   </p>
                   <p className="text-sm leading-5 text-black">
                     10 Previous Orders
@@ -351,7 +356,7 @@ const ShoppingCart = () => {
                   alt="email"
                 />
                 <p className="cursor-pointer text-sm leading-5 ">
-                  {user.username}
+                  {userData[0].username}
                 </p>
               </div>
             </div>
@@ -362,7 +367,7 @@ const ShoppingCart = () => {
                     Shipping Address
                   </p>
                   <p className="w-48 lg:w-full xl:w-48 text-center md:text-left text-sm leading-5 text-black">
-                    {user.address}
+                    {userData[0].address}
                   </p>
                 </div>
                 <div className="flex justify-center md:justify-start items-center md:items-start flex-col space-y-4">
@@ -370,7 +375,7 @@ const ShoppingCart = () => {
                     Billing Address
                   </p>
                   <p className="w-48 lg:w-full xl:w-48 text-center md:text-left text-sm leading-5 text-black0">
-                    {user.address}
+                    {userData[0].address}
                   </p>
                 </div>
               </div>
