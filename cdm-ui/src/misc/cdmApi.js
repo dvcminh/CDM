@@ -13,6 +13,8 @@ export const cdmApi = {
   changePassword,
   deleteUser,
   getAllCars,
+  getAllCarsByModel,
+  getCarByNameContaining,
   getCarById,
   createCar,
   updateCar,
@@ -116,12 +118,28 @@ function deleteUser(id) {
 // }
 
 
-function getAllCars(amount = 10) {
+function getAllCars(page, size, sortBy, direction) {
 
   return instance.get("/api/v1/products/getAllCars", {
     params: {
-      size: amount,
-    },
+      page,
+      size,
+      sortBy,
+      direction,
+    }
+  });
+}
+
+function getAllCarsByModel(model) {
+  return instance.get(`/api/v1/products/getCarByModel/${model}`);
+}
+
+function getCarByNameContaining(name) {
+
+  return instance.get("/api/v1/products/getCarsByNameContains", {
+    params: {
+      name: name
+    }
   });
 }
 

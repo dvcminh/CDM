@@ -30,7 +30,7 @@ const CartItem = (props) => {
             return item;
         });
 
-        // Filter out items with quantity 0
+      
         updatedCart = updatedCart.filter(item => item.quantity > 0);
 
         localStorage.setItem("cart", JSON.stringify(updatedCart));   

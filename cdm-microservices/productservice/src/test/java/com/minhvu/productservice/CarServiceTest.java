@@ -89,7 +89,7 @@ public class CarServiceTest {
 
     @Test
     public void findCarsByNameContainsReturnsListOfCars() {
-        when(carRepository.findAllByModelContains(any())).thenReturn(Collections.singletonList(new Car()));
+        when(carRepository.findAllByModelContainsIgnoreCase(any())).thenReturn(Collections.singletonList(new Car()));
 
         var result = carService.findCarsByNameContains("name");
 

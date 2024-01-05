@@ -92,6 +92,6 @@ public class CarServiceImpl implements CarService {
 
     @Override
     public List<Car> findCarsByNameContains(String name) {
-        return carRepository.findAllByModelContains(name);
+        return carRepository.findAllByTrimContainsIgnoreCase(name);
     }
 }
