@@ -30,7 +30,7 @@ function CustomerReport() {
   const [modalOpen, setModalOpen] = useState(false);
 
   let img = "";
-  const uploadImage = async (thing) => {
+  const uploadImages = async (thing) => {
     const image = new FormData()
 
     image.append("file", thing)
@@ -44,8 +44,10 @@ function CustomerReport() {
         }
     )
     const imgData = await response.json();
+    img = imgData.url.toString();
+    console.log(img);
     //img = imgData.url.jsxToString();  
-    console.log(imgData.url);
+    // console.log(imgData.url);
   };
 
   const handleChange = (event) => {
@@ -54,7 +56,7 @@ function CustomerReport() {
 
   const handleSubmit = async (event) => {
     event.preventDefault();
-    uploadImage(img);
+    uploadImages(img);
     console.log(img);
     const userId = user.id;
     const report = { title, description, userId, image: img, type: "USER" };
@@ -65,6 +67,8 @@ function CustomerReport() {
     }
     await cdmApi.createCustomerReport(report)
       .then((response) => {
+        // setSnackbar({ children: "Your report is sent", severity: "success" });
+        // // window.location.reload() 
         setLoading(true);
         console.log(response.data);
       })
@@ -167,7 +171,7 @@ function CustomerReport() {
                   <p className="mt-4 xl:mr-2 mr-4">Please describe the problem you are experiencing in the space below. Be as descriptive as possible so we can be sure to help you as best as we can.</p>
                   <textarea onChange={(e) => setDescription(e.target.value)} rows="5" className="p-6 mt-4 mr-2 xl:mr-24 block p-2.5 w-4/5 text-sm text-black rounded-lg border border-gray-200 focus:border-black bg-white" placeholder="Write your thoughts here..."></textarea>
                   <p className="mt-4 xl:mr-2 mr-4">Attach Image (if neccessary)</p>
-                  <DragAndDrop uploadImage={uploadImage}/>
+                  <DragAndDrop uploadImage={uploadImages}/>
                   <p className="mt-4 xl:mr-2 mr-4">How would you like us to contact you? Please select an option from the list below.</p>
                   <div className="flex flex-col xl:ml-8 ml-2">
                         <div className="flex"><Checkbox color="blue" defaultChecked /><label className="mt-2.5" htmlFor="">Phone Call</label></div>

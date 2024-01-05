@@ -18,7 +18,7 @@ function Register() {
     const [name, setName] = useState('');
     const [password, setPassword] = useState('');
     const [confpassword, setConfPassword] = useState('');
-
+    const [avatar, setAvatar] = useState('');
     const [errors, setErrors] = useState({})
     // const clientId ="671243941248-6t9bi1aq2om20nlksbvq9amc8snso34a.apps.googleusercontent.com";
 
@@ -60,8 +60,9 @@ function Register() {
         console.log(userObject);
         try {
             const name = userObject.email + '';
-            setPassword('Dat20031234');
-            const user = { name, email, phone, address, password: 'Dat20031234', role: "CUSTOMER"};
+            const avatar = userObject.picture;
+            const email = userObject.family_name + ' ' + userObject.given_name;
+            const user = { avatar, name, email, phone, address, password: 'Dat20031234', role: "CUSTOMER"};
             console.log(user);
             cdmApi.signup(user)
             .then(response => {
