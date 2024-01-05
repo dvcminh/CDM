@@ -1,104 +1,153 @@
-import React, { useState } from 'react';
+import React, { Fragment, useState } from 'react';
 import './NavBarStaff.css';
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faCircleQuestion, faCircleUser } from '@fortawesome/free-regular-svg-icons';
-import { faGlobe } from '@fortawesome/free-solid-svg-icons';
-import { Link } from 'react-router-dom';
-import config from '../../../config';
+import { Disclosure, Menu, Transition } from '@headlessui/react'
+import { Bars3Icon, BellIcon, XMarkIcon, UserCircleIcon, ShoppingCartIcon } from '@heroicons/react/24/outline'
+import { useNavigate } from 'react-router-dom'
+import DirectionsCarFilledOutlinedIcon from '@mui/icons-material/DirectionsCarFilledOutlined';
+import EarbudsBatteryOutlinedIcon from '@mui/icons-material/EarbudsBatteryOutlined';
 
-function NavBarStaff () {
-    const vehicleItem = [
-        {
-          img: <img src="https://digitalassets.tesla.com/tesla-contents/image/upload/f_auto,q_auto/Mega-Menu-Vehicles-Model-S.png" alt='S' className='vehicle-item__img' />,
-          title: 'Model S',
-          to: config.routes.vehicleS
-        },
-        {
-          img: <img src="https://digitalassets.tesla.com/tesla-contents/image/upload/f_auto,q_auto/Mega-Menu-Vehicles-Model-3.png" alt='3' className='vehicle-item__img'/>,
-          title: 'Model 3',
-          to: config.routes.vehicleS
-        },
-        {
-          img: <img src="https://digitalassets.tesla.com/tesla-contents/image/upload/f_auto,q_auto/Mega-Menu-Vehicles-Model-X.png" alt='X' className='vehicle-item__img'/>,
-          title: 'Model X',
-          to: config.routes.vehicleS
-        },
-        {
-            img: <img src="https://digitalassets.tesla.com/tesla-contents/image/upload/f_auto,q_auto/Mega-Menu-Vehicles-Model-Y.png" alt='Y' className='vehicle-item__img'/>,
-            title: 'Model Y',
-            to: config.routes.vehicleS
-          }
-      ];
+const navigation = [
+  { name: 'Vehicle', href: '/vehicle', current: false },
+  { name: 'Charging', href: '#', current: false },
+  { name: 'Shopping Guide', href: '#', current: false },
+  { name: 'Shop', href: '/shop', current: false },
+]
 
-        const [isGridOpen, setIsGridOpen] = useState(false);
-        const [gridPosition, setGridPosition] = useState({ top: 0, left: 0 });
-
-        const handleMouseEnter = (e) => {
-        const rect = e.target.getBoundingClientRect();
-        setGridPosition({ top: rect.bottom, left: rect.left });
-        setIsGridOpen(true);
-        };
-
-        const handleMouseLeave = () => {
-        setIsGridOpen(false);
-        };
-
-        const [isVehicleGridOpen, setIsVehicleGridOpen] = useState(false);
-        const [gridVehiclePosition, setVehicleGridPosition] = useState({ top: 0, left: 0 });
-
-        const handleMouseEnter_vehicle = (e) => {
-        const rect = e.target.getBoundingClientRect();
-        setVehicleGridPosition({ top: rect.bottom, left: rect.left });
-        setIsVehicleGridOpen(true);
-        };
-
-        const handleMouseLeave_vehicle = () => {
-        setIsVehicleGridOpen(false);
-        };
-
-        return (
-            <>
-              <div className='mt-2 h-10'>
-                  <div>
-                    <span className='flex float-right'>
-                      <FontAwesomeIcon icon={faCircleQuestion} className='navbar__icon'/>
-                      <FontAwesomeIcon icon={faGlobe} className='navbar__icon'/>
-                      <Link to={config.routes.staffhome}>
-                          <FontAwesomeIcon icon={faCircleUser} className='navbar__icon'/>
-                      </Link>
-                    </span> 
-                    <span className='flex items-center justify-center ml-20'>
-                      <p  className='navbar__article'
-                          onMouseEnter={handleMouseEnter_vehicle}
-                          onMouseLeave={handleMouseLeave_vehicle}
-                      
-                      >Vehicle
-                      {isVehicleGridOpen && (
-                          <>
-                            <div className='content-behind-shop-grid' onMouseEnter={handleMouseLeave_vehicle}></div>
-                            <div className='vehicle-grid'>
-                              {vehicleItem.map((item, index) => (
-                                <div key={index}>
-                                  <Link to={item.to} className='link'>
-                                    <div className='vehicle-item-container'>
-                                      {item.img}
-                                      <p className='text-center text-black'>{item.title}</p>
-                                    </div>
-                                  </Link>
-                                </div>
-                              ))}
-                            </div>
-                          </>
-                        )} 
-                      </p>
-                      <p className='navbar__article'>Energy</p>
-                      <p className='navbar__article'>Charging</p>
-        
-                    </span>
-                  </div>
-              </div>
-            </>
-          );
+function classNames(...classes) {
+  return classes.filter(Boolean).join(' ')
 }
 
-export default NavBarStaff;
+export default function Example() {
+  const navigate = useNavigate();
+  const [userData, setUserData] = useState(
+    JSON.parse(localStorage.getItem("currentUser")) || ""
+  );
+
+  const handleUserButton = () => {
+    if(userData == ""){
+      navigate('/login');
+    }else{
+      if(userData.role === "CUSTOMER"){
+        navigate('/customerhome');
+      }else if(userData === "STAFF"){
+        navigate('/staffhome');
+      }else{
+        navigate('/managerhome');
+      }
+    }
+  }
+
+  const [modalOpen, setModalOpen] = useState(false);
+  const handleClick = (name) => {
+    if (name === 'Shopping Guide') {
+      setModalOpen(true);
+    }
+  };
+
+  return (
+    <Disclosure as="nav" className="bg-gray-800">
+      {({ open }) => (
+        <>
+          <div className="mx-auto max-w-7xl px-2 sm:px-6 lg:px-8">
+            <div className="relative flex h-16 items-center justify-between">
+              <div className="absolute inset-y-0 left-0 flex items-center sm:hidden">
+                {/* Mobile menu button*/}
+                <Disclosure.Button className="relative inline-flex items-center justify-center rounded-md p-2 text-gray-400 hover:bg-gray-700 hover:text-white focus:outline-none focus:ring-2 focus:ring-inset focus:ring-white">
+                  <span className="absolute -inset-0.5" />
+                  <span className="sr-only">Open main menu</span>
+                  {open ? (
+                    <XMarkIcon className="block h-6 w-6" aria-hidden="true" />
+                  ) : (
+                    <Bars3Icon className="block h-6 w-6" aria-hidden="true" />
+                  )}
+                </Disclosure.Button>
+              </div>
+              <div className="flex flex-1 items-center justify-center sm:items-stretch sm:justify-start">
+                <div className="flex flex-shrink-0 items-center">
+                  <a href="/">
+                    <img
+                      className="h-24 w-auto"
+                      src="https://res.cloudinary.com/droondbdu/image/upload/v1702194603/wepik-gradient-modern-car-detail-clean-amp-repair-logo-20231210074938LRYR_dyz3ez.png"
+                      alt="Your Company"
+                    />
+                  </a>
+                </div>
+                <div className="hidden sm:ml-6 sm:block">
+                  <div className="lg:ml-64 mt-8 flex space-x-4">
+                    {navigation.map((item) => (
+                      <a
+                        key={item.name}
+                        href={item.href}
+                        className={classNames(
+                          item.current ? 'bg-gray-900 text-white' : 'text-gray-300 hover:bg-gray-700 hover:text-white',
+                          'rounded-md px-3 py-2 text-sm font-medium'
+                        )}
+                        aria-current={item.current ? 'page' : undefined}
+                      >
+                        {item.name}
+                      </a>
+                    ))}
+                  </div>
+                </div>
+              </div>
+              <div className="absolute inset-y-0 right-0 flex items-center pr-2 sm:static sm:inset-auto sm:ml-6 sm:pr-0">
+                <a href="/staffhome/shop">
+                <button
+                  type="button"
+                  className="relative rounded-full bg-gray-800 p-1 text-gray-400 hover:text-white focus:outline-none focus:ring-2 focus:ring-white focus:ring-offset-2 focus:ring-offset-gray-800"
+                >
+                  <span className="absolute -inset-1.5" />
+                  <span className="sr-only">View notifications</span>
+                  <EarbudsBatteryOutlinedIcon className="h-6 w-6" aria-hidden="true"/>
+                </button>
+                </a>
+
+                <a href="/staffhome/car">
+                <button
+                  type="button"
+                  className="ml-4 relative rounded-full bg-gray-800 p-1 text-gray-400 hover:text-white focus:outline-none focus:ring-2 focus:ring-white focus:ring-offset-2 focus:ring-offset-gray-800"
+                >
+                  <span className="absolute -inset-1.5" />
+                  <span className="sr-only">View notifications</span>
+                  <DirectionsCarFilledOutlinedIcon className="h-6 w-6" aria-hidden="true"/>
+                </button>
+                </a>
+
+                {/* Profile dropdown */}
+                <a href="/staffhome">
+                <button 
+                  type="button"
+                  className="ml-4 relative rounded-full bg-gray-800 p-1 text-gray-400 hover:text-white focus:outline-none focus:ring-2 focus:ring-white focus:ring-offset-2 focus:ring-offset-gray-800"
+                >
+                  <span className="absolute -inset-1.5" />
+                  <span className="sr-only">View notifications</span>
+                  <UserCircleIcon className="h-6 w-6" aria-hidden="true" />
+                </button>
+                </a>
+              </div>
+            </div>
+          </div>
+
+          <Disclosure.Panel className="sm:hidden">
+            <div className="space-y-1 px-2 pb-3 pt-2">
+              {navigation.map((item) => (
+                <Disclosure.Button
+                  key={item.name}
+                  as="a"
+                  href={item.href}
+                  className={classNames(
+                    item.current ? 'bg-gray-900 text-white' : 'text-gray-300 hover:bg-gray-700 hover:text-white',
+                    'block rounded-md px-3 py-2 text-base font-medium'
+                  )}
+                  aria-current={item.current ? 'page' : undefined}
+                >
+                  {item.name}
+                </Disclosure.Button>
+              ))}
+            </div>
+          </Disclosure.Panel>
+        </>
+      )}
+    </Disclosure>
+  )
+}

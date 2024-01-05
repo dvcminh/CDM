@@ -134,14 +134,14 @@ function ManagerHome() {
   };
 
   return (
-    <>
+    <div>
       <div className="flex">
         <ManagerSideBar />
-        <div className="ml-8">
+        <div className="ml-8 hidden sm:block flex flex-col">
           <h1 className="font-medium text-3xl mt-16">Dashboard</h1>
           {/* Stats */}
           <div
-            className="flex mt-4 space-x-2"
+            className="flex mt-4 space-x-2 style={{width: '70vw', height: '20vh'}}"
             style={{ width: "70vw", height: "20vh" }}
           >
             <div className="w-56 rounded-lg flex flex-1 opacity-90 justify-center items-center">
@@ -171,16 +171,38 @@ function ManagerHome() {
           </div>
           {/* Charts */}
           <div className="flex mt-4 space-x-2">
-            <div className="rounded-lg flex flex-1 opacity-90 justify-center items-center">
+            {/* <div className="rounded-lg flex flex-1 opacity-90 justify-center items-center">
               <CardWithPieChart />
-            </div>
+            </div> */}          
             <div className="rounded-lg flex flex-auto opacity-90 justify-center items-center">
               <CardWithAreaChart monthlyRevenue={monthlyRevenue} />
             </div>
           </div>
         </div>
       </div>
-    </>
+
+      <div className='block sm:hidden'>
+                {/* Stats */}
+                <div className="flex flex-col mt-4 space-x-2" style={{width: '100vw', height: '20vh'}}>
+                        <div className="w-screen rounded-lg flex flex-1 opacity-90 justify-center items-center pl-4">
+                            <StatsCardUpward title="Revenue" value="$405,091.00" trend={4.75} />
+                        </div>
+                        <div className="w-screen rounded-lg flex flex-1 opacity-90 justify-center items-center pt-8">
+                            <StatsCardUpward title="Overdue invoices" value="$12,787.00" trend={54.02} />
+                        </div>
+                        <div className="w-screen rounded-lg flex flex-1 opacity-90 justify-center items-center pt-8">
+                            <StatsCardDownward title="Outstanding invoices" value="$245,988.00" trend={-1.39} />
+                        </div> 
+                        <div className="w-screen rounded-lg flex flex-1 opacity-90 justify-center items-center pt-8">
+                            <StatsCardUpward title="Expenses" value="$30,156.00" trend={10.18} />
+                        </div> 
+                        <div className="rounded-lg flex-col flex-1 opacity-90 justify-center items-center">
+                            <CardWithAreaChart monthlyRevenue={monthlyRevenue} />
+                        </div>              
+                </div>
+           </div>
+      
+    </div>
   );
 }
 
