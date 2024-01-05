@@ -170,7 +170,7 @@ const StaffReport = () => {
         </div>
         
       </span>
-      <div className='float-right mr-32' style={{marginTop: -100}}>
+      <div className='float-right mr-32' style={{marginTop: 100}}>
                     <nav >
                       <ul className="flex items-center -space-x-px h-10 text-base">
                         <li style={{margin: 0}}>
