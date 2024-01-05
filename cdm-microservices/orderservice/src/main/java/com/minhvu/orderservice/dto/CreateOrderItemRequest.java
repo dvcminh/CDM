@@ -3,11 +3,13 @@ package com.minhvu.orderservice.dto;
 import com.minhvu.orderservice.model.OrderItemPK;
 import lombok.Getter;
 import lombok.Setter;
+import lombok.NoArgsConstructor;
 
 import java.math.BigDecimal;
 
 @Getter
 @Setter
+@NoArgsConstructor
 public class CreateOrderItemRequest {
     private String productId;
     private int quantity;

@@ -41,6 +41,45 @@ import { ManagerChat } from '../pages/Manager/ManagerChat/ManagerChat';
 // Public routes
 const publicRoutes = [
     { path: config.routes.shop, component: Shop, layout: DefaultLayout },
+    { path: config.routes.vehicle, component: Vehicle, layout: DefaultLayout },
+    { path: config.routes.login, component: Login, layout: loginregisLayout },
+    { path: config.routes.register, component: Register, layout: loginregisLayout },
+    { path: config.routes.forgotpassword, component: ForgotPassword, layout: loginregisLayout },
+    { path: config.routes.start, component: LandingPage, layout: landingLayout },
+    { path: config.routes.vehicledetail, component: VehicleDetail, layout: loginregisLayout},
+    {path: config.routes.shopaccessories, component: ShopAccessories, layout: DefaultLayout},
+    {path: config.routes.shopmerchandise, component: ShopMerchandise, layout: DefaultLayout},
+    {path: config.routes.productdetail, component: ProductShopOverview, layout: loginregisLayout},
+
+];
+
+const privateRoutes = [
+
+
+];
+
+const customerRole = [
+    {path: config.routes.bookappointment, component: BookAppointment, layout: DefaultLayout},
+    { path: config.routes.shoppingcart, component: ShoppingCart, layout: DefaultLayout },
+    { path: config.routes.customerhome, component: CustomerHome, layout: DefaultLayout},
+    { path: config.routes.customerprofile, component: CustomerProfile , layout: DefaultLayout},
+    { path: config.routes.customerpayment, component: CustomerPayment, layout: DefaultLayout },
+    { path: config.routes.customerorderhis, component: CustomerOrderHistory, layout: DefaultLayout },
+    { path: config.routes.customerreport, component: CustomerReport, layout: DefaultLayout} ,
+
+];
+const staffRole = [
+    { path: config.routes.staffprofile, component: StaffProfile, layout: staffLayout },
+    { path: config.routes.staffcar, component: StaffManageCarPage, layout: staffLayout },
+    { path: config.routes.staffcustomer, component: StaffManageCustomerPage, layout: staffLayout },
+    { path: config.routes.staffhome, component: StaffHome, layout: staffLayout },
+    { path: config.routes.staffreport, component: StaffReport, layout: staffLayout },
+    { path: config.routes.stafforder, component: StaffOrder, layout: staffLayout },
+    { path: config.routes.staffshop, component: StaffManageShopPage, layout: staffLayout },
+
+];
+const managerRole = [
+    {path: config.routes.managerchat, component: ManagerChat, layout: DefaultLayout},
     { path: config.routes.managervehicleS, component: ManagerVehicleModelS, layout: ManagerLayout },
     { path: config.routes.managerhome, component: ManagerHome, layout: ManagerLayout},
     { path: config.routes.managerprofile, component: ManagerProfile, layout: ManagerLayout},
@@ -49,32 +88,7 @@ const publicRoutes = [
     { path: config.routes.managereport, component: ManageReport, layout: ManagerLayout},
     { path: config.routes.managecar, component: ManageCarPage, layout: ManagerLayout},
     { path: config.routes.manageshop, component: ManageShopPage, layout: ManagerLayout},
-    { path: config.routes.customerhome, component: CustomerHome, layout: DefaultLayout},
-    { path: config.routes.customerprofile, component: CustomerProfile , layout: DefaultLayout},
-    { path: config.routes.customerpayment, component: CustomerPayment, layout: DefaultLayout },
-    { path: config.routes.customerorderhis, component: CustomerOrderHistory, layout: DefaultLayout },
-    { path: config.routes.customerreport, component: CustomerReport, layout: DefaultLayout} ,
-    { path: config.routes.shoppingcart, component: ShoppingCart, layout: DefaultLayout },
-    { path: config.routes.vehicle, component: Vehicle, layout: DefaultLayout },
-    { path: config.routes.login, component: Login, layout: loginregisLayout },
-    { path: config.routes.register, component: Register, layout: loginregisLayout },
-    { path: config.routes.forgotpassword, component: ForgotPassword, layout: loginregisLayout },
-    { path: config.routes.start, component: LandingPage, layout: landingLayout },
-    { path: config.routes.staffhome, component: StaffHome, layout: staffLayout },
-    { path: config.routes.staffreport, component: StaffReport, layout: staffLayout },
-    { path: config.routes.stafforder, component: StaffOrder, layout: staffLayout },
-    { path: config.routes.staffcustomer, component: StaffManageCustomerPage, layout: staffLayout },
-    { path: config.routes.staffcar, component: StaffManageCarPage, layout: staffLayout },
-    { path: config.routes.staffshop, component: StaffManageShopPage, layout: staffLayout },
-    { path: config.routes.staffprofile, component: StaffProfile, layout: staffLayout },
-    { path: config.routes.vehicledetail, component: VehicleDetail, layout: loginregisLayout},
-    {path: config.routes.shopaccessories, component: ShopAccessories, layout: DefaultLayout},
-    {path: config.routes.shopmerchandise, component: ShopMerchandise, layout: DefaultLayout},
-    {path: config.routes.productdetail, component: ProductShopOverview, layout: loginregisLayout},
-    {path: config.routes.bookappointment, component: BookAppointment, layout: DefaultLayout},
-    {path: config.routes.managerchat, component: ManagerChat, layout: DefaultLayout}
+
 ];
 
-const privateRoutes = [];
-
-export { publicRoutes, privateRoutes };
+export { publicRoutes, privateRoutes, customerRole, staffRole, managerRole };

@@ -19,20 +19,23 @@ const CartItem = (props) => {
             window.location.reload()
     };
     
-      const handleDecrement = () => {
-        const updatedCart = cart.map((item) => {
-                if (item.id === props.id) {
-                    return {
-                        ...item,
-                        quantity: item.quantity - 1,
-                    };
-                }
-                return item;
-            });
+    const handleDecrement = () => {
+        let updatedCart = cart.map((item) => {
+            if (item.id === props.id) {
+                return {
+                    ...item,
+                    quantity: item.quantity - 1,
+                };
+            }
+            return item;
+        });
 
-            localStorage.setItem("cart", JSON.stringify(updatedCart));   
-            window.location.reload() 
-      };
+        // Filter out items with quantity 0
+        updatedCart = updatedCart.filter(item => item.quantity > 0);
+
+        localStorage.setItem("cart", JSON.stringify(updatedCart));   
+        window.location.reload() 
+    };
 
       useEffect(() => {
         setCart(JSON.parse(localStorage.getItem("cart")) || []);
@@ -56,9 +59,9 @@ const CartItem = (props) => {
                 <div className="flex justify-between space-x-8 items-start w-full">
                     <p className="text-base xl:text-lg leading-6">${props.price}{ /*<span className="text-red-300 line-through"> ${props.discountPrice}</span> */}</p>
                     <div className="flex" style={{marginTop: -8}}>
-                            <button onClick={handleDecrement}><FontAwesomeIcon icon={faSubtract} /></button>
+                            <button onClick={handleDecrement}><FontAwesomeIcon className="text-black" icon={faSubtract} /></button>
                             <p className="text-sm xl:text-xl leading-6 text-black border-solid border-2 border- px-4 py-2">{props.quantity}</p>
-                            <button onClick={handleIncrement} ><FontAwesomeIcon icon={faPlus}/></button>
+                            <button onClick={handleIncrement} ><FontAwesomeIcon className="text-black" icon={faPlus}/></button>
                     </div>
                     <p className="text-base xl:text-lg font-semibold leading-6 text-black ">${props.total}</p>
                 </div>

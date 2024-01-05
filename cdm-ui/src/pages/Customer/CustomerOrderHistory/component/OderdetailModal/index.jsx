@@ -15,10 +15,12 @@ import {
   Tooltip,
 } from "@material-tailwind/react";
 import { cdmApi } from "../../../../../misc/cdmApi";
+import { SyncLoader } from "react-spinners";
 
 function OderdetailModal({ setOpenModal, data }) {
   const [productData, setProductData] = useState([]);
   const [hasFetchedData, setHasFetchedData] = useState(false);
+  const [loading, setLoading] = useState(true);
 
   const getProductById = async (id) => {
     const response = await cdmApi.getShopById(id);
@@ -44,7 +46,11 @@ function OderdetailModal({ setOpenModal, data }) {
     if (!hasFetchedData) {
       getAllProductDetail();
     }
-  }, [hasFetchedData]);
+    const timeoutId = setTimeout(() => {
+        setLoading(false);
+    }, 3000);
+    return () => clearTimeout(timeoutId);
+  }, [hasFetchedData, loading]);
   
   // Hành động tiếp theo sau khi productData đã được cập nhật
   useEffect(() => {
@@ -57,9 +63,9 @@ function OderdetailModal({ setOpenModal, data }) {
     <div className="modalBackground z-50">
       <div className="modalContainer">
                 <span className="titleCloseBtn">
-                    <button onClick={() => {setOpenModal(false);}}><FontAwesomeIcon icon={faClose} /></button>
+                    <button onClick={() => {setOpenModal(false);}}><FontAwesomeIcon className="text-black" icon={faClose} /></button>
                 </span> 
-                {productData.length === data.length * 2 ? (
+                {(productData.length === data.length * 2) && (!loading) ? (
                 <div>
                     <div style={{ maxHeight: '400px', overflowY: 'auto', scrollbarColor: '#ffffff #f0f0f0' }}>
                       <ul role="list" className="divide-y divide-gray-100">
@@ -95,8 +101,11 @@ function OderdetailModal({ setOpenModal, data }) {
                           <p className="font-bolde float-right mr-36 mt-6">Total: ${total}</p>
                     </div>
                 </div>
-                ) : (
-                  <p>Loading data...</p>
+                ) : ( 
+                  <div style={{ minHeight: '100%', display: 'flex', alignItems: 'center', justifyContent: 'center', flexDirection: 'column' }}>
+                      <p className="mb-8 text-xl">Wait a minute...</p>
+                      <div className="mb-48"><SyncLoader/></div>
+                  </div>
                 )}
       </div>
     </div>

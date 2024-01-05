@@ -6,9 +6,45 @@ import { useNavigate } from 'react-router-dom';
 import { cdmApi } from "../../misc/cdmApi";
 import { jwtDecode as jwt_decode } from 'jwt-decode';
 import { useEffect } from 'react';
+import { MoonLoader } from "react-spinners";
+import Loading from "../../components/Loading";
+import { Snackbar } from "@mui/material";
+import Alert from "@mui/material/Alert";
 
 function Login() {
-   
+    const [loading, setLoading] = useState(false);
+    const [modalOpen, setModalOpen] = useState(false);
+    const [snackbar, setSnackbar] = React.useState(null);
+    const handleCloseSnackbar = () => setSnackbar(null);
+
+    const handleNavigate = async() => {
+        const userData = await cdmApi.getUserMe(email);
+            if (userData.data.role === "MANAGER") navigate('/managerhome');
+            else if (userData.data.role === "STAFF") navigate('/staffhome'); 
+            else
+            navigate('/customerhome');
+
+            window.location.reload();
+            localStorage.setItem('currentUser', JSON.stringify(userData.data));
+    }
+    useEffect(() => {
+        if(!loading)
+            return;
+        const timeoutId = setTimeout(() => {
+            setLoading(false);
+          }, 3000);
+          return () => clearTimeout(timeoutId);
+      }, [loading]);
+
+      useEffect(() => {
+        if(!loading)
+            return;
+        const timeoutId = setTimeout(() => {
+            handleNavigate();
+          }, 3000);
+          return () => clearTimeout(timeoutId);
+      }, [loading]);
+
     const [values, setValues] = useState({
         email: '',
         password: ''
@@ -26,7 +62,7 @@ function Login() {
 
     const phone = "";
     const address = "";
-
+    
     function handleCallbackResponse(response){
         console.log("Encoded JWT ID token: " + response.credential);
         var userObject = jwt_decode(response.credential);
@@ -41,16 +77,20 @@ function Login() {
                 if(response.data){
                     localStorage.setItem("accessToken", response.data);
                     const userData = await cdmApi.getUserMe(email);
-                    if (userData.data.role === "MANAGER") navigate('/managerhome');
-                    else if (userData.data.role === "STAFF") navigate('/staffhome'); 
-                    else
-                    navigate('/customerhome');
+                    if (userData.data.role === "MANAGER") {
+                        navigate('/managerhome');
+                    }
+                    else if (userData.data.role === "STAFF") {
+                        navigate('/staffhome'); 
+                    }
+                    else{
+                        navigate('/customerhome');
+                    }
                     localStorage.setItem('currentUser', JSON.stringify(userData.data));
                 }
             })
             .catch(error => {
-                alert("Login failed, Maybe you haven't created an account with Google yet, please register here first!");
-                navigate('/register');
+                setSnackbar({ children: "Sign in fail!", severity: "error" });
                 console.log(error);
             })
         }
@@ -81,20 +121,13 @@ function Login() {
         try {
             const user = { email, password};
             cdmApi.authenticate(user)
-            .then(async response => { 
+            .then(async response => {         
+                setLoading(true);
                 console.log(response);
-                if(response.data){
-                    localStorage.setItem("accessToken", response.data);
-                    const userData = await cdmApi.getUserMe(email);
-                    if (userData.data.role === "MANAGER") navigate('/managerhome');
-                    else if (userData.data.role === "STAFF") navigate('/staffhome'); 
-                    else
-                    navigate('/customerhome');
-                    localStorage.setItem('currentUser', JSON.stringify(userData.data));
-                }
+                localStorage.setItem("accessToken", response.data);
             })
             .catch(error => {
-                alert("Login failed!");
+                setSnackbar({ children: "Sign in fail!", severity: "error" });
                 console.log(error);
             })
         }
@@ -107,6 +140,8 @@ function Login() {
 
     return (
         <>
+            {loading && <Loading setOpenModal={setLoading} />}
+
             <div className="flex min-h-full flex-1 flex-col justify-center px-6 py-8 lg:px-8">
             <div className="sm:mx-auto sm:w-full sm:max-w-sm">
                 <img
@@ -187,6 +222,11 @@ function Login() {
                 </p>
             </div>
             </div>
+            {!!snackbar && (
+              <Snackbar open onClose={handleCloseSnackbar} autoHideDuration={6000} anchorOrigin={{ vertical: "bottom", horizontal: "center" }}>
+                <Alert {...snackbar} onClose={handleCloseSnackbar} />
+              </Snackbar>
+            )}
       </>
     )
 }

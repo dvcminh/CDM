@@ -14,12 +14,14 @@ public interface InventoryService {
     @PutMapping("/reduceQuantity/{id}")
     ResponseEntity<Void> reduceQuantity(
             @PathVariable("id") String productId,
-            @RequestParam long quantity
+
+            @RequestParam("quantity") long quantity
+
     );
 
-//    default ResponseEntity<Void> fallback(Exception e) {
-//        throw new CustomException("Product Service is not available",
-//                "UNAVAILABLE",
-//                500);
-//    }
+    default ResponseEntity<Void> fallback(Exception e) {
+        throw new CustomException("Product Service is not available",
+                "UNAVAILABLE",
+                500);
+    }
 }
