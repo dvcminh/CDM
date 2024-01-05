@@ -32,7 +32,7 @@ const ManageCarPage = () => {
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const response = await cdmApi.getAllCars();
+        const response = await cdmApi.getAllCars(10000);
         const addedIndexData = response.data.content.map((row, index) => ({...row, index: index + 1}));
         setRows(addedIndexData); 
       } catch (error) {
@@ -92,7 +92,6 @@ const ManageCarPage = () => {
       formData.append("upload_preset", "nhatkhang");
 
       const resUpload = await axios.post("https://api.cloudinary.com/v1_1/dbixymfbp/image/upload", formData);
-      //setFormState({...formState, imgSrc: response.data.secure_url});
 
       setFormState({...formState, imgSrc: resUpload.data.secure_url});
       const subFormState = {...formState, imgSrc: resUpload.data.secure_url};
@@ -233,7 +232,7 @@ const ManageCarPage = () => {
     {
       field: "orgPrice",
       headerName: "Original Price",
-      width: 130,
+      width: 120,
       editable: true,
     },
     {
@@ -272,7 +271,8 @@ const ManageCarPage = () => {
       field: 'actions',
       type: 'actions',
       headerName: 'Actions',
-      width: 100,
+      flex: 1,
+      minWidth: 80,
       cellClassName: 'actions',
       getActions: ({ id }) => {  
         return [

@@ -18,13 +18,15 @@ import DialogTitle from '@mui/material/DialogTitle';
 import DialogContent from '@mui/material/DialogContent';
 import DialogActions from '@mui/material/DialogActions';
 import Alert from '@mui/material/Alert';
+import WarningIcon from '@mui/icons-material/Warning';
 
 import { cdmApi } from '../../../misc/cdmApi';
+import axios from 'axios';
 
 //Main Page
 const ManageStaffPage = () => {
 
-  const [rows, setRows] = React.useState(mockDataStaff);
+  const [rows, setRows] = React.useState([]);
   const [formState, setFormState] = React.useState(null);
 
   const [dataChangeFlag, setDataChangeFlag] = useState(false);
@@ -33,11 +35,11 @@ const ManageStaffPage = () => {
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const response = await cdmApi.getAllUsers();
-
-        //const filtedRoleData = response.data.content.filter((row) => row.role === "STAFF");
-        const filtedRoleData = mockDataStaff;
+        const response = await cdmApi.getAllUsers(1000);
+        const filtedRoleData = response.data.content.filter((row) => row.role === "STAFF");
+        //const filtedRoleData = mockDataStaff;
         filtedRoleData.forEach((row, index) => {
+          if(!row.avatar)
             row.avatar = avatars[index % avatars.length];
         });
         const addedIndexData = filtedRoleData.map((row, index) => ({ ...row, index: index + 1 }));
@@ -95,14 +97,13 @@ const ManageStaffPage = () => {
     else 
     {
       const formData = new FormData();
-      formData.append("file", formState.imgSrc);
+      formData.append("file", formState.avatar);
       formData.append("upload_preset", "nhatkhang");
 
       const resUpload = await axios.post("https://api.cloudinary.com/v1_1/dbixymfbp/image/upload", formData);
-      //setFormState({...formState, imgSrc: response.data.secure_url});
 
-      setFormState({...formState, imgSrc: resUpload.data.secure_url});
-      const subFormState = {...formState, imgSrc: resUpload.data.secure_url};
+      setFormState({...formState, avatar: resUpload.data.secure_url});
+      const subFormState = {...formState, avatar: resUpload.data.secure_url};
       
       if (rowToEdit === null)  
         handleCreateApi(subFormState);
@@ -117,9 +118,10 @@ const ManageStaffPage = () => {
 
   const handleCreateApi = async (subFormState) => {
     try {
-      const response = await cdmApi.createCar(subFormState);
-
-      setRows([...rows, response.data]);
+      subFormState.role = "STAFF";
+      subFormState.password = "Newuser123";
+      const response = await cdmApi.createCustomer(subFormState);
+      //setRows([...rows, response.data]);
       setDataChangeFlag(!dataChangeFlag);
       setSnackbar({ children: "Updated successfully", severity: "success" });
     } catch (error) {
@@ -130,8 +132,8 @@ const ManageStaffPage = () => {
 
   const handleUpdateApi = async (subFormState) => {
     try{
-      const response = await cdmApi.updateCar(subFormState);
-      setRows(rows.map((row) => (row === rowToEdit ? response.data : row)));
+      const response = await cdmApi.updateUser(subFormState);
+      //setRows(rows.map((row) => (row === rowToEdit ? response.data : row)));
       setDataChangeFlag(!dataChangeFlag);
       setSnackbar({ children: "Updated successfully", severity: "success" });
       setRowToEdit(null);
@@ -144,10 +146,10 @@ const ManageStaffPage = () => {
 
   const handleDeleteApi = async () => {
     try {
-      await cdmApi.deleteCar(deletingId);
-      setRows(rows.filter((row) => row.id !== deletingId));
-      setSnackbar({ children: "Deleted successfully", severity: "success" });
+      await cdmApi.deleteUser(deletingId);
+      //setRows(rows.filter((row) => row.id !== deletingId));
       setDataChangeFlag(!dataChangeFlag);
+      setSnackbar({ children: "Deleted successfully", severity: "success" });
       setDeletingId(null);
     } catch (error) {
       console.error("Error deleting product:", error);
@@ -266,7 +268,7 @@ const ManageStaffPage = () => {
     {
       field: "phone_number",
       headerName: "Phone Number",
-      width: 180,
+      width: 160,
       editable: true,
     },
     {
@@ -285,7 +287,8 @@ const ManageStaffPage = () => {
       field: 'actions',
       type: 'actions',
       headerName: 'Actions',
-      width: 100,
+      flex: 1,
+      minWidth: 80,
       cellClassName: 'actions',
       getActions: ({ id }) => {
   
@@ -328,7 +331,7 @@ const ManageStaffPage = () => {
         <div className="pt-8 w-full">
           <p className="text-4xl  font-bold">Staff</p>
         </div>
-        <button className='self-end mr-[50px] mb-0 bg-[#000] hover:bg-[#6d7986] rounded-md text-white font-bold w-[150px] max-sm:ml-0 my-2 py-2 max-lg:self-start max-lg:mt-[50px]' 
+        <button className='self-end mr-[50px] mb-0 bg-[#000] hover:bg-[#6d7986] rounded-md text-white font-bold w-[150px] max-sm:ml-0 my-2 py-2 max-lg:self-start max-lg:mt-[40px]' 
                 onClick={() => {setModalOpen(true);}}>CREATE NEW</button>
         
         {/* Data Grid */}

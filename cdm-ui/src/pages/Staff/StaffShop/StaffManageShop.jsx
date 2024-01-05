@@ -33,7 +33,7 @@ const StaffManageShopPage = () => {
     const fetchData = async () => {
       try {
         // const response = await axios.get('http://localhost:8083/api/v1/products/getAllCars');
-        const response = await cdmApi.getAllInventory();
+        const response = await cdmApi.getAllInventory(100000);
         const newArray = [];
         response.data.content.forEach((item) => newArray.push(item.products[0]));
         console.log(newArray);
@@ -248,7 +248,7 @@ const StaffManageShopPage = () => {
     {
       field: "price",
       headerName: " Price",
-      width: 130,
+      width: 120,
       editable: true,
     },
     // {
@@ -260,7 +260,7 @@ const StaffManageShopPage = () => {
     {
       field: "type",
       headerName: "Type",
-      width: 150,
+      width: 130,
       cellClassName: "name-column--cell",
       editable: true,
     },
@@ -280,7 +280,8 @@ const StaffManageShopPage = () => {
       field: 'actions',
       type: 'actions',
       headerName: 'Actions',
-      width: 100,
+      flex: 1,
+      minWidth: 80,
       cellClassName: 'actions',
       getActions: ({ id }) => {  
         return [
