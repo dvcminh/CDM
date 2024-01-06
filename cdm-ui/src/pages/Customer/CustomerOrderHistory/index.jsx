@@ -59,42 +59,42 @@ function CustomerOrderHistory() {
     <>
       {modalOpen && <OderdetailModal data={orderDetail} setOpenModal={setModalOpen} />}
 
-      <div className="flex">
+      <div className="flex bg-white dark:bg-slate-800">
         <SideBar />
         <div className="ml-8">
 
-          <h1 className="font-medium text-3xl mt-16">Order History</h1>
+          <h1 className="font-medium text-3xl mt-16 text-black dark:text-white">Order History</h1>
 
           {/* banner area */}
           <div
             className="flex mt-4 space-x-2 w-4/5"
             style={{ height: "20vh" }}
           >
-            <div className="w-4/5 rounded-lg bg-red-200 flex-1 opacity-90">
-              <p className="text-stone-950 font-semibold ml-4 mt-6 text-xl underline">
+            <div className="w-4/5 rounded-lg bg-red-200 dark:bg-red-500  flex-1 opacity-90">
+              <p className="text-black dark:text-white font-semibold ml-4 mt-6 text-xl underline">
                 Total Spending:
               </p>
-              <p className="ml-6 mt-2 text-lg text-red-700 italic">
+              <p className="ml-6 mt-2 text-lg text-red-800 dark:text-white italic">
                 ${totalAmount}              </p>
-              <p className="ml-4 mt-2 text-xs font-thin">
+              <p className="ml-4 mt-2 text-xs font-thin text-black dark:text-white">
                 as figures of December 2023
               </p>
             </div>
-            <div className="w-4/5 rounded-lg bg-violet-200 flex-1 opacity-90">
-              <p className="text-stone-950 font-semibold ml-4 mt-4 text-xl underline">
+            <div className="w-4/5 rounded-lg bg-violet-200 dark:bg-violet-500 flex-1 opacity-90">
+              <p className="text-black dark:text-white  font-semibold ml-4 mt-4 text-xl underline">
                 Total order:
               </p>
-              <p className="ml-6 mt-2 text-lg italic text-indigo-700">{totalOrder}</p>
-              <p className="ml-4 mt-2 text-xs font-thin">
+              <p className="ml-6 mt-2 text-lg italic text-indigo-700 dark:text-white ">{totalOrder}</p>
+              <p className="ml-4 mt-2 text-xs font-thin text-black dark:text-white ">
                 as figures of December 2023
               </p>
             </div>
-            <div className="w-4/5 rounded-lg bg-gray-200 flex-1 opacity-90">
-              <p className="text-stone-950 font-semibold ml-4 mt-4 text-xl underline">
+            <div className="w-4/5 rounded-lg bg-gray-200 dark:bg-cyan-500 flex-1 opacity-90">
+              <p className="text-black dark:text-white font-semibold ml-4 mt-4 text-xl underline">
                 Ranking:
               </p>
-              <p className="ml-6 mt-2 text-lg italic text-gray-700">{ranking}</p>
-              <p className="ml-4 mt-2 text-xs font-thin">
+              <p className="ml-6 mt-2 text-lg italic text-gray-700 dark:text-white">{ranking}</p>
+              <p className="ml-4 mt-2 text-xs font-thin text-black dark:text-white">
                 as figures of December 2023
               </p>
             </div>
@@ -225,32 +225,32 @@ function CustomerOrderHistory() {
           </div> */}
 
           <div className="mt-8 mr-16">
-            <table>
+            <table className="text-black dark:text-white">
               <thead>
                 <tr>
-                  <th>No.</th>
-                  <th>Order Date</th>
-                  <th>Total Amount</th>
-                  <th>Payment Status</th>
-                  <th>Shipping Status</th>
-                  <th>Shipping Address</th>
+                  <th className="dark:bg-gray-600">No.</th>
+                  <th className="dark:bg-gray-600">Order Date</th>
+                  <th className="dark:bg-gray-600">Total Amount</th>
+                  <th className="dark:bg-gray-600">Payment Status</th>
+                  <th className="dark:bg-gray-600">Shipping Status</th>
+                  <th className="dark:bg-gray-600">Shipping Address</th>
                   {/* <th>Voucher Value</th>
                   <th>Shipping Value</th> */}
-                  <th>Action</th>
+                  <th className="dark:bg-gray-600">Action</th>
                 </tr>
               </thead>
               <tbody>
                 {orders.map((order, index) => (
                   <tr key={order.id}>
-                    <td>{index + 1}</td>
+                    <td >{index + 1}</td>
                     <td>{new Date(order.orderDate).toLocaleDateString()}</td>
                     <td>${order.totalAmount}</td>
-                    <td className="text-lime-700">{order.paymentStatus}</td>
-                    <td className="text-lime-700">{order.shippingStatus}</td>
+                    <td className="text-lime-700 dark:text-blue-500">{order.paymentStatus}</td>
+                    <td className="text-lime-700 dark:text-blue-500">{order.shippingStatus}</td>
                     <td>{order.shippingAddress}</td>
                     {/* <td>${order.voucherValue}</td>
                     <td>${order.shippingValue}</td> */}
-                    <td><button onClick={() => getOrdersDetail(order.id)} type="button" class="focus:outline-none text-white bg-green-700 hover:bg-green-800 focus:ring-4 focus:ring-green-300 font-medium rounded-lg text-sm px-5 py-2.5 me-2 mb-2 dark:bg-green-600 dark:hover:bg-green-700 dark:focus:ring-green-800">View</button></td>
+                    <td><button onClick={() => getOrdersDetail(order.id)} type="button" class="focus:outline-none text-white bg-green-700  hover:bg-green-800 dark:bg-blue-500  dark:hover:bg-blue-700 focus:ring-4 focus:ring-green-300 font-medium rounded-lg text-sm px-5 py-2.5 me-2 mb-2   dark:focus:ring-blue-800">View</button></td>
                   </tr>
                 ))}
               </tbody>
