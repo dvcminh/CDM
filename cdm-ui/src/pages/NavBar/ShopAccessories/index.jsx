@@ -20,6 +20,15 @@ export default function Example() {
     const [acc, setAcc] = useState([]);
     const [searchResult, setSearchResult] = useState([]);
     const [firstLoad, setFisrtLoad] = useState(false);
+    const handleSortBy = (e) => {
+        if(e.target.value === 'asc'){
+          const sortedArr = [...acc].sort((a,b) => a.price - b.price);
+          setSearchResult(sortedArr);
+        }else{
+          const sortedArr = [...acc].sort((a,b) => b.price - a.price);
+          setSearchResult(sortedArr);
+        }
+      }
     const fetchInfo = async () => {
         try {
           const res = await cdmApi.getShopByType('accessories');
@@ -66,9 +75,10 @@ export default function Example() {
                   name="sort"
                   id="sort"
                   className="mr-4 bg-white border-transparent	mb-6 text-gray-800"
+                  onChange={handleSortBy}
                 >
-                  <option value="asc">Ascending</option>
-                  <option value="desc">Descending</option>
+                  <option value="asc">Price Ascending</option>
+                  <option value="desc">Price Descending</option>
                 </select>
                 <div className="">
                           <div className=" flex justify-start float-right relative bg-white"  style={{width: 280}}>
