@@ -75,12 +75,12 @@ function CustomerPayment() {
   ];
   return (
     <>
-      <div className="flex">
+      <div className="flex bg-white dark:bg-slate-800">
         {/* {modalOpen && <Modal setOpenModal={setModalOpen} />} */}
 
         <SideBar />
         <div className="ml-4 hidden xl:block">
-          <h1 className="font-medium text-3xl mt-16 ml-4">Payment Method</h1>
+          <h1 className="font-medium text-3xl mt-16 ml-4 text-black dark:text-white">Payment Method</h1>
           <div className="flex mt-4">
             <DashboardItem
               data={paymentItem[1]}
