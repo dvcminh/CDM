@@ -39,7 +39,8 @@
     cursor: pointer;
 }
 
-
-.sidebar-item.active {
-    background-color: #f0f0f0;
+.sidebar-item:active{
+    background-color: grgb(230, 234, 234);
 }
+
+

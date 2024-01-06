@@ -25,13 +25,13 @@ function CustomerHome() {
       ]
 
     return ( 
-        <div>
+        <div className='bg-white dark:bg-slate-800 h-screen'>
             <span className='flex'>
                 <SideBar className='flex-1'/>
                 <div className='hidden sm:block flex flex-col'>
-                    <h1 className='font-medium text-3xl mt-16 ml-10'>Dashboard</h1>
+                    <h1 className='font-medium text-3xl mt-16 ml-10 text-black dark:text-white'>Dashboard</h1>
                     <div>
-                        <span className='dashboard'>
+                        <span className='dashboard '>
                             <DashboardItem data={dashboardItems[0]}/>
                             <DashboardItem data={dashboardItems[1]}/>
                         </span>

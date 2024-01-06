@@ -2,46 +2,39 @@ import { faCreditCard, faCube, faHome, faHouse, faRightFromBracket, faShirt, faU
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { Link, useLocation } from 'react-router-dom';
 import config from '../../../config';
-import {
-  FaHome,
-  FaGithubSquare,
-  FaInstagramSquare,
-  FaTwitterSquare
-} from 'react-icons/fa'
 
 import { ArrowRightOnRectangleIcon, CreditCardIcon, HomeIcon, NewspaperIcon, ShoppingBagIcon, UserCircleIcon } from '@heroicons/react/24/outline'
-import { CreditCard, ShoppingBag } from '@mui/icons-material';
-
+import "./SideBar.css"
 function SideBar() {
   const sidebarItem = [
     {
-      icon: <HomeIcon className='w-6 h-auto' />,
+      icon: <HomeIcon className='w-6 h-auto text-black dark:text-white' />,
       title: 'Dashboard',
       to: config.routes.customerhome
     },
     {
-      icon: <UserCircleIcon className='w-6 h-auto' />,
+      icon: <UserCircleIcon className='w-6 h-auto text-black dark:text-white' />,
       title: 'Profile Settings',
       to: config.routes.customerprofile
     },
     {
-      icon: <CreditCardIcon  className='w-6 h-auto' />,
+      icon: <CreditCardIcon  className='w-6 h-auto text-black dark:text-white' />,
       title: 'Payment Methods',
       to: config.routes.customerpayment
     },
     {
-      icon: <ShoppingBagIcon className='w-6 h-auto' />,
+      icon: <ShoppingBagIcon className='w-6 h-auto text-black dark:text-white' />,
       title: 'Order History',
       to: config.routes.customerorderhis
     },
     {
-      icon: <NewspaperIcon className='w-6 h-auto' />,
+      icon: <NewspaperIcon className='w-6 h-auto text-black dark:text-white' />,
       title: 'Report',
       to: config.routes.customerreport
     }
     ,
     {
-      icon: <ArrowRightOnRectangleIcon className='w-6 h-auto' />,
+      icon: <ArrowRightOnRectangleIcon className='w-6 h-auto text-black dark:text-white' />,
       title: 'Sign Out',
       to: config.routes.start
     }
@@ -60,9 +53,9 @@ function SideBar() {
       {sidebarItem.map((item, index) => (
         <div key={index}>
           <Link to={item.to} className='no-decoration' onClick={() => handleClick(item.title)}>
-            <div className={`sidebar-item ${location.pathname === item.to ? 'active' : ''}`}>
+            <div className={`sidebar-item-cus bg-white dark:bg-slate-800 hover:bg-gray-200 dark:hover:bg-gray-600  ${location.pathname === item.to ? 'bg-gray-600 dark:bg-gray-600' : ''} `}>
               {item.icon}
-              <div className='flex justify-center items-center'><p className='sidebar__title'>{item.title}</p></div>
+              <div className='flex justify-center items-center '><p className='ml-8 text-black dark:text-white' style={{fontSize: 18}}>{item.title}</p></div>
             </div>
           </Link>
         </div>
