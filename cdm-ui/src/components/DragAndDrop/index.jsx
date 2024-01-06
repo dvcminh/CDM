@@ -69,7 +69,7 @@ const DragAndDrop = ({uploadImage}) => {
   };
 
   return (
-    <div className="bg-white rounded w-4/5 mt-4">
+    <div className="bg-white dark:bg-gray-600 rounded w-4/5 mt-4">
       <div
         x-data="dataFileDnD()"
         className="relative flex flex-col p-4 text-gray-400 border border-gray-200 rounded"

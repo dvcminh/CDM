@@ -25,7 +25,7 @@ function CustomerPayment() {
       content: "Produce energy to power your Tesla life",
       button: (
         <button
-          className="dashboard__item-button"
+          className="dashboard__item-button text-black dark:text-white"
           onClick={() => {
             localStorage.setItem("payment_method", "Credit Cards");
           }}
@@ -46,7 +46,7 @@ function CustomerPayment() {
       content: "Produce energy to power your Tesla life",
       button: (
         <button
-          className="dashboard__item-button"
+          className="dashboard__item-button text-black dark:text-white"
           onClick={() => handlePaymentMethodChange("Cash")}
         >
           Select
@@ -65,7 +65,7 @@ function CustomerPayment() {
       content: "Produce energy to power your Tesla life",
       button: (
         <button
-          className="dashboard__item-button"
+          className="dashboard__item-button text-black dark:text-white"
           onClick={() => handlePaymentMethodChange("VNPay")}
         >
           Select
@@ -75,12 +75,12 @@ function CustomerPayment() {
   ];
   return (
     <>
-      <div className="flex">
+      <div className="flex bg-white dark:bg-slate-800">
         {/* {modalOpen && <Modal setOpenModal={setModalOpen} />} */}
 
         <SideBar />
         <div className="ml-4 hidden xl:block">
-          <h1 className="font-medium text-3xl mt-16 ml-4">Payment Method</h1>
+          <h1 className="font-medium text-3xl mt-16 ml-4 text-black dark:text-white">Payment Method</h1>
           <div className="flex mt-4">
             <DashboardItem
               data={paymentItem[1]}
