@@ -11,7 +11,9 @@ import { cdmApi } from "../../../misc/cdmApi";
 import React, { useEffect, useState } from "react";
 import  Alert from "@mui/material/Alert";
 import { Snackbar } from "@mui/material";
-import OtherLoading from "../../../components/OtherLoading"
+import OtherLoading from "../../../components/OtherLoading";
+import { IonButton } from "@ionic/react";
+
 function CustomerProfile() {
   const [userData, setUserData] = useState(
     JSON.parse(localStorage.getItem("currentUser")) || []
@@ -151,10 +153,10 @@ function CustomerProfile() {
     <>
       {loading && <OtherLoading setOpenModal={setLoading}/>}
 
-      <div className="flex">
+      <div className="flex bg-white dark:bg-slate-800">
         <SideBar />
-        <div style={{ marginLeft: 40, width: "100vw" }}>
-          <h1 className="font-medium text-3xl mt-16">Profile Settings</h1>
+        <div style={{ marginLeft: 40, width: "100vw" }} >
+          <h1 className="font-medium text-3xl mt-16 text-black dark:text-white">Profile Settings</h1>
           <div className="flex">
             <div className="flex-2">
               <label for="avatar-upload" className="avatar-container mt-2">
@@ -179,10 +181,10 @@ function CustomerProfile() {
                 onChange={handleFileUpload}
               />
             </div>
-            <div className="vertical-line"></div>
+            <div className="vertical-line bg-black dark:bg-white"></div>
             <div style={{ flex: 4 }}>
-              <p className="font-medium underline mt-4">Mr. {email}</p>
-              <p>
+              <p className="font-medium underline mt-4 text-black dark:text-white">Mr. {email}</p>
+              <p className=" text-black dark:text-white">
                 {" "}
                 {address} 
               </p>
@@ -194,18 +196,18 @@ function CustomerProfile() {
 
           {/* line 1 */}
           <div className="flex items-center">
-            <div className="horizontal-line"></div>
+            <div className="horizontal-line bg-black dark:bg-white"></div>
           </div>
 
-          <form className="flex flex-col" onSubmit={handleSubmitUserData}>
-            <div class="form-group">
-              <label for="user" class="article">
+          <form className="flex flex-col text-black dark:text-white"  onSubmit={handleSubmitUserData}>
+            <div className="form-group">
+              <label for="user" className="article">
                 Full Name
               </label>
               <input
                 type="user"
                 id="last"
-                class="input-article"
+                className="input-article bg-white dark:bg-gray-600 text-black dark:text-white dark:border-none"
                 style={{ width: "90%" }}
                 value={email}
                 onChange={(e) => setEmail(e.target.value)}
@@ -213,50 +215,53 @@ function CustomerProfile() {
             </div>
 
             <div className="flex mt-3">
-              <div class="form-group">
-                <label for="email" class="article">
+              <div className="form-group text-black dark:text-white">
+                <label for="email" className="article">
                   Email Address
                 </label>
                 <input
                   readOnly
                   type="text"
                   id="email"
-                  class="input-article"
+                  className="input-article text-black dark:text-white bg-white dark:bg-gray-600 dark:border-none" 
                   value={name}
                   onChange={(e) => setName(e.target.value)}
                   title="This field is read-only"
                 />
               </div>
               <div class="form-group">
-                <label for="phone" class="article">
+                <label for="phone" className="article">
                   Phone Numer
                 </label>
                 <input
                   type="text"
                   id="phone"
-                  class="input-article"
+                  className="input-article text-black dark:text-white bg-white dark:bg-gray-600 dark:border-none"
                   value={phone}
                   onChange={(e) => setPhone(e.target.value)}
                 />
               </div>
             </div>
-            <div class="form-group mt-3">
-              <label htmlFor="last1" class="article">
+            <div className="form-group mt-3">
+              <label htmlFor="last1" className="article">
                 Home Address
               </label>
               <input
                 type="text"
                 name="last1"
-                class="input-article"
+                className="input-article text-black dark:text-white bg-white dark:bg-gray-600 dark:border-none"
                 style={{ width: "90%" }}
                 value={address}
                 onChange={(e) => setAddress(e.target.value)}
               />
             </div>
             <div style={{ width: "90%" }}>
-              <button type="submit" className="button button--light">
+              {/* <button type="submit" className="button button--light">
                 Save Change
-              </button>
+              </button> */}
+                <button type="submit" class="button py-4 bg-black hover:bg-gray-600 dark:bg-blue-500 dark:hover:bg-blue-700 text-white font-bold py-2 px-4 rounded-full">
+                Save Change
+                </button>
             </div>
           </form>
 
@@ -296,38 +301,38 @@ function CustomerProfile() {
           </div>
 
           <form className="flex flex-col" onSubmit={handleChangePassword}>
-            <div className="flex">
-              <div class="form-group">
+            <div className="flex ">
+              <div class="form-group text-black dark:text-white">
                 <label for="cr" class="article">
                   Current Password
                 </label>
                 <input
                   type="password"
                   id="cr"
-                  class="input-article"
+                  class="input-article text-black dark:text-white bg-white dark:bg-gray-600 dark:border-none"
                   onChange={(e) => setPassword(e.target.value)}
                 />
               </div>
-              <div class="form-group">
+              <div class="form-group text-black dark:text-white">
                 <label for="ne" class="article">
                   New Password
                 </label>
                 <input
                   type="password"
                   id="ne"
-                  class="input-article"
+                  class="input-article text-black dark:text-white bg-white dark:bg-gray-600 dark:border-none"
                   onChange={(e) => setNewPassword(e.target.value)}
                 />
               </div>
             </div>
-            <div class="form-group" style={{ marginTop: 15 }}>
+            <div class="form-group text-black dark:text-white" style={{ marginTop: 15 }}>
               <label for="user" class="article">
                 Confirm New Password
               </label>
               <input
                 type="password"
                 id="user"
-                class="input-article"
+                class="input-article text-black dark:text-white bg-white dark:bg-gray-600 dark:border-none"
                 style={{ width: "90%" }}
                 onChange={(e) => setConfirmNewPassword(e.target.value)}
               />
@@ -335,8 +340,8 @@ function CustomerProfile() {
 
             <div style={{ width: "90%" }}>
               {/* <button className="button button--light mb-10">Cancel</button> */}
-              <button className="button button--light mb-10">
-                Save Change
+              <button type="submit" class=" button py-4 bg-black hover:bg-gray-600 dark:bg-blue-500  dark:hover:bg-blue-700 text-white font-bold py-2 px-4 rounded-full">
+                    Save Change
               </button>
             </div>
           </form>

@@ -53,7 +53,7 @@ function SideBar() {
       {sidebarItem.map((item, index) => (
         <div key={index}>
           <Link to={item.to} className='no-decoration' onClick={() => handleClick(item.title)}>
-            <div className={`sidebar-item-cus bg-white dark:bg-slate-800 hover:bg-gray-200 dark:hover:bg-gray-600  ${location.pathname === item.to ? 'bg-gray-600 dark:bg-gray-600' : ''} `}>
+            <div className={`sidebar-item-cus bg-white dark:bg-slate-800 hover:bg-gray-200 dark:hover:bg-gray-600  active:bg-gray-600 dark:active:bg-gray-600 ${location.pathname === item.to ? 'bg-gray-200 dark:bg-gray-600' : ''} `}>
               {item.icon}
               <div className='flex justify-center items-center '><p className='ml-8 text-black dark:text-white' style={{fontSize: 18}}>{item.title}</p></div>
             </div>
