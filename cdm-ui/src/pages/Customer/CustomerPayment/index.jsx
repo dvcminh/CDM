@@ -25,7 +25,7 @@ function CustomerPayment() {
       content: "Produce energy to power your Tesla life",
       button: (
         <button
-          className="dashboard__item-button"
+          className="dashboard__item-button text-black dark:text-white"
           onClick={() => {
             localStorage.setItem("payment_method", "Credit Cards");
           }}
@@ -46,7 +46,7 @@ function CustomerPayment() {
       content: "Produce energy to power your Tesla life",
       button: (
         <button
-          className="dashboard__item-button"
+          className="dashboard__item-button text-black dark:text-white"
           onClick={() => handlePaymentMethodChange("Cash")}
         >
           Select
@@ -65,7 +65,7 @@ function CustomerPayment() {
       content: "Produce energy to power your Tesla life",
       button: (
         <button
-          className="dashboard__item-button"
+          className="dashboard__item-button text-black dark:text-white"
           onClick={() => handlePaymentMethodChange("VNPay")}
         >
           Select

@@ -14,13 +14,13 @@ function CustomerHome() {
           img: <img src='https://digitalassets.tesla.com/oxp/image/upload/solar-marketing_636x300_4bd7119e4705e.jpg' alt='solar' className='dashboard__item-img'/>,
           article: 'Appointment',
           content: 'Book a test drive or get your car',
-          button: <button className='dashboard__item-button' onClick={() => navigate('/customerhome/bookappointment')}>Book Appointment</button>
+          button: <button className='dashboard__item-button text-black dark:text-white' onClick={() => navigate('/customerhome/bookappointment')}>Book Appointment</button>
         },
         {
           img: <img src='https://digitalassets.tesla.com/oxp/image/upload/v1692297205/dscf6059-4_acb1b643864e2.png' alt='order' className='dashboard__item-img'/>,
           article: 'Vehicle',
           content: 'Discovery our vehicle now',
-          button: <button className='dashboard__item-button' onClick={() => navigate('/vehicle')}>View All</button>
+          button: <button className='dashboard__item-button text-black dark:text-white' onClick={() => navigate('/vehicle')}>View All</button>
         }
       ]
 
