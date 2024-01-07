@@ -217,7 +217,7 @@ const ManageStaffPage = () => {
       headerName: "ID",
       width: 50,
       renderCell: (params) => {
-        return <div>{params.row.index}</div>;
+        return <div className='dark:text-white'>{params.row.index}</div>;
       },
     },
     {
@@ -252,7 +252,7 @@ const ManageStaffPage = () => {
       field: "name",
       headerName: "Name",
       width: 180,
-      cellClassName: "name-column--cell",
+      cellClassName: "name-column--cell dark:text-white",
       editable: true,
       
     },
@@ -270,18 +270,23 @@ const ManageStaffPage = () => {
       headerName: "Phone Number",
       width: 160,
       editable: true,
+      cellClassName: "dark:text-white"
     },
     {
       field: "email",
       headerName: "Email",
       width: 220,
       editable: true,
+      cellClassName: "dark:text-white"
+
     },
     {
       field: "address",
       headerName: "Position",
       width: 250,
       editable: true,
+      cellClassName: "dark:text-white"
+
     },
     {
       field: 'actions',
@@ -289,12 +294,13 @@ const ManageStaffPage = () => {
       headerName: 'Actions',
       flex: 1,
       minWidth: 80,
-      cellClassName: 'actions',
+      cellClassName: 'actions dark:text-white',
+      
       getActions: ({ id }) => {
   
         return [
           <GridActionsCellItem
-          icon={<EditIcon className='bg-[#1F2937] text-white rounded-md box-content p-[4px]
+          icon={<EditIcon className='bg-[#1F2937] dark:bg-blue-500 dark:hover:bg-blue-700 text-white rounded-md box-content p-[4px]
                          hover:bg-[#455265]'/>}
             label="Edit"
             className="textPrimary"
@@ -317,7 +323,7 @@ const ManageStaffPage = () => {
 
   //render
   return (
-    <div className="flex">
+    <div className="flex bg-white dark:bg-slate-800">
       <ManagerSideBar/>
       { modalOpen && ( 
       <StaffModalForm 
@@ -329,13 +335,13 @@ const ManageStaffPage = () => {
 
       <div className='ml-8 flex-1 flex flex-col overflow-x-hidden'>
         <div className="pt-8 w-full">
-          <p className="text-4xl  font-bold">Staff</p>
+          <p className="text-4xl  font-bold dark:text-white">Staff</p>
         </div>
-        <button className='self-end mr-[50px] mb-0 bg-[#000] hover:bg-[#6d7986] rounded-md text-white font-bold w-[150px] max-sm:ml-0 my-2 py-2 max-lg:self-start max-lg:mt-[40px]' 
+        <button className='dark:bg-blue-500 self-end mr-[50px] mb-0 bg-[#000] hover:bg-[#6d7986] rounded-md text-white font-bold w-[150px] max-sm:ml-0 my-2 py-2 max-lg:self-start max-lg:mt-[40px]' 
                 onClick={() => {setModalOpen(true);}}>CREATE NEW</button>
         
         {/* Data Grid */}
-        <div className="mt-[15px]">
+        <div className="mt-[15px] ">
           {renderConfirmDialog()}
           <Box height="544px" width="100%"  sx={{
               "& .MuiDataGrid-root" : {

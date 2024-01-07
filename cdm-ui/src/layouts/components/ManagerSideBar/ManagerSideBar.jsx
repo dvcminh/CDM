@@ -13,28 +13,28 @@ import {
 } from 'react-icons/fa'
 
 
-import { ArrowRightOnRectangleIcon, CreditCardIcon, HomeIcon, NewspaperIcon, ShoppingBagIcon, UserCircleIcon, UsersIcon, UserGroupIcon, Square3Stack3DIcon } from '@heroicons/react/24/outline'
+import { ArrowRightOnRectangleIcon, CreditCardIcon, HomeIcon, NewspaperIcon, ShoppingBagIcon, UserCircleIcon, UsersIcon, UserGroupIcon, Square3Stack3DIcon, ChatBubbleBottomCenterTextIcon } from '@heroicons/react/24/outline'
 import { Chat, CreditCard, ShoppingBag } from '@mui/icons-material';
 
 function ManagerSideBar() {
   const sidebarItem = [
     {
-      icon: <HomeIcon className='w-6 h-auto' />,
+      icon: <HomeIcon className='w-6 h-auto dark:text-white' />,
       title: 'Dashboard',
       to: config.routes.managerhome
     },
     {
-      icon: <UserCircleIcon className='w-6 h-auto' />,
+      icon: <UserCircleIcon className='w-6 h-auto dark:text-white' />,
       title: 'Profile Settings',
       to: config.routes.managerprofile
     },
     {
-      icon: <UserGroupIcon  className='w-6 h-auto' />,
+      icon: <UserGroupIcon  className='w-6 h-auto dark:text-white' />,
       title: 'Staffs',
       to: config.routes.managestaff
     },
     {
-      icon: <UsersIcon className='w-6 h-auto' />,
+      icon: <UsersIcon className='w-6 h-auto dark:text-white' />,
       title: 'Customers',
       to: config.routes.managecustomer
     },
@@ -50,19 +50,19 @@ function ManagerSideBar() {
     // }
     // ,
     {
-      icon: <NewspaperIcon className='w-6 h-auto' />,
+      icon: <NewspaperIcon className='w-6 h-auto dark:text-white' />,
       title: 'Reports',
       to: config.routes.managereport
     }
     ,
     {
-      icon: <Chat className='w-6 h-auto' />,
+      icon: <ChatBubbleBottomCenterTextIcon className='w-6 h-auto dark:text-white' />,
       title: 'Conversation',
       to: config.routes.managerchat
     }
     ,
     {
-      icon: <ArrowRightOnRectangleIcon className='w-6 h-auto' />,
+      icon: <ArrowRightOnRectangleIcon className='w-6 h-auto dark:text-white' />,
       title: 'Sign Out',
       to: config.routes.start
     }
@@ -76,20 +76,20 @@ function ManagerSideBar() {
     }
   };
   return (
-   <div style={{height: '90vh'}} className='hidden lg:block'>
-     <div className='flex flex-col items-center h-4/5 mt-28' >
-      {sidebarItem.map((item, index) => (
-        <div key={index}>
-          <Link to={item.to} className='no-decoration' onClick={() => handleClick(item.title)}>
-            <div className={`sidebar-item ${location.pathname === item.to ? 'active' : ''}`}>
-              {item.icon}
-              <div className='flex justify-center items-center'><p className='sidebar__title'>{item.title}</p></div>
-            </div>
-          </Link>
-        </div>
-      ))}
-    </div>
+    <div style={{height: '90vh'}} className='hidden lg:block'>
+    <div className='flex flex-col items-center h-4/5 mt-32' >
+     {sidebarItem.map((item, index) => (
+       <div key={index}>
+         <Link to={item.to} className='no-decoration' onClick={() => handleClick(item.title)}>
+           <div className={`sidebar-item-cus hover:bg-gray-200 dark:hover:bg-gray-600 ${location.pathname === item.to ? 'bg-gray-200 dark:bg-gray-600' : 'bg-white dark:bg-slate-800 '} `}>
+             {item.icon}
+             <div className='flex justify-center items-center '><p className='ml-8 text-black dark:text-white' style={{fontSize: 18}}>{item.title}</p></div>
+           </div>
+         </Link>
+       </div>
+     ))}
    </div>
+  </div>
   );
 }
 

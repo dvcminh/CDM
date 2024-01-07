@@ -1,14 +1,13 @@
 import { Fragment, useEffect, useState } from 'react'
 import { Disclosure, Menu, Transition } from '@headlessui/react'
-import { Bars3Icon, BellIcon, XMarkIcon, UserCircleIcon, ShoppingCartIcon, MoonIcon, SunIcon } from '@heroicons/react/24/outline'
+import { Bars3Icon, BellIcon, XMarkIcon, UserCircleIcon, ShoppingCartIcon, SunIcon, MoonIcon } from '@heroicons/react/24/outline'
+import ShoppingGuide from '../../../pages/NavBar/ShoppingGuide'
 import { useNavigate } from 'react-router-dom'
-import DirectionsCarFilledOutlinedIcon from '@mui/icons-material/DirectionsCarFilledOutlined';
-import EarbudsBatteryOutlinedIcon from '@mui/icons-material/EarbudsBatteryOutlined';
-
+import React from 'react'
 const navigation = [
   { name: 'Vehicle', href: '/vehicle', current: false },
-  { name: 'Manage Vehicle', href: '/managerhome/managecar', current: false },
-  { name: 'Manage Product', href: '/managerhome/manageshop', current: false },
+  { name: 'Charging', href: '#', current: false },
+  { name: 'Shopping Guide', href: '#', current: false },
   { name: 'Shop', href: '/shop', current: false },
 ]
 
@@ -37,32 +36,35 @@ export default function Example() {
   }
 
   const [modalOpen, setModalOpen] = useState(false);
+  
   const handleClick = (name) => {
     if (name === 'Shopping Guide') {
       setModalOpen(true);
     }
   };
 
-  const [theme, setTheme] = useState("light");
+    const [theme, setTheme] = useState("light");
 
-  useEffect(() => {
-      if (theme === "dark") {
-            document. documentElement.classList.add("dark");
-      }else {
-            document.documentElement.classList. remove("dark");
-      }
-  }, [theme]);
+    useEffect(() => {
+        
+        if (theme === "dark") {
+              document. documentElement.classList.add("dark");
+        }else {
+              document.documentElement.classList. remove("dark");
+        }
+    }, [theme]);
 
-  const handleThemeSwitch = () => {
-  setTheme(theme === "dark" ? "light" : "dark");
+    const handleThemeSwitch = () => {
+    setTheme(theme === "dark" ? "light" : "dark");
 
-}
-
+  }
+  
   return (
     <Disclosure as="nav" className="bg-slate-800 dark:bg-gray-600">
       {({ open }) => (
         <>
-          <div className="mx-auto max-w-7xl px-2 sm:px-6 lg:px-8 dark:bg-gray-600">
+          {modalOpen && <ShoppingGuide setOpenModal={setModalOpen} />}
+          <div className="mx-auto max-w-7xl px-2 sm:px-6 lg:px-8 bg-slate-800 dark:bg-gray-600">
             <div className="relative flex h-16 items-center justify-between">
               <div className="absolute inset-y-0 left-0 flex items-center sm:hidden">
                 {/* Mobile menu button*/}
@@ -89,12 +91,12 @@ export default function Example() {
                 <div className="hidden sm:ml-6 sm:block">
                   <div className="lg:ml-64 mt-8 flex space-x-4">
                     {navigation.map((item) => (
-                      <a
+                      <a   onClick={() => handleClick(item.name)}
                         key={item.name}
                         href={item.href}
                         className={classNames(
-                          item.current ? 'bg-gray-900 text-white' : 'text-gray-300 hover:bg-gray-700 hover:text-white',
-                          'rounded-md px-3 py-2 text-sm font-medium'
+                          item.current ? 'bg-gray-900 text-white' : 'text-black hover:bg-gray-700 hover:text-white',
+                          'rounded-md px-3 py-2 text-sm font-medium text-black'
                         )}
                         aria-current={item.current ? 'page' : undefined}
                       >
@@ -105,46 +107,42 @@ export default function Example() {
                 </div>
               </div>
               <div className="absolute inset-y-0 right-0 flex items-center pr-2 sm:static sm:inset-auto sm:ml-6 sm:pr-0">
-                {/* <a href="/managerhome/manageshop">
-                <button
-                  type="button"
-                  className="relative rounded-full bg-gray-800 p-1 text-gray-400 hover:text-white focus:outline-none focus:ring-2 focus:ring-white focus:ring-offset-2 focus:ring-offset-gray-800"
-                >
-                  <span className="absolute -inset-1.5" />
-                  <span className="sr-only">View notifications</span>
-                  <EarbudsBatteryOutlinedIcon className="h-6 w-6" aria-hidden="true"/>
-                </button>
-                </a>
-
-                <a href="/managerhome/managecar">
-                <button
-                  type="button"
-                  className="ml-4 relative rounded-full bg-gray-800 p-1 text-gray-400 hover:text-white focus:outline-none focus:ring-2 focus:ring-white focus:ring-offset-2 focus:ring-offset-gray-800"
-                >
-                  <span className="absolute -inset-1.5" />
-                  <span className="sr-only">View notifications</span>
-                  <DirectionsCarFilledOutlinedIcon className="h-6 w-6" aria-hidden="true"/>
-                </button>
-
-                </a> */}
-                    <button
-                    type="button" onClick={handleThemeSwitch}
-                    className="ml-4 bg-transparent relative rounded-full bg-gray-800 p-1 text-gray-400 hover:text-white focus:outline-none focus:ring-2 focus:ring-white focus:ring-offset-2 focus:ring-offset-gray-800"
-                      >
+              {/* <button
+                    type="button" onClick={() => setThemeLight()}
+                    className="bg-transparent relative rounded-full bg-gray-800 p-1 text-gray-400 hover:text-white focus:outline-none focus:ring-2 focus:ring-white focus:ring-offset-2 focus:ring-offset-gray-800"
+                  >
                     <span className="absolute -inset-1.5" />
                     <span className="sr-only">View notifications</span>
-                    <MoonIcon className={`h-6 w-6 ${theme === "light" ? 'hidden' : 'block' }`} aria-hidden="true" />
-                    <SunIcon className={`h-6 w-6 ${theme === "dark" ? 'hidden' : 'block' }`} aria-hidden="true" />
+                    <SunIcon className="h-6 w-6" aria-hidden="true" />
+                  </button> */}
+                  {/* <button
+                    type="button" onClick={handleThemeSwitch}
+                    className="ml-4 bg-transparent relative rounded-full bg-gray-800 p-1 text-gray-400 hover:text-white focus:outline-none focus:ring-2 focus:ring-white focus:ring-offset-2 focus:ring-offset-gray-800"
+                  >
+                    <span className="absolute -inset-1.5" />
+                    <span className="sr-only">View notifications</span>
+                    <MoonIcon className={`h-6 w-6 ${theme === "dark" ? 'hidden' : 'block' }`} aria-hidden="true" />
+                    <SunIcon className={`h-6 w-6 ${theme === "light" ? 'hidden' : 'block' }`} aria-hidden="true" />                  </button> */}
+                {/* <div className='w-0.5 h-8 bg-gray-400 mx-2'></div> */}
+                <a href="/customerhome/shoppingcart">
+                  <button 
+                    type="button"
+                    className="bg-transparent relative rounded-full bg-gray-800 p-1 text-gray-400 hover:text-white focus:outline-none focus:ring-2 focus:ring-white focus:ring-offset-2 focus:ring-offset-gray-800"
+                  >
+                    <span className="absolute -inset-1.5" />
+                    <span className="sr-only">View notifications</span>
+                    <ShoppingCartIcon className="h-6 w-6 text-black" aria-hidden="true" />
                   </button>
-                <div className='w-0.5 h-8 bg-gray-400 mx-2'></div>
+                </a>
+
                 {/* Profile dropdown */}
                 <button onClick={handleUserButton}
                   type="button"
-                  className="relative rounded-full bg-gray-800 p-1 text-gray-400 hover:text-white focus:outline-none focus:ring-2 focus:ring-white focus:ring-offset-2 focus:ring-offset-gray-800"
+                  className="bg-transparent ml-4 relative rounded-full bg-gray-800 p-1 text-gray-400 hover:text-white focus:outline-none focus:ring-2 focus:ring-white focus:ring-offset-2 focus:ring-offset-gray-800"
                 >
                   <span className="absolute -inset-1.5" />
                   <span className="sr-only">View notifications</span>
-                  <UserCircleIcon className="h-6 w-6" aria-hidden="true" />
+                  <UserCircleIcon className="h-6 w-6 text-black" aria-hidden="true" />
                 </button>
               </div>
             </div>

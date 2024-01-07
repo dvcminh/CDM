@@ -46,6 +46,7 @@ export default function Example() {
     const [theme, setTheme] = useState("light");
 
     useEffect(() => {
+        
         if (theme === "dark") {
               document. documentElement.classList.add("dark");
         }else {
@@ -120,8 +121,8 @@ export default function Example() {
                   >
                     <span className="absolute -inset-1.5" />
                     <span className="sr-only">View notifications</span>
-                    <MoonIcon className="h-6 w-6" aria-hidden="true" />
-                  </button>
+                    <MoonIcon className={`h-6 w-6 ${theme === "dark" ? 'hidden' : 'block' }`} aria-hidden="true" />
+                    <SunIcon className={`h-6 w-6 ${theme === "light" ? 'hidden' : 'block' }`} aria-hidden="true" />                  </button>
                 <div className='w-0.5 h-8 bg-gray-400 mx-2'></div>
                 <a href="/customerhome/shoppingcart">
                   <button 
