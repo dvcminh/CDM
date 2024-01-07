@@ -19,6 +19,7 @@ const StaffOrder = () => {
 
   
     const getUserInfor = async (email) => {
+      console.log(email);
       const response = await cdmApi.getUserMe(email);
       setUserInfor((prevData) => [...prevData, response.data]);
     };

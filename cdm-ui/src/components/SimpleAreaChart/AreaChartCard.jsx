@@ -19,8 +19,8 @@ const CardWithAreaChart = ({monthlyRevenue}) => {
   };
 
   return (
-    <div className="bg-white rounded-lg shadow-md p-4 w-11/12">
-      <div className="relative h-64">
+    <div className="bg-white dark:bg-gray-200 rounded-lg shadow-md p-4 w-11/12 ">
+      <div className="relative h-64 ">
         <div className="absolute inset-0 flex items-center justify-center">
           <SimpleAreaChart data={monthlyRevenue} />
         </div>
@@ -29,14 +29,14 @@ const CardWithAreaChart = ({monthlyRevenue}) => {
       <div className="flex justify-between items-center mb-4">
         <button
           onClick={handlePreviousClick}
-          className="p-2 rounded-full bg-gray-200 hover:bg-gray-300 focus:outline-none"
+          className="p-2 rounded-full bg-gray-200 hover:bg-gray-300 dark:text-black focus:outline-none"
         >
           <FaArrowLeft />
         </button>
         <h2>Revenue this year</h2>
         <button
           onClick={handleNextClick}
-          className="p-2 rounded-full bg-gray-200 hover:bg-gray-300 focus:outline-none"
+          className="p-2 rounded-full bg-gray-200 hover:bg-gray-300 dark:text-black focus:outline-none"
         >
           <FaArrowRight />
         </button>

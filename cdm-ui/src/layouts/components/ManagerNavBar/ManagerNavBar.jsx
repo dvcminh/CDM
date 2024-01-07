@@ -1,14 +1,14 @@
-import { Fragment, useState } from 'react'
+import { Fragment, useEffect, useState } from 'react'
 import { Disclosure, Menu, Transition } from '@headlessui/react'
-import { Bars3Icon, BellIcon, XMarkIcon, UserCircleIcon, ShoppingCartIcon } from '@heroicons/react/24/outline'
+import { Bars3Icon, BellIcon, XMarkIcon, UserCircleIcon, ShoppingCartIcon, MoonIcon, SunIcon } from '@heroicons/react/24/outline'
 import { useNavigate } from 'react-router-dom'
 import DirectionsCarFilledOutlinedIcon from '@mui/icons-material/DirectionsCarFilledOutlined';
 import EarbudsBatteryOutlinedIcon from '@mui/icons-material/EarbudsBatteryOutlined';
 
 const navigation = [
   { name: 'Vehicle', href: '/vehicle', current: false },
-  { name: 'Charging', href: '#', current: false },
-  { name: 'Shopping Guide', href: '#', current: false },
+  { name: 'Manage Vehicle', href: '/managerhome/managecar', current: false },
+  { name: 'Manage Product', href: '/managerhome/manageshop', current: false },
   { name: 'Shop', href: '/shop', current: false },
 ]
 
@@ -43,11 +43,26 @@ export default function Example() {
     }
   };
 
+  const [theme, setTheme] = useState("light");
+
+  useEffect(() => {
+      if (theme === "dark") {
+            document. documentElement.classList.add("dark");
+      }else {
+            document.documentElement.classList. remove("dark");
+      }
+  }, [theme]);
+
+  const handleThemeSwitch = () => {
+  setTheme(theme === "dark" ? "light" : "dark");
+
+}
+
   return (
-    <Disclosure as="nav" className="bg-gray-800">
+    <Disclosure as="nav" className="bg-slate-800 dark:bg-gray-600">
       {({ open }) => (
         <>
-          <div className="mx-auto max-w-7xl px-2 sm:px-6 lg:px-8">
+          <div className="mx-auto max-w-7xl px-2 sm:px-6 lg:px-8 dark:bg-gray-600">
             <div className="relative flex h-16 items-center justify-between">
               <div className="absolute inset-y-0 left-0 flex items-center sm:hidden">
                 {/* Mobile menu button*/}
@@ -90,7 +105,7 @@ export default function Example() {
                 </div>
               </div>
               <div className="absolute inset-y-0 right-0 flex items-center pr-2 sm:static sm:inset-auto sm:ml-6 sm:pr-0">
-                <a href="/managerhome/manageshop">
+                {/* <a href="/managerhome/manageshop">
                 <button
                   type="button"
                   className="relative rounded-full bg-gray-800 p-1 text-gray-400 hover:text-white focus:outline-none focus:ring-2 focus:ring-white focus:ring-offset-2 focus:ring-offset-gray-800"
@@ -111,12 +126,21 @@ export default function Example() {
                   <DirectionsCarFilledOutlinedIcon className="h-6 w-6" aria-hidden="true"/>
                 </button>
 
-                </a>
-
+                </a> */}
+                    <button
+                    type="button" onClick={handleThemeSwitch}
+                    className="ml-4 bg-transparent relative rounded-full bg-gray-800 p-1 text-gray-400 hover:text-white focus:outline-none focus:ring-2 focus:ring-white focus:ring-offset-2 focus:ring-offset-gray-800"
+                      >
+                    <span className="absolute -inset-1.5" />
+                    <span className="sr-only">View notifications</span>
+                    <MoonIcon className={`h-6 w-6 ${theme === "light" ? 'hidden' : 'block' }`} aria-hidden="true" />
+                    <SunIcon className={`h-6 w-6 ${theme === "dark" ? 'hidden' : 'block' }`} aria-hidden="true" />
+                  </button>
+                <div className='w-0.5 h-8 bg-gray-400 mx-2'></div>
                 {/* Profile dropdown */}
                 <button onClick={handleUserButton}
                   type="button"
-                  className="ml-4 relative rounded-full bg-gray-800 p-1 text-gray-400 hover:text-white focus:outline-none focus:ring-2 focus:ring-white focus:ring-offset-2 focus:ring-offset-gray-800"
+                  className="relative rounded-full bg-gray-800 p-1 text-gray-400 hover:text-white focus:outline-none focus:ring-2 focus:ring-white focus:ring-offset-2 focus:ring-offset-gray-800"
                 >
                   <span className="absolute -inset-1.5" />
                   <span className="sr-only">View notifications</span>

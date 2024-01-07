@@ -100,13 +100,13 @@ function ManagerHome() {
 
   const StatsCardUpward = ({ title, value, trend }) => {
     return (
-      <div className="w-64 bg-white shadow-md rounded-lg p-4 flex items-center">
-        <div className="text-blue-500 mr-2">
+      <div className="w-64 bg-white dark:bg-gray-500 shadow-md rounded-lg p-4 flex items-center">
+        <div className="text-blue-500 mr-2 dark:text-green-600">
           <FaArrowUp size={20} /> {/* Change the icon and size as needed */}
         </div>
         <div className="flex flex-col">
-          <span className="text-gray-600">{title}</span>
-          <span className="text-2xl font-bold">{value}</span>
+          <span className="text-gray-600 dark:text-white">{title}</span>
+          <span className="text-2xl font-bold dark:text-white">${value}</span>
           <span
             className={`text-sm ${
               trend > 0 ? "text-green-500" : "text-red-500"
@@ -120,14 +120,14 @@ function ManagerHome() {
   };
   const StatsCardDownward = ({ title, value, trend }) => {
     return (
-      <div className="w-64 bg-white shadow-md rounded-lg p-4 flex items-center">
+      <div className="w-64 bg-white shadow-md rounded-lg p-4 flex items-center dark:bg-gray-500">
         <div className="text-red-500 mr-2">
           <FaArrowDown size={20} /> {/* Use the downward arrow icon */}
         </div>
-        <div className="flex flex-col">
-          <span className="text-gray-600">{title}</span>
-          <span className="text-2xl font-bold">{value}</span>
-          <span className="text-sm text-red-500">- {Math.abs(trend)}%</span>
+        <div className="flex flex-col ">
+          <span className="text-gray-600 dark:text-white">{title}</span>
+          <span className="text-2xl font-bold dark:text-white">{value}</span>
+          <span className="text-sm text-red-500 ">- {Math.abs(trend)}%</span>
         </div>
       </div>
     );
@@ -135,10 +135,10 @@ function ManagerHome() {
 
   return (
     <div>
-      <div className="flex">
+      <div className="flex bg-white dark:bg-slate-800">
         <ManagerSideBar />
         <div className="ml-8 hidden sm:block flex flex-col">
-          <h1 className="font-medium text-3xl mt-16">Dashboard</h1>
+          <h1 className="font-medium text-3xl mt-16 dark:text-white">Dashboard</h1>
           {/* Stats */}
           <div
             className="flex mt-4 space-x-2 style={{width: '70vw', height: '20vh'}}"
@@ -170,12 +170,12 @@ function ManagerHome() {
             </div>
           </div>
           {/* Charts */}
-          <div className="flex mt-4 space-x-2">
+          <div className="flex mt-4 space-x-2 ">
             {/* <div className="rounded-lg flex flex-1 opacity-90 justify-center items-center">
               <CardWithPieChart />
             </div> */}          
             <div className="rounded-lg flex flex-auto opacity-90 justify-center items-center">
-              <CardWithAreaChart monthlyRevenue={monthlyRevenue} />
+              <CardWithAreaChart  monthlyRevenue={monthlyRevenue} />
             </div>
           </div>
         </div>
