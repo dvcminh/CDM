@@ -76,11 +76,11 @@ function StaffHome() {
   }
 
   return (
-    <div>
+    <div className='bg-white dark:bg-slate-800 h-screen'>
       <span className="flex">
         <SideBarStaff className="flex-1" />
         <div className="flex flex-col w-full m-5">
-          <h1 className="font-medium text-3xl mt-16 ml-10">Dashboard</h1>
+          <h1 className="font-medium text-3xl mt-16 ml-10  text-black dark:text-white">Dashboard</h1>
           <ChatRoom />
 
           {/* <div id="list-box" className="flex flex-col h-4/5 mt-10 ml-10 w-60">

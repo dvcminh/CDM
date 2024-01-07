@@ -77,34 +77,34 @@ const StaffOrder = () => {
 
     
     return(
-        <div>
+        <div className="flex bg-white dark:bg-slate-800">
         {modalOpen && <OrderDetailModal data={orderDetail} setOpenModal={setModalOpen} />}
         {userInfor.length === orders.length ? (
         <span className='flex'>
             <SideBarStaff className='flex-1'/>
             <div className="mt-8 mr-16">
-            <h1 className='font-medium text-3xl mt-8 ml-12'>Manage Customer's Orders</h1>
-            <table className='ml-12 mt-8 w-full table-auto'>
+            <h1 className='font-medium text-3xl mt-8 ml-12  text-black dark:text-white'>Manage Customer's Orders</h1>
+            <table className='ml-12 mt-8 w-full table-auto text-black dark:text-white'>
                   <thead> 
                     <tr className='text-sm'>
-                      <th className='py-2'>No.</th>
-                      <th className='py-2'>Name</th>
-                      <th className='py-2'>Order Date</th>
-                      <th className='py-2'>Total</th>
-                      <th className='py-2'>Shipping Address</th>
-                      <th className='py-2'>Payment Status</th>
-                      <th className='py-2'>Shipping Status</th>
-                      <th className='py-2'>Detail</th>
+                      <th className='py-2 dark:bg-gray-600'>No.</th>
+                      <th className='py-2 dark:bg-gray-600'>Name</th>
+                      <th className='py-2 dark:bg-gray-600'>Order Date</th>
+                      <th className='py-2 dark:bg-gray-600'>Total</th>
+                      <th className='py-2 dark:bg-gray-600'>Shipping Address</th>
+                      <th className='py-2 dark:bg-gray-600'>Payment Status</th>
+                      <th className='py-2 dark:bg-gray-600'>Shipping Status</th>
+                      <th className='py-2 dark:bg-gray-600'>Detail</th>
                     </tr>
                   </thead>
                   <tbody>
                     {records.map((order, index) => (
                       <tr key={order.id} className='text-sm'>
-                        <td className='py-2'>{(currentPage - 1) * recordsPerPage + index + 1}</td>
-                        <td className='py-2'>{userInfor[(currentPage - 1) * recordsPerPage + index ].email}</td>
-                        <td className='py-2'>{new Date(order.orderDate).toLocaleDateString()}</td>
-                        <td className='py-2'>${order.totalAmount}</td>
-                        <td className='py-2'>{order.shippingAddress}</td>
+                        <td className='py-2 dark:bg-gray-600'>{(currentPage - 1) * recordsPerPage + index + 1}</td>
+                        <td className='py-2 dark:bg-gray-600'>{userInfor[(currentPage - 1) * recordsPerPage + index ].email}</td>
+                        <td className='py-2 dark:bg-gray-600'>{new Date(order.orderDate).toLocaleDateString()}</td>
+                        <td className='py-2 dark:bg-gray-600'>${order.totalAmount}</td>
+                        <td className='py-2 dark:bg-gray-600'>{order.shippingAddress}</td>
                         <td className='py-2 text-red-700'><MenuDefault option={["Waiting", "Paid"]} current={"Waiting"}/></td>
                         <td className='py-2 text-lime-700'><MenuDefault option={["Pending", "Approved", "Reject"]}  current={"Pending"}/></td>
 

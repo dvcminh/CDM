@@ -10,27 +10,27 @@ import { ArrowRightCircleIcon, ArrowRightOnRectangleIcon, HomeIcon, NewspaperIco
 function SideBarStaff() {
   const sidebarItem = [
     {
-      icon: <HomeIcon className='w-6 h-auto'/>,
+      icon: <HomeIcon className='w-6 h-auto  text-black dark:text-white'/>,
       title: 'Dashboard',
       to: config.routes.staffhome
     },
     {
-      icon: <UserCircleIcon className='w-6 h-auto' />,
+      icon: <UserCircleIcon className='w-6 h-auto  text-black dark:text-white' />,
       title: 'Profile Settings',
       to: config.routes.staffprofile
     },
     {
-      icon: <ShoppingBagIcon className='w-6 h-auto' />,
+      icon: <ShoppingBagIcon className='w-6 h-auto  text-black dark:text-white' />,
       title: 'Order',
       to: config.routes.stafforder
     },    
     {
-        icon: <NewspaperIcon className='w-6 h-auto'  />,
+        icon: <NewspaperIcon className='w-6 h-auto  text-black dark:text-white'  />,
         title: 'Reports',
         to: config.routes.staffreport
     },
     {
-        icon: <UserGroupIcon className='w-6 h-auto'/>,
+        icon: <UserGroupIcon className='w-6 h-auto  text-black dark:text-white'/>,
         title: 'Customers',
         to: config.routes.staffcustomer
     },
@@ -45,7 +45,7 @@ function SideBarStaff() {
     //   to: config.routes.staffcar
     // },
     {
-      icon: <ArrowRightOnRectangleIcon className='w-6 h-auto' />,
+      icon: <ArrowRightOnRectangleIcon className='w-6 h-auto  text-black dark:text-white' />,
       title: 'Sign Out',
       to: config.routes.start
     }
@@ -64,9 +64,9 @@ function SideBarStaff() {
       {sidebarItem.map((item, index) => (
         <div key={index}>
           <Link to={item.to} className='no-decoration' onClick={() => handleClick(item.title)}>
-            <div className={`sidebar-item ${location.pathname === item.to ? 'active' : ''}`}>
+            <div className={`sidebar-item-cus hover:bg-gray-200 dark:hover:bg-gray-600 ${location.pathname === item.to ? 'bg-gray-200 dark:bg-gray-600' : 'bg-white dark:bg-slate-800 '} `}>
               {item.icon}
-              <div className='flex justify-center items-center'><p className='sidebar__title'>{item.title}</p></div>
+              <div className='flex justify-center items-center'><p className='ml-8 text-black dark:text-white' style={{fontSize: 18}}>{item.title}</p></div>
             </div>
           </Link>
         </div>

@@ -297,7 +297,7 @@ function CustomerProfile() {
 
           {/* line 3 */}
           <div className="flex items-center">
-            <div className="horizontal-line"></div>
+            <div className="horizontal-line  bg-black dark:bg-white"></div>
           </div>
 
           <form className="flex flex-col" onSubmit={handleChangePassword}>

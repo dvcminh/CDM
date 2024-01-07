@@ -308,7 +308,7 @@ const StaffManageShopPage = () => {
   const [value, setValue] = React.useState(2);
   //render
   return (
-    <div className="flex">
+    <div className="flex bg-white dark:bg-slate-800">
       <SideBarStaff/>
       { modalOpen && ( 
       <ShopForm 
@@ -320,9 +320,9 @@ const StaffManageShopPage = () => {
 
       <div className='ml-8 flex-1 flex flex-col overflow-x-hidden'>
         <div className="pt-8 w-full">
-          <p className="text-4xl  font-bold">Shop</p>
+          <p className="text-4xl  text-black dark:text-white font-bold">Shop</p>
         </div>
-        <button className='self-end mr-[50px] mb-0 bg-[#000] hover:bg-[#6d7986] rounded-md text-white font-bold w-[150px] my-2 py-2 max-lg:self-start max-lg:mt-[50px]' 
+        <button className='self-end mr-[50px] mb-0 bg-[#000] hover:bg-[#6d7986]  dark:bg-blue-500  dark:hover:bg-blue-700 rounded-md text-white font-bold w-[150px] my-2 py-2 max-lg:self-start max-lg:mt-[50px]' 
                 onClick={() => {setModalOpen(true);}}>CREATE NEW</button>
         
         {/* Data Grid */}
