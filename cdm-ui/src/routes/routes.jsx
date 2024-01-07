@@ -79,7 +79,7 @@ const staffRole = [
 
 ];
 const managerRole = [
-    {path: config.routes.managerchat, component: ManagerChat, layout: DefaultLayout},
+    {path: config.routes.managerchat, component: ManagerChat, layout: ManagerLayout},
     { path: config.routes.managervehicleS, component: ManagerVehicleModelS, layout: ManagerLayout },
     { path: config.routes.managerhome, component: ManagerHome, layout: ManagerLayout},
     { path: config.routes.managerprofile, component: ManagerProfile, layout: ManagerLayout},

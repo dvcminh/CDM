@@ -95,8 +95,8 @@ export default function Example() {
                         key={item.name}
                         href={item.href}
                         className={classNames(
-                          item.current ? 'bg-gray-900 text-white' : 'text-gray-300 hover:bg-gray-700 hover:text-white',
-                          'rounded-md px-3 py-2 text-sm font-medium'
+                          item.current ? 'bg-gray-900 text-white' : 'text-black hover:bg-gray-700 hover:text-white',
+                          'rounded-md px-3 py-2 text-sm font-medium text-black'
                         )}
                         aria-current={item.current ? 'page' : undefined}
                       >
@@ -115,15 +115,15 @@ export default function Example() {
                     <span className="sr-only">View notifications</span>
                     <SunIcon className="h-6 w-6" aria-hidden="true" />
                   </button> */}
-                  <button
+                  {/* <button
                     type="button" onClick={handleThemeSwitch}
                     className="ml-4 bg-transparent relative rounded-full bg-gray-800 p-1 text-gray-400 hover:text-white focus:outline-none focus:ring-2 focus:ring-white focus:ring-offset-2 focus:ring-offset-gray-800"
                   >
                     <span className="absolute -inset-1.5" />
                     <span className="sr-only">View notifications</span>
                     <MoonIcon className={`h-6 w-6 ${theme === "dark" ? 'hidden' : 'block' }`} aria-hidden="true" />
-                    <SunIcon className={`h-6 w-6 ${theme === "light" ? 'hidden' : 'block' }`} aria-hidden="true" />                  </button>
-                <div className='w-0.5 h-8 bg-gray-400 mx-2'></div>
+                    <SunIcon className={`h-6 w-6 ${theme === "light" ? 'hidden' : 'block' }`} aria-hidden="true" />                  </button> */}
+                {/* <div className='w-0.5 h-8 bg-gray-400 mx-2'></div> */}
                 <a href="/customerhome/shoppingcart">
                   <button 
                     type="button"
@@ -131,7 +131,7 @@ export default function Example() {
                   >
                     <span className="absolute -inset-1.5" />
                     <span className="sr-only">View notifications</span>
-                    <ShoppingCartIcon className="h-6 w-6" aria-hidden="true" />
+                    <ShoppingCartIcon className="h-6 w-6 text-black" aria-hidden="true" />
                   </button>
                 </a>
 
@@ -142,7 +142,7 @@ export default function Example() {
                 >
                   <span className="absolute -inset-1.5" />
                   <span className="sr-only">View notifications</span>
-                  <UserCircleIcon className="h-6 w-6" aria-hidden="true" />
+                  <UserCircleIcon className="h-6 w-6 text-black" aria-hidden="true" />
                 </button>
               </div>
             </div>
