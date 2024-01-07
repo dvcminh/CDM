@@ -314,7 +314,7 @@ const StaffManageCustomerPage = () => {
 
   //render
   return (
-    <div className="flex">
+    <div className="flex  bg-white dark:bg-slate-800">
       <SideBarStaff/>
       { modalOpen && ( 
       <CustomerModalForm 
@@ -326,9 +326,9 @@ const StaffManageCustomerPage = () => {
 
       <div className='ml-8 flex-1 flex flex-col overflow-x-hidden'>
         <div className="pt-8 w-full">
-          <p className="text-4xl  font-bold">Customer</p>
+          <p className="text-4xl  font-bold  text-black dark:text-white ">Customer</p>
         </div>
-        <button className='self-end mr-[50px] mb-0 bg-[#000] hover:bg-[#6d7986] rounded-md text-white font-bold w-[150px] max-sm:ml-0 my-2 py-2 max-lg:self-start max-lg:mt-[40px]' 
+        <button className='self-end mr-[50px] mb-0 bg-[#000] hover:bg-[#6d7986] rounded-md  dark:bg-blue-500  dark:hover:bg-blue-700 text-white font-bold w-[150px] max-sm:ml-0 my-2 py-2 max-lg:self-start max-lg:mt-[40px]' 
                 onClick={() => {setModalOpen(true);}}>CREATE NEW</button>
         
         {/* Data Grid */}
