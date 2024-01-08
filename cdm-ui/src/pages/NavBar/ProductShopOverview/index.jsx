@@ -7,7 +7,9 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faPlus, faSubtract } from '@fortawesome/free-solid-svg-icons'
 import { useParams } from 'react-router-dom'
 import { cdmApi } from '../../../misc/cdmApi'
-
+import { Snackbar } from '@mui/material'
+import Alert from '@mui/material/Alert'
+import React from 'react'
 const product = {
     
   name: 'Basic Tee 6-Pack',
@@ -69,12 +71,38 @@ function classNames(...classes) {
 export default function Example() {
     const params = useParams();
     const [data, setData] = useState([]);
+    const [snackbar, setSnackbar] = React.useState(null);
+    const handleCloseSnackbar = () => setSnackbar(null);
+
+    function addToCart(product){
+      const cart = JSON.parse(localStorage.getItem("cart")) || [];
+      const isProductExist = cart.find((item) => item.id === product.id);
+      if (isProductExist) {
+        const updatedCart = cart.map((item) => {
+          if (item.id === product.id) {
+            return {
+              ...item,
+              quantity: item.quantity + quantity,
+            };
+          }
+          return item;
+        });
+        localStorage.setItem("cart", JSON.stringify(updatedCart));
+      } else {
+        localStorage.setItem(
+          "cart",
+          JSON.stringify([...cart, { ...product, quantity: quantity }])
+        );
+      }
+      setSnackbar({ children: "Add to cart successfully!", severity: "success" });
+    }
 
     const url = "http://localhost:9296/api/v1/products/getShopById/" + params.id;
     const fetchInfo = async () => {
       try {
           const res = await cdmApi.getShopById(params.id);
           setData(res.data);
+
       } catch (error) {
           console.error("Error fetching data:", error);
       }
@@ -83,6 +111,7 @@ export default function Example() {
   useEffect(() => {
      fetchInfo();
   }, []); 
+
   const [quantity, setQuantity] = useState(1);
 
   const handleIncrement = (e) => {
@@ -101,7 +130,7 @@ export default function Example() {
   return (
     <>
     <Navbar/>
-    <div className="bg-white">
+    <div className="bg-white dark:bg-slate-800">
       <div className="pt-6">
 
         {/* Image gallery */}
@@ -141,53 +170,53 @@ export default function Example() {
         {/* Product info */}
         <div className="mx-auto max-w-2xl px-4 pb-16 pt-10 sm:px-6 lg:grid lg:max-w-7xl lg:grid-cols-3 lg:grid-rows-[auto,auto,1fr] lg:gap-x-8 lg:px-8 lg:pb-24 lg:pt-16">
           <div className="lg:col-span-2 lg:border-r lg:border-gray-200 lg:pr-8">
-            <h1 className="text-2xl font-bold tracking-tight text-gray-900 sm:text-3xl">{data.name}</h1>
+            <h1 className="text-2xl font-bold tracking-tight text-gray-900 sm:text-3xl dark:text-white">{data.name}</h1>
           </div>
 
           {/* Options */}
           <div className="mt-4 lg:row-span-3 lg:mt-0">
-            <h2 className="sr-only">Product information</h2>
-            <p className="text-3xl tracking-tight text-gray-900">${data.price}</p>            
+            <h2 className="sr-only dark:text-white">Product information</h2>
+            <p className="text-3xl tracking-tight text-gray-900 dark:text-white">${data.price}</p>            
 
-            <form className="mt-10">
+            <div className="mt-10" >
                     <div className="flex flex items-center space-x-4">
-                        <div className='flex-1 text-xl'><p>Count: </p></div>
+                        <div className='flex-1 text-xl dark:text-white'><p>Count: </p></div>
                         <div className='flex-1'></div>
                         <div className='flex-1'></div>
 
-                        <button className="flex-1 px-3 py-2 border border-gray-300 " onClick={handleDecrement}><FontAwesomeIcon icon={faSubtract}/></button>
-                        <div className="text-center flex-1 px-0 py-2 border border-gray-300">
+                        <button className="flex-1 px-3 py-2 border border-gray-300 text-black dark:text-white" onClick={handleDecrement}><FontAwesomeIcon icon={faSubtract}/></button>
+                        <div className="text-center flex-1 px-0 py-2 border border-gray-300 dark:text-white">
                             {quantity}
                         </div>
-                        <button className="flex-1 px-3 py-2 border border-gray-300" onClick={handleIncrement}><FontAwesomeIcon icon={faPlus}/></button>
+                        <button className="flex-1 px-3 py-2 border border-gray-300 text-black dark:text-white" onClick={handleIncrement}><FontAwesomeIcon icon={faPlus}/></button>
                     </div>
               <button
-                type="submit"
-                className="mt-10 flex w-full items-center justify-center rounded-md border border-transparent bg-black px-8 py-3 text-base font-medium text-white hover:bg-gray-700 focus:outline-none focus:ring-2 focus:ring-gray-500 focus:ring-offset-2"
+                onClick={() => addToCart({id: data.id, price: data.price, imgSrc: data.image_url, name: data.name})}
+                className="dark:bg-blue-500 dark:hover:bg-blue-700 dark:focus:ring-blue-300 mt-10 flex w-full items-center justify-center rounded-md border border-transparent bg-black px-8 py-3 text-base font-medium text-white hover:bg-gray-700 focus:outline-none focus:ring-2 focus:ring-gray-500 focus:ring-offset-2"
               >
-                Add to bag
+                Add to cart
               </button>
-            </form>
+            </div>
           </div>
 
           <div className="py-10 lg:col-span-2 lg:col-start-1 lg:border-r lg:border-gray-200 lg:pb-16 lg:pr-8 lg:pt-6">
             {/* Description and details */}
             <div>
-              <h3 className="sr-only">Description</h3>
+              <h3 className="sr-only dark:text-white">Description</h3>
 
               <div className="space-y-6">
-                <p className="text-base text-gray-900">{data.description}</p>
+                <p className="text-base text-gray-900 dark:text-white">{data.description}</p>
               </div>
             </div>
 
             <div className="mt-10">
-              <h3 className="text-xl font-medium text-gray-900">Highlights</h3>
+              <h3 className="text-xl font-medium text-gray-900 dark:text-white">Highlights</h3>
 
               <div className="mt-4">
                 <ul role="list" className="list-disc space-y-2 pl-4 text-base" >
                   {product.highlights.map((highlight) => (
                     <li key={highlight} className="text-gray-400">
-                      <span className="text-gray-600">{highlight}</span>
+                      <span className="text-gray-600 dark:text-white">{highlight}</span>
                     </li>
                   ))}
                 </ul>
@@ -195,16 +224,21 @@ export default function Example() {
             </div>
 
             <div className="mt-10">
-              <h2 className="text-xl font-medium text-gray-900">Details</h2>
+              <h2 className="text-xl font-medium text-gray-900 dark:text-white">Details</h2>
 
               <div className="mt-4 space-y-6">
-                <p className="text-base text-gray-600">{product.details}</p>
+                <p className="text-base text-gray-600 dark:text-white">{product.details}</p>
               </div>
             </div>
           </div>
         </div>
       </div>
     </div>
+    {!!snackbar && (
+              <Snackbar open onClose={handleCloseSnackbar} autoHideDuration={6000} anchorOrigin={{ vertical: "bottom", horizontal: "center" }}>
+                <Alert {...snackbar} onClose={handleCloseSnackbar} />
+              </Snackbar>
+            )}
     </>
   )
 }
