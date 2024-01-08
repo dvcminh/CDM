@@ -33,6 +33,7 @@ export const cdmApi = {
   updateShop,
   createShop,
   addProductToInventory,
+  updateOrder,
 }
 
 function authenticate(user) {
@@ -221,6 +222,20 @@ function updateCar(carData) {
   return instance.put(
     "/api/v1/products/updateCar",
     carData,
+    {
+      headers: {
+        Authorization: bearerAuth(localStorage.getItem("accessToken")),
+        "Content-Type": "application/json",
+      },
+    }
+  );
+}
+
+
+function updateOrder(order) {
+  return instance.put(
+    "/api/v1/orders/updateOrder",
+    order,
     {
       headers: {
         Authorization: bearerAuth(localStorage.getItem("accessToken")),

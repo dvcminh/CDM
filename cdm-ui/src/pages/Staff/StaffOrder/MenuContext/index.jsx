@@ -6,13 +6,27 @@ import {
     Button,
   } from "@material-tailwind/react";
 import { useEffect, useState } from "react";
+import { cdmApi } from "../../../../misc/cdmApi";
    
-  export default function MenuDefault({option, current}) {
+  export default function MenuDefault({option, current, order, flag}) {
     const [selectedOption, setSelectedOption] = useState(null);
     const [hasChanged, setHasChanged] = useState(false);
 
     const handleOptionClick = (op) => {
         setSelectedOption(op);
+        if(flag){
+            // update payment status
+            order.paymentStatus = op; 
+        }else{
+            // update shipping status
+            order.shippingStatus = op;
+        }
+        try{
+          cdmApi.updateOrder(order);
+        }
+        catch(error){
+          console.log(error)
+        }
     };
 
     useEffect(() => {

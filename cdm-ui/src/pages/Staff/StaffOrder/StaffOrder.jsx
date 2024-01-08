@@ -16,7 +16,8 @@ const StaffOrder = () => {
     const [userInfor, setUserInfor] = useState([]);
     const [hasFetchedData, setHasFetchedData] = useState(false);
     const [hasOrders, setHasOrders] = useState(false);
-
+    const [payStatus, setPayStatus] = useState("");
+    const [shipStatus, setShipStatus] = useState("");
   
     const getUserInfor = async (email) => {
       console.log(email);
@@ -63,7 +64,7 @@ const StaffOrder = () => {
     }, [hasFetchedData, hasOrders]);
 
     useEffect(() => {
-
+        console.log(payStatus);
     }, [userInfor]);
 
 
@@ -82,7 +83,7 @@ const StaffOrder = () => {
         return [npage - 2, npage - 1, npage];
       }
     })();
-    
+  
     return(
         <div className="flex bg-white dark:bg-slate-800 h-screen">
         {modalOpen && <OrderDetailModal data={orderDetail} setOpenModal={setModalOpen} />}
@@ -112,8 +113,8 @@ const StaffOrder = () => {
                         <td className='py-2 dark:bg-transparent'>{new Date(order.orderDate).toLocaleDateString()}</td>
                         <td className='py-2 dark:bg-transparent'>${order.totalAmount}</td>
                         <td className='py-2 dark:bg-transparent'>{order.shippingAddress}</td>
-                        <td className='py-2 text-red-700'><MenuDefault option={["Waiting", "Paid"]} current={"Waiting"}/></td>
-                        <td className='py-2 text-lime-700'><MenuDefault option={["Pending", "Approved", "Reject"]}  current={"Pending"}/></td>
+                        <td className='py-2 text-red-700'><MenuDefault option={["Pending", "Paid"]} current={order.paymentStatus} order={order} flag={true}/></td>
+                        <td className='py-2 text-lime-700'><MenuDefault option={["Pending", "Approved", "Reject"]}  current={order.shippingStatus} order={order} flag={false}/></td>
 
                         <td className='py-2'>
                           <button

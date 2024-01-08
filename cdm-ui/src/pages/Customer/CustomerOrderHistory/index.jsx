@@ -245,8 +245,8 @@ function CustomerOrderHistory() {
                     <td >{index + 1}</td>
                     <td>{new Date(order.orderDate).toLocaleDateString()}</td>
                     <td>${order.totalAmount}</td>
-                    <td className="text-lime-700 dark:text-blue-500">{order.paymentStatus}</td>
-                    <td className="text-lime-700 dark:text-blue-500">{order.shippingStatus}</td>
+                    <td className={` font-bold ${order.paymentStatus === "Paid" ? 'text-green-800' : 'text-yellow-700 '}`}>{order.paymentStatus}</td>
+                    <td className={` font-bold ${order.shippingStatus === "Pending" ? 'text-yellow-700' : order.shippingStatus === "Approved" ? 'text-green-800' : 'text-red-700' }`}>{order.shippingStatus}</td>
                     <td>{order.shippingAddress}</td>
                     {/* <td>${order.voucherValue}</td>
                     <td>${order.shippingValue}</td> */}
