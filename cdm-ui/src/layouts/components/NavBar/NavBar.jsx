@@ -6,7 +6,7 @@ import { useNavigate } from 'react-router-dom'
 import React from 'react'
 const navigation = [
   { name: 'Vehicle', href: '/vehicle', current: false },
-  { name: 'Charging', href: '#', current: false },
+  { name: 'Coupon', href: '/customerhome/coupon', current: false },
   { name: 'Shopping Guide', href: '#', current: false },
   { name: 'Shop', href: '/shop', current: false },
 ]

@@ -38,6 +38,7 @@ import ProductShopOverview from '../pages/NavBar/ProductShopOverview';
 import BookAppointment from '../pages/Customer/BookAppointment';
 import { ManagerChat } from '../pages/Manager/ManagerChat/ManagerChat';
 import Chat from '../pages/Manager/Chat'
+import Coupon from '../pages/NavBar/Coupon';
 // Public routes
 const publicRoutes = [
     { path: config.routes.shop, component: Shop, layout: DefaultLayout },
@@ -66,6 +67,7 @@ const customerRole = [
     { path: config.routes.customerpayment, component: CustomerPayment, layout: DefaultLayout },
     { path: config.routes.customerorderhis, component: CustomerOrderHistory, layout: DefaultLayout },
     { path: config.routes.customerreport, component: CustomerReport, layout: DefaultLayout} ,
+    {path:config.routes.coupon, component: Coupon, layout: DefaultLayout},
 
 ];
 const staffRole = [
