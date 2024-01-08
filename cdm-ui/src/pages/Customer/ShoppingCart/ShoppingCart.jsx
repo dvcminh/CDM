@@ -154,7 +154,7 @@ const ShoppingCart = () => {
 
   if (carts.length === 0) {
     return (
-      <div className=" h-[55vh] flex justify-center items-center text-4xl flex flex-col">
+      <div className=" h-[92vh] flex justify-center items-center text-4xl flex flex-col dark:bg-slate-800">
         <div>
           <h3 className="text-white">Cart is Empty</h3>
         </div>
@@ -162,12 +162,12 @@ const ShoppingCart = () => {
         <div>
           <img className=" h-[25vh]" src={emptycart} alt="emptycart" />
         </div>
-        <div className="text-xl">
+        <div className="text-xl dark:text-white">
           Your cart lives to serve. Give it purpose — fill it with whell,
           key chain, or other products that you love. Continue shopping on the{" "}
           <a
             onClick={() => navigate("/shop")}
-            className="text-blue-500 hover:text-blue-700"
+            className="text-blue-500 hover:text-blue-700 hover:cursor-pointer"
           >
             shop
           </a>
@@ -175,7 +175,7 @@ const ShoppingCart = () => {
         <div className="mt-6">
           <button
             onClick={() => navigate("/shop")}
-            className="mt-10 md:mt-0 bg-black text-white py-5 hover:bg-gray-200 hover:text-black focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-gray-800 border border-gray-800 font-medium w-96 2xl:w-full text-base font-medium leading-4 text-gray-800"
+            className="dark:bg-blue-500 dark:hover:bg-blue-700 dark:focus:ring-blue-300 mt-10 md:mt-0 bg-black text-white py-5 hover:bg-gray-200 hover:text-black focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-gray-800 border border-gray-800 font-medium w-96 2xl:w-full text-base font-medium leading-4 text-gray-800"
           >
             Continue Shopping
           </button>
@@ -185,15 +185,15 @@ const ShoppingCart = () => {
   }
 
   return (
-    <div className="py-8 px-4 md:px-6 2xl:px-20 2xl:container 2xl:mx-auto">
+    <div className="py-8 px-4 md:px-6 2xl:px-20 2xl:container 2xl:mx-auto dark:bg-slate-800">
       <div className="mt-10 flex flex-col xl:flex-row jusitfy-center items-stretch w-full xl:space-x-8 space-y-4 md:space-y-6 xl:space-y-0">
         <div className="flex flex-col justify-start items-start w-full space-y-4 md:space-y-6 xl:space-y-8">
-          <div className="flex flex-col justify-start items-start  bg-gray-50 px-4 py-4 md:py-6 md:p-6 xl:p-8 w-full">
-            <p className="text-lg md:text-xl  font-semibold leading-6 xl:leading-5 text-black">
+          <div className="flex flex-col justify-start items-start  bg-gray-50 px-4 py-4 md:py-6 md:p-6 xl:p-8 w-full dark:bg-gray-500">
+            <p className="flex text-lg md:text-xl  font-semibold leading-6 xl:leading-5 text-black dark:text-white">
               Customer’s Cart
             </p>
             <div className="flex justify-between items-center w-full mt-10">
-              <button className="text-base font-semibold leading-4 text-black bg-gray-300 p-3" onClick={() => handleDeleteCart()}>
+              <button className="dark:bg-blue-500 dark:hover:bg-blue-700 dark:focus:ring-blue-300 text-base font-semibold leading-4 text-black bg-gray-300 p-3 dark:text-white" onClick={() => handleDeleteCart()}>
               Delete cart</button>
             </div>
             {/* {carts} */}
@@ -254,38 +254,38 @@ const ShoppingCart = () => {
           </div> */}
           </div>
           <div className="flex justify-center flex-col md:flex-row flex-col items-stretch w-full space-y-4 md:space-y-0 md:space-x-6 xl:space-x-8">
-            <div className="flex flex-col px-4 py-6 md:p-6 xl:p-8 w-full bg-gray-50 space-y-6">
-              <h3 className="text-xl font-semibold leading-5 text-black">
+            <div className=" dark:bg-gray-500 flex flex-col px-4 py-6 md:p-6 xl:p-8 w-full bg-gray-50 space-y-6">
+              <h3 className="text-xl font-semibold leading-5 text-black dark:text-white ">
                 Summary
               </h3>
               <div className="flex justify-center items-center w-full space-y-4 flex-col border-gray-200 border-b pb-4">
                 <div className="flex justify-between w-full">
-                  <p className="text-base  leading-4 text-black">Subtotal</p>
-                  <p className="text-base  leading-4 text-black">{total}</p>
+                  <p className="text-base  leading-4 text-black dark:text-white">Subtotal</p>
+                  <p className="text-base  leading-4 text-black dark:text-white">{total}</p>
                 </div>
                 {/* <div className="flex justify-between items-center w-full">
                 <p className="text-base  leading-4 text-black">Discount <span className="bg-gray-200 p-1 text-xs font-medium leading-3 text-gray-800">STUDENT</span></p>
                 <p className="text-base  leading-4 text-black">-$28.00 (50%)</p>
               </div> */}
                 <div className="flex justify-between items-center w-full">
-                  <p className="text-base  leading-4 text-black">Shipping</p>
-                  <p className="text-base  leading-4 text-black">
+                  <p className="text-base  leading-4 text-black dark:text-white">Shipping</p>
+                  <p className="text-base  leading-4 text-black dark:text-white">
                     {shippingFee}
                   </p>
                 </div>
               </div>
               <div className="flex justify-between items-center w-full">
-                <p className="text-base font-semibold leading-4 text-black">
+                <p className="text-base font-semibold leading-4 text-black dark:text-white">
                   Total
                 </p>
-                <p className="text-base  font-semibold leading-4 text-black">
+                <p className="text-base  font-semibold leading-4 text-black dark:text-white">
                   {total + shippingFee} VND
                 </p>
               </div>
             </div>
 
-            <div className="flex flex-col justify-center px-4 py-6 md:p-6 xl:p-8 w-full bg-gray-50 space-y-6">
-              <h3 className="text-xl font-semibold leading-5 text-black">
+            <div className="flex flex-col justify-center px-4 py-6 md:p-6 xl:p-8 w-full bg-gray-50 space-y-6 dark:bg-gray-500">
+              <h3 className="text-xl font-semibold leading-5 text-black dark:text-white ">
                 Payment Method
               </h3>
               {paymentMethod === "Cash" ? (
@@ -299,10 +299,10 @@ const ShoppingCart = () => {
                       />
                     </div>
                     <div className="flex flex-col justify-start items-center">
-                      <p className="text-lg leading-6  font-semibold text-black">
+                      <p className="text-lg leading-6  font-semibold text-black dark:text-white">
                         Cash on Delivery
                         <br />
-                        <span className="font-normal">
+                        <span className="font-normal dark:text-white">
                           Delivery with 24 Hours
                         </span>
                       </p>
@@ -323,10 +323,10 @@ const ShoppingCart = () => {
                       />
                     </div>
                     <div className="flex flex-col justify-start items-center">
-                      <p className="text-lg leading-6  font-semibold text-black">
+                      <p className="text-lg leading-6  font-semibold text-black dark:text-white ml-4">
                         VNPay
                         <br />
-                        <span className="font-normal">
+                        <span className="font-normal dark:text-white ">
                           Delivery with 24 Hours
                         </span>
                       </p>
@@ -363,7 +363,7 @@ const ShoppingCart = () => {
               <div className="w-full flex justify-center items-center">
                 <button
                   onClick={() => navigate("/customerhome/payment")}
-                  className="mt-6 md:mt-0 bg-black text-white py-5 hover:bg-gray-200 hover:text-black focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-gray-800 border border-gray-800 font-medium w-96 2xl:w-full text-base font-medium leading-4 text-gray-800"
+                  className="dark:bg-blue-500 dark:hover:bg-blue-700 dark:focus:ring-blue-300 dark:hover:text-white mt-6 md:mt-0 bg-black text-white py-5 hover:bg-gray-200 hover:text-black focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-gray-800 border border-gray-800 font-medium w-96 2xl:w-full text-base font-medium leading-4 text-gray-800"
                 >
                   Change Payment Method
                 </button>
@@ -371,8 +371,8 @@ const ShoppingCart = () => {
             </div>
           </div>
         </div>
-        <div className="bg-gray-50  w-full xl:w-96 flex justify-between items-center md:items-start px-4 py-6 md:p-6 xl:p-8 flex-col">
-          <h3 className="text-xl  font-semibold leading-5 text-black">
+        <div className="bg-gray-50 dark:bg-gray-500 w-full xl:w-96 flex justify-between items-center md:items-start px-4 py-6 md:p-6 xl:p-8 flex-col">
+          <h3 className="text-xl  font-semibold leading-5 text-black dark:text-white">
             Customer
           </h3>
           <div className="flex flex-col md:flex-row xl:flex-col justify-start items-stretch h-full w-full md:space-x-6 lg:space-x-8 xl:space-x-0">
@@ -383,40 +383,40 @@ const ShoppingCart = () => {
                   alt="avatar"
                 />
                 <div className="flex justify-start items-start flex-col space-y-2">
-                  <p className="text-base font-semibold leading-4 text-left text-black">
+                  <p className="text-base font-semibold leading-4 text-left text-black dark:text-white">
                     {userData[0].email}
                   </p>
-                  <p className="text-sm leading-5 text-black">
+                  <p className="text-sm leading-5 text-black dark:text-white">
                     10 Previous Orders
                   </p>
                 </div>
               </div>
               <div className="flex justify-center text-black md:justify-start items-center space-x-4 py-4 border-b border-gray-200 w-full">
                 <img
-                  className=""
+                  className="dark:text-white"
                   src="https://tuk-cdn.s3.amazonaws.com/can-uploader/order-summary-3-svg1.svg"
                   alt="email"
                 />
-                <p className="cursor-pointer text-sm leading-5 ">
+                <p className="cursor-pointer text-sm leading-5 dark:text-white">
                   {userData[0].username}
                 </p>
               </div>
             </div>
-            <div className="flex justify-between xl:h-full items-stretch w-full flex-col mt-6 md:mt-0">
-              <div className="flex justify-center md:justify-start xl:flex-col flex-col md:space-x-6 lg:space-x-8 xl:space-x-0 space-y-4 xl:space-y-12 md:space-y-0 md:flex-row items-center md:items-start">
+            <div className=" flex justify-between xl:h-full items-stretch w-full flex-col mt-6 md:mt-0">
+              <div className=" flex justify-center md:justify-start xl:flex-col flex-col md:space-x-6 lg:space-x-8 xl:space-x-0 space-y-4 xl:space-y-12 md:space-y-0 md:flex-row items-center md:items-start">
                 <div className="flex justify-center md:justify-start items-center md:items-start flex-col space-y-4 xl:mt-8">
-                  <p className="text-base font-semibold leading-4 text-center md:text-left text-black">
+                  <p className="text-base font-semibold leading-4 text-center md:text-left text-black dark:text-white">
                     Shipping Address
                   </p>
-                  <p className="w-48 lg:w-full xl:w-48 text-center md:text-left text-sm leading-5 text-black">
+                  <p className="w-48 lg:w-full xl:w-48 text-center md:text-left text-sm leading-5 text-black dark:text-white">
                     {userData[0].address}
                   </p>
                 </div>
                 <div className="flex justify-center md:justify-start items-center md:items-start flex-col space-y-4">
-                  <p className="text-base font-semibold leading-4 text-center md:text-left text-black">
+                  <p className="text-base font-semibold leading-4 text-center md:text-left text-black dark:text-white">
                     Billing Address
                   </p>
-                  <p className="w-48 lg:w-full xl:w-48 text-center md:text-left text-sm leading-5 text-black0">
+                  <p className="w-48 lg:w-full xl:w-48 text-center md:text-left text-sm leading-5 text-black0 dark:text-white">
                     {userData[0].address}
                   </p>
                 </div>
@@ -424,7 +424,7 @@ const ShoppingCart = () => {
               <div className="flex w-full justify-center items-center md:justify-start md:items-start">
                 <button
                   onClick={handleCart}
-                  className="mt-6 md:mt-0 py-5 bg-black text-white hover:text-black hover:bg-gray-200 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-gray-800 border border-gray-800 w-96 2xl:w-full text-base font-black leading-4 "
+                  className="dark:bg-blue-500 dark:hover:bg-blue-700 dark:focus:ring-blue-300 dark:hover:text-white mt-6 md:mt-0 py-5 bg-black text-white hover:text-black hover:bg-gray-200 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-gray-800 border border-gray-800 w-96 2xl:w-full text-base font-black leading-4 "
                 >
                   Orders
                 </button>
