@@ -186,6 +186,7 @@ const StaffReport = () => {
                         </li>
                           <li className={`${currentPage > 2 ? 'block' : 'hidden'} dark:bg-gray-500 dark:text-white flex items-center justify-center px-4 h-10 leading-tight text-gray-500 bg-white border border-gray-300 hover:bg-gray-100 hover:text-gray-700`}>...</li>
                           {
+                            
                               numbers.map((n, i) => (
                                   <li className={ `dark:bg-gray-500 dark:text-white flex items-center justify-center px-4 h-10 leading-tight text-gray-500 border border-gray-300 hover:bg-gray-100 hover:text-gray-700  ${currentPage === n ? 'bg-gray-300 dark:bg-gray-800' : 'bg-white dark:bg-gray-500'}` } key={i}>
                                       <a href="#" onClick={() => changeCPage(n)} >{n}</a>

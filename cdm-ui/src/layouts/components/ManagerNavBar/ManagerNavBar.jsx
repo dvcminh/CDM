@@ -45,16 +45,25 @@ export default function Example() {
 
   const [theme, setTheme] = useState("light");
 
-  useEffect(() => {
-      if (theme === "dark") {
+    useEffect(() => {
+        let tmp = localStorage.getItem("theme")
+        if(tmp){
+          if (tmp === "dark") {
             document. documentElement.classList.add("dark");
-      }else {
+          }else {
             document.documentElement.classList. remove("dark");
-      }
-  }, [theme]);
+          }
+        }
+        else{
+          localStorage.setItem("theme", theme);
+        }
+        
+    }, [theme]);
 
-  const handleThemeSwitch = () => {
-  setTheme(theme === "dark" ? "light" : "dark");
+    const handleThemeSwitch = () => {
+      setTheme(theme === "dark" ? "light" : "dark");
+      console.log(theme);
+      localStorage.setItem("theme", theme);
 
 }
 
