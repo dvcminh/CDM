@@ -101,19 +101,13 @@
 }
 
 .card__view-detail-button{
-    height: 36px;
-    background-color: black;
     color: white;
     font-weight: 500;
     font-family: "Gotham SSm", "Segoe UI", "Roboto", "Helvetica Neue", Arial, "sans-serif";
     border: none;
 }
 
-.card__view-detail-button:hover{
-    background-color: rgb(255, 255, 255);
-        border: 2px solid black;
-        color: black;
-}
+
 
 /* button defined */
 /* Modal styles */

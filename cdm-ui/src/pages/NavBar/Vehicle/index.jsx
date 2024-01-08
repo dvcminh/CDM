@@ -61,16 +61,16 @@ function Vehicle() {
   };
 
   return (
-    <div className="container-flex">
-      <div className="vehicle-models-sort">
-        <div className="hidden bg-white xl:block bg-gray-100 xl:bg-white max-w-96">
+    <div className="container-flex dark:bg-slate-800 h-screen">
+      <div className="vehicle-models-sort ">
+        <div className="hidden bg-white xl:block bg-gray-100 xl:bg-white max-w-96 dark:bg-slate-800 dark:border dark:border-white dark:pb-48">
           <form
             className="mt-5 sm:mb-0 sm:mt-2 sm:px-4
           "
           >
             <label
               for="default-search"
-              class="mb-2 text-sm font-medium text-gray-900 sr-only dark:text-white"
+              class="mb-2 text-sm font-medium text-gray-900 sr-only  dark:text-white"
             >
               Search
             </label>
@@ -98,7 +98,7 @@ function Vehicle() {
                 }}
                 type="search"
                 id="default-search"
-                class="block w-full p-4 ps-10 text-sm text-gray-900 border border-gray-300 rounded-lg bg-gray-50 focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
+                class="dark:bg-gray-500 block w-full p-4 ps-10 text-sm text-gray-900 border border-gray-300 rounded-lg bg-gray-50 focus:ring-black focus:border-black dark:border-none dark:placeholder-white dark:text-white"
                 placeholder="Search by name"
                 required
               />
@@ -106,27 +106,27 @@ function Vehicle() {
           </form>
 
           <div>
-            <p className="article-car-sort mt-2">Sort by</p>
+            <p className="article-car-sort mt-2 dark:text-white">Sort by</p>
           </div>
 
-          <select className="select-car-sort" onChange={handleSortBy}>
-            <option value="model">model</option>
-            <option value="orgPrice">price</option>
-            <option value="perMonthPrice">Price per month</option>
-            <option value="range">Range</option>
-            <option value="topSpeed">Top speed</option>
-            <option value="timeToReach">0-60 mph</option>
+          <select className="select-car-sort dark:bg-gray-500 dark:text-white dark:border-none" onChange={handleSortBy}>
+            <option value="model" className="dark:text-white">model</option>
+            <option value="orgPrice" className="dark:text-white">price</option>
+            <option value="perMonthPrice" className="dark:text-white">Price per month</option>
+            <option value="range" className="dark:text-white">Range</option>
+            <option value="topSpeed" className="dark:text-white">Top speed</option>
+            <option value="timeToReach" className="dark:text-white">0-60 mph</option>
           </select>
 
           <div>
-            <p className="article-car-sort mt-2">Sort direction</p>
+            <p className="article-car-sort mt-2 dark:text-white ">Sort direction</p>
           </div>
 
-          <select className="select-car-sort" onChange={handleSortDirection}>
-            <option value="ASC">Low to High</option>
-            <option value="DESC">High to Low</option>
+          <select className="select-car-sort dark:bg-gray-500 dark:text-white dark:border-none" onChange={handleSortDirection}>
+            <option value="ASC" className="dark:text-white">Low to High</option>
+            <option value="DESC" className="dark:text-white">High to Low</option>
           </select>
-          <p className="article-car-sort">Model</p>
+          <p className="article-car-sort dark:text-white">Model</p>
 
           <div className="container-flex">
             <input
@@ -139,7 +139,7 @@ function Vehicle() {
               className="container-flex"
               style={{ justifyContent: "center", alignItems: "center" }}
             >
-              <p className="radio-text-car-sort">Model S</p>
+              <p className="radio-text-car-sort dark:text-white">Model S</p>
             </div>
           </div>
           <div className="container-flex">
@@ -153,7 +153,7 @@ function Vehicle() {
               className="container-flex"
               style={{ justifyContent: "center", alignItems: "center" }}
             >
-              <p className="radio-text-car-sort">Model 3</p>
+              <p className="radio-text-car-sort dark:text-white">Model 3</p>
             </div>
           </div>
           <div className="container-flex">
@@ -167,7 +167,7 @@ function Vehicle() {
               className="container-flex"
               style={{ justifyContent: "center", alignItems: "center" }}
             >
-              <p className="radio-text-car-sort">Model X</p>
+              <p className="radio-text-car-sort dark:text-white">Model X</p>
             </div>
           </div>
           <div className="container-flex">
@@ -181,7 +181,7 @@ function Vehicle() {
               className="container-flex"
               style={{ justifyContent: "center", alignItems: "center" }}
             >
-              <p className="radio-text-car-sort">Model Y</p>
+              <p className="radio-text-car-sort dark:text-white">Model Y</p>
             </div>
           </div>
           <div className="container-flex">
@@ -195,12 +195,12 @@ function Vehicle() {
               className="container-flex"
               style={{ justifyContent: "center", alignItems: "center" }}
             >
-              <p className="radio-text-car-sort">Beta Model</p>
+              <p className="radio-text-car-sort dark:text-white">Beta Model</p>
             </div>
           </div>
           <div className="container-flex">
             <input
-              className="radio-car-sort"
+              className="radio-car-sort dark:bg-white"
               type="radio"
               name="radio-model"
               onClick={() => handleChangeModel("")}
@@ -209,12 +209,12 @@ function Vehicle() {
               className="container-flex"
               style={{ justifyContent: "center", alignItems: "center" }}
             >
-              <p className="radio-text-car-sort">All</p>
+              <p className="radio-text-car-sort dark:text-white">All</p>
             </div>
           </div>
         </div>
       </div>
-      <div className="bg-gray-100 flex flex-wrap">
+      <div className="bg-gray-100 flex flex-wrap dark:bg-slate-800">
         {data.map((dataObj, index) => {
           return (
             <CarCard
