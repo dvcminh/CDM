@@ -28,6 +28,7 @@
         <module>configserver</module>
         <module>chatservice</module>
         <module>paymentservice</module>
+        <module>voucherservice</module>
     </modules>
 
     <properties>
