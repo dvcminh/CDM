@@ -34,6 +34,9 @@ export const cdmApi = {
   createShop,
   addProductToInventory,
   updateOrder,
+  getAllVoucher,
+  createVoucher,
+  checkVoucher,
 }
 
 function authenticate(user) {
@@ -101,6 +104,16 @@ function createCustomer(data) {
 
 function deleteUser(id) {
   return instance.delete(`/auth/deleteUser/${id}`,{
+    headers: {
+      Authorization: bearerAuth(localStorage.getItem("accessToken")),
+    },
+  });
+}
+function checkVoucher(code) {
+  return instance.post(`http://localhost:9296/api/vouchers/checkvoucher?voucherCode=${code}`, {
+    // params: {
+    //   voucherCode: code,
+    // },
     headers: {
       Authorization: bearerAuth(localStorage.getItem("accessToken")),
     },
@@ -213,6 +226,20 @@ function createOrder(orderData) {
     {
       headers: {
         Authorization: bearerAuth(localStorage.getItem("accessToken"))
+      },
+    }
+  );
+}
+
+function createVoucher(voucherData) {
+  return instance.post(
+    "/api/vouchers/create",
+    voucherData,
+    {
+      headers: {
+        Authorization: bearerAuth(localStorage.getItem("accessToken")),
+        "Content-Type": "application/json",
+
       },
     }
   );
@@ -333,6 +360,14 @@ function getCustomerReport() {
   });
 }
 
+function getAllVoucher() {
+  return instance.get("/api/vouchers/getAll", {
+    headers: { 
+      Authorization: bearerAuth(localStorage.getItem("accessToken")),
+    },
+  });
+}
+
 function getShopById(id) {
   return instance.get('http://localhost:9296/api/v1/products/getShopById/' + id);
 }
@@ -340,6 +375,7 @@ function getShopById(id) {
 function getPublicChat() {
   return axios.get("localhost:8080/api/chat/public-messages");
 }
+
 
 // -- Axios
 

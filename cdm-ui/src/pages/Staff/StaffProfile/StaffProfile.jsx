@@ -8,9 +8,9 @@ import {
 } from "@fortawesome/free-solid-svg-icons";
 import { cdmApi } from "../../../misc/cdmApi";
 import React, { useEffect, useState } from "react";
-import  Alert from "@mui/material/Alert";
+import Alert from "@mui/material/Alert";
 import { Snackbar } from "@mui/material";
-import OtherLoading from "../../../components/OtherLoading"
+import OtherLoading from "../../../components/OtherLoading";
 import ManagerSideBar from "../../../layouts/components/ManagerSideBar";
 import SideBarStaff from "../../../layouts/components/SideBarStaff/SideBarStaff";
 function CustomerProfile() {
@@ -50,37 +50,52 @@ function CustomerProfile() {
 
       const user = { id, avatar, name, email, phone, address };
       await cdmApi.updateUser(user);
-      setSnackbar({ children: "Update personal information successfully!", severity: "success" });
-
+      setSnackbar({
+        children: "Update personal information successfully!",
+        severity: "success",
+      });
     } catch (error) {
-      setSnackbar({ children: "Update personal information fail!", severity: "error" });
+      setSnackbar({
+        children: "Update personal information fail!",
+        severity: "error",
+      });
     }
   };
 
   const handleChangePassword = async (event) => {
     event.preventDefault();
-    if(password == null || newPassword == null || confirmNewPassword == null)
-    {
-      setSnackbar({ children: "These field cannot be null!", severity: "warning" });
+    if (password == null || newPassword == null || confirmNewPassword == null) {
+      setSnackbar({
+        children: "These field cannot be null!",
+        severity: "warning",
+      });
       return;
     }
     if (password === newPassword) {
-      setSnackbar({ children: "New password and current password are the same!", severity: "warning" });
+      setSnackbar({
+        children: "New password and current password are the same!",
+        severity: "warning",
+      });
       return;
     }
     if (newPassword !== confirmNewPassword) {
-      setSnackbar({ children: "New password and confirm new password are not match!", severity: "warning" });
+      setSnackbar({
+        children: "New password and confirm new password are not match!",
+        severity: "warning",
+      });
       return;
     }
     try {
       setLoading(true);
       const user = { id, password, newPassword, confirmNewPassword };
       await cdmApi.changePassword(user);
-      setSnackbar({ children: "Change password successfully!", severity: "success" });
+      setSnackbar({
+        children: "Change password successfully!",
+        severity: "success",
+      });
       //Document.getElementById("cr").value = "";
     } catch (error) {
       setSnackbar({ children: "Change password failed!", severity: "error" });
-
     }
   };
 
@@ -120,16 +135,14 @@ function CustomerProfile() {
 
   const handleFileUpload = async (event) => {
     const file = event.target.files[0];
-    if (file && file.type.startsWith('image/')) {
-
+    if (file && file.type.startsWith("image/")) {
       const reader = new FileReader();
       reader.onloadend = () => {
-
         setAvatar(reader.result);
       };
       reader.readAsDataURL(file);
     } else {
-      alert('Please select an image file.');
+      alert("Please select an image file.");
     }
   };
 
@@ -139,23 +152,23 @@ function CustomerProfile() {
   };
 
   useEffect(() => {
-    if(!loading)
-        return;
+    if (!loading) return;
     const timeoutId = setTimeout(() => {
-        
-       setLoading(false);
+      setLoading(false);
     }, 2000);
     return () => clearTimeout(timeoutId);
-}, [loading]);
+  }, [loading]);
 
   return (
     <>
-      {loading && <OtherLoading setOpenModal={setLoading}/>}
+      {loading && <OtherLoading setOpenModal={setLoading} />}
 
       <div className="flex  bg-white dark:bg-slate-800">
         <SideBarStaff />
         <div style={{ marginLeft: 40, width: "100vw" }}>
-          <h1 className="font-medium text-3xl mt-16  text-black dark:text-white">Profile Settings</h1>
+          <h1 className="font-medium text-3xl mt-16  text-black dark:text-white">
+            Profile Settings
+          </h1>
           <div className="flex">
             <div className="flex-2">
               <label for="avatar-upload" className="avatar-container mt-2">
@@ -182,13 +195,10 @@ function CustomerProfile() {
             </div>
             <div className="vertical-line  bg-black dark:bg-white"></div>
             <div style={{ flex: 4 }}>
-              <p className="font-medium underline mt-4  text-black dark:text-white">Mr. {email}</p>
-              <p className=" text-black dark:text-white">
-                {" "}
-                {address} 
+              <p className="font-medium underline mt-4  text-black dark:text-white">
+                Mr. {email}
               </p>
-
-              
+              <p className=" text-black dark:text-white"> {address}</p>
             </div>
             <div className="flex-5 flex justify-center items-center"></div>
           </div>
@@ -198,7 +208,10 @@ function CustomerProfile() {
             <div className="horizontal-line  bg-black dark:bg-white"></div>
           </div>
 
-          <form className="flex flex-col  text-black dark:text-white" onSubmit={handleSubmitUserData}>
+          <form
+            className="flex flex-col  text-black dark:text-white"
+            onSubmit={handleSubmitUserData}
+          >
             <div class="form-group">
               <label for="user" class="article">
                 Full Name
@@ -255,7 +268,10 @@ function CustomerProfile() {
               />
             </div>
             <div style={{ width: "90%" }}>
-              <button type="submit" class="button py-4 bg-black hover:bg-gray-600 dark:bg-blue-500 dark:hover:bg-blue-700 text-white font-bold py-2 px-4 rounded-full">
+              <button
+                type="submit"
+                class="button py-4 bg-black hover:bg-gray-600 dark:bg-blue-500 dark:hover:bg-blue-700 text-white font-bold py-2 px-4 rounded-full"
+              >
                 Save Change
               </button>
             </div>
@@ -321,7 +337,10 @@ function CustomerProfile() {
                 />
               </div>
             </div>
-            <div class="form-group  text-black dark:text-white" style={{ marginTop: 15 }}>
+            <div
+              class="form-group  text-black dark:text-white"
+              style={{ marginTop: 15 }}
+            >
               <label for="user" class="article">
                 Confirm New Password
               </label>
@@ -336,7 +355,10 @@ function CustomerProfile() {
 
             <div style={{ width: "90%" }}>
               {/* <button className="button button--light mb-10">Cancel</button> */}
-              <button type="submit" class=" button py-4 bg-black hover:bg-gray-600 dark:bg-blue-500  dark:hover:bg-blue-700 text-white font-bold py-2 px-4 rounded-full">
+              <button
+                type="submit"
+                class=" button py-4 bg-black hover:bg-gray-600 dark:bg-blue-500  dark:hover:bg-blue-700 text-white font-bold py-2 px-4 rounded-full"
+              >
                 Save Change
               </button>
             </div>
@@ -344,10 +366,15 @@ function CustomerProfile() {
         </div>
       </div>
       {!!snackbar && (
-              <Snackbar open onClose={handleCloseSnackbar} autoHideDuration={6000} anchorOrigin={{ vertical: "bottom", horizontal: "center" }}>
-                <Alert {...snackbar} onClose={handleCloseSnackbar} />
-              </Snackbar>
-            )}
+        <Snackbar
+          open
+          onClose={handleCloseSnackbar}
+          autoHideDuration={6000}
+          anchorOrigin={{ vertical: "bottom", horizontal: "center" }}
+        >
+          <Alert {...snackbar} onClose={handleCloseSnackbar} />
+        </Snackbar>
+      )}
     </>
   );
 }

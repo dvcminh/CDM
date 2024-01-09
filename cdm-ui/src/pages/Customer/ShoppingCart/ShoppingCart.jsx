@@ -16,7 +16,9 @@ import emptycart from "../../../assets/images/cartEmpty.gif";
 const ShoppingCart = () => {
   const navigate = useNavigate();
   let isRunning = false;
-  const [carts, setCarts] = useState(JSON.parse(localStorage.getItem("cart")) || []);
+  const [carts, setCarts] = useState(
+    JSON.parse(localStorage.getItem("cart")) || []
+  );
   const [total, setTotal] = useState(0);
   const [shippingFee, setShippingFee] = useState(8000);
   const [paymentMethod, setPaymentMethod] = useState(
@@ -26,12 +28,13 @@ const ShoppingCart = () => {
     JSON.parse(localStorage.getItem("currentUser")) || []
   );
   const [user, setUser] = useState([]);
+  const [voucherCode, setVoucherCode] = useState("");
   const fetchInfo = async () => {
     try {
       const res = await cdmApi.getUserMe(userData.username);
       setUser(res.data);
-      console.log("userData:")
-      console.log(userData)
+      console.log("userData:");
+      console.log(userData);
     } catch (error) {
       console.error("Error fetching data:", error);
     }
@@ -86,8 +89,7 @@ const ShoppingCart = () => {
       } catch (error) {
         console.error(error);
       }
-    } 
-    else {
+    } else {
       try {
         const response = await axios.get(
           "http://localhost:9296/api/payment/create_payment",
@@ -105,7 +107,7 @@ const ShoppingCart = () => {
       }
     }
   };
-  
+
   const handlePaymentReturn = async () => {
     if (isRunning) return;
     isRunning = true;
@@ -129,11 +131,11 @@ const ShoppingCart = () => {
         })),
       };
       console.log("Payment success");
-      console.log("order by vnpay", orderData)
+      console.log("order by vnpay", orderData);
       try {
         const order = await cdmApi.createOrder(orderData);
-        console.log("order after created")
-        console.log(order)
+        console.log("order after created");
+        console.log(order);
         setSnackbar({ children: "Order successfully!", severity: "success" });
         localStorage.setItem("cart", "[]");
         setCarts([]);
@@ -141,9 +143,9 @@ const ShoppingCart = () => {
         console.error(error);
         setSnackbar({ children: "Order failed!", severity: "error" });
       }
-    } 
+    }
     isRunning = false;
-    // else 
+    // else
     // {
     //   setSnackbar({ children: "Order failed!", severity: "error" });
     // }
@@ -163,8 +165,8 @@ const ShoppingCart = () => {
           <img className=" h-[25vh]" src={emptycart} alt="emptycart" />
         </div>
         <div className="text-xl dark:text-white">
-          Your cart lives to serve. Give it purpose — fill it with whell,
-          key chain, or other products that you love. Continue shopping on the{" "}
+          Your cart lives to serve. Give it purpose — fill it with whell, key
+          chain, or other products that you love. Continue shopping on the{" "}
           <a
             onClick={() => navigate("/shop")}
             className="text-blue-500 hover:text-blue-700 hover:cursor-pointer"
@@ -183,6 +185,27 @@ const ShoppingCart = () => {
       </div>
     );
   }
+  const [discount, setDiscount] = useState(0);
+
+  const applyVoucher = async () => {
+    if (voucherCode === "") {
+      setSnackbar({ children: "Voucher cannot be null!", severity: "error" });
+    } else {
+      try {
+        cdmApi
+          .checkVoucher(voucherCode)
+          .then((response) => {
+            setDiscount(response.data);
+            console.log(response.data);
+          })
+          .catch((error) => {
+            console.log(error);
+          });
+      } catch (error) {
+        console.log(error);
+      }
+    }
+  };
 
   return (
     <div className="py-8 px-4 md:px-6 2xl:px-20 2xl:container 2xl:mx-auto dark:bg-slate-800">
@@ -193,8 +216,12 @@ const ShoppingCart = () => {
               Customer’s Cart
             </p>
             <div className="flex justify-between items-center w-full mt-10">
-              <button className="dark:bg-blue-500 dark:hover:bg-blue-700 dark:focus:ring-blue-300 text-base font-semibold leading-4 text-black bg-gray-300 p-3 dark:text-white" onClick={() => handleDeleteCart()}>
-              Delete cart</button>
+              <button
+                className="dark:bg-blue-500 dark:hover:bg-blue-700 dark:focus:ring-blue-300 text-base font-semibold leading-4 text-black bg-gray-300 p-3 dark:text-white"
+                onClick={() => handleDeleteCart()}
+              >
+                Delete cart
+              </button>
             </div>
             {/* {carts} */}
             {/* <div className="mt-4 md:mt-6 flex flex-col md:flex-row justify-start items-start md:items-center md:space-x-6 xl:space-x-8 w-full">
@@ -260,26 +287,63 @@ const ShoppingCart = () => {
               </h3>
               <div className="flex justify-center items-center w-full space-y-4 flex-col border-gray-200 border-b pb-4">
                 <div className="flex justify-between w-full">
-                  <p className="text-base  leading-4 text-black dark:text-white">Subtotal</p>
-                  <p className="text-base  leading-4 text-black dark:text-white">{total}</p>
+                  <p className="text-base  leading-4 text-black dark:text-white">
+                    Subtotal
+                  </p>
+                  <p className="text-base  leading-4 text-black dark:text-white">
+                    {total}
+                  </p>
                 </div>
                 {/* <div className="flex justify-between items-center w-full">
                 <p className="text-base  leading-4 text-black">Discount <span className="bg-gray-200 p-1 text-xs font-medium leading-3 text-gray-800">STUDENT</span></p>
                 <p className="text-base  leading-4 text-black">-$28.00 (50%)</p>
               </div> */}
                 <div className="flex justify-between items-center w-full">
-                  <p className="text-base  leading-4 text-black dark:text-white">Shipping</p>
+                  <p className="text-base  leading-4 text-black dark:text-white">
+                    Shipping
+                  </p>
                   <p className="text-base  leading-4 text-black dark:text-white">
                     {shippingFee}
                   </p>
                 </div>
+                <div className="flex justify-between items-center w-full">
+                  <p className="text-base leading-4 text-black dark:text-white">
+                    Enter voucher code
+                  </p>
+                  <div className="ml-auto">
+                    <button
+                      onClick={() => applyVoucher()}
+                      className="float-right py-2 ml-2 rounded-xl text-white bg-black dark:bg-blue-500 dark:hover:bg-blue-700 "
+                    >
+                      OK
+                    </button>
+
+                    <input
+                      onChange={(e) => setVoucherCode(e.target.value)}
+                      type="text"
+                      className="float-right py-2 bg-white rounded-xl w-[50%] border-solid border-1 border-black dark:boder-none dark:border-0"
+                    />
+                  </div>
+                </div>
+              </div>
+              <div
+                className={`flex justify-between items-center w-full ${
+                  discount === 0 ? "hidden" : "block"
+                }`}
+              >
+                <p className="text-base  leading-4 text-black dark:text-white">
+                  Discount
+                </p>
+                <p className="text-base  leading-4 text-black dark:text-white">
+                  -{total * (discount / 100)}
+                </p>
               </div>
               <div className="flex justify-between items-center w-full">
                 <p className="text-base font-semibold leading-4 text-black dark:text-white">
                   Total
                 </p>
                 <p className="text-base  font-semibold leading-4 text-black dark:text-white">
-                  {total + shippingFee} VND
+                  {total + shippingFee - total * (discount / 100)} VND
                 </p>
               </div>
             </div>
