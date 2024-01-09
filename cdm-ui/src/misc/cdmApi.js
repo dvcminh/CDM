@@ -36,6 +36,7 @@ export const cdmApi = {
   updateOrder,
   getAllVoucher,
   createVoucher,
+  checkVoucher,
 }
 
 function authenticate(user) {
@@ -103,6 +104,16 @@ function createCustomer(data) {
 
 function deleteUser(id) {
   return instance.delete(`/auth/deleteUser/${id}`,{
+    headers: {
+      Authorization: bearerAuth(localStorage.getItem("accessToken")),
+    },
+  });
+}
+function checkVoucher(code) {
+  return instance.post(`http://localhost:9296/api/vouchers/checkvoucher?voucherCode=${code}`, {
+    // params: {
+    //   voucherCode: code,
+    // },
     headers: {
       Authorization: bearerAuth(localStorage.getItem("accessToken")),
     },
@@ -364,6 +375,7 @@ function getShopById(id) {
 function getPublicChat() {
   return axios.get("localhost:8080/api/chat/public-messages");
 }
+
 
 // -- Axios
 
