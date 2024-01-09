@@ -34,6 +34,8 @@ export const cdmApi = {
   createShop,
   addProductToInventory,
   updateOrder,
+  getAllVoucher,
+  createVoucher,
 }
 
 function authenticate(user) {
@@ -218,6 +220,20 @@ function createOrder(orderData) {
   );
 }
 
+function createVoucher(voucherData) {
+  return instance.post(
+    "/api/vouchers/create",
+    voucherData,
+    {
+      headers: {
+        Authorization: bearerAuth(localStorage.getItem("accessToken")),
+        "Content-Type": "application/json",
+
+      },
+    }
+  );
+}
+
 function updateCar(carData) {
   return instance.put(
     "/api/v1/products/updateCar",
@@ -327,6 +343,14 @@ function getCustomerReport() {
     params: {
       size: 200
     },
+    headers: { 
+      Authorization: bearerAuth(localStorage.getItem("accessToken")),
+    },
+  });
+}
+
+function getAllVoucher() {
+  return instance.get("/api/vouchers/getAll", {
     headers: { 
       Authorization: bearerAuth(localStorage.getItem("accessToken")),
     },

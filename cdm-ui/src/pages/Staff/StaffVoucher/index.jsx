@@ -1,6 +1,7 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import SideBarStaff from "../../../layouts/components/SideBarStaff";
 import VoucherForm from "../StaffVoucher/VoucherForm";
+import { cdmApi } from "../../../misc/cdmApi";
 
 function StaffVoucher() {
   const [modalOpen, setModalOpen] = useState(false);
@@ -8,6 +9,21 @@ function StaffVoucher() {
   function addNewVoucher() {
     setModalOpen(true);
   }
+
+  const [vouchers, setVouchers] = useState([]);
+
+  const fetVoucher = async () => {
+    try {
+      const res = await cdmApi.getAllVoucher();
+      setVouchers(res.data);
+    } catch (error) {
+      console.error("Error fetching data:", error);
+    }
+  };
+
+  useEffect(() => {
+    fetVoucher();
+  }, []);
   return (
     <>
       {modalOpen && <VoucherForm setOpenModal={setModalOpen} />}
@@ -17,7 +33,7 @@ function StaffVoucher() {
         {/* content */}
         <div>
           <div className="flex space-between ml-8  mt-16">
-            <h1 className="font-medium text-3xl  text-black dark:text-white">
+            <h1 className="font-bold text-3xl  text-black dark:text-white">
               Voucher
             </h1>
             <button
@@ -37,11 +53,15 @@ function StaffVoucher() {
               <th className="dark:bg-gray-500">Expire Date</th>
             </thead>
             <tbody>
-              <td>1</td>
-              <td>BLACKFRIDAY20</td>
-              <td>Get your favorite product with best price</td>
-              <td>20%</td>
-              <td>15/1/2023</td>
+              {vouchers.map((voucher, index) => (
+                <tr key={voucher.id} className="text-sm">
+                  <td>{index + 1}</td>
+                  <td>{voucher.code}</td>
+                  <td>{voucher.description}</td>
+                  <td>{voucher.discount}</td>
+                  <td>{voucher.expirationDate}</td>
+                </tr>
+              ))}
             </tbody>
           </table>
         </div>
