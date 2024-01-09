@@ -5,7 +5,7 @@ import { Link, useLocation } from 'react-router-dom';
 import DirectionsCarFilledOutlinedIcon from '@mui/icons-material/DirectionsCarFilledOutlined';
 import EarbudsBatteryOutlinedIcon from '@mui/icons-material/EarbudsBatteryOutlined';
 import config from '../../../config';
-import { ArrowRightCircleIcon, ArrowRightOnRectangleIcon, HomeIcon, NewspaperIcon, PaperClipIcon, ShoppingBagIcon, UserCircleIcon, UserGroupIcon } from '@heroicons/react/24/outline';
+import { ArrowRightCircleIcon, ArrowRightOnRectangleIcon, HomeIcon, NewspaperIcon, PaperClipIcon, ShoppingBagIcon, TicketIcon, UserCircleIcon, UserGroupIcon } from '@heroicons/react/24/outline';
 
 function SideBarStaff() {
   const sidebarItem = [
@@ -34,6 +34,11 @@ function SideBarStaff() {
         title: 'Customers',
         to: config.routes.staffcustomer
     },
+    {
+      icon: <TicketIcon className='w-6 h-auto  text-black dark:text-white'/>,
+      title: 'Voucher',
+      to: config.routes.staffcoupon
+  },
     // {
     //   icon: <EarbudsBatteryOutlinedIcon className='w-6 h-auto' />,
     //   title: 'Products',
