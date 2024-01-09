@@ -32,7 +32,8 @@ const routes = {
     vehicledetail: '/vehicledetail/:id',
     productdetail: '/shop/:id',
     bookappointment: '/customerhome/bookappointment',
-    chat: '/chat'
+    coupon: '/customerhome/coupon',
+    staffcoupon: '/staffhome/coupon'
 };
     
 
