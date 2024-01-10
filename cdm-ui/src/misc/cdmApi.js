@@ -110,7 +110,7 @@ function deleteUser(id) {
   });
 }
 function checkVoucher(code) {
-  return instance.post(`http://localhost:9296/api/vouchers/checkvoucher?voucherCode=${code}`, {
+  return instance.post(`http://localhost:9296/api/vouchers/check_voucher?voucherCode=${code}`, {
     // params: {
     //   voucherCode: code,
     // },

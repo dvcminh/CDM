@@ -5,6 +5,7 @@ import com.minhvu.authservice.dto.RegisterRequest;
 import com.minhvu.authservice.dto.UpdateUserInformationRequest;
 import com.minhvu.authservice.entity.User;
 import com.minhvu.authservice.exception.UserNotFoundException;
+import com.minhvu.authservice.exception.response.UserErrorResponse;
 import com.minhvu.authservice.repository.UserCredentialRepository;
 import com.minhvu.authservice.repository.UserRepository;
 import jakarta.ws.rs.BadRequestException;
@@ -12,10 +13,13 @@ import lombok.Data;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
+import org.springframework.web.bind.annotation.ExceptionHandler;
 
 import java.util.Optional;
 
@@ -92,6 +96,16 @@ public class AuthService {
             throw new UserNotFoundException("User not found");
         }
     }
+
+    @ExceptionHandler
+    public ResponseEntity<UserErrorResponse> handleException(UserNotFoundException exception) {
+        UserErrorResponse userErrorResponse = new UserErrorResponse();
+        userErrorResponse.setStatus(HttpStatus.NOT_FOUND.value());
+        userErrorResponse.setMessage(exception.getMessage());
+        userErrorResponse.setTimeStamp(System.currentTimeMillis());
+        return new ResponseEntity<>(userErrorResponse, HttpStatus.NOT_FOUND);
+    }
+
     public void updateUser(User user, String newPassword) {
 
         user.setPassword(passwordEncoder.encode(newPassword));

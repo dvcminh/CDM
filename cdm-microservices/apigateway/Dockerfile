@@ -1,9 +1,5 @@
-FROM openjdk:11
+FROM openjdk:17
 
-ARG JAR_FILE=target/*.jar
+COPY target/*.jar app.jar
 
-COPY ${JAR_FILE} apigateway.jar
-
-ENTRYPOINT ["java", "-jar", "/apigateway.jar"]
-
-EXPOSE 9296
+ENTRYPOINT ["java","-jar","/app.jar"]
