@@ -32,7 +32,7 @@ const ManageCarPage = () => {
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const response = await cdmApi.getAllCars(10000);
+        const response = await cdmApi.getAllCars();
         const addedIndexData = response.data.content.map((row, index) => ({...row, index: index + 1}));
         setRows(addedIndexData); 
       } catch (error) {

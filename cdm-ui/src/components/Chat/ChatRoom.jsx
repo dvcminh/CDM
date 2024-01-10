@@ -206,11 +206,11 @@ const ChatRoom = () => {
                   >
                     {chat.senderName !== userData.username && (
                       <div className="avatar">
-                        <img
+                        {/* <img
                           class="inline-block h-6 w-6 rounded-full mr-1"
                           src={user.avatar}
                           alt=""
-                        ></img>
+                        ></img> */}
                         {chat.senderName}
                       </div>
                     )}
@@ -218,11 +218,11 @@ const ChatRoom = () => {
                     {chat.senderName === userData.username && (
                       <div className="avatar self">                        
                         {chat.senderName}
-                        <img
+                        {/* <img
                           class="inline-block h-6 w-6 rounded-full mr-1"
                           src={user.avatar}
                           alt=""
-                        ></img>
+                        ></img> */}
                       </div>
                     )}
                   </li>

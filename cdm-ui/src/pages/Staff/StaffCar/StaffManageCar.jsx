@@ -34,7 +34,7 @@ const StaffManageCarPage = () => {
     const fetchData = async () => {
       try {
         // const response = await axios.get('http://localhost:8083/api/v1/products/getAllCars');
-        const response = await cdmApi.getAllCars(10000);
+        const response = await cdmApi.getAllCars();
         const addedIndexData = response.data.content.map((row, index) => ({ ...row, index: index + 1 }));
         setRows(addedIndexData); 
       } catch (error) {

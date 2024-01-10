@@ -4,7 +4,6 @@ import lombok.Data;
 
 @Data
 public class CreateCarAppointment {
-    private String username;
     private String carId;
     private String email;
     private String phone;

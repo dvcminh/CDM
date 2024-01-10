@@ -4,8 +4,10 @@ import './vehicle.css'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faCaretLeft, faCaretRight, faChevronLeft, faChevronRight } from '@fortawesome/free-solid-svg-icons';
 import { cdmApi } from '../../../misc/cdmApi';
+import { useNavigate } from 'react-router-dom';
 
 function VehicleDetail() {
+   const navigate = useNavigate();
    const params = useParams();
    const [data, setData] = useState([]);
 
@@ -90,11 +92,11 @@ function VehicleDetail() {
                         <li>30-Day Premium Connectivity Trial</li>
                      </ul>
                      <h1 className='mt-4 text-2xl font-bold text-center mb-8'>Make Appointment</h1>
-                     <label className='font-bold mt-2 mylabel' htmlFor="appdate">Choose your free day</label>
+                     {/* <label className='font-bold mt-2 mylabel' htmlFor="appdate">Choose your free day</label>
                      <p className='text-xs italic note'>You can submit multiple requests, we consider the latest request as your final choice.</p>
 
-                     <input name="appdate"type="date" className='date-input'/>
-                     <button className='mt-4 mb-16 mybutton'>Send</button>
+                     <input name="appdate"type="date" className='date-input'/> */}
+                     <button className='mt-4 mb-16 mybutton' onClick={()=>navigate("/customerhome/bookappointment")}>Make</button>
                      <br />
                      <br />
                      <br />

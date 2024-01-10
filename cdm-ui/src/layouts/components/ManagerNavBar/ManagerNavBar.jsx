@@ -6,10 +6,10 @@ import DirectionsCarFilledOutlinedIcon from '@mui/icons-material/DirectionsCarFi
 import EarbudsBatteryOutlinedIcon from '@mui/icons-material/EarbudsBatteryOutlined';
 
 const navigation = [
-  { name: 'Vehicle', href: '/vehicle', current: false },
+  // { name: 'Vehicle', href: '/vehicle', current: false },
   { name: 'Manage Vehicle', href: '/managerhome/managecar', current: false },
   { name: 'Manage Product', href: '/managerhome/manageshop', current: false },
-  { name: 'Shop', href: '/shop', current: false },
+  // { name: 'Shop', href: '/shop', current: false },
 ]
 
 function classNames(...classes) {
