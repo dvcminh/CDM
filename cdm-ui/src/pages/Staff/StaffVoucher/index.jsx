@@ -1,14 +1,29 @@
-import { useEffect, useState } from "react";
+import React, { useEffect, useState } from "react";
 import SideBarStaff from "../../../layouts/components/SideBarStaff";
 import VoucherForm from "../StaffVoucher/VoucherForm";
 import { cdmApi } from "../../../misc/cdmApi";
-
+import { GridDeleteIcon } from "@mui/x-data-grid";
+import { Snackbar } from "@mui/material";
+import Alert from "@mui/material/Alert";
 function StaffVoucher() {
   const [modalOpen, setModalOpen] = useState(false);
 
   function addNewVoucher() {
     setModalOpen(true);
   }
+  const [snackbar, setSnackbar] = React.useState(null);
+  const handleCloseSnackbar = () => setSnackbar(null);
+  const deleteVouher = async (voucher) => {
+    try {
+      cdmApi.deleteVoucher(voucher);
+      console.log(voucher);
+      setSnackbar({ children: "Delete Successfully!", severity: "success" });
+
+      window.location.reload();
+    } catch (error) {
+      console.log(error);
+    }
+  };
 
   const [vouchers, setVouchers] = useState([]);
 
@@ -51,6 +66,7 @@ function StaffVoucher() {
               <th className="dark:bg-gray-500">Description</th>
               <th className="dark:bg-gray-500">Percentage</th>
               <th className="dark:bg-gray-500">Expire Date</th>
+              <th className="dark:bg-gray-500">Action</th>
             </thead>
             <tbody>
               {vouchers.map((voucher, index) => (
@@ -60,12 +76,30 @@ function StaffVoucher() {
                   <td>{voucher.description}</td>
                   <td>{voucher.discount}</td>
                   <td>{voucher.expirationDate}</td>
+                  <td>
+                    <button
+                      onClick={() => deleteVouher(voucher)}
+                      className="bg-red-500 p-2"
+                    >
+                      <GridDeleteIcon />
+                    </button>
+                  </td>
                 </tr>
               ))}
             </tbody>
           </table>
         </div>
       </div>
+      {snackbar && (
+        <Snackbar
+          open
+          onClose={handleCloseSnackbar}
+          autoHideDuration={6000}
+          anchorOrigin={{ vertical: "bottom", horizontal: "center" }}
+        >
+          <Alert {...snackbar} onClose={handleCloseSnackbar} />
+        </Snackbar>
+      )}
     </>
   );
 }
