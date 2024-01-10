@@ -37,6 +37,7 @@ export const cdmApi = {
   getAllVoucher,
   createVoucher,
   checkVoucher,
+  deleteVoucher,
 }
 
 function authenticate(user) {
@@ -48,6 +49,20 @@ function signup(user) {
     headers: { "Content-type": "application/json" },
   });
 }
+
+function deleteVoucher(voucher) {
+  return instance.delete(
+    "http://localhost:9296/api/vouchers/delete",
+    { data: voucher }, // Include the voucher in the request body
+    {
+      headers: {
+        Authorization: bearerAuth(localStorage.getItem("accessToken")),
+        "Content-Type": "application/json",
+      },
+    }
+  );
+}
+
 
 function updateUser(user) {
   return instance.post("/auth/updateUser", user, {

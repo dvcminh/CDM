@@ -63,7 +63,7 @@ const ShoppingCart = () => {
 
   const handleCart = async () => {
     const orderData = {
-      totalAmount: total + shippingFee,
+      totalAmount: total + shippingFee - total * (discount / 100),
       email: userData[0].username,
       shippingAddress: userData[0].address,
       voucherValue: 10,
@@ -291,7 +291,7 @@ const ShoppingCart = () => {
                     Subtotal
                   </p>
                   <p className="text-base  leading-4 text-black dark:text-white">
-                    {total}
+                    {total.toLocaleString()} vnd
                   </p>
                 </div>
                 {/* <div className="flex justify-between items-center w-full">
@@ -303,7 +303,7 @@ const ShoppingCart = () => {
                     Shipping
                   </p>
                   <p className="text-base  leading-4 text-black dark:text-white">
-                    {shippingFee}
+                    {shippingFee.toLocaleString()} vnd
                   </p>
                 </div>
                 <div className="flex justify-between items-center w-full">
@@ -335,7 +335,7 @@ const ShoppingCart = () => {
                   Discount
                 </p>
                 <p className="text-base  leading-4 text-black dark:text-white">
-                  -{total * (discount / 100)}
+                  -{total * (discount / 100).toLocaleString()} vnd
                 </p>
               </div>
               <div className="flex justify-between items-center w-full">
@@ -343,7 +343,10 @@ const ShoppingCart = () => {
                   Total
                 </p>
                 <p className="text-base  font-semibold leading-4 text-black dark:text-white">
-                  {total + shippingFee - total * (discount / 100)} VND
+                  {total +
+                    shippingFee -
+                    total * (discount / 100).toLocaleString()}{" "}
+                  vnd
                 </p>
               </div>
             </div>
