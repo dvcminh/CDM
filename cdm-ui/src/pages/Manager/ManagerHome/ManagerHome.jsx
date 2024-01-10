@@ -79,7 +79,9 @@ function ManagerHome() {
       );
       function getNumberOfOrdersForCurrentMonth(ordersData) {
         const date = new Date();
-        const month = date.toLocaleString('en-US', { month: 'long' }).toUpperCase();
+        const month = date
+          .toLocaleString("en-US", { month: "long" })
+          .toUpperCase();
 
         const numberOfOrders = ordersData[month];
         console.log("Number of orders:", numberOfOrders);
@@ -106,7 +108,7 @@ function ManagerHome() {
         </div>
         <div className="flex flex-col">
           <span className="text-gray-600 dark:text-white">{title}</span>
-          <span className="text-2xl font-bold dark:text-white">${value}</span>
+          <span className="text-2xl font-bold dark:text-white">{value}</span>
           <span
             className={`text-sm ${
               trend > 0 ? "text-green-500" : "text-red-500"
@@ -118,7 +120,7 @@ function ManagerHome() {
       </div>
     );
   };
-  const StatsCardDownward = ({ title, value, trend }) => {
+  const StatsCardDownward = ({ title, value, trend, current }) => {
     return (
       <div className="w-64 bg-white shadow-md rounded-lg p-4 flex items-center dark:bg-gray-500">
         <div className="text-red-500 mr-2">
@@ -126,7 +128,9 @@ function ManagerHome() {
         </div>
         <div className="flex flex-col ">
           <span className="text-gray-600 dark:text-white">{title}</span>
-          <span className="text-2xl font-bold dark:text-white">{value}</span>
+          <span className="text-2xl font-bold dark:text-white">
+            {value} {current}
+          </span>
           <span className="text-sm text-red-500 ">- {Math.abs(trend)}%</span>
         </div>
       </div>
@@ -138,14 +142,21 @@ function ManagerHome() {
       <div className="flex bg-white dark:bg-slate-800">
         <ManagerSideBar />
         <div className="ml-8 hidden sm:block flex flex-col">
-          <h1 className="font-medium text-3xl mt-16 dark:text-white">Dashboard</h1>
+          <h1 className="font-medium text-3xl mt-16 dark:text-white">
+            Dashboard
+          </h1>
           {/* Stats */}
           <div
             className="flex mt-4 space-x-2 style={{width: '70vw', height: '20vh'}}"
             style={{ width: "70vw", height: "20vh" }}
           >
             <div className="w-56 rounded-lg flex flex-1 opacity-90 justify-center items-center">
-              <StatsCardUpward title="Revenue" value={revenue} trend={4.75} />
+              <StatsCardUpward
+                title="Revenue"
+                value={revenue}
+                current={"vnd"}
+                trend={4.75}
+              />
             </div>
             <div className="w-56 rounded-lg flex flex-1 opacity-90 justify-center items-center">
               <StatsCardUpward
@@ -157,7 +168,8 @@ function ManagerHome() {
             <div className="w-56 rounded-lg flex flex-1 opacity-90 justify-center items-center">
               <StatsCardDownward
                 title="Average Order Value"
-                value={averageOrderValue}
+                value={averageOrderValue.toLocaleString()}
+                current={"vnd"}
                 trend={-1.39}
               />
             </div>
@@ -173,35 +185,49 @@ function ManagerHome() {
           <div className="flex mt-4 space-x-2 ">
             {/* <div className="rounded-lg flex flex-1 opacity-90 justify-center items-center">
               <CardWithPieChart />
-            </div> */}          
+            </div> */}
             <div className="rounded-lg flex flex-auto opacity-90 justify-center items-center">
-              <CardWithAreaChart  monthlyRevenue={monthlyRevenue} />
+              <CardWithAreaChart monthlyRevenue={monthlyRevenue} />
             </div>
           </div>
         </div>
       </div>
 
-      <div className='block sm:hidden'>
-                {/* Stats */}
-                <div className="flex flex-col mt-4 space-x-2" style={{width: '100vw', height: '20vh'}}>
-                        <div className="w-screen rounded-lg flex flex-1 opacity-90 justify-center items-center pl-4">
-                            <StatsCardUpward title="Revenue" value="$405,091.00" trend={4.75} />
-                        </div>
-                        <div className="w-screen rounded-lg flex flex-1 opacity-90 justify-center items-center pt-8">
-                            <StatsCardUpward title="Overdue invoices" value="$12,787.00" trend={54.02} />
-                        </div>
-                        <div className="w-screen rounded-lg flex flex-1 opacity-90 justify-center items-center pt-8">
-                            <StatsCardDownward title="Outstanding invoices" value="$245,988.00" trend={-1.39} />
-                        </div> 
-                        <div className="w-screen rounded-lg flex flex-1 opacity-90 justify-center items-center pt-8">
-                            <StatsCardUpward title="Expenses" value="$30,156.00" trend={10.18} />
-                        </div> 
-                        <div className="rounded-lg flex-col flex-1 opacity-90 justify-center items-center">
-                            <CardWithAreaChart monthlyRevenue={monthlyRevenue} />
-                        </div>              
-                </div>
-           </div>
-      
+      <div className="block sm:hidden">
+        {/* Stats */}
+        <div
+          className="flex flex-col mt-4 space-x-2"
+          style={{ width: "100vw", height: "20vh" }}
+        >
+          <div className="w-screen rounded-lg flex flex-1 opacity-90 justify-center items-center pl-4">
+            <StatsCardUpward title="Revenue" value="$405,091.00" trend={4.75} />
+          </div>
+          <div className="w-screen rounded-lg flex flex-1 opacity-90 justify-center items-center pt-8">
+            <StatsCardUpward
+              title="Overdue invoices"
+              value="$12,787.00"
+              trend={54.02}
+            />
+          </div>
+          <div className="w-screen rounded-lg flex flex-1 opacity-90 justify-center items-center pt-8">
+            <StatsCardDownward
+              title="Outstanding invoices"
+              value="$245,988.00"
+              trend={-1.39}
+            />
+          </div>
+          <div className="w-screen rounded-lg flex flex-1 opacity-90 justify-center items-center pt-8">
+            <StatsCardUpward
+              title="Expenses"
+              value="$30,156.00"
+              trend={10.18}
+            />
+          </div>
+          <div className="rounded-lg flex-col flex-1 opacity-90 justify-center items-center">
+            <CardWithAreaChart monthlyRevenue={monthlyRevenue} />
+          </div>
+        </div>
+      </div>
     </div>
   );
 }

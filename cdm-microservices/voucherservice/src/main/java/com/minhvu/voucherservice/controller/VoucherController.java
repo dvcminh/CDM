@@ -49,6 +49,12 @@ public class VoucherController {
         }
     }
 
+    @DeleteMapping("/delete")
+    public ResponseEntity<String> deleteVoucher(@RequestBody Voucher voucher) {
+        voucherService.deleteVoucher(voucher);
+        return ResponseEntity.ok("Delete User successfully");
+    }
+
 //    @PostMapping("/{code}/use")
 //    public ResponseEntity<Void> useVoucher(@PathVariable("code") String code) {
 //        Voucher voucher = voucherService.getVoucherByCode(code);
