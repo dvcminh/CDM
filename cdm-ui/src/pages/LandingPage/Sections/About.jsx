@@ -9,11 +9,30 @@ const About = () => {
         <div className="w-[750px] bg-white flex flex-col p-32 m-0 max-lg:px-16">
           <h1 className="py-2 text-4xl font-bold max-lg:mt-12">About</h1>
           <p className="py-2 text-xl  text-[#646D70] min-w-[435px]">
-            We are a team of passionate individuals who believe in the
-            potential of electric vehicles. Our mission is to make electric cars
-            accessible to everyone, everywhere. We are committed to providing
-            the best possible experience to our customers, from the moment they
-            place their order to the day they receive their vehicle.
+            <div>
+            We are a team of passionate individuals
+            </div>
+            <div>
+            who believe in the potential of electric 
+            </div>
+            <div>
+            vehicles. Our mission is to make electric 
+            </div>
+            <div>
+            cars accessible to everyone, everywhere. 
+            </div>
+            <div>
+            We are committed to providing the best 
+            </div>
+            <div>
+            possible experience to our customers, 
+            </div>
+            <div>
+            from the moment they place their order 
+            </div>
+            <div>
+            to the day they receive their vehicle.
+            </div>
           </p>
           <button className="py-2 bg-black hover:bg-gray-500 rounded-full text-white hover:text-black font-medium w-[200px] my-6" onClick={()=>{navigate("/login")}}>
             Get Started
