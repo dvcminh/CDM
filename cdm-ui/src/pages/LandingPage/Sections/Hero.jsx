@@ -10,23 +10,23 @@ const Hero = () => {
         </h1>
 
         <p className="text-md font-bold text-[#abbcab]">
-          Here at CDMA, we offer a wide range of high-
+          Here at CDMA, we offer a wide range of high
          
         </p>
         <p className="text-md font-bold text-[#abbcab]">
-          quality cars at affordable prices. We are 
+        -quality cars at affordable prices. We are 
         </p>
         <p className="text-md font-bold text-[#abbcab]">
-          committed to providing our customers with the 
+          committed to providing our customers with 
         </p>
         <p className="text-md font-bold text-[#abbcab]">
-          best possible experience, from the moment they 
+        the best possible experience, from the 
         </p>
         <p className="text-md font-bold text-[#abbcab]">
-          place their order to the day they receive their    
+        moment they place their order to the day     
         </p>
         <p className="text-md font-bold text-[#abbcab]">
-          vehicle.
+        they receive their vehicle.
         </p>
       </div>
     </div>

@@ -10,28 +10,31 @@ const About = () => {
           <h1 className="py-2 text-4xl font-bold max-lg:mt-12">About</h1>
           <p className="py-2 text-xl  text-[#646D70] min-w-[435px]">
             <div>
-            We are a team of passionate individuals
+            We are a team of passionate 
             </div>
             <div>
-            who believe in the potential of electric 
+            individuals who believe in the potential 
             </div>
             <div>
-            vehicles. Our mission is to make electric 
+            of electric vehicles. Our mission is to  
             </div>
             <div>
-            cars accessible to everyone, everywhere. 
+            make electric cars accessible to  
             </div>
             <div>
-            We are committed to providing the best 
+            everyone, everywhere. We are  
+            </div>
+            <div>
+            committed to providing the best 
             </div>
             <div>
             possible experience to our customers, 
             </div>
             <div>
-            from the moment they place their order 
+            from the moment they place their  
             </div>
             <div>
-            to the day they receive their vehicle.
+            order to the day they receive their car.
             </div>
           </p>
           <button className="py-2 bg-black hover:bg-gray-500 rounded-full text-white hover:text-black font-medium w-[200px] my-6" onClick={()=>{navigate("/login")}}>
