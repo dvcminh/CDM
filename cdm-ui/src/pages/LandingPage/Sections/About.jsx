@@ -6,7 +6,7 @@ const About = () => {
   return (
     <div className="w-full bg-[#222F33] relative ">
       <div className="flex ">
-        <div className="w-[750px] bg-white flex flex-col p-32 m-0 max-lg:px-16">
+        <div className="w-[750px] bg-white flex flex-col m-0 max-lg:px-4 p-32">
           <h1 className="py-2 text-4xl font-bold max-lg:mt-12">About</h1>
           <p className="py-2 text-xl  text-[#646D70] min-w-[435px]">
             <div>
