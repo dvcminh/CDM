@@ -34,6 +34,7 @@ const ManageShopPage = () => {
       try {
         // const response = await axios.get('http://localhost:8083/api/v1/products/getAllCars');
         const response = await cdmApi.getAllInventory(10000);
+        console.log(response.data.content)
         const newArray = [];
         response.data.content.forEach((item) => newArray.push(item.products[0]));
         console.log(newArray);
