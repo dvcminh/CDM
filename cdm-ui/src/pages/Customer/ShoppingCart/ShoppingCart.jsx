@@ -21,6 +21,9 @@ const ShoppingCart = () => {
   );
   const [total, setTotal] = useState(0);
   const [shippingFee, setShippingFee] = useState(8000);
+
+  const [snackbar, setSnackbar] = React.useState(null);
+  const handleCloseSnackbar = () => setSnackbar(null);
   const [paymentMethod, setPaymentMethod] = useState(
     localStorage.getItem("payment_method")
   ); // ["Cash", "VNPay"]
@@ -151,30 +154,7 @@ const ShoppingCart = () => {
     // }
   };
 
-  const [snackbar, setSnackbar] = React.useState(null);
-  const handleCloseSnackbar = () => setSnackbar(null);
 
-  const [discount, setDiscount] = useState(0);
-
-  const applyVoucher = async () => {
-    if (voucherCode === "") {
-      setSnackbar({ children: "Voucher cannot be null!", severity: "error" });
-    } else {
-      try {
-        cdmApi
-          .checkVoucher(voucherCode)
-          .then((response) => {
-            setDiscount(response.data);
-            console.log(response.data);
-          })
-          .catch((error) => {
-            console.log(error);
-          });
-      } catch (error) {
-        console.log(error);
-      }
-    }
-  };
   if (carts.length === 0) {
     return (
       <div className=" h-[92vh] flex justify-center items-center text-4xl flex flex-col dark:bg-slate-800">
@@ -356,7 +336,7 @@ const ShoppingCart = () => {
                   Discount
                 </p>
                 <p className="text-base  leading-4 text-black dark:text-white">
-                  -{total * (discount / 100).toLocaleString()} vnd
+                  -{total * (discount / 100)} vnd
                 </p>
               </div>
               <div className="flex justify-between items-center w-full">
@@ -366,7 +346,7 @@ const ShoppingCart = () => {
                 <p className="text-base  font-semibold leading-4 text-black dark:text-white">
                   {total +
                     shippingFee -
-                    total * (discount / 100).toLocaleString()}{" "}
+                    total * (discount / 100)}{" "}
                   vnd
                 </p>
               </div>
@@ -534,6 +514,6 @@ const ShoppingCart = () => {
       </div>
     );
   }
-};
+
 
 export default ShoppingCart;
