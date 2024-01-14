@@ -1,4 +1,3 @@
-import SideBar from "../../../layouts/components/SideBar";
 import "../../../components/CarCard/CarCard.css";
 import "./ManagerProfile.css";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
