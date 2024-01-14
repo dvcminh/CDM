@@ -12,7 +12,11 @@ export default function Shop() {
         try {
           const res = await cdmApi.getShopByType('accessories');
           const other = await cdmApi.getShopByType('merchandise');
+          const data = await cdmApi.getAllShop();
+          
+          // console.log(data);
           setAcc(res.data);
+          console.log(res.data);
           setMer(other.data);
         } catch (error) {
           console.error("Error fetching data:", error);
@@ -39,7 +43,7 @@ export default function Shop() {
           </a>
         </div>
         <div className="grid grid-cols-1 gap-x-6 gap-y-10 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 xl:gap-x-8">
-          {acc.slice(0, 4).map((product) => (
+          {acc.map((product) => (
               <ShopCard data={{id: product.id ,imgSrc: product.image_url, name: product.name, price: product.price}} />
           ))}
         </div>
@@ -55,7 +59,7 @@ export default function Shop() {
           </a>
         </div>
         <div className="grid grid-cols-1 gap-x-6 gap-y-10 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 xl:gap-x-8">
-          {mer.slice(0, 4).map((product) => (
+          {mer.map((product) => (
               <ShopCard data={{id: product.id ,imgSrc: product.image_url, name: product.name, price: product.price}} />
           ))}
         </div>

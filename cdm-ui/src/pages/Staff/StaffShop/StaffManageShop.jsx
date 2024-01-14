@@ -33,11 +33,12 @@ const StaffManageShopPage = () => {
     const fetchData = async () => {
       try {
         // const response = await axios.get('http://localhost:8083/api/v1/products/getAllCars');
-        const response = await cdmApi.getAllInventory(100000);
+        const response = await cdmApi.getAllShop();
+        console.log(response.data.content);
         const newArray = [];
-        response.data.content.forEach((item) => newArray.push(item.products[0]));
-        console.log(newArray);
-        const addedIndexData = newArray.map((row, index) => ({ ...row, index: index + 1 }));
+        // response.data.content.forEach((item) => newArray.push(item.products[0]));
+        // console.log(newArray);
+        const addedIndexData = response.data.content.map((row, index) => ({ ...row, index: index + 1 }));
         setRows(addedIndexData); 
       } catch (error) {
         console.error('Error fetching data:', error);

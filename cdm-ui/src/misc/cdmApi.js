@@ -21,6 +21,7 @@ export const cdmApi = {
   deleteCar,
   createOrder,
   getAllInventory,
+  getAllShop,
   getShopByType,
   getShopById,
   getOrderByUserId,
@@ -346,6 +347,14 @@ function updateShop(shopData) {
       },
     }
   );
+}
+
+function getAllShop() {
+  return instance.get(`/api/v1/products/getAllShops`, {
+    headers: {
+      Authorization: bearerAuth(localStorage.getItem("accessToken")),
+    },
+  });
 }
 
 function getShopByType(type) {
